@@ -1,0 +1,34 @@
+export const themes = {
+    light:{
+        focus:'#212121',
+        contrast:'#fff',
+        mid:'#E7E7E7',
+        highlight:'#C192FC',
+        accent1:'#1DDECB',
+        accent2:'#fff',
+    },
+    dark:{
+        focus:'#E7E7E7',
+        contrast:'#2E2E2E',
+        mid:'#E7E7E7',
+        highlight:'#1DDECB',
+        accent1:'#C192FC',
+        accent2:'#2E2E2E',
+    },
+    funky:{
+        focus:'#503D2E',
+        contrast:'#F0ECC9',
+        mid:'#058789',
+        highlight:'#E3A72F',
+        accent1:'#D54B1A',
+        accent2:'#076461',
+    },
+    retro:{
+        focus:'#E7E7E7',
+        contrast:'#2C2489',
+        mid:'#101B74',
+        highlight:'#E42B63',
+        accent1:'#E42B63',
+        accent2:'#614AD4',
+    }
+}

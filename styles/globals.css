@@ -1,0 +1,9 @@
+/* ONLY permenent styles should be placed here.
+  variables for themes are located in utils/variables.js
+*/
+
+.page {
+  width:100vw;
+  height:100vh;
+  margin:0;
+}
