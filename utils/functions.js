@@ -17,7 +17,7 @@ function filtering(
         acousticness: null,
         valence: null,
         //genres
-        country: null,
+        // country: null,
         danceElectronic: null,
         hipHop: null,
         house: null,
@@ -34,9 +34,13 @@ function filtering(
         trap: null,
     }
 ) {
-    const { area, explicit, liveness, danceability, energy, loudness, tempo, instrumentals, acousticness, valence, country, danceElectronic, hipHop, house, indie, jazz, kPop, latin, metal, pop, rbSoul, rap, reggae, rock, trap } = config;
+    const { area, explicit, liveness, danceability, energy, loudness, tempo, instrumentals, acousticness, valence, 
+        // country, 
+        danceElectronic, hipHop, house, indie, jazz, kPop, latin, metal, pop, rbSoul, rap, reggae, rock, trap } = config;
 
-    if (area || explicit || liveness || danceability || energy || loudness || tempo || instrumentals || acousticness || valence || country || danceElectronic || hipHop || house || indie || jazz || kPop || latin || metal || pop || rbSoul || rap || reggae || rock || trap) {
+    if (area || explicit || liveness || danceability || energy || loudness || tempo || instrumentals || acousticness || valence || 
+        // country ||
+         danceElectronic || hipHop || house || indie || jazz || kPop || latin || metal || pop || rbSoul || rap || reggae || rock || trap) {
         const filtered_arr = arr.filter((o) => {
             var cond = true;
 
@@ -71,9 +75,9 @@ function filtering(
             if(valence) {
                 cond = cond && (o.valence) >= valence;
             }
-            if(country) {
-                cond = cond && (o.country) === 1;
-            }
+            // if(country) {
+            //     cond = cond && (o.country) === 1;
+            // }
             if(danceElectronic) {
                 cond = cond && (o.danceElectronic) === 1;
             }
@@ -165,12 +169,12 @@ function sorting(
 }
 
 var f_tracks = filtering(tracks, {
-    area: "Sweden",
+    area: "Peru",
     // explicit: false,
-    liveness: 0.002,
-    danceability: 0.04,
-    // energy: null,
-    // loudness: null,
+    // liveness: 0.12,
+    // danceability: 0.04,
+    energy: 0.2,
+    // loudness: -5,
     // tempo: null,
     // instrumentals: null,
     // acousticness: null,
@@ -193,13 +197,14 @@ var f_tracks = filtering(tracks, {
     // trap: null,
 })
 
-f_tracks = sorting(tracks, {
+f_tracks = sorting(f_tracks, {
     key: 'Title',
     type: 'desc'
 });
 
 
 // console.log("these are your tracks: " + f_tracks.splice(0,5));
-console.log("string tracks 1: " + JSON.stringify(f_tracks[0].Title));
-console.log("string tracks 2: " + JSON.stringify(f_tracks[1].Title));
+
+console.log("track 1: " + f_tracks[0].Title + " by " + f_tracks[0].Artist);
+console.log("track 2: " + f_tracks[1].Title + " by " + f_tracks[1].Artist);
 
