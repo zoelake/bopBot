@@ -1,6 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import MyButton from '../comps/Button'
+import Playlist from '../comps/Playlist'
+import SbButton from '../comps/SbButton'
+import Toggle from '../comps/Toggle'
+
 
 export default function Home() {
   return (
@@ -11,7 +15,15 @@ export default function Home() {
         <link rel="icon" href="#" />
       </Head>
 
-      <MyButton />
+      <SbButton/>
+      <SbButton text="Jazz" />
+      <Toggle/>
+      <Playlist/>
+      <Playlist 
+      image="https://yt3.ggpht.com/JA3fzQMUhVX5UQB_JToYQZQwt_53EbfHbbHrnBSApoJAP9mXR3VZHafeC-cbT14Z8Tm68nex=s900-c-k-c0x00ffffff-no-rj"
+      text="My Playlist"
+      
+      />
       
       
     </div>

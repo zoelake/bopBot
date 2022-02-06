@@ -8,7 +8,12 @@ const Cont = styled.div`
     width: 140px;
     height: 182px;
     justify-content: center;
+    align-items: center;
+    flex-direction:column;
     border-radius:5px;
+    padding: 5px;
+    justify-content: space-around;
+
 
 
     background-color:${props=>props.bg};
@@ -22,14 +27,23 @@ const Cont = styled.div`
 
 
 const ImgCont = styled.div`
-    
+    height:100px;
+    width: 100px;
+    border-radius:5px;
+    overflow: hidden;
+  
+`;
+
+const Text = styled.p`
+    font-size: 24px;
 `;
 
 
 
 export default function Playlist({
-    text = 'button',
+    text = 'Liked',
     onClick = () => {},
+    image = "https://placekitten.com/100/100"
 }){
 
     const {theme} = useTheme();
@@ -39,6 +53,9 @@ export default function Playlist({
     bg={themes[theme].contrast}
     color={themes[theme].focus}
     >
-
+        <ImgCont>
+            <img src={image}></img>
+        </ImgCont>
+        <Text>{text}</Text>
     </Cont>
 }

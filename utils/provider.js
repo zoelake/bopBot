@@ -19,7 +19,7 @@ export default function MyThemeProvider({children}){
         <style jsx global>
             {`
                 body {
-                    background-color:${themes[theme].contrast}
+                    background-color:${themes[theme].dark}
                 }
             `}
         </style>
