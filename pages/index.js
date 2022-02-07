@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import MyButton from '../comps/Button'
+import NavBar from '../comps/Nav'
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
 
       <MyButton />
       
+      <NavBar></NavBar>
       
     </div>
   )
