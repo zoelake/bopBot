@@ -9,31 +9,34 @@ const Container = styled.div`
 `;
 
 const SliderMain = styled(Slider)`
-    color: #212121;;
+    color: ${props=>props.barcolor};
 
     & .MuiSlider-thumb {
         border-radius: 5px;
         height: 35px;
-        color: #C4C4C4;
+        color: ${props=>props.thumbcolor};
     }
 `;
 
-function Switch() {
+function Switch({
+    barcolor="#212121",
+    thumbcolor="#C4C4C4",
+}) {
 
-    const [theme, setTheme] = useState(false)
 
     return <Container>
         <SliderMain
             sx={{
-            '& input[type="range"]': {
-             WebkitAppearance: 'slider-vertical',
-             },
-        }}
+                '& input[type="range"]': {
+                    WebkitAppearance: 'slider-vertical',
+                },
+            }}
+            barcolor={barcolor}
+            thumbcolor={thumbcolor}
             orientation="vertical"
             defaultValue={30}
             aria-label="Temperature"
         />
-
     </Container>
 }
 
