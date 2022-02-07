@@ -4,14 +4,6 @@ import { themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { RiMvFill, RiHome2Fill, RiSettings4Fill } from "react-icons/ri";
 import { MyText } from "../Text/index";
-import WebFont from 'webfontloader';
-
-WebFont.load({
-
-    google: {
-        families: ['Be Vietnam Pro:400, 600, 700', 'sans-serif']
-    }
-});
 
 const Container = styled.div`
     visibility: ${props=>props.visibility};
@@ -51,6 +43,8 @@ const NavBar = ({
     bgColor= "#212121",
 
 }) => {
+
+
 
     const [hideNav, setHideNav] = useState(true)
     const [visibility, setVisibility] = useState()
