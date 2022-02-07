@@ -11,7 +11,7 @@ const Input = styled.input`
     top: -9999px;
 
     &:checked + span {
-        background-color: #1890ff;
+        background-color: #212121;
 
         &:before{
             left: calc(100% - 2px);
@@ -57,7 +57,9 @@ const Slider = styled.span`
     }
 `;
 
-const Switch = ({ onChange }) => (
+const Switch = ({ 
+    onChange
+}) => (
     <InputWrapper>
         <Input type="checkbox" onChange={onChange} />
         <Slider />
