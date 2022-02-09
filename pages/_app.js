@@ -13,6 +13,7 @@ a, p, h1, h2, h3, span, button {
 
 function MyApp({ Component, pageProps }) {
   return <MyThemeProvider>
+    <GlobalStyle />
     <Component {...pageProps} />
   </MyThemeProvider>
 }
