@@ -16,11 +16,11 @@ export default function MyText({
     size = '30px'
 }){
 
-    const {theme} = useTheme();
+    //const {theme} = useTheme();
    
 
     return <Text
-    color={themes[theme].focus}
+   // color={themes[theme].focus}
     fontSize={size}
     >{text}</Text>
 }
