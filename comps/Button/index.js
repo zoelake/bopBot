@@ -5,8 +5,9 @@ import { useTheme } from "../../utils/provider";
 const Cont = styled.div`
     padding:5px;
     margin:5px;
-    min-width:150px;
-    border: 2px solid ${props=>props.border};
+    max-width: 100px;
+    height: 35px;
+    border: none;
     border-radius:5px;
     display:flex;
     justify-content: center;
@@ -14,11 +15,15 @@ const Cont = styled.div`
     color: ${props=>props.color};
 
     :hover {
-        border: 2px solid ${props=>props.borderHover};
+        background-color: ${props=>props.bgHover};
+        color: ${props=>props.textHover};
     }
     
 `;
 const Text = styled.p`
+    display:flex;   
+    justify-content: center;
+    align-items: center;
 `;
 
 export default function MyButton({
@@ -30,13 +35,13 @@ export default function MyButton({
 
     return<Cont 
     onClick={onClick}
-    border={themes[theme].focus}
-    bg={themes[theme].contrast}
-    color={themes[theme].focus}
+    bg={themes[theme].mid}
+    color={themes[theme].highlight}
+    bgHover={themes[theme].highlight}
+    textHover={themes[theme].contrast}
     >
         <Text
         color={themes[theme].focus}
-        textHover={themes[theme].accent}
         >{text}</Text>
     </Cont>
 }

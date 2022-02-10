@@ -3,7 +3,7 @@ import {themes} from './variables';
 
 
 const initialState =  {
-    theme:'dark',
+    theme:'light',
     setTheme:()=>{},
 }
 
