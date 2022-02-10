@@ -7,6 +7,7 @@ const Cont = styled.div`
     width: 400px;
     height:75px;
     display: flex;
+    background-color: ${props=>props.bg};
 `;
 
 const WhiteHeart = styled.img`
@@ -16,11 +17,16 @@ const WhiteHeart = styled.img`
 
 
 const Modal = ({
-    heart = require ('../../images/whitehHeart.png')
+    heart = '/heart.png',
 })=>{
+
+    const {theme} = useTheme();
+
     return (
-    <Cont>
-        <WhiteHeart source={heart}/>
+    <Cont
+    bg={themes[theme].contrast}
+    >
+        <WhiteHeart src={heart}/>
         <Text  
         size="12px"
         text= "Added to liked songs"

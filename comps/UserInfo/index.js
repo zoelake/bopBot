@@ -17,11 +17,11 @@ const ProfilePic = styled.img`
 `;
 
 const UserInfo = ({
-    iconimage= require ('../../images/profilepicture.png')
+    iconimage = '/userDummy.png',
 })=>{
     return (
        <Cont>
-           <ProfilePic source={iconimage}/>
+           <ProfilePic src={iconimage}/>
            <Text
            size="12px"
            text="Tristan the Gobbler"
