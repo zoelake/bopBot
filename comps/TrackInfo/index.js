@@ -28,7 +28,6 @@ const TrackCont = styled.div`
 
 const Cont1= styled.div`
     display: flex;
-    border : 1px solid red;
     flex-grow: 1;
     height: 82px;
 `;
@@ -37,27 +36,23 @@ const Cont2 = styled.div`
     display: flex;
     flex-direction: column;
     height: 82px;
-    border : 1px solid red;
     flex-grow: 2;
 `;
 
 const Cont3 = styled.div`
     display: flex;
-    border : 1px solid red;
     height: 82px;
     flex-grow: 1;
 `;
 
 const Cont4 = styled.div`
     display: flex;
-    border : 1px solid red;
     height: 82px;
     flex-grow: 1;
 `;
 
 const Cont5 = styled.div`
     display: flex;
-    border : 1px solid red;
     height: 82px;
     flex-grow: 1;
 `;

@@ -43,7 +43,6 @@ const NavBar = ({
     fontSize= "18px", 
     iconSize= "18px",
     bgColor= "#212121",
-
 }) => {
 
 
