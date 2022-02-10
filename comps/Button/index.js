@@ -37,11 +37,11 @@ export default function MyButton({
     onClick={onClick}
     bg={themes[theme].mid}
     color={themes[theme].highlight}
+    bgHover={themes[theme].highlight}
+    textHover={themes[theme].contrast}
     >
         <Text
         color={themes[theme].focus}
-        textHover={themes[theme].accent}
-        bgHover={themes[theme].highlight}
         >{text}</Text>
     </Cont>
 }

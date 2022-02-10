@@ -12,7 +12,6 @@ const Container = styled.div`
     background-color: ${props=>props.bg};
     display: flex;
     flex-direction: column;
-    font: 'Arial';
     
 `;
 
@@ -27,6 +26,9 @@ const NavLink = styled.a`
     text-decoration: none;
     font-size: 18px;
     color: ${props=>props.color};
+    :hover {
+        color: ${props=>props.linkHover};
+    }
 `;
 
 const LinkCont = styled.div`
@@ -66,19 +68,28 @@ const NavBar = ({
         bg={themes[theme].mid}
     >
         <LinkCont>
-        <NavLink href="/" color={themes[theme].highlight}>
+        <NavLink href="/" 
+        color={themes[theme].focus}
+        linkHover={themes[theme].highlight}
+        >
             <RiHome2Fill/> Home
         </NavLink>
         </LinkCont>
 
         <LinkCont>
-        <NavLink href="/" color={themes[theme].focus}>
+        <NavLink href="/" 
+        color={themes[theme].focus}
+        linkHover={themes[theme].highlight}
+        >
             <RiMvFill/> Library
         </NavLink>
         </LinkCont>
 
         <LinkCont>
-        <NavLink href="/" color={themes[theme].focus}>
+        <NavLink href="/" 
+        color={themes[theme].focus}
+        linkHover={themes[theme].highlight}
+        >
             <RiSettings4Fill/> Settings
         </NavLink>
         </LinkCont>

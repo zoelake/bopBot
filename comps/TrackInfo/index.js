@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
+import {RiHeartLine, RiHeartFill} from "react-icons/ri";
+import { useState } from "react";
 
 const Text = styled.p`
     color: ${props=>props.color};
@@ -8,6 +10,10 @@ const Text = styled.p`
     line-height: auto;
     margin:15px;
     padding:0;
+
+    :hover{
+        color: ${props=>props.textHover};
+    }
 `;
 
 const TrackCont = styled.div`
@@ -22,18 +28,34 @@ export default function MyTrack({
     size = '18px',
     onClick = () => {},
 }){
-
+    const [heart, setHeart] = useState(false);
     const {theme} = useTheme();
    
 
     return <TrackCont>
-        <div>1</div>
-        <div>In the House
-            Zoe James
-        </div>
-        <div>Time</div>
-        <div>Diffy</div>
-        <div>Icon</div>
+        <Text
+        color={themes[theme].focus}
+        >1</Text>
+        <Text
+        color={themes[theme].focus}
+        >In the House
+            <Text
+            color={themes[theme].highlight}
+            textHover={themes[theme].accent1}
+            >Zoe James</Text>
+        </Text>
+        <Text
+        color={themes[theme].focus}
+        >Time</Text>
+        <Text
+        color={themes[theme].focus}
+        >Diffy</Text>
+        <Text
+        color={themes[theme].focus}
+        textHover={themes[theme].accent1}
+        >
+        {heart===false?<RiHeartLine onMouseOver={()=>setHeart(true)}/>:<RiHeartFill onMouseOut={()=>setHeart(false)}/>}
+        </Text>
 
         
     </TrackCont>
