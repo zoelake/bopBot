@@ -18,7 +18,8 @@ const Cont = styled.div`
     }
     
 `;
-const Text = styled.p``;
+const Text = styled.p`
+`;
 
 export default function MyButton({
     text = 'button',
