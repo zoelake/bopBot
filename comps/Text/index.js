@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 
+
 const Text = styled.p`
     color: ${props=>props.color};
     font-size: ${props=>props.fontSize};

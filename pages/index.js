@@ -4,6 +4,11 @@ import MyButton from '../comps/Button'
 import NavBar from '../comps/Nav'
 import MyTrack from '../comps/TrackInfo'
 
+import Playlist from '../comps/Playlist'
+import SbButton from '../comps/SbButton'
+import Toggle from '../comps/Toggle'
+
+
 export default function Home() {
   return (
     <div className={'page'}>
@@ -15,7 +20,15 @@ export default function Home() {
       
       <MyTrack/>
 
-      <MyButton />
+      <SbButton/>
+      <SbButton text="Jazz" />
+      <Toggle/>
+      <Playlist/>
+      <Playlist 
+      image="https://yt3.ggpht.com/JA3fzQMUhVX5UQB_JToYQZQwt_53EbfHbbHrnBSApoJAP9mXR3VZHafeC-cbT14Z8Tm68nex=s900-c-k-c0x00ffffff-no-rj"
+      text="My Playlist"
+      
+      />
       
       <NavBar></NavBar>
       
