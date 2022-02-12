@@ -7,6 +7,8 @@ const initialState = {
     setTheme: () => { },
     page: '/',
     setPage: () => {},
+    explicit: true,
+    setExplicit: () => {},
 }
 
 const MyThemeContext = createContext(initialState);
@@ -15,6 +17,7 @@ export default function MyThemeProvider({ children }) {
 
     const [theme, setTheme] = useState(initialState.theme);
     const [page, setPage] = useState(initialState.page);
+    const [explicit, setExplicit] = useState(initialState.page);
 
     return <MyThemeContext.Provider value={{
         theme, setTheme, page, setPage,
@@ -38,5 +41,10 @@ export const useTheme = () => {
 export const usePage = () => {
     const { page, setPage } = useContext(MyThemeContext);
     return { page, setPage};
+}
+
+export const useExplicit = () => {
+    const { explicit, setExplicit } = useContext(MyThemeContext);
+    return { explicit, setExplicit};
 }
 
