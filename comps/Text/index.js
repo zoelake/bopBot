@@ -13,14 +13,15 @@ const Text = styled.p`
 
 export default function MyText({
     text = 'button',
-    size = '30px'
+    size = '30px',
+    color = 'themes[theme].focus',
 }){
 
-    //const {theme} = useTheme();
+    const {theme} = useTheme();
    
 
     return <Text
-   // color={themes[theme].focus}
+   color={color}
     fontSize={size}
     >{text}</Text>
 }
