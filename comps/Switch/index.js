@@ -11,7 +11,7 @@ const Input = styled.input`
     top: -9999px;
 
     &:checked + span {
-        background-color: #212121;
+        background-color: ${props=>props.firstbgcolor};
 
         &:before{
             left: calc(100% - 2px);
@@ -35,7 +35,7 @@ const Slider = styled.span`
     width: 50px;
     height: 25px;
     border-radius: 100px;
-    background-color: #bfbfbf;
+    background-color: ${props => props.secondbgcolor};
     position: relative;
     transition: background-color 0.2s, box-shadow 0.2s;
 
@@ -58,11 +58,13 @@ const Slider = styled.span`
 `;
 
 const Switch = ({ 
-    onChange
+    onChange,
+    firstbgcolor = "#212121",
+    secondbgcolor = "#bfbfbf",
 }) => (
     <InputWrapper>
-        <Input type="checkbox" onChange={onChange} />
-        <Slider />
+        <Input firstbgcolor={firstbgcolor}  type="checkbox" onChange={onChange} />
+        <Slider secondbgcolor={secondbgcolor} />
     </InputWrapper>
 );
 

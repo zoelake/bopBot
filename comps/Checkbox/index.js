@@ -14,23 +14,25 @@ const Container = styled.div`
 `;
 
 
-function Switch() {
+
+function CheckboxComp({
+    FirstColor = teal[800],
+    SecondColor = teal[800]
+}) {
 
 
 
     return <Container>
-    <Checkbox sx={{
-        color: teal[800],
+<Checkbox sx={{
+       color: FirstColor,
      '&.Mui-checked': {
-        color: teal[600],
-     }, 
-     
-    }} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
-
+       color: SecondColor,
+    },
+    }} icon={<FavoriteBorder />} checkedIcon={<Favorite/>} />
     <Checkbox sx={{
-       color: teal[800],
+       color: FirstColor,
      '&.Mui-checked': {
-       color: teal[600],
+       color: SecondColor,
     },
     }} icon={<CircleOutlinedIcon />} checkedIcon={<CircleRoundedIcon/>} />
 
@@ -38,4 +40,4 @@ function Switch() {
     </Container>
 }
 
-export default Switch;
+export default CheckboxComp;

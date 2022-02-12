@@ -3,7 +3,8 @@ import Image from 'next/image'
 import MyButton from '../comps/Button'
 import Switch from '../comps/Switch'
 import Slider from '../comps/Slider'
-import Radio from '../comps/Radio'
+import Checkbox from '../comps/Checkbox'
+import ExplantionModal from '../comps/ExplanationModal'
 
 export default function Home() {
   return (
@@ -11,7 +12,9 @@ export default function Home() {
  
       <Slider/>
       <Switch/>
-      <Radio/>
+      <Checkbox/>
+      <ExplantionModal />
+
       
       
     </div>
