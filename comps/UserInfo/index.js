@@ -7,24 +7,28 @@ const Cont = styled.div`
     max-width: 600px;
     max-height: 200px;
     display: flex;
-
+    align-items: center;
 `;
 
 const ProfilePic = styled.img`
     border-radius: 100px;
-    width: 65px;
-    height:65px;
+    width: 180px;
+    height:180px;
 `;
 
 const UserInfo = ({
     iconimage = '/userDummy.png',
+    username = "Tristan the Gobbler",
 })=>{
+    const {theme} = useTheme();
     return (
        <Cont>
            <ProfilePic src={iconimage}/>
            <Text
-           size="12px"
-           text="Tristan the Gobbler"
+           size="36px"
+           text={username}
+           color={themes[theme].focus}
+
            />
        </Cont>
     );

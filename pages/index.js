@@ -92,10 +92,12 @@ export default function Home() {
            <MyText
             text={`Welcome {user}!`}
             size='36px'
+            color={themes[theme].focus}
         />
         <MyText
             text='Genres'
             size='24px'
+            color={themes[theme].focus}
         />
 
         <SbCont>
@@ -159,6 +161,7 @@ export default function Home() {
         <MyText
             text='How do you feel?'
             size='24px'
+            color={themes[theme].focus}
         />
         <SliderCont>
           <Slider text='Acounticness'/>
@@ -172,6 +175,7 @@ export default function Home() {
         <MyText
             text='Generated Tracks'
             size='24px'
+            color={themes[theme].focus}
         />
         <MyButton 
         text='generate'/>
@@ -184,6 +188,7 @@ export default function Home() {
         <MyText
             text='Tracks not yet generated'
             size='18px'
+            color={themes[theme].focus}
         />
         <MyTrack />
         <MyTrack />

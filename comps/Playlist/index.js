@@ -1,17 +1,17 @@
 import styled from "styled-components";
-import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import MyText from "../Text";
 
 
 const Cont = styled.div`
     display:flex;
-    width: 140px;
-    height: 182px;
+    width: 155px;
+    height: 152px;
     justify-content: center;
     align-items: center;
     flex-direction:column;
     border-radius:5px;
-    padding: 5px;
+    padding: 25px 10px;
+    margin:0 10px 0 0 ;
     justify-content: space-around;
 
 
@@ -26,7 +26,14 @@ const Cont = styled.div`
 `;
 
 
-const ImgCont = styled.div`
+const ImgCont = styled.a`
+    height:150px;
+    width: 150px;
+    border-radius:5px;
+    overflow: hidden;
+  
+`;
+const Cover = styled.img`
     height:100px;
     width: 100px;
     border-radius:5px;
@@ -34,28 +41,28 @@ const ImgCont = styled.div`
   
 `;
 
-const Text = styled.p`
-    font-size: 24px;
-`;
+
 
 
 
 export default function Playlist({
     text = 'Liked',
     onClick = () => {},
-    image = "https://placekitten.com/100/100"
+    cover = "https://placekitten.com/100/100",
+    bg = 'white',
+    color = 'red',
 }){
-
-    const {theme} = useTheme();
 
     return<Cont 
     onClick={onClick}
-    bg={themes[theme].contrast}
-    color={themes[theme].focus}
+    bg={bg}
+    color={color}
     >
-        <ImgCont>
-            <img src={image}></img>
-        </ImgCont>
-        <Text>{text}</Text>
+        <Cover src={cover}/>
+        <MyText
+        size="24px"
+        text={text}
+        
+        />
     </Cont>
 }
