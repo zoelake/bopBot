@@ -21,7 +21,7 @@ const TrackCont = styled.div`
     display: flex;
     align-items: center;
     flex-direction: row;
-    justify-content: space-evenly
+    justify-content: space-evenly;
     border : 1px red;
     max-width: 800px;
 `;

@@ -9,15 +9,14 @@ import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
-import { useTheme, useTitle, useHeader, usePar } from "../utils/provider";
+import { useTheme, useTitle, useHeader, usePar, useGenre } from "../utils/provider";
 import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
 import MySwitch from '../comps/Switch'
 import Slider from '../comps/Slider'
 import Divider from '../comps/Divider'
-import { useState } from 'react'
-
-
+import { useEffect, useRef, useState } from 'react'
+import axios from 'axios'
 
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
@@ -27,20 +26,8 @@ const Dashboard = styled.div`
     height:99%;
     padding:10px;
     width: 75%;
-    max-width: 950px;;
-
-    @media ${device.mobile}{
-
-    }
-
-    @media ${device.tablet}{
-    }
-
-    @media ${device.desktop}{
-       
-    }
+    max-width: 950px;
 `;
-
 const SbCont = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -56,7 +43,6 @@ const SliderCont = styled.div`
   justify-content: space-evenly;
   padding-left: 30px;
 `;
-
 const SpaceCont = styled.div`
 display: flex;
 width: 90%;
@@ -64,45 +50,84 @@ padding-left: 5px;
 
 justify-content: space-between;
 `;
-
 const RegCont = styled.div`
   padding-left: 30px;
 `;
 
-
+var timer = null;
 
 export default function Home() {
 
+  //theme states
   const { theme } = useTheme();
-  const [selected, setSelected] = useState(null)
-
   const {titleSize} = useTitle();
   const {headerSize} = useHeader();
   const {parSize} = usePar();
 
+  //genre genre
+  const [genre, setGenre] = useState(null)
+
+  
+
+  //slider values
   const [acValue, setAcValue] = useState(0);
   const [dncValue, setDncValue] = useState(0);
   const [enValue, setEnValue] = useState(0);
   const [instValue, setInstValue] = useState(0);
   const [ldValue, setLdValue] = useState(0);
   const [tpValue, setTpValue] = useState(0);
+
   const acChange = (event, newValue) => {
     setAcValue(newValue)
+    inputFilter()
   }
   const dncChange = (event, newValue) => {
     setDncValue(newValue)
+    inputFilter()
   }
   const enChange = (event, newValue) => {
     setEnValue(newValue)
+    inputFilter()
   }
   const instChange = (event, newValue) => {
     setInstValue(newValue)
+    inputFilter()
   }
   const ldChange = (event, newValue) => {
     setLdValue(newValue)
+    inputFilter()
   }
   const tpChange = (event, newValue) => {
     setTpValue(newValue)
+    inputFilter()
+  }
+
+  useEffect(()=>{
+    inputFilter();
+  }, [genre])
+  
+
+  const [tracks, setTracks] = useState([]);
+  const inputFilter = async () => {
+    if(timer === null){
+      timer = setTimeout(async () => {
+        const res = await axios.get('/api/tracks', {
+          params: {
+            genre:genre,
+            acousticness:acValue,
+            danceability:dncValue,
+            energy:enValue,
+            instrumentals:instValue,
+            loudness:ldValue,
+            tempo:tpValue,
+          }
+        })
+        setTracks(res.data);
+        timer = null;
+      }, 2000);
+    }
+   
+    
   }
   
 
@@ -128,60 +153,60 @@ export default function Home() {
 
         <SbCont>
           <SbButton
-          onClick={() => setSelected('country')} 
-          color={selected === 'country' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('country')} 
+          color={genre === 'country' ? themes[theme].accent1: themes[theme].highlight} 
           text='Country'/>
           <SbButton
-          onClick={() => setSelected('dance')} 
-          color={selected === 'dance' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('dance')} 
+          color={genre === 'dance' ? themes[theme].accent1: themes[theme].highlight} 
           text='Dance'/>
           <SbButton
-          onClick={() => setSelected('hipHop')} 
-          color={selected === 'hipHop' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('hipHop')} 
+          color={genre === 'hipHop' ? themes[theme].accent1: themes[theme].highlight} 
           text='Hip Hop'/>
           <SbButton
-          onClick={() => setSelected('house')} 
-          color={selected === 'house' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('house')} 
+          color={genre === 'house' ? themes[theme].accent1: themes[theme].highlight} 
           text='House'/>
           <SbButton
-          onClick={() => setSelected('indie')} 
-          color={selected === 'indie' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('indie')} 
+          color={genre === 'indie' ? themes[theme].accent1: themes[theme].highlight} 
           text='Indie'/>
           <SbButton
-          onClick={() => setSelected('jazz')} 
-          color={selected === 'jazz' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('jazz')} 
+          color={genre === 'jazz' ? themes[theme].accent1: themes[theme].highlight} 
           text='Jazz'/>
           <SbButton
-          onClick={() => setSelected('kPop')} 
-          color={selected === 'kPop' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('kPop')} 
+          color={genre === 'kPop' ? themes[theme].accent1: themes[theme].highlight} 
           text='K-pop'/>
           <SbButton
-          onClick={() => setSelected('pop')} 
-          color={selected === 'pop' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('pop')} 
+          color={genre === 'pop' ? themes[theme].accent1: themes[theme].highlight} 
           text='Pop'/>
           <SbButton
-          onClick={() => setSelected('metal')} 
-          color={selected === 'metal' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('metal')} 
+          color={genre === 'metal' ? themes[theme].accent1: themes[theme].highlight} 
           text='Metal'/>
           <SbButton
-          onClick={() => setSelected('rb')} 
-          color={selected === 'rb' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('rb')} 
+          color={genre === 'rb' ? themes[theme].accent1: themes[theme].highlight} 
           text='R&amp;B'/>
           <SbButton
-          onClick={() => setSelected('rap')} 
-          color={selected === 'rap' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('rap')} 
+          color={genre === 'rap' ? themes[theme].accent1: themes[theme].highlight} 
           text='Rap'/>
           <SbButton
-          onClick={() => setSelected('raggae')} 
-          color={selected === 'raggae' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('raggae')} 
+          color={genre === 'raggae' ? themes[theme].accent1: themes[theme].highlight} 
           text='Raggae'/>
           <SbButton
-          onClick={() => setSelected('rock')} 
-          color={selected === 'rock' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('rock')} 
+          color={genre === 'rock' ? themes[theme].accent1: themes[theme].highlight} 
           text='Rock'/>
           <SbButton
-          onClick={() => setSelected('trap')} 
-          color={selected === 'trap' ? themes[theme].accent1: themes[theme].highlight} 
+          onClick={() => setGenre('trap')} 
+          color={genre === 'trap' ? themes[theme].accent1: themes[theme].highlight} 
           text='Trap'/>
         </SbCont>
         <MyText
@@ -214,7 +239,13 @@ export default function Home() {
             text='Tracks not yet generated'
             size={`${parSize}px`}
         />
-        <MyTrack />
+        {tracks.map((o,i)=> <MyTrack 
+          artist={o.Artist}
+          song={o.Title}
+          album={o.Album}
+          time={o.duration_ms}
+        />)}
+        
         <MyTrack />
         <MyTrack />
         </RegCont>

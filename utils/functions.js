@@ -169,11 +169,11 @@ function sorting(
 }
 
 var f_tracks = filtering(tracks, {
-    area: "Peru",
+    // area: "Peru",
     // explicit: false,
     // liveness: 0.12,
     // danceability: 0.04,
-    energy: 0.2,
+    // energy: null,
     // loudness: -5,
     // tempo: null,
     // instrumentals: null,
