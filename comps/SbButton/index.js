@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { usePar, useTheme } from "../../utils/provider";
 import { useState } from "react";
 import MyText from "../Text";
 
@@ -28,8 +28,9 @@ export default function SbButton({
 }) {
 
     const { theme } = useTheme();
+    const {parSize} = usePar();
 
-    const [selected, setSelected] = useState(null)
+    const [selected, setSelected] = useState(null);
 
     return <Cont
         onClick={onClick}
@@ -39,7 +40,7 @@ export default function SbButton({
     >
         <MyText
             text={text}
-            size='18px'
+            size={`${parSize}px`}
             color={themes[theme].contrast}
             textHover={themes[theme].accent}
        />

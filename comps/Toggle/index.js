@@ -45,32 +45,21 @@ const Text = styled.p``;
 
 export default function Toggle({
     text = 'R&B',
-    onClick = () => {},
+    increase = () => {},
+    decrease = () => {},
 
 
 }){
-    let [count, setCount] = useState(0);
-    function incrementCount(){
-        count = count + 1;
-        setCount(count);
-    }
-
-    function decrementCount(){
-        count = count -1;
-        setCount(count);
-    }
-
-    console.log(count);
+ 
 
     const {theme} = useTheme();
 
     return<Cont 
-    onClick={onClick}
     // border={themes[theme].focus}
     bg={themes[theme].contrast}
     color={themes[theme].focus}
     >
-        <Minus onClick={decrementCount}>-</Minus>
-        <Plus onClick={incrementCount}>+</Plus>
+        <Minus onClick={decrease}>-</Minus>
+        <Plus onClick={increase}>+</Plus>
     </Cont>
 }

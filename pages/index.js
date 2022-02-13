@@ -9,7 +9,7 @@ import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
-import { useTheme } from "../utils/provider";
+import { useTheme, useTitle, useHeader, usePar } from "../utils/provider";
 import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
 import MySwitch from '../comps/Switch'
@@ -76,6 +76,10 @@ export default function Home() {
   const { theme } = useTheme();
   const [selected, setSelected] = useState(null)
 
+  const {titleSize} = useTitle();
+  const {headerSize} = useHeader();
+  const {parSize} = usePar();
+
   
 
   return (
@@ -91,13 +95,11 @@ export default function Home() {
         bg={themes[theme].contrast}>
            <MyText
             text={`Welcome {user}!`}
-            size='36px'
-            color={themes[theme].focus}
+            size={`${titleSize}px`}
         />
         <MyText
             text='Genres'
-            size='24px'
-            color={themes[theme].focus}
+            size={`${headerSize}px`}
         />
 
         <SbCont>
@@ -160,8 +162,7 @@ export default function Home() {
         </SbCont>
         <MyText
             text='How do you feel?'
-            size='24px'
-            color={themes[theme].focus}
+            size={`${headerSize}px`}
         />
         <SliderCont>
           <Slider text='Acounticness'/>
@@ -174,7 +175,7 @@ export default function Home() {
         <SpaceCont>
         <MyText
             text='Generated Tracks'
-            size='24px'
+            size={`${headerSize}px`}
             color={themes[theme].focus}
         />
         <MyButton 
@@ -187,8 +188,7 @@ export default function Home() {
         <RegCont>
         <MyText
             text='Tracks not yet generated'
-            size='18px'
-            color={themes[theme].focus}
+            size={`${parSize}px`}
         />
         <MyTrack />
         <MyTrack />

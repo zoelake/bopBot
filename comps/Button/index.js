@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { useTheme, usePar } from "../../utils/provider";
 
 const Cont = styled.div`
     padding:5px;
@@ -24,6 +24,7 @@ const Text = styled.p`
     display:flex;   
     justify-content: center;
     align-items: center;
+    font-size: ${props=>props.size};
 `;
 
 export default function MyButton({
@@ -32,6 +33,8 @@ export default function MyButton({
 }){
 
     const {theme} = useTheme();
+   
+    const {parSize} = useTitle();
 
     return<Cont 
     onClick={onClick}
@@ -42,6 +45,7 @@ export default function MyButton({
     >
         <Text
         color={themes[theme].focus}
+        size={`${parSize}px`}
         >{text}</Text>
     </Cont>
 }

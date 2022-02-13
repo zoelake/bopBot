@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { usePar, useTheme } from "../../utils/provider";
 import { Slider } from '@mui/material';
 import MyText from '../Text';
 
@@ -31,6 +31,7 @@ function MySlider({
 }) {
 
     const {themes} = useTheme();
+    const {parSize} = usePar();
 
     return <Cont>
     <SliderCont>
@@ -49,7 +50,7 @@ function MySlider({
         
     </SliderCont>
     <MyText
-    size='18px'
+    size={`${parSize}px`}
     text={text}/>
     </Cont>
 }

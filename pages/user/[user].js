@@ -9,7 +9,7 @@ import SbButton from '../../comps/SbButton'
 import Toggle from '../../comps/Toggle'
 import MyText from '../../comps/Text'
 import { themes } from '../../utils/variables'
-import { useTheme } from "../../utils/provider";
+import { useTheme, useTitle, useHeader, usePar } from '../../utils/provider'
 import styled from 'styled-components';
 import { device } from '../../styles/mediaSizes'
 import MySwitch from '../../comps/Switch'
@@ -82,6 +82,9 @@ export default function User() {
 
     const { theme } = useTheme();
     const [selected, setSelected] = useState(null);
+    const {titleSize} = useTitle();
+    const {headerSize} = useHeader();
+    const {parSize} = usePar();
 
     return (
         <>
@@ -98,8 +101,7 @@ export default function User() {
                 <UserInfo />
                 <MyText
                     text='Playlists'
-                    size='24px'
-                    color={themes[theme].focus}
+                    size={`${titleSize}px`}
                 />
                 <SbCont>
                     {/* map this out: */}
@@ -132,8 +134,7 @@ export default function User() {
                 <SpaceCont>
                     <MyText
                         text={selected === null ? 'liked' : selected}
-                        size='24px'
-                        color={themes[theme].focus}
+                        size={`${headerSize}px`}
                     />
 
                 </SpaceCont>

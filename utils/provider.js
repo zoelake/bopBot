@@ -9,18 +9,34 @@ const initialState = {
     setPage: () => {},
     explicit: true,
     setExplicit: () => {},
+
+    //fonts
+    titleSize: 36,
+    setTitleSize: () =>{},
+    headerSize: 24,
+    setHeaderSize: () =>{},
+    parSize: 18,
+    setParSize: () =>{},
 }
 
 const MyThemeContext = createContext(initialState);
 
 export default function MyThemeProvider({ children }) {
 
+    //choose theme
     const [theme, setTheme] = useState(initialState.theme);
+    //navbar highlight current page
     const [page, setPage] = useState(initialState.page);
-    const [explicit, setExplicit] = useState(initialState.page);
+    //allow explicit tracks in filter
+    const [explicit, setExplicit] = useState(initialState.explicit);
+    //font sizing
+    const [titleSize, setTitleSize] = useState(initialState.titleSize)
+    const [headerSize, setHeaderSize] = useState(initialState.headerSize)
+    const [parSize, setParSize] = useState(initialState.parSize)
+     
 
     return <MyThemeContext.Provider value={{
-        theme, setTheme, page, setPage,
+        theme, setTheme, page, setPage, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize
     }}>
         <style jsx global>
             {`
@@ -46,5 +62,20 @@ export const usePage = () => {
 export const useExplicit = () => {
     const { explicit, setExplicit } = useContext(MyThemeContext);
     return { explicit, setExplicit};
+}
+
+export const useTitle = () => {
+    const { titleSize, setTitleSize } = useContext(MyThemeContext);
+    return { titleSize, setTitleSize};
+}
+
+export const useHeader = () => {
+    const { headerSize, setHeaderSize } = useContext(MyThemeContext);
+    return { headerSize, setHeaderSize};
+}
+
+export const usePar = () => {
+    const { parSize, setParSize } = useContext(MyThemeContext);
+    return { parSize, setParSize};
 }
 

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useHeader } from "../../utils/provider";
 import MyText from "../Text";
 
 
@@ -53,6 +54,8 @@ export default function Playlist({
     color = 'red',
 }){
 
+    const {headerSize} = useHeader();
+
     return<Cont 
     onClick={onClick}
     bg={bg}
@@ -60,7 +63,7 @@ export default function Playlist({
     >
         <Cover src={cover}/>
         <MyText
-        size="24px"
+        size={`${headerSize}px`}
         text={text}
         
         />

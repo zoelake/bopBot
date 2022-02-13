@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import CheckboxComp from '../Checkbox';
 import { themes } from "../../utils/variables";
-import { theme, useTheme } from '../../utils/provider';
+import { theme, usePar, useTheme } from '../../utils/provider';
 import MyText from "../Text";
 import { teal } from "@mui/material/colors";
 
@@ -25,13 +25,13 @@ export default function ThemeToggle({
     onClick = () => {},
 }) {
 
-    
+    const {parSize} = usePar();
 
     return <Cont>
         <ThemeCol col={theme1} />
         <ThemeCol col={theme2} />
         <MyText 
-            size='18px'
+            size={`${parSize}px`}
             text={mode}
         />
         <CheckboxComp innerCol={innerCol} outerCol={outerCol} onClick={onClick}/>

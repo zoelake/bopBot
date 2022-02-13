@@ -9,12 +9,13 @@ import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
-import { useTheme } from "../utils/provider";
-import styled from 'styled-components';
+import { useTheme, useTitle, useHeader, usePar } from "../utils/provider";import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
 import MySwitch from '../comps/Switch'
 import Slider from '../comps/Slider'
 import Divider from '../comps/Divider'
+import ThemeToggle from '../comps/ThemeToggle'
+import { useState } from 'react'
 
 
 
@@ -26,7 +27,7 @@ const Dashboard = styled.div`
     height:99%;
     padding:10px;
     width: 75%;
-    max-width: 950px;;
+    max-width: 950px;
 
     @media ${device.mobile}{
 
@@ -40,39 +41,42 @@ const Dashboard = styled.div`
     }
 `;
 
-const SbCont = styled.div`
+
+const Cont = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  width: 630px;
-  height:180px;
-  justify-content: space-evenly;
-  padding-left: 30px;
-`;
-const SliderCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 750px;
-  justify-content: space-evenly;
-  padding-left: 30px;
+  flex-direction: row;
 `;
 
-const SpaceCont = styled.div`
-display: flex;
-width: 90%;
-padding-left: 5px;
-
-justify-content: space-between;
-`;
-
-const RegCont = styled.div`
-  padding-left: 30px;
-`;
+const HalfCont = styled.div`
+  flex:1;
+`
 
 
 
 export default function Settings() {
 
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const [themeCol, setThemeCol] = useState(theme);
+  const {titleSize, setTitleSize} = useTitle();
+  const {headerSize, setHeaderSize} = useHeader();
+  const {parSize, setParSize} = usePar();
+  let title = titleSize;
+  let header = headerSize;
+  let par = parSize;
+
+  function increaseFont(){
+    setTitleSize(title+=2)
+    setHeaderSize(header+=2)
+    setParSize(par+=2)
+  }
+
+  function decreaseFont(){
+    setTitleSize(title-=2)
+    setHeaderSize(header-=2)
+    setParSize(parent-=2)
+  }
+
+
   return (
     <>
       <Head>
@@ -84,11 +88,73 @@ export default function Settings() {
 
       <Dashboard
         bg={themes[theme].contrast}>
-        
-           <MyText
-            text={`Welcome to Settings!`}
-            size='36px' />
-       
+        <MyText
+          text={`Settings`}
+          size={`${titleSize}px`} />
+
+        <Cont>
+          <HalfCont>
+            <MyText
+              text='Themes'
+              size={`${headerSize}px`}
+            />
+
+            <MyText
+              text='Font size'
+              size={`${headerSize}px`}
+            />
+
+          </HalfCont>
+          <HalfCont>
+            <ThemeToggle 
+            onClick={()=> setTheme('dark')}
+            mode='Dark Mode' 
+            theme1={themes.dark.mid}
+            theme2={themes.dark.accent1}
+            display={'circle'}
+            innerCol={themes[theme].focus}
+            outerCol={themes[theme].focus}
+            />  
+            <ThemeToggle 
+            onClick={()=> setTheme('light')}
+            mode='Light Mode' 
+            theme1={themes.light.mid}
+            theme2={themes.light.accent1}
+            display={'circle'}
+            innerCol={themes[theme].focus}
+            outerCol={themes[theme].focus}
+            />  
+            <ThemeToggle
+            onClick={()=> setTheme('retro')} 
+            mode='Retro' 
+            theme1={themes.retro.mid}
+            theme2={themes.retro.accent1}
+            display={'circle'}
+            innerCol={themes[theme].focus}
+            outerCol={themes[theme].focus}
+            />  
+            <ThemeToggle 
+            onClick={()=> setTheme('funky')}
+            mode='Funk' 
+            theme1={themes.funky.mid}
+            theme2={themes.funky.accent1}
+            display={'circle'}
+            innerCol={themes[theme].focus}
+            outerCol={themes[theme].focus}
+            />  
+            <Toggle 
+              increase={increaseFont}
+              decrease={decreaseFont}
+            />
+
+
+          </HalfCont>
+        </Cont>
+
+
+
+
+
 
 
       </Dashboard>

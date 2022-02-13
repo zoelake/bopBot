@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useRef } from "react";
 import { themes } from "../../utils/variables";
-import { useTheme, usePage } from "../../utils/provider";
+import { useTheme, usePage, usePar } from "../../utils/provider";
 import { RiMvFill, RiHome2Fill, RiSettings4Fill } from "react-icons/ri";
 import { MyText } from "../Text/index";
 import { device } from "../../styles/mediaSizes";
@@ -41,7 +41,7 @@ const NavLink = styled.nav`
     text-align:left;
     font-weight: bold;
     text-decoration: none;
-    font-size: 18px;
+    font-size: ${props => props.size};
     color: ${props => props.color};
     :hover {
         color: ${props => props.linkHover};
@@ -61,8 +61,9 @@ const NavBar = ({
 
 
 
-    const [hideNav, setHideNav] = useState(true)
-    const [visibility, setVisibility] = useState()
+    const [hideNav, setHideNav] = useState(true);
+    const [visibility, setVisibility] = useState();
+    const { parSize } = usePar();
 
     function View() {
         setHideNav(!hideNav)
@@ -74,20 +75,20 @@ const NavBar = ({
         }
     }
     const { theme } = useTheme();
-    const {page, setPage} = usePage();
+    const { page, setPage } = usePage();
     const router = useRouter();
 
-    function goHome(){
+    function goHome() {
         router.push('/')
         setPage('/')
     }
 
-    function goLibrary(){
+    function goLibrary() {
         router.push(`/user/${id}`)
         setPage('library')
     }
 
-    function goSettings(){
+    function goSettings() {
         router.push('/settings')
         setPage('settings')
     }
@@ -98,8 +99,9 @@ const NavBar = ({
     >
         <LinkCont>
             <NavLink
+                size={`${parSize}px`}
                 onClick={goHome}
-                color={page === '/' ? themes[theme].highlight :themes[theme].focus}
+                color={page === '/' ? themes[theme].highlight : themes[theme].focus}
                 linkHover={themes[theme].highlight}
             >
                 <RiHome2Fill /> Home
@@ -108,8 +110,9 @@ const NavBar = ({
 
         <LinkCont>
             <NavLink
+                size={`${parSize}px`}
                 onClick={goLibrary}
-                color={page === 'library' ? themes[theme].highlight :themes[theme].focus}
+                color={page === 'library' ? themes[theme].highlight : themes[theme].focus}
                 linkHover={themes[theme].highlight}
             >
                 <RiMvFill /> Library
@@ -117,9 +120,10 @@ const NavBar = ({
         </LinkCont>
 
         <LinkCont>
-            <NavLink 
+            <NavLink
+                size={`${parSize}px`}
                 onClick={goSettings}
-                color={page === 'settings' ? themes[theme].highlight :themes[theme].focus}
+                color={page === 'settings' ? themes[theme].highlight : themes[theme].focus}
                 linkHover={themes[theme].highlight}
             >
                 <RiSettings4Fill /> Settings
