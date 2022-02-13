@@ -34,7 +34,7 @@ export default function MyButton({
 
     const {theme} = useTheme();
    
-    const {parSize} = useTitle();
+    const {parSize} = usePar();
 
     return<Cont 
     onClick={onClick}

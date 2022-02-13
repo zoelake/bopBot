@@ -80,6 +80,30 @@ export default function Home() {
   const {headerSize} = useHeader();
   const {parSize} = usePar();
 
+  const [acValue, setAcValue] = useState(0);
+  const [dncValue, setDncValue] = useState(0);
+  const [enValue, setEnValue] = useState(0);
+  const [instValue, setInstValue] = useState(0);
+  const [ldValue, setLdValue] = useState(0);
+  const [tpValue, setTpValue] = useState(0);
+  const acChange = (event, newValue) => {
+    setAcValue(newValue)
+  }
+  const dncChange = (event, newValue) => {
+    setDncValue(newValue)
+  }
+  const enChange = (event, newValue) => {
+    setEnValue(newValue)
+  }
+  const instChange = (event, newValue) => {
+    setInstValue(newValue)
+  }
+  const ldChange = (event, newValue) => {
+    setLdValue(newValue)
+  }
+  const tpChange = (event, newValue) => {
+    setTpValue(newValue)
+  }
   
 
   return (
@@ -165,12 +189,12 @@ export default function Home() {
             size={`${headerSize}px`}
         />
         <SliderCont>
-          <Slider text='Acounticness'/>
-          <Slider text='Danceability'/>
-          <Slider text='Energy'/>
-          <Slider text='Instrumentals'/>
-          <Slider text='Loudness'/>
-          <Slider text='Tempo'/>
+          <Slider text='Acounticness' value={acValue} onChange={acChange}/>
+          <Slider text='Danceability' value={dncValue} onChange={dncChange}/>
+          <Slider text='Energy'value={enValue} onChange={enChange}/>
+          <Slider text='Instrumentals' value={instValue} onChange={instChange}/>
+          <Slider text='Loudness' value={ldValue} onChange={ldChange}/>
+          <Slider text='Tempo' max={240} step={80} value={tpValue} onChange={tpChange}/>
         </SliderCont>
         <SpaceCont>
         <MyText
