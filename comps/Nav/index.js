@@ -25,6 +25,10 @@ const NavLink = styled.a`
     font-weight: bold;
     text-decoration: none;
     font-size: 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
     color: ${props=>props.color};
     :hover {
         color: ${props=>props.linkHover};
@@ -32,6 +36,7 @@ const NavLink = styled.a`
 `;
 
 const LinkCont = styled.div`
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -71,7 +76,9 @@ const NavBar = ({
         color={themes[theme].focus}
         linkHover={themes[theme].highlight}
         >
-            <RiHome2Fill/> Home
+            <RiHome2Fill
+            style={{marginRight:'5px'}}
+            /> Home
         </NavLink>
         </LinkCont>
 
@@ -80,7 +87,9 @@ const NavBar = ({
         color={themes[theme].focus}
         linkHover={themes[theme].highlight}
         >
-            <RiMvFill/> Library
+            <RiMvFill
+            style={{marginRight:'5px'}}
+            /> Library
         </NavLink>
         </LinkCont>
 
@@ -89,7 +98,9 @@ const NavBar = ({
         color={themes[theme].focus}
         linkHover={themes[theme].highlight}
         >
-            <RiSettings4Fill/> Settings
+            <RiSettings4Fill
+            style={{marginRight:'5px'}}
+            /> Settings
         </NavLink>
         </LinkCont>
  
