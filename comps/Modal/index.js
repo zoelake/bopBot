@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
-import Text from "../../comps/Text/index"
+import { usePar, useTheme } from "../../utils/provider";
+import MyText from "../../comps/Text/index"
 
 const Cont = styled.div`
     width: 400px;
@@ -21,14 +21,15 @@ const Modal = ({
 })=>{
 
     const {theme} = useTheme();
+    const {parSize} = usePar();
 
     return (
     <Cont
     bg={themes[theme].contrast}
     >
         <WhiteHeart src={heart}/>
-        <Text  
-        size="12px"
+        <MyText  
+        size={`${parSize}px`}
         text= "Added to liked songs"
         />
     </Cont>

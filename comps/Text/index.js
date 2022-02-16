@@ -7,20 +7,19 @@ const Text = styled.p`
     color: ${props=>props.color};
     font-size: ${props=>props.fontSize};
     line-height: auto;
-    margin:15px;
     padding:0;
 `;
 
 export default function MyText({
     text = 'button',
-    size = '30px'
+    size = '30px',
 }){
 
-    //const {theme} = useTheme();
+    const {theme} = useTheme();
    
 
     return <Text
-   // color={themes[theme].focus}
+   color={themes[theme].focus}
     fontSize={size}
     >{text}</Text>
 }

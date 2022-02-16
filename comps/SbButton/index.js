@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { usePar, useTheme } from "../../utils/provider";
 import { useState } from "react";
+import MyText from "../Text";
 
 const Cont = styled.div`
     width:85px;
     height:85px;
-    background-color: ${props=>props.bg};
-    color: ${props=>props.color};
+    background-color: ${props => props.bg};
+    color: ${props => props.color};
     justify-content: center;
     display: flex;
     align-items: center;
@@ -15,28 +16,33 @@ const Cont = styled.div`
 
 
     /* :hover {
-        border: 2px solid ${props=>props.borderHover};
+        border: 2px solid ${props => props.borderHover};
     } */
     
 `;
-const Text = styled.p``;
 
 export default function SbButton({
     text = 'R&B',
-    onClick = () => {},
-}){
+    onClick = () => { },
+    color = 'white',
+}) {
 
-    const {theme} = useTheme();
+    const { theme } = useTheme();
+    const {parSize} = usePar();
 
-    return<Cont 
-    onClick={onClick}
-    // border={themes[theme].focus}
-    bg={themes[theme].light}
+    const [selected, setSelected] = useState(null);
+
+    return <Cont
+        onClick={onClick}
+        // border={themes[theme].focus}
+        bg={color}
 
     >
-        <Text
-        color={themes[theme].focus}
-        textHover={themes[theme].accent}
-        >{text}</Text>
+        <MyText
+            text={text}
+            size={`${parSize}px`}
+            color={themes[theme].contrast}
+            textHover={themes[theme].accent}
+       />
     </Cont>
 }
