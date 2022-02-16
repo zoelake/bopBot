@@ -9,6 +9,9 @@ const GlobalStyle = createGlobalStyle`
 html {
   font-family: 'Be Vietnam Pro', sans-serif;
 }
+body{
+  margin:0;
+}
 
 `;
 
@@ -16,8 +19,6 @@ function MyApp({ Component, pageProps }) {
   return <MyThemeProvider>
     <GlobalStyle />
     <Component {...pageProps} />
-    {/* <NavBar /> */}
-
   </MyThemeProvider>
 }
 

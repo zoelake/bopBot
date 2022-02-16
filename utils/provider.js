@@ -6,17 +6,17 @@ const initialState = {
     theme: 'funky',
     setTheme: () => { },
     page: '/',
-    setPage: () => {},
+    setPage: () => { },
     explicit: true,
-    setExplicit: () => {},
+    setExplicit: () => { },
 
     //fonts
     titleSize: 36,
-    setTitleSize: () =>{},
+    setTitleSize: () => { },
     headerSize: 24,
-    setHeaderSize: () =>{},
+    setHeaderSize: () => { },
     parSize: 18,
-    setParSize: () =>{},
+    setParSize: () => { },
 }
 
 const MyThemeContext = createContext(initialState);
@@ -33,10 +33,10 @@ export default function MyThemeProvider({ children }) {
     const [titleSize, setTitleSize] = useState(initialState.titleSize)
     const [headerSize, setHeaderSize] = useState(initialState.headerSize)
     const [parSize, setParSize] = useState(initialState.parSize)
-     
+
 
     return <MyThemeContext.Provider value={{
-        theme, setTheme, page, setPage, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize
+        theme, setTheme, page, setPage, explicit, setExplicit, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize
     }}>
         <style jsx global>
             {`
@@ -56,26 +56,26 @@ export const useTheme = () => {
 
 export const usePage = () => {
     const { page, setPage } = useContext(MyThemeContext);
-    return { page, setPage};
+    return { page, setPage };
 }
 
 export const useExplicit = () => {
     const { explicit, setExplicit } = useContext(MyThemeContext);
-    return { explicit, setExplicit};
+    return { explicit, setExplicit };
 }
 
 export const useTitle = () => {
     const { titleSize, setTitleSize } = useContext(MyThemeContext);
-    return { titleSize, setTitleSize};
+    return { titleSize, setTitleSize };
 }
 
 export const useHeader = () => {
     const { headerSize, setHeaderSize } = useContext(MyThemeContext);
-    return { headerSize, setHeaderSize};
+    return { headerSize, setHeaderSize };
 }
 
 export const usePar = () => {
     const { parSize, setParSize } = useContext(MyThemeContext);
-    return { parSize, setParSize};
+    return { parSize, setParSize };
 }
 

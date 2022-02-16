@@ -7,7 +7,6 @@ const Text = styled.p`
     color: ${props=>props.color};
     font-size: ${props=>props.fontSize};
     line-height: auto;
-    margin:15px;
     padding:0;
 `;
 

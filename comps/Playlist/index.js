@@ -6,40 +6,33 @@ import MyText from "../Text";
 const Cont = styled.div`
     display:flex;
     width: 155px;
-    height: 152px;
+    height: 165px;
     justify-content: center;
     align-items: center;
     flex-direction:column;
-    border-radius:5px;
-    padding: 25px 10px;
-    margin:0 10px 0 0 ;
+    border-radius:10px;
+    padding: 15px 0px 10px 0px;
+    margin:0 40px 0 0 ;
     justify-content: space-around;
 
 
 
-    background-color:${props=>props.bg};
-    color: ${props=>props.color};
+    background-color:${props => props.bg};
+    color: ${props => props.color};
 
     /* :hover {
-        border: 2px solid ${props=>props.borderHover};
+        border: 2px solid ${props => props.borderHover};
     } */
     
 `;
 
 
-const ImgCont = styled.a`
-    height:150px;
-    width: 150px;
-    border-radius:5px;
-    overflow: hidden;
-  
-`;
+
 const Cover = styled.img`
-    height:100px;
-    width: 100px;
+    height:140px;
+    width:100px;
     border-radius:5px;
-    overflow: hidden;
-  
+    overflow: hidden;  
 `;
 
 
@@ -48,24 +41,24 @@ const Cover = styled.img`
 
 export default function Playlist({
     text = 'Liked',
-    onClick = () => {},
-    cover = "https://placekitten.com/100/100",
+    onClick = () => { },
+    cover = "https://placekitten.com/155/180",
     bg = 'white',
     color = 'red',
-}){
+}) {
 
-    const {headerSize} = useHeader();
+    const { headerSize } = useHeader();
 
-    return<Cont 
-    onClick={onClick}
-    bg={bg}
-    color={color}
+    return <Cont
+        onClick={onClick}
+        bg={bg}
+        color={color}
     >
-        <Cover src={cover}/>
+        <Cover src={cover} />
         <MyText
-        size={`${headerSize}px`}
-        text={text}
-        
+            size={`${headerSize}px`}
+            text={text}
+
         />
     </Cont>
 }

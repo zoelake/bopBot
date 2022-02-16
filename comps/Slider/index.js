@@ -17,9 +17,11 @@ const SliderCont = styled.div``;
 const SliderMain = styled(Slider)`
     color: ${props => props.barcolor};
     height:130px;
+    width:10px;
     & .MuiSlider-thumb {
         border-radius: 5px;
         height: 35px;
+        width: 23px;
         color: ${props => props.thumbcolor};
     }
 `;
@@ -30,28 +32,28 @@ function MySlider({
     text = "title",
 }) {
 
-    const {themes} = useTheme();
-    const {parSize} = usePar();
+    const { themes } = useTheme();
+    const { parSize } = usePar();
 
     return <Cont>
-    <SliderCont>
-        <SliderMain
-            sx={{
-                '& input[type="range"]': {
-                    WebkitAppearance: 'slider-vertical',
-                },
-            }}
-            barcolor={barcolor}
-            thumbcolor={thumbcolor}
-            orientation="vertical"
-            defaultValue={30}
-            aria-label="Temperature"
-        />
-        
-    </SliderCont>
-    <MyText
-    size={`${parSize}px`}
-    text={text}/>
+        <SliderCont>
+            <SliderMain
+                sx={{
+                    '& input[type="range"]': {
+                        WebkitAppearance: 'slider-vertical',
+                    },
+                }}
+                barcolor={barcolor}
+                thumbcolor={thumbcolor}
+                orientation="vertical"
+                defaultValue={30}
+                aria-label="Temperature"
+            />
+
+        </SliderCont>
+        <MyText
+            size={`${parSize}px`}
+            text={text} />
     </Cont>
 }
 
