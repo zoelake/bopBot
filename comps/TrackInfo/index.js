@@ -71,30 +71,30 @@ export default function MyTrack({
 
         <Cont1>
             <Text
-                color={themes[theme].focus}
+                color={themes[theme].text}
             >1</Text>
         </Cont1>
 
         <Cont2>
-            <Text color={themes[theme].focus}>
+            <Text color={themes[theme].text}>
                 {song}
             </Text>
 
             <Text
-                color={themes[theme].highlight}
-                textHover={themes[theme].accent1}
+                color={themes[theme].text}
+                textHover={themes[theme].accent}
             >{artist}</Text>
         </Cont2>
 
         <Cont3>
             <Text
-                color={themes[theme].focus}
+                color={themes[theme].text}
             >{time}</Text>
         </Cont3>
 
         <Cont4>
             <Text
-                color={themes[theme].focus}
+                color={themes[theme].textHover}
             >{album}</Text>
         </Cont4>
 

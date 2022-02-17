@@ -41,8 +41,8 @@ export default function SbButton({
         <MyText
             text={text}
             size={`${parSize}px`}
-            color={themes[theme].contrast}
-            textHover={themes[theme].accent}
+            color={themes[theme].altText}
+            textHover={'#fff'}
        />
     </Cont>
 }

@@ -19,7 +19,7 @@ export default function MyText({
    
 
     return <Text
-   color={themes[theme].focus}
+   color={themes[theme].text}
     fontSize={size}
     >{text}</Text>
 }

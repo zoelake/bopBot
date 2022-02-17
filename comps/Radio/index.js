@@ -39,10 +39,10 @@ export default function MyRadio({
     if (shape === 'circle') {
         return <CircBorder
             onClick={onClick}
-            border={themes[theme].focus}
+            border={themes[theme].text}
         >
             <CircInner
-                col={inner ? themes[theme].accent2 : 'transparent' } />
+                col={inner ? themes[theme].heart : 'transparent' } />
         </CircBorder>
     }
     if (shape === 'heart') {
@@ -50,7 +50,7 @@ export default function MyRadio({
            <AiFillHeart 
            size={20}
            onClick={onClick}
-           color={inner ? themes[theme].accent1 : themes[theme].accent2} />
+           color={inner ? themes[theme].heart : 'transparent'} />
         </>
     }
 }

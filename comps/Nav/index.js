@@ -76,7 +76,7 @@ const NavBar = ({
         }
     }
     const { theme } = useTheme();
-    const { page, setPage } = usePage();
+    const { page, setPage } = usePage('/');
     const router = useRouter();
 
     function goHome() {
@@ -102,8 +102,8 @@ const NavBar = ({
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goHome}
-                color={page === '/' ? themes[theme].highlight : themes[theme].focus}
-                linkHover={themes[theme].highlight}
+                color={page === '/' ? themes[theme].emText : themes[theme].text}
+                linkHover={themes[theme].accent}
             >
                 <RiHome2Fill style={{ marginRight: '10px' }} /> Home
             </NavLink>
@@ -113,8 +113,8 @@ const NavBar = ({
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goLibrary}
-                color={page === 'library' ? themes[theme].highlight : themes[theme].focus}
-                linkHover={themes[theme].highlight}
+                color={page === '/library' ? themes[theme].emText : themes[theme].text}
+                linkHover={themes[theme].accent}
             >
                 <RiMvFill style={{ marginRight: '10px' }} /> Library
             </NavLink>
@@ -124,8 +124,8 @@ const NavBar = ({
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goSettings}
-                color={page === 'settings' ? themes[theme].highlight : themes[theme].focus}
-                linkHover={themes[theme].highlight}
+                color={page === '/settings' ? themes[theme].emText : themes[theme].text}
+                linkHover={themes[theme].accent}
             >
                 <RiSettings4Fill style={{ marginRight: '10px' }} /> Settings
             </NavLink>

@@ -46,8 +46,8 @@ function MySlider({
                     WebkitAppearance: 'slider-vertical',
                 },
             }}
-            barcolor={themes[theme].mid}
-            thumbcolor={themes[theme].accent1}
+            barcolor={themes[theme].sliderBg}
+            thumbcolor={themes[theme].slider}
             orientation="vertical"
             aria-label="Temperature"
            marks

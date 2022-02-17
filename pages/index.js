@@ -68,7 +68,10 @@ justify-content: space-between;
 const RegCont = styled.div`
   padding-left: 30px;
   overflow-y: scroll;
-  height:160px;
+  height:250px;
+  border:2px solid blue;
+  padding:10px;
+  width:80%;
 `;
 const Divider = styled.div`
     background-color: ${props => props.color};
@@ -173,59 +176,59 @@ export default function Home() {
           <SbCont>
             <SbButton
               onClick={() => setGenre('country')}
-              color={genre === 'country' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'country' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Country' />
             <SbButton
               onClick={() => setGenre('dance')}
-              color={genre === 'dance' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'dance' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Dance' />
             <SbButton
               onClick={() => setGenre('hipHop')}
-              color={genre === 'hipHop' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'hipHop' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Hip Hop' />
             <SbButton
               onClick={() => setGenre('house')}
-              color={genre === 'house' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'house' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='House' />
             <SbButton
               onClick={() => setGenre('indie')}
-              color={genre === 'indie' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'indie' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Indie' />
             <SbButton
               onClick={() => setGenre('jazz')}
-              color={genre === 'jazz' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'jazz' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Jazz' />
             <SbButton
               onClick={() => setGenre('kPop')}
-              color={genre === 'kPop' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'kPop' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='K-pop' />
             <SbButton
               onClick={() => setGenre('pop')}
-              color={genre === 'pop' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'pop' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Pop' />
             <SbButton
               onClick={() => setGenre('metal')}
-              color={genre === 'metal' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'metal' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Metal' />
             <SbButton
               onClick={() => setGenre('rb')}
-              color={genre === 'rb' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'rb' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='R&amp;B' />
             <SbButton
               onClick={() => setGenre('rap')}
-              color={genre === 'rap' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'rap' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Rap' />
             <SbButton
               onClick={() => setGenre('raggae')}
-              color={genre === 'raggae' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'raggae' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Raggae' />
             <SbButton
               onClick={() => setGenre('rock')}
-              color={genre === 'rock' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'rock' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Rock' />
             <SbButton
               onClick={() => setGenre('trap')}
-              color={genre === 'trap' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre === 'trap' ? themes[theme].sbSelected : themes[theme].altAccent}
               text='Trap' />
           </SbCont>
 
@@ -246,22 +249,20 @@ export default function Home() {
             <MyText
               text='Generated Tracks'
               size={`${headerSize}px`}
-              color={themes[theme].focus}
             />
             <MyButton
               onClick={inputFilter}
               text='generate' />
           </SpaceCont>
-          <RegCont>
 
-            <Divider />
-          </RegCont>
+          <Divider />
+
           <RegCont>
             <MyText
-              text={tracks !== [] ? 'Tracks not yet generated' : 'Generated Tracks:'}
+              text={tracks !== '[]' ? 'Tracks not yet generated' : 'Generated Tracks:'}
               size={`${parSize}px`}
             />
-            <div style={{ height: '80%', overflow: 'scroll' }}>
+            <div style={{ height: '100%', overflow: 'scroll', border: '2px solid green' }}>
 
               {tracks.map((o, i) => <MyTrack
                 key={i}

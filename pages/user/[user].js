@@ -123,29 +123,29 @@ export default function User() {
                         <Playlist
                             cover='/playlistLiked.png'
                             onClick={() => setSelected('liked')}
-                            bg={selected === 'liked' || null ? themes[theme].highlight : themes[theme].mid}
-                            color={selected === 'liked' || null ? themes[theme].accent1 : themes[theme].contrast}
+                            bg={selected === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
+                            color={selected === 'liked' || null ? themes[theme].text : themes[theme].acent}
                             text='liked'
                         />
                         <Playlist
                             cover='/playlistRap.png'
                             onClick={() => setSelected('rap')}
-                            bg={selected === 'rap' ? themes[theme].highlight : themes[theme].mid}
-                            color={selected === 'rap' ? themes[theme].accent1 : themes[theme].contrast}
+                            bg={selected === 'rap' ? themes[theme].accent : themes[theme].playBg}
+                            color={selected === 'rap' ? themes[theme].text : themes[theme].accent}
                             text='rap'
                         />
                         <Playlist
                             cover='/playlistPop.png'
                             onClick={() => setSelected('pop')}
-                            bg={selected === 'pop' ? themes[theme].highlight : themes[theme].mid}
-                            color={selected === 'pop' ? themes[theme].accent1 : themes[theme].contrast}
+                            bg={selected === 'pop' ? themes[theme].accent : themes[theme].playBg}
+                            color={selected === 'pop' ? themes[theme].text : themes[theme].accent}
                             text='pop'
                         />
                         <Playlist
                             cover='/playlistIndie.png'
                             onClick={() => setSelected('indie')}
-                            bg={selected === 'indie' ? themes[theme].highlight : themes[theme].mid}
-                            color={selected === 'indie' ? themes[theme].accent1 : themes[theme].contrast}
+                            bg={selected === 'indie' ? themes[theme].accent : themes[theme].playBg}
+                            color={selected === 'indie' ? themes[theme].text : themes[theme].accent}
                             text='indie'
                         />
 
@@ -163,7 +163,7 @@ export default function User() {
                     </SpaceCont>
 
                     <Divider
-                        color={themes[theme].focus} />
+                        color={themes[theme].text} />
                     <br></br>
 
                     <RegCont>
