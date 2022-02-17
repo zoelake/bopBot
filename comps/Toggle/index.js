@@ -11,7 +11,8 @@ const Cont = styled.div`
     justify-content: center;
     display:flex;
     flex-direction: row;
-    border-radius: 5px;
+    border-radius: 10px;
+    box-shadow: 0 4px 5px rgba(0,0,0,0.25);
 
 
     /* :hover {
@@ -28,6 +29,7 @@ const Plus = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 3rem;
+
 
 `;
 const Minus = styled.div`
@@ -56,10 +58,11 @@ export default function Toggle({
 
     return<Cont 
     // border={themes[theme].focus}
-    bg={themes[theme].contrast}
-    color={themes[theme].focus}
+    bg={themes[theme].focus}
+    color={themes[theme].contrast}
     >
-        <Minus onClick={decrease}>-</Minus>
+        <Minus 
+        onClick={decrease}>-</Minus>
         <Plus onClick={increase}>+</Plus>
     </Cont>
 }

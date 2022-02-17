@@ -17,9 +17,11 @@ const SliderCont = styled.div``;
 const SliderMain = styled(Slider)`
     color: ${props => props.barcolor};
     height:130px;
+    width:10px;
     & .MuiSlider-thumb {
         border-radius: 5px;
         height: 35px;
+        width: 23px;
         color: ${props => props.thumbcolor};
     }
 `;
@@ -60,6 +62,7 @@ function MySlider({
     <MyText
     size={`${parSize}px`}
     text={text}/>
+
     </Cont>
 }
 

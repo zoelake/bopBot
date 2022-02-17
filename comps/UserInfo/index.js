@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { useTheme, useTitle } from "../../utils/provider";
 import Text from "../../comps/Text/index"
 
 const Cont = styled.div`
@@ -12,8 +12,9 @@ const Cont = styled.div`
 
 const ProfilePic = styled.img`
     border-radius: 100px;
-    width: 180px;
-    height:180px;
+    width: 170px;
+    height:170px;
+    margin-right:25px;
 `;
 
 const UserInfo = ({
@@ -21,11 +22,13 @@ const UserInfo = ({
     username = "Tristan the Gobbler",
 })=>{
     const {theme} = useTheme();
+    const {titleSize} = useTitle();
+    
     return (
        <Cont>
            <ProfilePic src={iconimage}/>
            <Text
-           size="36px"
+           size={`${titleSize}px`}
            text={username}
            color={themes[theme].focus}
 

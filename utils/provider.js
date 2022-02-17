@@ -6,15 +6,15 @@ const initialState = {
     theme: 'funky',
     setTheme: () => { },
     page: '/',
-    setPage: () => {},
+    setPage: () => { },
     explicit: true,
-    setExplicit: () => {},
+    setExplicit: () => { },
 
     //fonts
     titleSize: 36,
-    setTitleSize: () =>{},
+    setTitleSize: () => { },
     headerSize: 24,
-    setHeaderSize: () =>{},
+    setHeaderSize: () => { },
     parSize: 18,
     setParSize: () =>{},
 
@@ -33,7 +33,6 @@ const initialState = {
     setLoudness:()=>{},
     tempo:null,
     setTempo:()=>{},
-
 }
 
 const MyThemeContext = createContext(initialState);
@@ -61,6 +60,7 @@ export default function MyThemeProvider({ children }) {
 
     return <MyThemeContext.Provider value={{
         theme, setTheme, page, setPage, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize, genre, setGenre, acoustic, setAcoustic, danceability, setDanceability, energy, setEnergy, instrumentals, setInstrumentals, loudness, setLoudness, tempo, setTempo,
+
     }}>
         <style jsx global>
             {`
@@ -80,27 +80,27 @@ export const useTheme = () => {
 
 export const usePage = () => {
     const { page, setPage } = useContext(MyThemeContext);
-    return { page, setPage};
+    return { page, setPage };
 }
 
 export const useExplicit = () => {
     const { explicit, setExplicit } = useContext(MyThemeContext);
-    return { explicit, setExplicit};
+    return { explicit, setExplicit };
 }
 
 export const useTitle = () => {
     const { titleSize, setTitleSize } = useContext(MyThemeContext);
-    return { titleSize, setTitleSize};
+    return { titleSize, setTitleSize };
 }
 
 export const useHeader = () => {
     const { headerSize, setHeaderSize } = useContext(MyThemeContext);
-    return { headerSize, setHeaderSize};
+    return { headerSize, setHeaderSize };
 }
 
 export const usePar = () => {
     const { parSize, setParSize } = useContext(MyThemeContext);
-    return { parSize, setParSize};
+    return { parSize, setParSize };
 }
 
 export const useGenre = () => {
