@@ -18,6 +18,7 @@ import Divider from '../comps/Divider'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 
+
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
     position: absolute;
@@ -60,14 +61,14 @@ export default function Home() {
 
   //theme states
   const { theme } = useTheme();
-  const {titleSize} = useTitle();
-  const {headerSize} = useHeader();
-  const {parSize} = usePar();
+  const { titleSize } = useTitle();
+  const { headerSize } = useHeader();
+  const { parSize } = usePar();
 
   //genre genre
   const [genre, setGenre] = useState(null)
 
-  
+
 
   //slider values
   const [acValue, setAcValue] = useState(0);
@@ -77,59 +78,54 @@ export default function Home() {
   const [ldValue, setLdValue] = useState(0);
   const [tpValue, setTpValue] = useState(0);
 
-  const acChange = (event, newValue) => {
-    setAcValue(newValue)
-    inputFilter()
-  }
-  const dncChange = (event, newValue) => {
-    setDncValue(newValue)
-    inputFilter()
-  }
-  const enChange = (event, newValue) => {
-    setEnValue(newValue)
-    inputFilter()
-  }
-  const instChange = (event, newValue) => {
-    setInstValue(newValue)
-    inputFilter()
-  }
-  const ldChange = (event, newValue) => {
-    setLdValue(newValue)
-    inputFilter()
-  }
-  const tpChange = (event, newValue) => {
-    setTpValue(newValue)
-    inputFilter()
-  }
 
-  useEffect(()=>{
-    inputFilter();
-  }, [genre])
-  
+
+  // useEffect(() => {
+  //   inputFilter();
+  // }, [genre, 
+  //   // acValue, dncValue, enValue, instValue, ldValue, tpValue
+  // ])
+
 
   const [tracks, setTracks] = useState([]);
+
   const inputFilter = async () => {
-    if(timer === null){
+    console.log('input generated!')
+    if (timer === null) {
       timer = setTimeout(async () => {
+        const params = {};
+        if (genre !== null) {
+          params.genre = genre;
+        } else if (acValue !== 0) {
+          params.acousticness = acValue;
+        } else if (dncValue !== 0) {
+          params.danceability = dncValue;
+        } else if (enValue !== 0) {
+          params.energy = enValue;
+        } else if (instValue !== 0) {
+          params.instrumentals = instValue;
+        } else if (ldValue !== 0) {
+          params.loudness = ldValue;
+        } else if (tpValue !== 0) {
+          params.tempo = tpValue;
+        }
+
+
         const res = await axios.get('/api/tracks', {
-          params: {
-            genre:genre,
-            acousticness:acValue,
-            danceability:dncValue,
-            energy:enValue,
-            instrumentals:instValue,
-            loudness:ldValue,
-            tempo:tpValue,
-          }
-        })
+          params
+        }
+        )
+        console.log('passed!')
+        console.log('tracks have been set:' + res.data)
         setTracks(res.data);
+
+        // console.log(tracks)
         timer = null;
       }, 2000);
     }
-   
-    
+
+
   }
-  
 
   return (
     <>
@@ -142,114 +138,123 @@ export default function Home() {
 
       <Dashboard
         bg={themes[theme].contrast}>
-           <MyText
-            text={`Welcome {user}!`}
-            size={`${titleSize}px`}
+        <MyText
+          text={`Welcome {user}!`}
+          size={`${titleSize}px`}
         />
         <MyText
-            text='Genres'
-            size={`${headerSize}px`}
+          text='Genres'
+          size={`${headerSize}px`}
         />
-
+      
         <SbCont>
           <SbButton
-          onClick={() => setGenre('country')} 
-          color={genre === 'country' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Country'/>
+            onClick={() => setGenre('country')}
+            color={genre === 'country' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Country' />
           <SbButton
-          onClick={() => setGenre('dance')} 
-          color={genre === 'dance' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Dance'/>
+            onClick={() => setGenre('dance')}
+            color={genre === 'dance' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Dance' />
           <SbButton
-          onClick={() => setGenre('hipHop')} 
-          color={genre === 'hipHop' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Hip Hop'/>
+            onClick={() => setGenre('hipHop')}
+            color={genre === 'hipHop' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Hip Hop' />
           <SbButton
-          onClick={() => setGenre('house')} 
-          color={genre === 'house' ? themes[theme].accent1: themes[theme].highlight} 
-          text='House'/>
+            onClick={() => setGenre('house')}
+            color={genre === 'house' ? themes[theme].accent1 : themes[theme].highlight}
+            text='House' />
           <SbButton
-          onClick={() => setGenre('indie')} 
-          color={genre === 'indie' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Indie'/>
+            onClick={() => setGenre('indie')}
+            color={genre === 'indie' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Indie' />
           <SbButton
-          onClick={() => setGenre('jazz')} 
-          color={genre === 'jazz' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Jazz'/>
+            onClick={() => setGenre('jazz')}
+            color={genre === 'jazz' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Jazz' />
           <SbButton
-          onClick={() => setGenre('kPop')} 
-          color={genre === 'kPop' ? themes[theme].accent1: themes[theme].highlight} 
-          text='K-pop'/>
+            onClick={() => setGenre('kPop')}
+            color={genre === 'kPop' ? themes[theme].accent1 : themes[theme].highlight}
+            text='K-pop' />
           <SbButton
-          onClick={() => setGenre('pop')} 
-          color={genre === 'pop' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Pop'/>
+            onClick={() => setGenre('pop')}
+            color={genre === 'pop' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Pop' />
           <SbButton
-          onClick={() => setGenre('metal')} 
-          color={genre === 'metal' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Metal'/>
+            onClick={() => setGenre('metal')}
+            color={genre === 'metal' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Metal' />
           <SbButton
-          onClick={() => setGenre('rb')} 
-          color={genre === 'rb' ? themes[theme].accent1: themes[theme].highlight} 
-          text='R&amp;B'/>
+            onClick={() => setGenre('rb')}
+            color={genre === 'rb' ? themes[theme].accent1 : themes[theme].highlight}
+            text='R&amp;B' />
           <SbButton
-          onClick={() => setGenre('rap')} 
-          color={genre === 'rap' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Rap'/>
+            onClick={() => setGenre('rap')}
+            color={genre === 'rap' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Rap' />
           <SbButton
-          onClick={() => setGenre('raggae')} 
-          color={genre === 'raggae' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Raggae'/>
+            onClick={() => setGenre('raggae')}
+            color={genre === 'raggae' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Raggae' />
           <SbButton
-          onClick={() => setGenre('rock')} 
-          color={genre === 'rock' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Rock'/>
+            onClick={() => setGenre('rock')}
+            color={genre === 'rock' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Rock' />
           <SbButton
-          onClick={() => setGenre('trap')} 
-          color={genre === 'trap' ? themes[theme].accent1: themes[theme].highlight} 
-          text='Trap'/>
+            onClick={() => setGenre('trap')}
+            color={genre === 'trap' ? themes[theme].accent1 : themes[theme].highlight}
+            text='Trap' />
         </SbCont>
+
         <MyText
-            text='How do you feel?'
-            size={`${headerSize}px`}
+          text='How do you feel?'
+          size={`${headerSize}px`}
         />
         <SliderCont>
-          <Slider text='Acounticness' value={acValue} onChange={acChange}/>
-          <Slider text='Danceability' value={dncValue} onChange={dncChange}/>
-          <Slider text='Energy'value={enValue} onChange={enChange}/>
-          <Slider text='Instrumentals' value={instValue} onChange={instChange}/>
-          <Slider text='Loudness' value={ldValue} onChange={ldChange}/>
-          <Slider text='Tempo' max={240} step={80} value={tpValue} onChange={tpChange}/>
+          <Slider text='Acounticness' value={acValue} onChange={(ev) => setAcValue(ev.target.value)} />
+          <Slider text='Danceability' value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
+
+          <Slider text='Energy' value={enValue} onChange={(ev) => setEnValue(ev.target.value)} />
+          <Slider text='Instrumentals' value={instValue} onChange={(ev) => setInstValue(ev.target.value)} />
+          <Slider text='Loudness' value={ldValue} onChange={(ev) => setLdValue(ev.target.value)} />
+          <Slider text='Tempo' max={240} step={80} value={tpValue} onChange={(ev) => setTpValue(ev.target.value)} />
         </SliderCont>
         <SpaceCont>
-        <MyText
+          <MyText
             text='Generated Tracks'
             size={`${headerSize}px`}
             color={themes[theme].focus}
-        />
-        <MyButton 
-        text='generate'/>
+          />
+          <MyButton
+            onClick={inputFilter}
+            text='generate' />
         </SpaceCont>
         <RegCont>
 
-        <Divider />
+          <Divider />
         </RegCont>
         <RegCont>
-        <MyText
-            text='Tracks not yet generated'
+          <MyText
+            text={tracks !== [] ? 'Tracks not yet generated' : 'Generated Tracks:'}
             size={`${parSize}px`}
-        />
-        {tracks.map((o,i)=> <MyTrack 
-          artist={o.Artist}
-          song={o.Title}
-          album={o.Album}
-          time={o.duration_ms}
-        />)}
-        
-        <MyTrack />
-        <MyTrack />
+          />
+          <div style={{ height: '80%', overflow: 'scroll' }}>
+
+            {tracks.map((o, i) => <MyTrack
+              key={i}
+              artist={o.Artist}
+              song={o.Title}
+              album={o.Album}
+              time={((o.duration_ms / 1000) / 60).toFixed(2)}
+            // time={((o.duration_ms / 1000) / 60)}
+            />)}
+          </div>
+          {/* {tracks.map((o, i) => <div>
+           <p>title: </p>{o.Title}
+           <p>ac: </p>{o.acoustics}
+            </div>)} */}
         </RegCont>
-        
+
 
         {/* <MyTrack /> */}
 

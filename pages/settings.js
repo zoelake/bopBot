@@ -153,13 +153,6 @@ export default function Settings() {
 
           </HalfCont>
         </Cont>
-
-
-
-
-
-
-
       </Dashboard>
     </>
   )
