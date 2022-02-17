@@ -211,53 +211,6 @@ export default function Settings() {
         </Dashboard>
       </Page>
 
-          </HalfCont>
-          <HalfCont>
-            <ThemeToggle 
-            onClick={()=> setTheme('dark')}
-            mode='Dark Mode' 
-            theme1={themes.dark.mid}
-            theme2={themes.dark.accent1}
-            display={'circle'}
-            innerCol={themes[theme].focus}
-            outerCol={themes[theme].focus}
-            />  
-            <ThemeToggle 
-            onClick={()=> setTheme('light')}
-            mode='Light Mode' 
-            theme1={themes.light.mid}
-            theme2={themes.light.accent1}
-            display={'circle'}
-            innerCol={themes[theme].focus}
-            outerCol={themes[theme].focus}
-            />  
-            <ThemeToggle
-            onClick={()=> setTheme('retro')} 
-            mode='Retro' 
-            theme1={themes.retro.mid}
-            theme2={themes.retro.accent1}
-            display={'circle'}
-            innerCol={themes[theme].focus}
-            outerCol={themes[theme].focus}
-            />  
-            <ThemeToggle 
-            onClick={()=> setTheme('funky')}
-            mode='Funk' 
-            theme1={themes.funky.mid}
-            theme2={themes.funky.accent1}
-            display={'circle'}
-            innerCol={themes[theme].focus}
-            outerCol={themes[theme].focus}
-            />  
-            <Toggle 
-              increase={increaseFont}
-              decrease={decreaseFont}
-            />
-
-
-          </HalfCont>
-        </Cont>
-      </Dashboard>
 
     </>
   )

@@ -16,23 +16,23 @@ const initialState = {
     headerSize: 24,
     setHeaderSize: () => { },
     parSize: 18,
-    setParSize: () =>{},
+    setParSize: () => { },
 
     //filtering
-    genre:null,
-    setGenre:()=>{},
-    acoustic:null,
-    setAcoustic:()=>{},
-    danceability:null,
-    setDanceability:()=>{},
-    energy:null,
-    setEnergy:()=>{},
-    instrumentals:null,
-    setInstrumentals: ()=> {},
-    loudness:null,
-    setLoudness:()=>{},
-    tempo:null,
-    setTempo:()=>{},
+    genre: null,
+    setGenre: () => { },
+    acoustic: null,
+    setAcoustic: () => { },
+    danceability: null,
+    setDanceability: () => { },
+    energy: null,
+    setEnergy: () => { },
+    instrumentals: null,
+    setInstrumentals: () => { },
+    loudness: null,
+    setLoudness: () => { },
+    tempo: null,
+    setTempo: () => { },
 }
 
 const MyThemeContext = createContext(initialState);
@@ -56,10 +56,10 @@ export default function MyThemeProvider({ children }) {
     const [instrumentals, setInstrumentals] = useState(initialState.instrumentals)
     const [loudness, setLoudness] = useState(initialState.loudness)
     const [tempo, setTempo] = useState(initialState.tempo)
-     
+
 
     return <MyThemeContext.Provider value={{
-        theme, setTheme, page, setPage, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize, genre, setGenre, acoustic, setAcoustic, danceability, setDanceability, energy, setEnergy, instrumentals, setInstrumentals, loudness, setLoudness, tempo, setTempo,
+        theme, setTheme, page, setPage, explicit, setExplicit, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize, genre, setGenre, acoustic, setAcoustic, danceability, setDanceability, energy, setEnergy, instrumentals, setInstrumentals, loudness, setLoudness, tempo, setTempo,
 
     }}>
         <style jsx global>
@@ -105,36 +105,36 @@ export const usePar = () => {
 
 export const useGenre = () => {
     const { genre, setGenre } = useContext(MyThemeContext);
-    return { genre, setGenre};
+    return { genre, setGenre };
 }
 
 export const useAcoustic = () => {
     const { acoustic, setAcoustic } = useContext(MyThemeContext);
-    return { acoustic, setAcoustic};
+    return { acoustic, setAcoustic };
 }
 
 export const useDanceability = () => {
     const { danceability, setDanceability } = useContext(MyThemeContext);
-    return { danceability, setDanceability};
+    return { danceability, setDanceability };
 }
 
 export const useEnergy = () => {
     const { energy, setEnergy } = useContext(MyThemeContext);
-    return { energy, setEnergy};
+    return { energy, setEnergy };
 }
 
 export const useInstrumentals = () => {
     const { instrumentals, setInstrumentals } = useContext(MyThemeContext);
-    return { instrumentals, setInstrumentals};
+    return { instrumentals, setInstrumentals };
 }
 
 export const useLoudness = () => {
     const { loudness, setLoudness } = useContext(MyThemeContext);
-    return { loudness, setLoudness};
+    return { loudness, setLoudness };
 }
 
 
 export const useTempo = () => {
     const { tempo, setTempo } = useContext(MyThemeContext);
-    return { tempo, setTempo};
+    return { tempo, setTempo };
 }
