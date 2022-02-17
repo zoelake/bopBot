@@ -30,7 +30,10 @@ export default function MyButton({
     onClick = () => { },
 }) {
 
-    const { theme } = useTheme();
+    const {theme} = useTheme();
+   
+    const {parSize} = usePar();
+
 
     const { parSize } = usePar();
 

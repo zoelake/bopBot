@@ -9,7 +9,7 @@ import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
-import { useTheme, useTitle, useHeader, usePar, useExplicit } from "../utils/provider"; import styled from 'styled-components';
+import { useTheme, useTitle, useHeader, usePar, useGenre, useExplicit } from "../utils/provider";import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
 import MySwitch from '../comps/Switch'
 import Slider from '../comps/Slider'
@@ -81,10 +81,12 @@ const Divider = styled.div`
 export default function Settings() {
 
   const { theme, setTheme } = useTheme();
+  const [themeCol, setThemeCol] = useState(theme);
+  const {titleSize, setTitleSize} = useTitle();
+  const {headerSize, setHeaderSize} = useHeader();
+  const {parSize, setParSize} = usePar();
   const { explicit, setExplicit } = useExplicit();
-  const { titleSize, setTitleSize } = useTitle();
-  const { headerSize, setHeaderSize } = useHeader();
-  const { parSize, setParSize } = usePar();
+  
   let title = titleSize;
   let header = headerSize;
   let par = parSize;
@@ -94,12 +96,15 @@ export default function Settings() {
     setHeaderSize(header += 2)
     setParSize(par += 2)
   }
+  function decreaseFont(){
+    setTitleSize(title-=2)
+    setHeaderSize(header-=2)
+    setParSize(parent-=2)
 
-  function decreaseFont() {
-    setTitleSize(title -= 2)
-    setHeaderSize(header -= 2)
-    setParSize(parent -= 2)
   }
+
+  //filtering
+  const {genre, setGenre} = useGenre();
 
 
   return (
@@ -205,6 +210,54 @@ export default function Settings() {
 
         </Dashboard>
       </Page>
+
+          </HalfCont>
+          <HalfCont>
+            <ThemeToggle 
+            onClick={()=> setTheme('dark')}
+            mode='Dark Mode' 
+            theme1={themes.dark.mid}
+            theme2={themes.dark.accent1}
+            display={'circle'}
+            innerCol={themes[theme].focus}
+            outerCol={themes[theme].focus}
+            />  
+            <ThemeToggle 
+            onClick={()=> setTheme('light')}
+            mode='Light Mode' 
+            theme1={themes.light.mid}
+            theme2={themes.light.accent1}
+            display={'circle'}
+            innerCol={themes[theme].focus}
+            outerCol={themes[theme].focus}
+            />  
+            <ThemeToggle
+            onClick={()=> setTheme('retro')} 
+            mode='Retro' 
+            theme1={themes.retro.mid}
+            theme2={themes.retro.accent1}
+            display={'circle'}
+            innerCol={themes[theme].focus}
+            outerCol={themes[theme].focus}
+            />  
+            <ThemeToggle 
+            onClick={()=> setTheme('funky')}
+            mode='Funk' 
+            theme1={themes.funky.mid}
+            theme2={themes.funky.accent1}
+            display={'circle'}
+            innerCol={themes[theme].focus}
+            outerCol={themes[theme].focus}
+            />  
+            <Toggle 
+              increase={increaseFont}
+              decrease={decreaseFont}
+            />
+
+
+          </HalfCont>
+        </Cont>
+      </Dashboard>
 
     </>
   )
