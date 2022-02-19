@@ -92,19 +92,37 @@ export default function Settings() {
   let par = parSize;
 
   function increaseFont() {
-    setTitleSize(title += 2)
-    setHeaderSize(header += 2)
-    setParSize(par += 2)
+    if (par == 24) {
+      setParSize(24);
+    }
+    else if (header == 30) {
+      setHeaderSize(30);
+    }
+    else if (title == 42) {
+      setParSize(42);
+    } else {
+      setTitleSize(title += 2)
+      setHeaderSize(header += 2)
+      setParSize(par += 2)
+    }
+
   }
   function decreaseFont() {
-    setTitleSize(title -= 2)
-    setHeaderSize(header -= 2)
-    setParSize(parent -= 2)
+    if (par == 10) {
+      setParSize(10);
+    }
+    else if (header == 16) {
+      setHeaderSize(16);
+    }
+    else if (title == 28) {
+      setParSize(28);
+    } else {
+      setTitleSize(title -= 2)
+      setHeaderSize(header -= 2)
+      setParSize(par -= 2)
+    }
 
   }
-
-  //filtering
-  const [genre, setGenre] = useState();
 
 
   return (
@@ -123,8 +141,6 @@ export default function Settings() {
             weight={500}
             text={`Settings`}
             size={`${titleSize}px`} />
-
-
           <Cont>
             <HalfCont flex={1}>
               <QuartCont height={2}>
