@@ -9,7 +9,7 @@ import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
-import { useTheme, useTitle, useHeader, usePar, useExplicit } from "../utils/provider"; import styled from 'styled-components';
+import { useTheme, useTitle, useHeader, usePar, useExplicit, useSbSize } from "../utils/provider"; import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
 import MySwitch from '../comps/Switch'
 import Slider from '../comps/Slider'
@@ -28,9 +28,9 @@ const Page = styled.div`
 
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
-    height:100vh;
+    height:95vh;
     width:100%;
-    padding:10px 10px 10px 60px;
+    padding:30px 10px 10px 60px;
 
     @media ${device.mobile}{
 
@@ -86,14 +86,17 @@ export default function Settings() {
   const { headerSize, setHeaderSize } = useHeader();
   const { parSize, setParSize } = usePar();
   const { explicit, setExplicit } = useExplicit();
+  const { sbSize, setSbSize } = useSbSize();
 
   let title = titleSize;
   let header = headerSize;
   let par = parSize;
+  let sb = sbSize;
 
   function increaseFont() {
     if (par == 24) {
       setParSize(24);
+      setSbSize(120)
     }
     else if (header == 30) {
       setHeaderSize(30);
@@ -104,22 +107,25 @@ export default function Settings() {
       setTitleSize(title += 2)
       setHeaderSize(header += 2)
       setParSize(par += 2)
+      setSbSize(sb += 12)
     }
 
   }
   function decreaseFont() {
-    if (par == 10) {
-      setParSize(10);
+    if (par == 12) {
+      setParSize(12);
+      setSbSize(50)
     }
-    else if (header == 16) {
-      setHeaderSize(16);
+    else if (header == 18) {
+      setHeaderSize(18);
     }
-    else if (title == 28) {
-      setParSize(28);
+    else if (title == 30) {
+      setParSize(30);
     } else {
       setTitleSize(title -= 2)
       setHeaderSize(header -= 2)
       setParSize(par -= 2)
+      setSbSize(sb -= 12)
     }
 
   }
@@ -133,8 +139,6 @@ export default function Settings() {
         <link rel="icon" href="#" />
       </Head>
       <Page>
-        <NavBar />
-
         <Dashboard
           bg={themes[theme].contrast}>
           <MyText

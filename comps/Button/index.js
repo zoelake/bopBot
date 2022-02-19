@@ -6,16 +6,18 @@ const Cont = styled.div`
     padding: 5px 8px;
     margin:5px;
     height: 35px;
+    width:100px;
     border-radius:5px;
     display:flex;
     justify-content: center;
     background-color:${props => props.bg};
     color: ${props => props.color};
+    box-shadow:${props=>props.shadow};
 
-    :hover {
+    /* :hover {
         background-color: ${props => props.bgHover};
         color: ${props => props.textHover};
-    }
+    } */
     
 `;
 const Text = styled.p`
@@ -28,6 +30,7 @@ const Text = styled.p`
 export default function MyButton({
     text = 'button',
     onClick = () => { },
+    shadow
 }) {
 
     const { theme } = useTheme();
@@ -36,10 +39,11 @@ export default function MyButton({
 
     return <Cont
         onClick={onClick}
-        bg={themes[theme].button}
-        color={themes[theme].accent}
-        bgHover={themes[theme].bntSelected}
-        textHover={themes[theme].bntTxtSelect}
+        bg={themes[theme].heart}
+        color={themes[theme].white}
+        shadow={shadow}
+        // bgHover={themes[theme].bntSelected}
+        // textHover={themes[theme].bntTxtSelect}
     >
         <Text
             // color={themes[theme].focus}

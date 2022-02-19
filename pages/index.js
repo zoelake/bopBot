@@ -9,26 +9,29 @@ import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
-import { useTheme, useTitle, useHeader, usePar } from "../utils/provider";
+import { useTheme, useTitle, useHeader, usePar, useSbSize } from "../utils/provider";
 import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
 import MySwitch from '../comps/Switch'
 import Slider from '../comps/Slider'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
+import { useRouter } from "next/router";
 
 const Page = styled.div`
   display:flex;
   flex-direction: row;
   margin:0;
   justify-content: space-between;
+  position: absolute;
+  height:95vh;
+  bottom:0;
 `;
 
 const Dashboard = styled.div`
-    background-color: ${props => props.bg};
-    height:100vh;
-    width:100%;
-    padding:10px 10px 10px 60px;
+    height:95vh;
+    width:55%;
+    padding:30px 10px 10px 60px;
 
 
     @media ${device.mobile}{
@@ -46,17 +49,17 @@ const Dashboard = styled.div`
 const SbCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 630px;
-  height:180px;
-  justify-content: space-evenly;
-  padding-left: 30px;
+  width: 100%;
+  height:auto;
+  justify-content: left;
+  /* padding-left: 30px; */
 `;
 const SliderCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 750px;
-  justify-content: space-evenly;
-  padding-left: 30px;
+  width: 80%;
+  justify-content: left;
+  /* padding-left: 30px; */
 `;
 const SpaceCont = styled.div`
 display: flex;
@@ -65,31 +68,37 @@ padding-left: 5px;
 
 justify-content: space-between;
 `;
-const RegCont = styled.div`
-  padding-left: 30px;
-  overflow-y: scroll;
-  height:175px;
-  padding:10px;
-  position: relative;
-  width:80%;
 
+const TracksCont = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 45%;
+  height:95vh;
+  justify-content: left;
+  padding: 30px 0 0 30px;
 `;
+
+
 
 const Divider = styled.div`
     background-color: ${props => props.color};
-    width:90%;
-    height:1px;
+    align-self: center;
+    width:1px;
+    height:90%;
 `;
 
 var timer = null;
 
 export default function Home() {
 
+  const router = useRouter();
+
   //theme states
   const { theme } = useTheme();
   const { titleSize } = useTitle();
   const { headerSize } = useHeader();
   const { parSize } = usePar();
+  const { sbSize } = useSbSize();
 
   //genre genre
   const [genre, setGenre] = useState(null)
@@ -106,17 +115,21 @@ export default function Home() {
 
 
 
-  // useEffect(() => {
-  //   inputFilter();
-  // }, [genre, 
-  //   // acValue, dncValue, enValue, instValue, ldValue, tpValue
-  // ])
-
-
   const [tracks, setTracks] = useState([]);
   const [load, setLoad] = useState(false);
+  const [button, setButton] = useState(false)
+
+  function buttonPress() {
+    setButton(true)
+    setTimeout(() => {
+      setButton(false)
+    }, 200);
+
+  }
+
 
   const inputFilter = async () => {
+    buttonPress();
     console.log('input generated!')
     if (timer === null) {
       timer = setTimeout(async () => {
@@ -136,26 +149,46 @@ export default function Home() {
         } else if (tpValue !== 0) {
           params.tempo = tpValue;
         }
-
-
         const res = await axios.get('/api/tracks', {
           params
-        }
-        )
-        setLoad(true);
+        })
         console.log('passed!')
-        console.log('tracks have been set:' + res.data)
         setTracks(res.data);
-
-
-        // console.log(tracks)
+        setLoad(true);
         timer = null;
       }, 2000);
     }
-
-
   }
 
+
+  // const sliderValues = [
+  //   {
+  //     'title': 'Acousticness',
+  //     'value': acValue,
+  //     'onChange': (e) => setAcValue(ev.target.value)
+  //   },
+  //   {
+  //     'title': 'Danceability',
+  //     'value': dncValue,
+  //     'onChange': (e) => setDncValue(ev.target.value)
+  //   },
+  //   {
+  //     'title': 'Energy',
+  //     'value': enValue,
+  //     'onChange': (e) => setEnValue(ev.target.value),
+  //   },
+  //   {
+  //     'title': 'Instrumentals',
+  //     'value': instValue,
+  //     'onChange': (e) => setInstValue(ev.target.value)
+  //   },
+  //   {
+  //     'title': 'Loudness',
+  //     'value': ldValue,
+  //     'onChange': (e) => setLdValue(ev.target.value)
+  //   },
+
+  // ]
 
   return (
     <>
@@ -165,12 +198,11 @@ export default function Home() {
         <link rel="icon" href="#" />
       </Head>
       <Page>
-        <NavBar />
 
-        <Dashboard
-          bg={themes[theme].contrast}>
+        <Dashboard>
           <MyText
             weight={500}
+            lineHeight='0'
             text={`Welcome, Zoë!`}
             size={`${titleSize}px`}
           />
@@ -182,127 +214,167 @@ export default function Home() {
           <SbCont>
             <SbButton
               onClick={() => setGenre('country')}
+              shadow={genre == 'country' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'country' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'country' ? themes[theme].white : themes[theme].grey}
               text='Country' />
             <SbButton
               onClick={() => setGenre('dance')}
+              shadow={genre == 'dance' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'dance' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'dance' ? themes[theme].white : themes[theme].grey}
               text='Dance' />
             <SbButton
               onClick={() => setGenre('hipHop')}
+              shadow={genre == 'hipHop' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'hipHop' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'hipHop' ? themes[theme].white : themes[theme].grey}
               text='Hip Hop' />
             <SbButton
               onClick={() => setGenre('house')}
+              shadow={genre == 'house' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'house' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'house' ? themes[theme].white : themes[theme].grey}
               text='House' />
             <SbButton
               onClick={() => setGenre('indie')}
+              shadow={genre == 'indie' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'indie' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'indie' ? themes[theme].white : themes[theme].grey}
               text='Indie' />
             <SbButton
               onClick={() => setGenre('jazz')}
+              shadow={genre == 'jazz' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'jazz' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'jazz' ? themes[theme].white : themes[theme].grey}
               text='Jazz' />
             <SbButton
               onClick={() => setGenre('kPop')}
+              shadow={genre == 'kPop' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'kPop' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'kPop' ? themes[theme].white : themes[theme].grey}
               text='K-pop' />
             <SbButton
               onClick={() => setGenre('pop')}
+              shadow={genre == 'pop' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'pop' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'pop' ? themes[theme].white : themes[theme].grey}
               text='Pop' />
             <SbButton
               onClick={() => setGenre('metal')}
+              shadow={genre == 'metal' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'metal' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'metal' ? themes[theme].white : themes[theme].grey}
               text='Metal' />
             <SbButton
               onClick={() => setGenre('rb')}
+              shadow={genre == 'rb' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'rb' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'rb' ? themes[theme].white : themes[theme].grey}
               text='R&amp;B' />
             <SbButton
               onClick={() => setGenre('rap')}
+              shadow={genre == 'rap' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'rap' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'rap' ? themes[theme].white : themes[theme].grey}
               text='Rap' />
             <SbButton
               onClick={() => setGenre('raggae')}
+              shadow={genre == 'raggae' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'raggae' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'raggae' ? themes[theme].white : themes[theme].grey}
               text='Raggae' />
             <SbButton
               onClick={() => setGenre('rock')}
+              shadow={genre == 'rock' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'rock' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'rock' ? themes[theme].white : themes[theme].grey}
               text='Rock' />
             <SbButton
               onClick={() => setGenre('trap')}
+              shadow={genre == 'trap' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              width={sbSize}
               color={genre == 'trap' ? themes[theme].sbSelect : themes[theme].altAccent}
               textCol={genre == 'trap' ? themes[theme].white : themes[theme].grey}
               text='Trap' />
           </SbCont>
 
           <MyText
-            text='How do you feel?'
+            text='Music values'
             size={`${headerSize}px`}
           />
           <SliderCont>
-            <Slider text='Acounticness' value={acValue} onChange={(ev) => setAcValue(ev.target.value)} />
-            <Slider text='Danceability' value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
+            {/* {sliderValues.map((o, i, ev) => <Slider
+              text={o.title}
+              number={o.value}
+              value={o.value}
+              onChange={this.o.onChange}
+            />)} */}
+            <Slider text='Acounticness' number={acValue} value={acValue} onChange={(ev) => setAcValue(ev.target.value)} />
+            <Slider text='Danceability' number={dncValue} value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
 
-            <Slider text='Energy' value={enValue} onChange={(ev) => setEnValue(ev.target.value)} />
-            <Slider text='Instrumentals' value={instValue} onChange={(ev) => setInstValue(ev.target.value)} />
-            <Slider text='Loudness' value={ldValue} onChange={(ev) => setLdValue(ev.target.value)} />
-            <Slider text='Tempo' max={240} step={80} value={tpValue} onChange={(ev) => setTpValue(ev.target.value)} />
+            <Slider text='Energy' number={enValue} value={enValue} onChange={(ev) => setEnValue(ev.target.value)} />
+            <Slider text='Instrumentals' number={instValue} value={instValue} onChange={(ev) => setInstValue(ev.target.value)} />
+            <Slider text='Loudness' number={ldValue} value={ldValue} onChange={(ev) => setLdValue(ev.target.value)} />
+            <Slider text='Tempo' number={tpValue} max={240} step={80} value={tpValue} onChange={(ev) => setTpValue(ev.target.value)} />
           </SliderCont>
+          <div style={{
+            position: 'absolute',
+            right: '47%',
+            bottom: '2%'
+          }}>
+            <MyButton
+              onClick={inputFilter}
+              text='generate'
+              shadow={button ? 'inset 2px 2px 4px rgba(0,0,0,0.1)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'} />
+
+
+          </div>
+
+
+        </Dashboard>
+        <Divider color={themes[theme].text} />
+        <TracksCont>
           <SpaceCont>
             <MyText
               text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
               size={`${headerSize}px`}
             />
-            <MyButton
-              onClick={inputFilter}
-              text='generate' />
+
           </SpaceCont>
+          <div style={{ height: '100%', overflow: 'scroll', position: 'responsive' }}>
+          <MyTrack />
+            {tracks.map((o, i) => <MyTrack
+              onTrackClick={() => router.push(o.Uri)}
+              key={i}
+              artist={o.Artist}
+              song={o.Title}
+              album={o.Album}
+              time={((o.duration_ms / 1000) / 60).toFixed(2)}
+            />)}
+          </div>
 
-          <Divider color={themes[theme].text} />
-          {/* <MyTrack /> */}
-          <RegCont>
-            <div style={{ height: '100%', overflow: 'scroll', position: 'responsive' }}>
-
-              {tracks.map((o, i) => <MyTrack
-                key={i}
-                artist={o.Artist}
-                song={o.Title}
-                album={o.Album}
-                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-              // time={((o.duration_ms / 1000) / 60)}
-              />)}
-            </div>
-            {/* {tracks.map((o, i) => <div>
-           <p>title: </p>{o.Title}
-           <p>ac: </p>{o.acoustics}
-            </div>)} */}
-          </RegCont>
-
-
-          {/* <MyTrack /> */}
-
-
-        </Dashboard>
+        </TracksCont>
 
 
       </Page>
     </>
   )
+
+
 }
+
+

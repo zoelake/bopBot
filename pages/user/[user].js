@@ -21,19 +21,20 @@ import { useState } from 'react'
 
 const Page = styled.div`
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
   margin:0;
-  width: 100vw;
-  height: 100vh;
   justify-content: space-between;
+  position: absolute;
+  height:94vh;
+  bottom:0;
 `;
 
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
-    height:100vh;
-    width:100%;
-    padding:46px 10px 10px 60px;
-
+    height:45vh;
+    width:100vw;
+    padding:30px 10px 10px 60px;
+    border: 2px solid blue;
     
 
     @media ${device.mobile}{
@@ -76,6 +77,15 @@ padding-left: 5px;
 justify-content: space-between;
 `;
 
+const TracksCont = styled.div`
+    height:40%;
+    border:2px solid red;
+    position: absolute;
+    bottom:0;
+    left:10px;
+    width:80%;
+`;
+
 const RegCont = styled.div`
   padding-left: 30px;
 `;
@@ -107,18 +117,17 @@ export default function User() {
                 <link rel="icon" href="#" />
             </Head>
             <Page>
-
-                <NavBar />
-
                 <Dashboard
                     bg={themes[theme].contrast}>
 
-                    <UserInfo />
+                    {/* <UserInfo /> */}
                     <MyText
                         weight={500}
-                        text='Playlists'
-                        size={`${headerSize}px`}
+                        lineHeight='0'
+                        text={`Your playlists`}
+                        size={`${titleSize}px`}
                     />
+
                     <SbCont>
                         {/* map this out: */}
                         <Playlist
@@ -151,27 +160,30 @@ export default function User() {
                         />
 
                     </SbCont>
-                    <SpaceCont>
-                        <MyText
-                            text={selected === null ? 'liked' : selected}
-                            size={`${headerSize}px`}
-                        />
-                        <MyButton
-                            onClick={() => setAddedRecent(!addedRecent)}
-                            text={addedRecent ? 'See oldest ' : 'See newest'}
-                        />
+                    <TracksCont>
+                        <SpaceCont>
+                            <MyText
+                                text={selected === null ? 'liked' : selected}
+                                size={`${headerSize}px`}
+                            />
+                            <MyButton
+                                onClick={() => setAddedRecent(!addedRecent)}
+                                text={addedRecent ? 'See oldest ' : 'See newest'}
+                            />
 
-                    </SpaceCont>
+                        </SpaceCont>
 
-                    <Divider
-                        color={themes[theme].text} />
-                    <br></br>
+                        <Divider
+                            color={themes[theme].text} />
+                        <br></br>
 
-                    <RegCont>
-                        <MyTrack />
-                        <MyTrack />
-                        <MyTrack />
-                    </RegCont>
+                        <RegCont>
+                            <MyTrack />
+                            <MyTrack />
+                            <MyTrack />
+                        </RegCont>
+
+                    </TracksCont>
 
 
 
