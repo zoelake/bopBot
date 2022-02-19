@@ -6,8 +6,8 @@ import { useState } from "react";
 const Cont = styled.div`
     width:130px;
     height:52px;
-    background-color: ${props=>props.bg};
-    color: ${props=>props.color};
+    background-color: ${props => props.bg};
+    color: ${props => props.color};
     justify-content: center;
     display:flex;
     flex-direction: row;
@@ -16,7 +16,7 @@ const Cont = styled.div`
 
 
     /* :hover {
-        border: 2px solid ${props=>props.borderHover};
+        border: 2px solid ${props => props.borderHover};
     } */
     
 `;
@@ -47,22 +47,22 @@ const Text = styled.p``;
 
 export default function Toggle({
     text = 'R&B',
-    increase = () => {},
-    decrease = () => {},
+    increase = () => { },
+    decrease = () => { },
 
 
-}){
- 
+}) {
 
-    const {theme} = useTheme();
 
-    return<Cont 
-    // border={themes[theme].focus}
-    bg={themes[theme].focus}
-    color={themes[theme].contrast}
+    const { theme } = useTheme();
+
+    return <Cont
+        // border={themes[theme].focus}
+        bg={themes[theme].accent}
+        color={themes[theme].text}
     >
-        <Minus 
-        onClick={decrease}>-</Minus>
+        <Minus
+            onClick={decrease}>-</Minus>
         <Plus onClick={increase}>+</Plus>
     </Cont>
 }

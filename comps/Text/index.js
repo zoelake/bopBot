@@ -8,18 +8,22 @@ const Text = styled.p`
     font-size: ${props=>props.fontSize};
     line-height: auto;
     padding:0;
+    font-weight: ${props=>props.weight};
 `;
 
 export default function MyText({
     text = 'button',
     size = '30px',
+    color,
+    weight
 }){
 
     const {theme} = useTheme();
    
 
     return <Text
-   color={themes[theme].focus}
+   color={color || themes[theme].text}
     fontSize={size}
+    weight={weight}
     >{text}</Text>
 }

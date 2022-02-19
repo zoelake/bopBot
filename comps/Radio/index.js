@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useTheme } from "../../utils/provider";
 import { themes } from "../../utils/variables";
-import {AiFillHeart} from 'react-icons/ai'
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 
 const CircBorder = styled.div`
     width:35px;
@@ -31,7 +31,7 @@ const HeartInner = styled.div`
 export default function MyRadio({
     shape = 'circle',
     inner = 'white',
-    onClick = () => {},
+    onClick = () => { },
 }) {
 
     const { theme } = useTheme()
@@ -39,18 +39,24 @@ export default function MyRadio({
     if (shape === 'circle') {
         return <CircBorder
             onClick={onClick}
-            border={themes[theme].focus}
+            border={themes[theme].text}
         >
             <CircInner
-                col={inner ? themes[theme].accent2 : 'transparent' } />
+                col={inner ? themes[theme].heart : 'transparent'} />
         </CircBorder>
     }
     if (shape === 'heart') {
         return <>
-           <AiFillHeart 
-           size={20}
-           onClick={onClick}
-           color={inner ? themes[theme].accent1 : themes[theme].accent2} />
-        </>
+            {inner ?
+                <AiFillHeart
+                    size={20}
+                    onClick={onClick}
+                    color={themes[theme].heart} />
+
+                : <AiOutlineHeart
+                    size={20}
+                    onClick={onClick}
+                    color={themes[theme].text} />} </>
+
     }
 }

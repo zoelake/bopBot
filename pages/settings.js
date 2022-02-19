@@ -9,7 +9,7 @@ import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
-import { useTheme, useTitle, useHeader, usePar, useGenre, useExplicit } from "../utils/provider";import styled from 'styled-components';
+import { useTheme, useTitle, useHeader, usePar, useExplicit } from "../utils/provider"; import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
 import MySwitch from '../comps/Switch'
 import Slider from '../comps/Slider'
@@ -82,11 +82,11 @@ export default function Settings() {
 
   const { theme, setTheme } = useTheme();
   const [themeCol, setThemeCol] = useState(theme);
-  const {titleSize, setTitleSize} = useTitle();
-  const {headerSize, setHeaderSize} = useHeader();
-  const {parSize, setParSize} = usePar();
+  const { titleSize, setTitleSize } = useTitle();
+  const { headerSize, setHeaderSize } = useHeader();
+  const { parSize, setParSize } = usePar();
   const { explicit, setExplicit } = useExplicit();
-  
+
   let title = titleSize;
   let header = headerSize;
   let par = parSize;
@@ -96,15 +96,15 @@ export default function Settings() {
     setHeaderSize(header += 2)
     setParSize(par += 2)
   }
-  function decreaseFont(){
-    setTitleSize(title-=2)
-    setHeaderSize(header-=2)
-    setParSize(parent-=2)
+  function decreaseFont() {
+    setTitleSize(title -= 2)
+    setHeaderSize(header -= 2)
+    setParSize(parent -= 2)
 
   }
 
   //filtering
-  const {genre, setGenre} = useGenre();
+  const [genre, setGenre] = useState();
 
 
   return (
@@ -120,6 +120,7 @@ export default function Settings() {
         <Dashboard
           bg={themes[theme].contrast}>
           <MyText
+            weight={500}
             text={`Settings`}
             size={`${titleSize}px`} />
 
@@ -150,7 +151,7 @@ export default function Settings() {
 
             </HalfCont>
             <Divider
-              col={themes[theme].focus}
+              col={themes[theme].text}
             />
             <HalfCont flex={2}>
               <QuartCont padding={'24px'} height={2}>
@@ -159,30 +160,30 @@ export default function Settings() {
                 <ThemeToggle
                   radioClick={() => setTheme('dark')}
                   mode='Dark Mode'
-                  theme1={themes.dark.mid}
-                  theme2={themes.dark.accent1}
+                  theme1={themes.dark.accent}
+                  theme2={themes.dark.contrast}
                   inner={theme === 'dark' ? true : false}
 
                 />
                 <ThemeToggle
                   radioClick={() => setTheme('light')}
                   mode='Light Mode'
-                  theme1={themes.light.mid}
-                  theme2={themes.light.accent1}
+                  theme1={themes.light.accent}
+                  theme2={themes.light.contrast}
                   inner={theme === 'light' ? true : false}
                 />
                 <ThemeToggle
                   radioClick={() => setTheme('retro')}
                   mode='Retro'
-                  theme1={themes.retro.mid}
-                  theme2={themes.retro.accent1}
+                  theme1={themes.retro.contrast}
+                  theme2={themes.retro.accent}
                   inner={theme === 'retro' ? true : false}
                 />
                 <ThemeToggle
                   radioClick={() => setTheme('funky')}
                   mode='Funk'
-                  theme1={themes.funky.mid}
-                  theme2={themes.funky.accent1}
+                  theme1={themes.funky.contrast}
+                  theme2={themes.funky.mid}
                   inner={theme === 'funky' ? true : false}
                 />
               </QuartCont>

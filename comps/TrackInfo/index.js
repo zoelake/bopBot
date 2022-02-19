@@ -8,8 +8,7 @@ import MyRadio from "../Radio";
 const Text = styled.p`
     color: ${props => props.color};
     font-size: ${props => props.fontSize};
-    line-height: auto;
-    margin:0 15px 0 15px;
+    margin:0;
     
     padding:0;
 
@@ -29,28 +28,32 @@ const TrackCont = styled.div`
 
 const Cont1 = styled.div`
     display: flex;
-    flex-grow: 1;
-`;
+    width: 5%;
+     `;
 
 const Cont2 = styled.div`
     display: flex;
     flex-direction: column;
-    flex-grow: 2;
+    width: 50%;
+     
 `;
 
 const Cont3 = styled.div`
     display: flex;
-    flex-grow: 1;
+    width: 10%;
+     
 `;
 
 const Cont4 = styled.div`
     display: flex;
-    flex-grow: 1;
+    width: 15%;
+     
 `;
 
 const Cont5 = styled.div`
     display: flex;
-    flex-grow: 1;
+    width: 10%;
+     
 `;
 
 export default function MyTrack({
@@ -71,37 +74,36 @@ export default function MyTrack({
 
         <Cont1>
             <Text
-                color={themes[theme].focus}
+                color={themes[theme].text}
             >1</Text>
         </Cont1>
 
         <Cont2>
-            <Text color={themes[theme].focus}>
+            <Text color={themes[theme].text}>
                 {song}
             </Text>
 
             <Text
-                color={themes[theme].highlight}
-                textHover={themes[theme].accent1}
+                color={themes[theme].accent}
             >{artist}</Text>
         </Cont2>
 
         <Cont3>
             <Text
-                color={themes[theme].focus}
+                color={themes[theme].text}
             >{time}</Text>
         </Cont3>
 
         <Cont4>
             <Text
-                color={themes[theme].focus}
+                color={themes[theme].text}
             >{album}</Text>
         </Cont4>
 
         <Cont5>
             {/* <Text
-                color={themes[theme].focus}
-                textHover={themes[theme].accent1}
+                color={themes[theme].text}
+                textHover={themes[theme].heart}
             >
                 {heart === false ? <RiHeartLine onMouseOver={() => setHeart(true)} /> : <RiHeartFill onMouseOut={() => setHeart(false)} />}
             </Text> */}

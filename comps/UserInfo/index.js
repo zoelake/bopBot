@@ -30,7 +30,7 @@ const UserInfo = ({
            <Text
            size={`${titleSize}px`}
            text={username}
-           color={themes[theme].focus}
+           color={themes[theme].text}
 
            />
        </Cont>

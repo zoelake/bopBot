@@ -9,7 +9,7 @@ import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
-import { useTheme, useTitle, useHeader, usePar, useGenre } from "../utils/provider";
+import { useTheme, useTitle, useHeader, usePar } from "../utils/provider";
 import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
 import MySwitch from '../comps/Switch'
@@ -68,8 +68,13 @@ justify-content: space-between;
 const RegCont = styled.div`
   padding-left: 30px;
   overflow-y: scroll;
-  height:160px;
+  height:175px;
+  padding:10px;
+  position: relative;
+  width:80%;
+
 `;
+
 const Divider = styled.div`
     background-color: ${props => props.color};
     width:90%;
@@ -92,12 +97,12 @@ export default function Home() {
 
 
   //slider values
-  const [acValue, setAcValue] = useState(0);
-  const [dncValue, setDncValue] = useState(0);
-  const [enValue, setEnValue] = useState(0);
-  const [instValue, setInstValue] = useState(0);
-  const [ldValue, setLdValue] = useState(0);
-  const [tpValue, setTpValue] = useState(0);
+  const [acValue, setAcValue] = useState(null);
+  const [dncValue, setDncValue] = useState(null);
+  const [enValue, setEnValue] = useState(null);
+  const [instValue, setInstValue] = useState(null);
+  const [ldValue, setLdValue] = useState(null);
+  const [tpValue, setTpValue] = useState(null);
 
 
 
@@ -109,6 +114,7 @@ export default function Home() {
 
 
   const [tracks, setTracks] = useState([]);
+  const [load, setLoad] = useState(false);
 
   const inputFilter = async () => {
     console.log('input generated!')
@@ -136,9 +142,11 @@ export default function Home() {
           params
         }
         )
+        setLoad(true);
         console.log('passed!')
         console.log('tracks have been set:' + res.data)
         setTracks(res.data);
+
 
         // console.log(tracks)
         timer = null;
@@ -162,7 +170,8 @@ export default function Home() {
         <Dashboard
           bg={themes[theme].contrast}>
           <MyText
-            text={`Welcome {user}!`}
+            weight={500}
+            text={`Welcome, Zoë!`}
             size={`${titleSize}px`}
           />
           <MyText
@@ -173,59 +182,73 @@ export default function Home() {
           <SbCont>
             <SbButton
               onClick={() => setGenre('country')}
-              color={genre === 'country' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'country' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'country' ? themes[theme].white : themes[theme].grey}
               text='Country' />
             <SbButton
               onClick={() => setGenre('dance')}
-              color={genre === 'dance' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'dance' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'dance' ? themes[theme].white : themes[theme].grey}
               text='Dance' />
             <SbButton
               onClick={() => setGenre('hipHop')}
-              color={genre === 'hipHop' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'hipHop' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'hipHop' ? themes[theme].white : themes[theme].grey}
               text='Hip Hop' />
             <SbButton
               onClick={() => setGenre('house')}
-              color={genre === 'house' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'house' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'house' ? themes[theme].white : themes[theme].grey}
               text='House' />
             <SbButton
               onClick={() => setGenre('indie')}
-              color={genre === 'indie' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'indie' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'indie' ? themes[theme].white : themes[theme].grey}
               text='Indie' />
             <SbButton
               onClick={() => setGenre('jazz')}
-              color={genre === 'jazz' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'jazz' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'jazz' ? themes[theme].white : themes[theme].grey}
               text='Jazz' />
             <SbButton
               onClick={() => setGenre('kPop')}
-              color={genre === 'kPop' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'kPop' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'kPop' ? themes[theme].white : themes[theme].grey}
               text='K-pop' />
             <SbButton
               onClick={() => setGenre('pop')}
-              color={genre === 'pop' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'pop' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'pop' ? themes[theme].white : themes[theme].grey}
               text='Pop' />
             <SbButton
               onClick={() => setGenre('metal')}
-              color={genre === 'metal' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'metal' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'metal' ? themes[theme].white : themes[theme].grey}
               text='Metal' />
             <SbButton
               onClick={() => setGenre('rb')}
-              color={genre === 'rb' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'rb' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'rb' ? themes[theme].white : themes[theme].grey}
               text='R&amp;B' />
             <SbButton
               onClick={() => setGenre('rap')}
-              color={genre === 'rap' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'rap' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'rap' ? themes[theme].white : themes[theme].grey}
               text='Rap' />
             <SbButton
               onClick={() => setGenre('raggae')}
-              color={genre === 'raggae' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'raggae' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'raggae' ? themes[theme].white : themes[theme].grey}
               text='Raggae' />
             <SbButton
               onClick={() => setGenre('rock')}
-              color={genre === 'rock' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'rock' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'rock' ? themes[theme].white : themes[theme].grey}
               text='Rock' />
             <SbButton
               onClick={() => setGenre('trap')}
-              color={genre === 'trap' ? themes[theme].accent1 : themes[theme].highlight}
+              color={genre == 'trap' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'trap' ? themes[theme].white : themes[theme].grey}
               text='Trap' />
           </SbCont>
 
@@ -244,24 +267,18 @@ export default function Home() {
           </SliderCont>
           <SpaceCont>
             <MyText
-              text='Generated Tracks'
+              text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
               size={`${headerSize}px`}
-              color={themes[theme].focus}
             />
             <MyButton
               onClick={inputFilter}
               text='generate' />
           </SpaceCont>
-          <RegCont>
 
-            <Divider />
-          </RegCont>
+          <Divider color={themes[theme].text} />
+          {/* <MyTrack /> */}
           <RegCont>
-            <MyText
-              text={tracks !== [] ? 'Tracks not yet generated' : 'Generated Tracks:'}
-              size={`${parSize}px`}
-            />
-            <div style={{ height: '80%', overflow: 'scroll' }}>
+            <div style={{ height: '100%', overflow: 'scroll', position: 'responsive' }}>
 
               {tracks.map((o, i) => <MyTrack
                 key={i}

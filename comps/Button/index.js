@@ -36,13 +36,13 @@ export default function MyButton({
 
     return <Cont
         onClick={onClick}
-        bg={themes[theme].mid}
-        color={themes[theme].highlight}
-        bgHover={themes[theme].highlight}
-        textHover={themes[theme].contrast}
+        bg={themes[theme].button}
+        color={themes[theme].accent}
+        bgHover={themes[theme].bntSelected}
+        textHover={themes[theme].bntTxtSelect}
     >
         <Text
-            color={themes[theme].focus}
+            // color={themes[theme].focus}
             size={`${parSize}px`}
         >{text}</Text>
     </Cont>
