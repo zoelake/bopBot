@@ -24,11 +24,12 @@ const Cont = styled.div`
 export default function SbButton({
     text = 'R&B',
     onClick = () => { },
-    color = 'white',
+    color,
+    textCol
 }) {
 
     const { theme } = useTheme();
-    const {parSize} = usePar();
+    const { parSize } = usePar();
 
     const [selected, setSelected] = useState(null);
 
@@ -41,8 +42,9 @@ export default function SbButton({
         <MyText
             text={text}
             size={`${parSize}px`}
-            color={themes[theme].altText}
+            color={textCol}
             textHover={'#fff'}
-       />
+            weight={600}
+        />
     </Cont>
 }

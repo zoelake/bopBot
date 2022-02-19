@@ -9,7 +9,7 @@ import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
-import { useTheme, useTitle, useHeader, usePar, useGenre, useExplicit } from "../utils/provider"; import styled from 'styled-components';
+import { useTheme, useTitle, useHeader, usePar, useExplicit } from "../utils/provider"; import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
 import MySwitch from '../comps/Switch'
 import Slider from '../comps/Slider'
@@ -104,7 +104,7 @@ export default function Settings() {
   }
 
   //filtering
-  const { genre, setGenre } = useGenre();
+  const [genre, setGenre] = useState();
 
 
   return (
@@ -120,6 +120,7 @@ export default function Settings() {
         <Dashboard
           bg={themes[theme].contrast}>
           <MyText
+            weight={500}
             text={`Settings`}
             size={`${titleSize}px`} />
 

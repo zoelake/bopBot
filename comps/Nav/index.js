@@ -13,9 +13,7 @@ const Container = styled.nav`
     background-color: ${props => props.bg};
     display: flex;
     flex-direction: column;
-    /* position: absolute; */
     margin:0;
-    /* flex:1; */
     max-width: 250px;
     min-width: 150px;
     width: 25%;
@@ -76,12 +74,12 @@ const NavBar = ({
         }
     }
     const { theme } = useTheme();
-    const { page, setPage } = usePage('/');
+    const { page, setPage } = usePage('home');
     const router = useRouter();
 
     function goHome() {
         router.push('/')
-        setPage('/')
+        setPage('home')
     }
 
     function goLibrary() {
@@ -102,18 +100,17 @@ const NavBar = ({
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goHome}
-                color={page === '/' ? themes[theme].emText : themes[theme].text}
+                color={page == 'home' ? themes[theme].accent : themes[theme].emText}
                 linkHover={themes[theme].accent}
             >
                 <RiHome2Fill style={{ marginRight: '10px' }} /> Home
             </NavLink>
         </LinkCont>
-
         <LinkCont>
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goLibrary}
-                color={page === '/library' ? themes[theme].emText : themes[theme].text}
+                color={page === 'library' ? themes[theme].accent : themes[theme].emText}
                 linkHover={themes[theme].accent}
             >
                 <RiMvFill style={{ marginRight: '10px' }} /> Library
@@ -124,7 +121,7 @@ const NavBar = ({
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goSettings}
-                color={page === '/settings' ? themes[theme].emText : themes[theme].text}
+                color={page === 'settings' ? themes[theme].accent : themes[theme].emText}
                 linkHover={themes[theme].accent}
             >
                 <RiSettings4Fill style={{ marginRight: '10px' }} /> Settings

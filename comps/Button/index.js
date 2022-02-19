@@ -38,8 +38,8 @@ export default function MyButton({
         onClick={onClick}
         bg={themes[theme].button}
         color={themes[theme].accent}
-        bgHover={themes[theme].accent}
-        textHover={themes[theme].sliderBg}
+        bgHover={themes[theme].bntSelected}
+        textHover={themes[theme].bntTxtSelect}
     >
         <Text
             // color={themes[theme].focus}

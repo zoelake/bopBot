@@ -8,8 +8,7 @@ import MyRadio from "../Radio";
 const Text = styled.p`
     color: ${props => props.color};
     font-size: ${props => props.fontSize};
-    line-height: auto;
-    margin:0 15px 0 15px;
+    margin:0;
     
     padding:0;
 
@@ -29,28 +28,32 @@ const TrackCont = styled.div`
 
 const Cont1 = styled.div`
     display: flex;
-    flex-grow: 1;
-`;
+    width: 5%;
+     `;
 
 const Cont2 = styled.div`
     display: flex;
     flex-direction: column;
-    flex-grow: 2;
+    width: 50%;
+     
 `;
 
 const Cont3 = styled.div`
     display: flex;
-    flex-grow: 1;
+    width: 10%;
+     
 `;
 
 const Cont4 = styled.div`
     display: flex;
-    flex-grow: 1;
+    width: 15%;
+     
 `;
 
 const Cont5 = styled.div`
     display: flex;
-    flex-grow: 1;
+    width: 10%;
+     
 `;
 
 export default function MyTrack({
@@ -81,8 +84,7 @@ export default function MyTrack({
             </Text>
 
             <Text
-                color={themes[theme].text}
-                textHover={themes[theme].accent}
+                color={themes[theme].accent}
             >{artist}</Text>
         </Cont2>
 
@@ -94,14 +96,14 @@ export default function MyTrack({
 
         <Cont4>
             <Text
-                color={themes[theme].textHover}
+                color={themes[theme].text}
             >{album}</Text>
         </Cont4>
 
         <Cont5>
             {/* <Text
-                color={themes[theme].focus}
-                textHover={themes[theme].accent1}
+                color={themes[theme].text}
+                textHover={themes[theme].heart}
             >
                 {heart === false ? <RiHeartLine onMouseOver={() => setHeart(true)} /> : <RiHeartFill onMouseOut={() => setHeart(false)} />}
             </Text> */}

@@ -115,6 +115,7 @@ export default function User() {
 
                     <UserInfo />
                     <MyText
+                        weight={500}
                         text='Playlists'
                         size={`${headerSize}px`}
                     />
@@ -124,28 +125,28 @@ export default function User() {
                             cover='/playlistLiked.png'
                             onClick={() => setSelected('liked')}
                             bg={selected === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'liked' || null ? themes[theme].text : themes[theme].acent}
+                            color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
                             text='liked'
                         />
                         <Playlist
                             cover='/playlistRap.png'
                             onClick={() => setSelected('rap')}
                             bg={selected === 'rap' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'rap' ? themes[theme].text : themes[theme].accent}
+                            color={selected === 'rap' ? themes[theme].white : themes[theme].accent}
                             text='rap'
                         />
                         <Playlist
                             cover='/playlistPop.png'
                             onClick={() => setSelected('pop')}
                             bg={selected === 'pop' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'pop' ? themes[theme].text : themes[theme].accent}
+                            color={selected === 'pop' ? themes[theme].white : themes[theme].accent}
                             text='pop'
                         />
                         <Playlist
                             cover='/playlistIndie.png'
                             onClick={() => setSelected('indie')}
                             bg={selected === 'indie' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'indie' ? themes[theme].text : themes[theme].accent}
+                            color={selected === 'indie' ? themes[theme].white : themes[theme].accent}
                             text='indie'
                         />
 
