@@ -123,18 +123,25 @@ export default function Home() {
         const params = {};
         if (genre !== null) {
           params.genre = genre;
-        } else if (acValue !== 0) {
+          console.log('genre is ' + genre)
+        } if (acValue == 33 || acValue == 66 || acValue == 100) {
           params.acousticness = acValue;
-        } else if (dncValue !== 0) {
+          console.log('ac is: ' + acValue)
+        } if (dncValue == 33 || dncValue == 66 || dncValue == 100) {
           params.danceability = dncValue;
-        } else if (enValue !== 0) {
+          console.log('dnc is: ' + dncValue)
+        } if (enValue == 33 || enValue == 66 || enValue == 100) {
           params.energy = enValue;
-        } else if (instValue !== 0) {
+          console.log('en is: ' + enValue)
+        } if (instValue == 100) {
           params.instrumentals = instValue;
-        } else if (ldValue !== 0) {
+          console.log('inst is: ' + instValue)
+        } if (ldValue == 33 || ldValue == 66 || ldValue == 100) {
           params.loudness = ldValue;
-        } else if (tpValue !== 0) {
+          console.log('ld is: ' + ldValue)
+        } if (tpValue == 80 || tpValue == 160 || tpValue == 240) {
           params.tempo = tpValue;
+          console.log('tp is: ' + tpValue)
         }
 
 
@@ -261,9 +268,10 @@ export default function Home() {
             <Slider text='Danceability' value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
 
             <Slider text='Energy' value={enValue} onChange={(ev) => setEnValue(ev.target.value)} />
-            <Slider text='Instrumentals' value={instValue} onChange={(ev) => setInstValue(ev.target.value)} />
+            <Slider text='Instrumentals' step={100} value={instValue} onChange={(ev) => setInstValue(ev.target.value)} />
             <Slider text='Loudness' value={ldValue} onChange={(ev) => setLdValue(ev.target.value)} />
             <Slider text='Tempo' max={240} step={80} value={tpValue} onChange={(ev) => setTpValue(ev.target.value)} />
+           
           </SliderCont>
           <SpaceCont>
             <MyText
@@ -282,23 +290,13 @@ export default function Home() {
 
               {tracks.map((o, i) => <MyTrack
                 key={i}
-                artist={o.Artist}
                 song={o.Title}
+                artist={o.Artist}
                 album={o.Album}
                 time={((o.duration_ms / 1000) / 60).toFixed(2)}
-              // time={((o.duration_ms / 1000) / 60)}
               />)}
             </div>
-            {/* {tracks.map((o, i) => <div>
-           <p>title: </p>{o.Title}
-           <p>ac: </p>{o.acoustics}
-            </div>)} */}
           </RegCont>
-
-
-          {/* <MyTrack /> */}
-
-
         </Dashboard>
 
 
