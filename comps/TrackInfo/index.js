@@ -5,6 +5,7 @@ import { RiHeartLine, RiHeartFill } from "react-icons/ri";
 import { useState } from "react";
 import MyRadio from "../Radio";
 import MyText from "../Text";
+import { device } from "../../styles/mediaSizes";
 
 const Text = styled.p`
     color: ${props => props.color};
@@ -22,8 +23,20 @@ const TrackCont = styled.div`
     align-items: center;
     flex-direction: row;
     justify-content: space-evenly;
-    width: 40vw;
     height:80px;
+
+    @media ${device.mobile}{
+        width:100%;
+    }
+
+    @media ${device.tablet}{
+        width: 40vw;
+    }
+
+    @media ${device.desktop}{
+        width: 40vw;
+    }
+    
 `;
 
 // const Cont1 = styled.div`
@@ -138,12 +151,6 @@ export default function MyTrack({
         </Cont4>
 
         <Cont5>
-            {/* <Text
-                color={themes[theme].text}
-                textHover={themes[theme].heart}
-            >
-                {heart === false ? <RiHeartLine onMouseOver={() => setHeart(true)} /> : <RiHeartFill onMouseOut={() => setHeart(false)} />}
-            </Text> */}
             <MyRadio shape={'heart'} inner={selected} onClick={() => setSelected(!selected)} />
         </Cont5>
         <Cont6 onClick={onDotsClick}>

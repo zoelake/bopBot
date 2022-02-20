@@ -90,7 +90,7 @@ export function filtering(
 
                 }
             }
-            if (loudness == 33 || acousticness == 66 || acousticness == 100) {
+            if (loudness == 33 || loudness == 66 || loudness == 100) {
                 console.log('checking loudness')
                 if (loudness == 100) {
                     //acousticness set to 100%
@@ -108,7 +108,7 @@ export function filtering(
 
                 }
             }
-            if (tempo == 80 || acousticness == 160 || acousticness == 240) {
+            if (tempo == 80 || tempo == 160 || tempo == 240) {
                 console.log('checking tempo')
                 if (tempo == 100) {
                     //acousticness set to 100%

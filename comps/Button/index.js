@@ -1,18 +1,21 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { useTheme, usePar } from "../../utils/provider";
+import { device } from "../../styles/mediaSizes";
 
 const Cont = styled.div`
     padding: 5px 8px;
     margin:5px;
     height: 35px;
-    width:100px;
+    width:${props => props.width};
     border-radius:5px;
     display:flex;
     justify-content: center;
     background-color:${props => props.bg};
     color: ${props => props.color};
-    box-shadow:${props=>props.shadow};
+    box-shadow:${props => props.shadow};
+    width: ${props=>props.width};
+
 
     /* :hover {
         background-color: ${props => props.bgHover};
@@ -30,7 +33,8 @@ const Text = styled.p`
 export default function MyButton({
     text = 'button',
     onClick = () => { },
-    shadow
+    shadow,
+    width = 'auto'
 }) {
 
     const { theme } = useTheme();
@@ -42,8 +46,9 @@ export default function MyButton({
         bg={themes[theme].heart}
         color={themes[theme].white}
         shadow={shadow}
-        // bgHover={themes[theme].bntSelected}
-        // textHover={themes[theme].bntTxtSelect}
+        width={width}
+    // bgHover={themes[theme].bntSelected}
+    // textHover={themes[theme].bntTxtSelect}
     >
         <Text
             // color={themes[theme].focus}

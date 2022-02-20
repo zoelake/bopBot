@@ -20,29 +20,56 @@ import { useRouter } from "next/router";
 
 const Page = styled.div`
   display:flex;
-  flex-direction: row;
   margin:0;
-  justify-content: space-between;
+  
   position: absolute;
-  height:95vh;
+  
   bottom:0;
+  /* border:8px solid green; */
+
+  @media ${device.mobile}{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    top:20%;
+  }
+
+  @media ${device.tablet}{
+    flex-direction: row;
+    justify-content: space-between;
+    height:95vh;
+  }
+
+  @media ${device.desktop}{
+    flex-direction: row;
+    justify-content: space-between;
+    height:95vh;
+  }
+
 `;
 
 const Dashboard = styled.div`
     height:95vh;
     width:55%;
-    padding:30px 10px 10px 60px;
+    
+    /* border:5px solid red; */
 
 
     @media ${device.mobile}{
-
+      width:90%;
+      padding:30px 0px 10px 0px;
+      margin-bottom: 200px;
     }
 
     @media ${device.tablet}{
+      width:55%;
+      padding:30px 10px 10px 60px;
     }
 
     @media ${device.desktop}{
-       
+      width:55%;
+      padding:30px 10px 10px 60px;
     }
 `;
 
@@ -57,25 +84,59 @@ const SbCont = styled.div`
 const SliderCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 80%;
-  justify-content: left;
+  justify-content: space-evenly;
+  align-self: center;
   /* padding-left: 30px; */
-`;
-const SpaceCont = styled.div`
-display: flex;
-width: 90%;
-padding-left: 5px;
+  /* border:2px solid green; */
+  
 
-justify-content: space-between;
+  @media ${device.mobile}{
+    width: 100%;
+
+    }
+
+    @media ${device.tablet}{
+      width: 60%;
+      padding: 0 10%;
+    }
+
+    @media ${device.desktop}{
+      width: 60%;
+      padding: 0 10%;
+
+    }
+`;
+
+const TrackScoll = styled.div`
+  height:100%;
+  overflow: scroll;
+  width: 100%;
 `;
 
 const TracksCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 45%;
+  
   height:95vh;
   justify-content: left;
+  /* border:2px solid green; */
+  
+
+  @media ${device.mobile}{
+    width: 90%;
+
+}
+
+@media ${device.tablet}{
+  width: 45%;
   padding: 30px 0 0 30px;
+}
+
+@media ${device.desktop}{
+  width: 45%;
+  padding: 30px 0 0 30px;
+}
+
 `;
 
 
@@ -102,21 +163,18 @@ export default function Home() {
 
   //genre genre
   const [genre, setGenre] = useState(null)
-
-
-
   //slider values
-  const [acValue, setAcValue] = useState(null);
-  const [dncValue, setDncValue] = useState(null);
-  const [enValue, setEnValue] = useState(null);
-  const [instValue, setInstValue] = useState(null);
-  const [ldValue, setLdValue] = useState(null);
-  const [tpValue, setTpValue] = useState(null);
+  const [acValue, setAcValue] = useState(0);
+  const [dncValue, setDncValue] = useState(0);
+  const [enValue, setEnValue] = useState(0);
+  const [instValue, setInstValue] = useState(0);
+  const [ldValue, setLdValue] = useState(0)
+  const [tpValue, setTpValue] = useState(0);
 
 
 
   const [tracks, setTracks] = useState([]);
-  const [load, setLoad] = useState(false);
+  const [load, setLoad] = useState(null);
   const [button, setButton] = useState(false)
 
   function buttonPress() {
@@ -130,6 +188,7 @@ export default function Home() {
 
   const inputFilter = async () => {
     buttonPress();
+    setLoad(true)
     console.log('input generated!')
     if (timer === null) {
       timer = setTimeout(async () => {
@@ -161,7 +220,7 @@ export default function Home() {
         })
         console.log('passed!')
         setTracks(res.data);
-        setLoad(true);
+        setLoad(false);
         timer = null;
       }, 2000);
     }
@@ -340,31 +399,34 @@ export default function Home() {
 
           </SliderCont>
           <div style={{
-            position: 'absolute',
-            right: '47%',
-            bottom: '2%'
+            position: 'relative',
+            right: device.mobile ? null : '47%',
+            bottom: device.mobile ? null : '2%',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'right',
           }}>
             <MyButton
+              width={device.mobile ? '100%' : 'auto'}
               onClick={inputFilter}
               text='generate'
               shadow={button ? 'inset 2px 2px 4px rgba(0,0,0,0.1)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'} />
-
-
           </div>
 
-
         </Dashboard>
-        <Divider color={themes[theme].text} />
-        <TracksCont>
-          <SpaceCont>
-            <MyText
-              text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
-              size={`${headerSize}px`}
-            />
 
-          </SpaceCont>
-          <div style={{ height: '100%', overflow: 'scroll', position: 'responsive' }}>
-            <MyTrack />
+        <Divider color={themes[theme].text} />
+
+        <TracksCont>
+
+          <MyText
+            text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
+            size={`${headerSize}px`}
+          />
+
+          <TrackScoll>
+            {/* <MyTrack /> */}
+            {load ? <div>Loading...</div> : <></>}
             {tracks.map((o, i) => <MyTrack
               onTrackClick={() => router.push(o.Uri)}
               key={i}
@@ -373,7 +435,7 @@ export default function Home() {
               album={o.Album}
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
             />)}
-          </div>
+          </TrackScoll>
 
         </TracksCont>
 
