@@ -136,18 +136,25 @@ export default function Home() {
         const params = {};
         if (genre !== null) {
           params.genre = genre;
-        } else if (acValue !== 0) {
+          console.log('genre is ' + genre)
+        } if (acValue == 33 || acValue == 66 || acValue == 100) {
           params.acousticness = acValue;
-        } else if (dncValue !== 0) {
+          console.log('ac is: ' + acValue)
+        } if (dncValue == 33 || dncValue == 66 || dncValue == 100) {
           params.danceability = dncValue;
-        } else if (enValue !== 0) {
+          console.log('dnc is: ' + dncValue)
+        } if (enValue == 33 || enValue == 66 || enValue == 100) {
           params.energy = enValue;
-        } else if (instValue !== 0) {
+          console.log('en is: ' + enValue)
+        } if (instValue == 100) {
           params.instrumentals = instValue;
-        } else if (ldValue !== 0) {
+          console.log('inst is: ' + instValue)
+        } if (ldValue == 33 || ldValue == 66 || ldValue == 100) {
           params.loudness = ldValue;
-        } else if (tpValue !== 0) {
+          console.log('ld is: ' + ldValue)
+        } if (tpValue == 80 || tpValue == 160 || tpValue == 240) {
           params.tempo = tpValue;
+          console.log('tp is: ' + tpValue)
         }
         const res = await axios.get('/api/tracks', {
           params
@@ -330,6 +337,7 @@ export default function Home() {
             <Slider text='Instrumentals' number={instValue} value={instValue} onChange={(ev) => setInstValue(ev.target.value)} />
             <Slider text='Loudness' number={ldValue} value={ldValue} onChange={(ev) => setLdValue(ev.target.value)} />
             <Slider text='Tempo' number={tpValue} max={240} step={80} value={tpValue} onChange={(ev) => setTpValue(ev.target.value)} />
+
           </SliderCont>
           <div style={{
             position: 'absolute',
@@ -368,6 +376,7 @@ export default function Home() {
           </div>
 
         </TracksCont>
+
 
 
       </Page>
