@@ -23,18 +23,18 @@ const Page = styled.div`
   display:flex;
   flex-direction: column;
   margin:0;
-  justify-content: space-between;
+  justify-content: center;
+  width: 100vw;
   position: absolute;
-  height:94vh;
+  height:95vh;
   bottom:0;
 `;
 
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
     height:45vh;
-    width:100vw;
     padding:30px 10px 10px 60px;
-    border: 2px solid blue;
+    /* border: 2px solid blue; */
     
 
     @media ${device.mobile}{
@@ -79,10 +79,11 @@ justify-content: space-between;
 
 const TracksCont = styled.div`
     height:40%;
-    border:2px solid red;
-    position: absolute;
-    bottom:0;
-    left:10px;
+    /* border:2px solid red; */
+    /* position: absolute; */
+    /* bottom:0;
+    left:10px; */
+    align-self: center;
     width:80%;
 `;
 
@@ -160,7 +161,8 @@ export default function User() {
                         />
 
                     </SbCont>
-                    <TracksCont>
+                </Dashboard>
+                <TracksCont>
                         <SpaceCont>
                             <MyText
                                 text={selected === null ? 'liked' : selected}
@@ -185,9 +187,6 @@ export default function User() {
 
                     </TracksCont>
 
-
-
-                </Dashboard>
             </Page>
         </>
     )
