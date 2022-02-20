@@ -23,7 +23,7 @@ export const themes = {
         contrast: '#FFFFFF',
         accent: '#C192FC',
         altAccent: '#E7E7E7',
-        text: '#2E2E2E',
+        text: '#222222',
         emText: '#2E2E2E',
         altText: '#B1B1B1',
         button: '#E7E7E7',

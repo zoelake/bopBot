@@ -18,6 +18,7 @@ body{
 function MyApp({ Component, pageProps }) {
   return <MyThemeProvider>
     <GlobalStyle />
+    <NavBar />
     <Component {...pageProps} />
   </MyThemeProvider>
 }

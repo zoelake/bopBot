@@ -1,21 +1,26 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { useTheme, usePar } from "../../utils/provider";
+import { device } from "../../styles/mediaSizes";
 
 const Cont = styled.div`
     padding: 5px 8px;
     margin:5px;
     height: 35px;
+    width:${props => props.width};
     border-radius:5px;
     display:flex;
     justify-content: center;
     background-color:${props => props.bg};
     color: ${props => props.color};
+    box-shadow:${props => props.shadow};
+    width: ${props=>props.width};
 
-    :hover {
+
+    /* :hover {
         background-color: ${props => props.bgHover};
         color: ${props => props.textHover};
-    }
+    } */
     
 `;
 const Text = styled.p`
@@ -28,6 +33,8 @@ const Text = styled.p`
 export default function MyButton({
     text = 'button',
     onClick = () => { },
+    shadow,
+    width = 'auto'
 }) {
 
     const { theme } = useTheme();
@@ -36,10 +43,12 @@ export default function MyButton({
 
     return <Cont
         onClick={onClick}
-        bg={themes[theme].button}
-        color={themes[theme].accent}
-        bgHover={themes[theme].bntSelected}
-        textHover={themes[theme].bntTxtSelect}
+        bg={themes[theme].heart}
+        color={themes[theme].white}
+        shadow={shadow}
+        width={width}
+    // bgHover={themes[theme].bntSelected}
+    // textHover={themes[theme].bntTxtSelect}
     >
         <Text
             // color={themes[theme].focus}

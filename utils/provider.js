@@ -3,7 +3,7 @@ import { themes } from './variables';
 
 
 const initialState = {
-    theme: 'dark',
+    theme: 'light',
     setTheme: () => { },
     page: 'home',
     setPage: () => { },
@@ -18,21 +18,9 @@ const initialState = {
     parSize: 18,
     setParSize: () => { },
 
-    //filtering
-    // genre: null,
-    // setGenre: () => { },
-    // acoustic: null,
-    // setAcoustic: () => { },
-    // danceability: null,
-    // setDanceability: () => { },
-    // energy: null,
-    // setEnergy: () => { },
-    // instrumentals: null,
-    // setInstrumentals: () => { },
-    // loudness: null,
-    // setLoudness: () => { },
-    // tempo: null,
-    // setTempo: () => { },
+    //sizing updates
+    sbSize: 85,
+    setSbSize: () => { },
 }
 
 const MyThemeContext = createContext(initialState);
@@ -49,25 +37,16 @@ export default function MyThemeProvider({ children }) {
     const [titleSize, setTitleSize] = useState(initialState.titleSize)
     const [headerSize, setHeaderSize] = useState(initialState.headerSize)
     const [parSize, setParSize] = useState(initialState.parSize)
-    // const [genre, setGenre] = useState(initialState.genre)
-    // const [acoustic, setAcoustic] = useState(initialState.acoustic)
-    // const [danceability, setDanceability] = useState(initialState.danceability)
-    // const [energy, setEnergy] = useState(initialState.energy)
-    // const [instrumentals, setInstrumentals] = useState(initialState.instrumentals)
-    // const [loudness, setLoudness] = useState(initialState.loudness)
-    // const [tempo, setTempo] = useState(initialState.tempo)
+    const [sbSize, setSbSize] = useState(initialState.sbSize)
 
 
     return <MyThemeContext.Provider value={{
-        theme, setTheme, page, setPage, explicit, setExplicit, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize,
-
-        // genre, setGenre, acoustic, setAcoustic, danceability, setDanceability, energy, setEnergy, instrumentals, setInstrumentals, loudness, setLoudness, tempo, setTempo,
-
+        theme, setTheme, page, setPage, explicit, setExplicit, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize, sbSize, setSbSize
     }}>
         <style jsx global>
             {`
                 body {
-                    background-color:${themes[theme].dark}
+                    background-color:${themes[theme].contrast}
                 }
             `}
         </style>
@@ -105,38 +84,7 @@ export const usePar = () => {
     return { parSize, setParSize };
 }
 
-// export const useGenre = () => {
-//     const { genre, setGenre } = useContext(MyThemeContext);
-//     return { genre, setGenre };
-// }
-
-// export const useAcoustic = () => {
-//     const { acoustic, setAcoustic } = useContext(MyThemeContext);
-//     return { acoustic, setAcoustic };
-// }
-
-// export const useDanceability = () => {
-//     const { danceability, setDanceability } = useContext(MyThemeContext);
-//     return { danceability, setDanceability };
-// }
-
-// export const useEnergy = () => {
-//     const { energy, setEnergy } = useContext(MyThemeContext);
-//     return { energy, setEnergy };
-// }
-
-// export const useInstrumentals = () => {
-//     const { instrumentals, setInstrumentals } = useContext(MyThemeContext);
-//     return { instrumentals, setInstrumentals };
-// }
-
-// export const useLoudness = () => {
-//     const { loudness, setLoudness } = useContext(MyThemeContext);
-//     return { loudness, setLoudness };
-// }
-
-
-// export const useTempo = () => {
-//     const { tempo, setTempo } = useContext(MyThemeContext);
-//     return { tempo, setTempo };
-// }
+export const useSbSize = () => {
+    const { sbSize, setSbSize } = useContext(MyThemeContext);
+    return { sbSize, setSbSize };
+}

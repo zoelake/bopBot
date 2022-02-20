@@ -9,14 +9,19 @@ import { useRouter } from "next/router";
 
 const Container = styled.nav`
     visibility: ${props => props.visibility};
-    height: 100vh;
+    height: 5vh;
     background-color: ${props => props.bg};
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
     margin:0;
-    max-width: 250px;
-    min-width: 150px;
-    width: 25%;
+    width: 100%;
+    position:absolute;
+    top:0;
+    padding:5px 0px;
+    z-index:999;
+    /* padding:5px; */
 
     @media ${device.mobile}{ 
     }
@@ -31,20 +36,26 @@ const Container = styled.nav`
 `;
 
 const NavLink = styled.p`
-    padding: 10px;
-    margin: 20px 10px 10px 10px;
-    text-align:left;
+    /* padding: 10px; */
+    margin: 0px 20px 0px 0px;
     font-weight: bold;
+    line-height: 0;
     text-decoration: none;
     font-size: ${props => props.size};
     color: ${props => props.color};
     display: flex;
     justify-content: space-between;
     align-items: center;
+    line-height: 50px;
 
     :hover {
         color: ${props => props.linkHover};
     }
+`;
+
+const Logo = styled.img`
+    height:100%;
+    margin: 0px 0px 0px 10px;
 `;
 
 const LinkCont = styled.div`
@@ -97,31 +108,33 @@ const NavBar = ({
         bg={themes[theme].mid}
     >
         <LinkCont>
-            <NavLink
+            <Logo 
+            src={'/bopBot_neutral.svg'}
+            onClick={goHome}
+             />
+            {/* <NavLink
                 size={`${headerSize}px`}
                 onClick={goHome}
                 color={page == 'home' ? themes[theme].accent : themes[theme].emText}
                 linkHover={themes[theme].accent}
             >
                 <RiHome2Fill style={{ marginRight: '10px' }} /> Home
-            </NavLink>
+            </NavLink> */}
         </LinkCont>
         <LinkCont>
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goLibrary}
-                color={page === 'library' ? themes[theme].accent : themes[theme].emText}
+                color={page === 'library' ? themes[theme].accent : themes[theme].text}
                 linkHover={themes[theme].accent}
             >
                 <RiMvFill style={{ marginRight: '10px' }} /> Library
             </NavLink>
-        </LinkCont>
-
-        <LinkCont>
+    
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goSettings}
-                color={page === 'settings' ? themes[theme].accent : themes[theme].emText}
+                color={page === 'settings' ? themes[theme].accent : themes[theme].text}
                 linkHover={themes[theme].accent}
             >
                 <RiSettings4Fill style={{ marginRight: '10px' }} /> Settings

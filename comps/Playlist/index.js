@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useHeader } from "../../utils/provider";
 import MyText from "../Text";
-
+import { device } from "../../styles/mediaSizes";
 
 const Cont = styled.div`
     display:flex;
@@ -14,16 +14,14 @@ const Cont = styled.div`
     padding: 15px 0px 10px 0px;
     margin:0 40px 0 0 ;
     justify-content: space-around;
-
-
-
     background-color:${props => props.bg};
     color: ${props => props.color};
+    border:2px solid red;
 
     /* :hover {
         border: 2px solid ${props => props.borderHover};
     } */
-    
+
 `;
 
 
