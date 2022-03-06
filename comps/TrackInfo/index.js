@@ -107,12 +107,17 @@ export default function MyTrack({
     album = 'Diffy',
     onTrackClick = () => { },
     onDotsClick = () => { },
+    AddToLikedPlaylist = () => { },
 }) {
     const [heart, setHeart] = useState(false);
     const { theme } = useTheme();
     const { parSize } = usePar();
     const [selected, setSelected] = useState(false)
 
+    function LikeTrack(){
+        setSelected(!selected);
+        AddToLikedPlaylist();
+    }
 
     return <TrackCont>
 
@@ -151,7 +156,7 @@ export default function MyTrack({
         </Cont4>
 
         <Cont5>
-            <MyRadio shape={'heart'} inner={selected} onClick={() => setSelected(!selected)} />
+            <MyRadio shape={'heart'} inner={selected} onClick={LikeTrack} />
         </Cont5>
         <Cont6 onClick={onDotsClick}>
             <Dots col={themes[theme].text} />
