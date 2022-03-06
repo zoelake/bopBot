@@ -256,6 +256,20 @@ export default function Home() {
 
   // ]
 
+  const [track, setTrackToSend ] = useState({});
+
+  function PostToLiked(id, trackdata){
+    console.log('this is' + trackdata.Title)
+    track[id] = {
+        ...track[id],
+        ...trackdata
+    }
+    setTrackToSend({
+      ...track
+    })
+    axios.post('http://localhost:3001/new/playlist/liked', track)
+  }
+
   return (
     <>
       <Head>
@@ -428,8 +442,9 @@ export default function Home() {
             {/* <MyTrack /> */}
             {load ? <div>Loading...</div> : <></>}
             {tracks.map((o, i) => <MyTrack
-              onTrackClick={() => router.push(o.Uri)}
               key={i}
+              onTrackClick={() => router.push(o.Uri)}
+              AddToLikedPlaylist={(obj)=> PostToLiked(o.id, o, obj)}
               artist={o.Artist}
               song={o.Title}
               album={o.Album}
