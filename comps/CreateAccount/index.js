@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { useEmail, useName, useTheme } from "../../utils/provider";
 import { useState } from 'react';
 import MyButton from '../Button';
 import { useRouter } from 'next/router';
@@ -46,11 +46,10 @@ export default function CreateNewAccount() {
     const [usersName, setUsersName] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
-    // const [user, setUser] = useState({
-    //     email: '',
-    //     password: '',
-    // });
-
+    
+    const {name, setName} = useName();
+    const {email, setEmail} = useEmail();
+    
     function HandleName(value) {
         setUsersName(value)
         console.log(usersName)
@@ -77,16 +76,14 @@ export default function CreateNewAccount() {
         }
         // console.log(userEmail, userPassword, newUser)
         axios.post('http://localhost:3001/signup', newUser)
+        localStorage.setItem('name', usersName)
+        localStorage.setItem('email', userEmail)
+        setName(usersName)
+        setEmail(userEmail)
         router.push('/')
     }
 
-    // function Login() {
-    //     const getUser = {
-    //         email: userEmail,
-    //         password: userPassword
-    //     }
-    //     axios.post('http://localhost:3001/login', getUser)
-    // }
+
 
     return (
         <InputCont

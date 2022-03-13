@@ -57,15 +57,7 @@ export default function LoginAccount() {
         console.log(userPassword)
     }
 
-    function CreateAccount() {
-        console.log('creating acc')
-        const newUser = {
-            email: userEmail,
-            password: userPassword
-        }
-        console.log(userEmail, userPassword, newUser)
-        axios.post('http://localhost:3001/signup', newUser)
-    }
+  
 
     function Login() {
         const getUser = {
@@ -92,13 +84,7 @@ export default function LoginAccount() {
             .catch(e => {
                 console.log(e)
             })
-        // console.log(getUser)
 
-        // if (res !== false) {
-        //     router.push('/')
-        // } else {
-        //     console.log('res came back false')
-        // }
     }
 
     return (
