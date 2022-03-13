@@ -3,7 +3,7 @@ import { themes } from './variables';
 
 
 const initialState = {
-    theme: 'light',
+    theme: 'dark',
     setTheme: () => { },
     page: 'home',
     setPage: () => { },
@@ -21,6 +21,10 @@ const initialState = {
     //sizing updates
     sbSize: 85,
     setSbSize: () => { },
+
+    //user
+    user:null,
+    setUser: () => {},
 }
 
 const MyThemeContext = createContext(initialState);
@@ -38,10 +42,12 @@ export default function MyThemeProvider({ children }) {
     const [headerSize, setHeaderSize] = useState(initialState.headerSize)
     const [parSize, setParSize] = useState(initialState.parSize)
     const [sbSize, setSbSize] = useState(initialState.sbSize)
+    //user
+    const [user, setUser] = useState(initialState.user)
 
 
     return <MyThemeContext.Provider value={{
-        theme, setTheme, page, setPage, explicit, setExplicit, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize, sbSize, setSbSize
+        theme, setTheme, page, setPage, explicit, setExplicit, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize, sbSize, setSbSize, user, setUser,
     }}>
         <style jsx global>
             {`
@@ -87,4 +93,9 @@ export const usePar = () => {
 export const useSbSize = () => {
     const { sbSize, setSbSize } = useContext(MyThemeContext);
     return { sbSize, setSbSize };
+}
+
+export const currentUser = () => {
+    const { user, setUser } = useContext(MyThemeContext);
+    return { user, setUser };
 }

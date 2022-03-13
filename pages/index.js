@@ -267,8 +267,10 @@ export default function Home() {
     setTrackToSend({
       ...track
     })
+    console.log(track)
     axios.post('http://localhost:3001/new/playlist/liked', track)
   }
+
 
   return (
     <>

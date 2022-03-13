@@ -5,7 +5,7 @@ import { device } from "../../styles/mediaSizes";
 
 const Cont = styled.div`
     display:flex;
-    width: 155px;
+    min-width: 155px;
     height: 165px;
     justify-content: center;
     align-items: center;
@@ -16,7 +16,6 @@ const Cont = styled.div`
     justify-content: space-around;
     background-color:${props => props.bg};
     color: ${props => props.color};
-    border:2px solid red;
 
     /* :hover {
         border: 2px solid ${props => props.borderHover};

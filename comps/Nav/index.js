@@ -67,23 +67,24 @@ const LinkCont = styled.div`
 
 const NavBar = ({
     id = 1,
+    visibility = 'visible',
 }) => {
 
 
 
     const [hideNav, setHideNav] = useState(true);
-    const [visibility, setVisibility] = useState();
+    // const [visibility, setVisibility] = useState();
     const { headerSize } = useHeader();
 
-    function View() {
-        setHideNav(!hideNav)
-        if (hideNav === true) {
-            setVisibility("visible")
-        }
-        if (hideNav === false) {
-            setVisibility("hidden")
-        }
-    }
+    // function View() {
+    //     setHideNav(!hideNav)
+    //     if (hideNav === true) {
+    //         setVisibility("visible")
+    //     }
+    //     if (hideNav === false) {
+    //         setVisibility("hidden")
+    //     }
+    // }
     const { theme } = useTheme();
     const { page, setPage } = usePage('home');
     const router = useRouter();
@@ -108,10 +109,10 @@ const NavBar = ({
         bg={themes[theme].mid}
     >
         <LinkCont>
-            <Logo 
-            src={'/bopBot_neutral.svg'}
-            onClick={goHome}
-             />
+            <Logo
+                src={'/bopBot_neutral.svg'}
+                onClick={goHome}
+            />
             {/* <NavLink
                 size={`${headerSize}px`}
                 onClick={goHome}
@@ -130,7 +131,7 @@ const NavBar = ({
             >
                 <RiMvFill style={{ marginRight: '10px' }} /> Library
             </NavLink>
-    
+
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goSettings}

@@ -1,5 +1,5 @@
+import CreateNewAccount from "../comps/CreateAccount"
 import styled from 'styled-components'
-import LoginAccount from "../comps/LoginAccount";
 
 const Page = styled.div`
     width: 100vw;
@@ -13,8 +13,7 @@ export default function CreateAccount() {
 
     return (
         <Page>
-            <LoginAccount />
-            {/* banner */}
+            <CreateNewAccount />
         </Page>
     )
 }
