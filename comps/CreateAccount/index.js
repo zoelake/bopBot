@@ -43,12 +43,18 @@ export default function CreateNewAccount() {
 
     const router = useRouter();
     const { theme } = useTheme();
+    const [usersName, setUsersName] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
     // const [user, setUser] = useState({
     //     email: '',
     //     password: '',
     // });
+
+    function HandleName(value) {
+        setUsersName(value)
+        console.log(usersName)
+    }
 
     function HandleEmail(value) {
         setUserEmail(value)
@@ -60,9 +66,12 @@ export default function CreateNewAccount() {
         console.log(userPassword)
     }
 
+    
+
     function CreateAccount() {
         console.log('creating acc')
         const newUser = {
+            name: usersName,
             email: userEmail,
             password: userPassword
         }
@@ -85,6 +94,7 @@ export default function CreateNewAccount() {
         >
             <h1>Create an Account</h1>
             <p style={{ textAlign: 'center', width: '80%' }}>Create an account to get started!</p>
+            <LoginInput placeholder='Name...' onChange={(e) => HandleName(e.target.value)} />
             <LoginInput placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} />
             <LoginInput placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} />
             <ButtonCont>

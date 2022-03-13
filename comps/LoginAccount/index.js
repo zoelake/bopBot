@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { useAvatar, useEmail, useName, useTheme, useToken } from "../../utils/provider";
 import { useState } from 'react';
 import MyButton from '../Button';
 import { useRouter } from 'next/router'
@@ -42,10 +42,10 @@ export default function LoginAccount() {
     const router = useRouter();
     const [userEmail, setUserEmail] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
-    // const [user, setUser] = useState({
-    //     email: '',
-    //     password: '',
-    // });
+    const {name, setName} = useName();
+    const {email, setEmail} = useEmail();
+    const {avatar, setAvatar} = useAvatar();
+    const {token, setToken} = useToken();
 
     function HandleEmail(value) {
         setUserEmail(value)
@@ -73,10 +73,17 @@ export default function LoginAccount() {
             password: userPassword
         }
         axios.post('http://localhost:3001/login', getUser)
-            .then(token => {
-                if (token) {
-                    console.log(token)
-                    localStorage.setItem('token', token)
+            .then((res) => {
+                if (res) {
+                    console.log(res.data.name)
+                    localStorage.setItem('name', res.data.name)
+                    localStorage.setItem('email', res.data.email)
+                    // localStorage.setItem('token', res.data.token)
+                    setName(res.data.name)
+                    setEmail(res.data.email)
+                    setAvatar(res.data.avatar)
+                    // setToken(res.data.token)
+                    
                     router.push('/')
                 } else {
                     console.log('no tokes :(')
