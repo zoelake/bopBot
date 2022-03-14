@@ -1,42 +1,58 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
-import { useState } from "react";
+import { usePar, useTheme, useSbSize } from "../../utils/provider";
+import { useEffect, useState } from "react";
+import MyText from "../Text";
 
 const Cont = styled.div`
-    width:85px;
-    height:85px;
-    background-color: ${props=>props.bg};
-    color: ${props=>props.color};
+    width:${props => props.width}px;
+    height:${props => props.width}px;
+    background-color: ${props => props.bg};
+    color: ${props => props.color};
     justify-content: center;
     display: flex;
     align-items: center;
     border-radius:5px;
+    margin: 0 5px 5px 0;
+    box-shadow: ${props=>props.shadow};
 
 
     /* :hover {
-        border: 2px solid ${props=>props.borderHover};
+        border: 2px solid ${props => props.borderHover};
     } */
     
 `;
-const Text = styled.p``;
 
 export default function SbButton({
     text = 'R&B',
-    onClick = () => {},
-}){
+    onClick = () => { },
+    color,
+    textCol,
+    width,
+    shadow = 'transparent'
+}) {
 
-    const {theme} = useTheme();
+    const { theme } = useTheme();
+    const { parSize } = usePar();
 
-    return<Cont 
-    onClick={onClick}
-    // border={themes[theme].focus}
-    bg={themes[theme].light}
+    const [selected, setSelected] = useState(null);
+    let [newWidth, setNewWidth] = useState(85)
+
+
+    return <Cont
+        shadow={shadow}
+        width={width}
+        onClick={onClick}
+        // border={themes[theme].focus}
+        bg={themes[theme].accent}
 
     >
-        <Text
-        color={themes[theme].focus}
-        textHover={themes[theme].accent}
-        >{text}</Text>
+        <MyText
+            text={text}
+            size={`${parSize}px`}
+            color={themes[theme].white}
+            textHover={'#fff'}
+            weight={600}
+        />
     </Cont>
 }

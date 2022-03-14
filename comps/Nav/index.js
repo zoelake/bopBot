@@ -1,38 +1,70 @@
 import styled from "styled-components";
 import { useState, useRef } from "react";
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { useTheme, usePage, useHeader } from "../../utils/provider";
 import { RiMvFill, RiHome2Fill, RiSettings4Fill } from "react-icons/ri";
 import { MyText } from "../Text/index";
+import { device } from "../../styles/mediaSizes";
+import { useRouter } from "next/router";
 
-const Container = styled.div`
-    visibility: ${props=>props.visibility};
-    width: 15%;
-    height: 100%;
-    background-color: ${props=>props.bg};
+const Container = styled.nav`
+    visibility: ${props => props.visibility};
+    height: 5vh;
+    background-color: ${props => props.bg};
     display: flex;
-    flex-direction: column;
-    
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    margin:0;
+    width: 100%;
+    position:absolute;
+    top:0;
+    padding:5px 0px;
+    z-index:999;
+    /* padding:5px; */
+
+    @media ${device.mobile}{ 
+    }
+
+    @media ${device.tablet}{
+        
+    }
+
+    @media ${device.desktop}{
+         
+    }
 `;
 
-const NavLink = styled.a`
-    padding: 10px;
-    margin: 10px;
-    maring-top: 20px;
-    background-color: transparent ;
-    border: none;
-    text-align:left;
+const NavLink = styled.p`
+    /* padding: 10px; */
+    margin: 0px 20px 0px 0px;
     font-weight: bold;
+    line-height: 0;
     text-decoration: none;
+<<<<<<< HEAD
     font-size: 18px;
     display:flex;
     align-items:center;
     justify-content:space-between;
 
     color: ${props=>props.color};
+=======
+    font-size: ${props => props.size};
+    color: ${props => props.color};
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 50px;
+
+>>>>>>> ebafdfe611b3d800d23114a475998c9eab36ed85
     :hover {
-        color: ${props=>props.linkHover};
+        color: ${props => props.linkHover};
     }
+`;
+
+const Logo = styled.img`
+    height:100%;
+    margin: 0px 0px 0px 10px;
 `;
 
 const LinkCont = styled.div`
@@ -44,34 +76,50 @@ const LinkCont = styled.div`
 
 
 const NavBar = ({
-    iconColor= "white",
-    fontSize= "18px", 
-    iconSize= "18px",
-    bgColor= "#212121",
+    id = 1,
+    visibility = 'visible',
 }) => {
 
 
 
-    const [hideNav, setHideNav] = useState(true)
-    const [visibility, setVisibility] = useState()
+    const [hideNav, setHideNav] = useState(true);
+    // const [visibility, setVisibility] = useState();
+    const { headerSize } = useHeader();
 
-    function View(){
-        setHideNav(!hideNav)
-        if (hideNav === true){
-        setVisibility("visible")
-        }
-        if (hideNav === false){
-            setVisibility("hidden")
-        }
+    // function View() {
+    //     setHideNav(!hideNav)
+    //     if (hideNav === true) {
+    //         setVisibility("visible")
+    //     }
+    //     if (hideNav === false) {
+    //         setVisibility("hidden")
+    //     }
+    // }
+    const { theme } = useTheme();
+    const { page, setPage } = usePage('home');
+    const router = useRouter();
+
+    function goHome() {
+        router.push('/')
+        setPage('home')
     }
-    const {theme} = useTheme();
 
+    function goLibrary() {
+        router.push(`/user/${id}`)
+        setPage('library')
+    }
+
+    function goSettings() {
+        router.push('/settings')
+        setPage('settings')
+    }
 
     return <><Container
         visibility={visibility}
         bg={themes[theme].mid}
     >
         <LinkCont>
+<<<<<<< HEAD
         <NavLink href="/" 
         color={themes[theme].focus}
         linkHover={themes[theme].highlight}
@@ -80,9 +128,23 @@ const NavBar = ({
             style={{marginRight:'5px'}}
             /> Home
         </NavLink>
+=======
+            <Logo
+                src={'/bopBot_neutral.svg'}
+                onClick={goHome}
+            />
+            {/* <NavLink
+                size={`${headerSize}px`}
+                onClick={goHome}
+                color={page == 'home' ? themes[theme].accent : themes[theme].emText}
+                linkHover={themes[theme].accent}
+            >
+                <RiHome2Fill style={{ marginRight: '10px' }} /> Home
+            </NavLink> */}
+>>>>>>> ebafdfe611b3d800d23114a475998c9eab36ed85
         </LinkCont>
-
         <LinkCont>
+<<<<<<< HEAD
         <NavLink href="/" 
         color={themes[theme].focus}
         linkHover={themes[theme].highlight}
@@ -102,10 +164,28 @@ const NavBar = ({
             style={{marginRight:'5px'}}
             /> Settings
         </NavLink>
+=======
+            <NavLink
+                size={`${headerSize}px`}
+                onClick={goLibrary}
+                color={page === 'library' ? themes[theme].accent : themes[theme].text}
+                linkHover={themes[theme].accent}
+            >
+                <RiMvFill style={{ marginRight: '10px' }} /> Library
+            </NavLink>
+
+            <NavLink
+                size={`${headerSize}px`}
+                onClick={goSettings}
+                color={page === 'settings' ? themes[theme].accent : themes[theme].text}
+                linkHover={themes[theme].accent}
+            >
+                <RiSettings4Fill style={{ marginRight: '10px' }} /> Settings
+            </NavLink>
+>>>>>>> ebafdfe611b3d800d23114a475998c9eab36ed85
         </LinkCont>
- 
+
     </Container>
-            <button onClick={View}>Toggle</button>
 
     </>
 }

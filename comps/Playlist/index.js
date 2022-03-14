@@ -1,61 +1,61 @@
 import styled from "styled-components";
-import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
-
+import { useHeader } from "../../utils/provider";
+import MyText from "../Text";
+import { device } from "../../styles/mediaSizes";
 
 const Cont = styled.div`
     display:flex;
-    width: 140px;
-    height: 182px;
+    min-width: 155px;
+    height: 165px;
     justify-content: center;
     align-items: center;
     flex-direction:column;
-    border-radius:5px;
-    padding: 5px;
+    border-radius:10px;
+    padding: 15px 0px 10px 0px;
+    margin:0 40px 0 0 ;
     justify-content: space-around;
-
-
-
-    background-color:${props=>props.bg};
-    color: ${props=>props.color};
+    background-color:${props => props.bg};
+    color: ${props => props.color};
 
     /* :hover {
-        border: 2px solid ${props=>props.borderHover};
+        border: 2px solid ${props => props.borderHover};
     } */
-    
+
 `;
 
 
-const ImgCont = styled.div`
-    height:100px;
-    width: 100px;
+
+const Cover = styled.img`
+    height:140px;
+    width:100px;
     border-radius:5px;
-    overflow: hidden;
-  
+    overflow: hidden;  
 `;
 
-const Text = styled.p`
-    font-size: 24px;
-`;
+
 
 
 
 export default function Playlist({
     text = 'Liked',
-    onClick = () => {},
-    image = "https://placekitten.com/100/100"
-}){
+    onClick = () => { },
+    cover = "https://placekitten.com/155/180",
+    bg = 'white',
+    color = 'red',
+}) {
 
-    const {theme} = useTheme();
+    const { headerSize } = useHeader();
 
-    return<Cont 
-    onClick={onClick}
-    bg={themes[theme].contrast}
-    color={themes[theme].focus}
+    return <Cont
+        onClick={onClick}
+        bg={bg}
+        color={color}
     >
-        <ImgCont>
-            <img src={image}></img>
-        </ImgCont>
-        <Text>{text}</Text>
+        <Cover src={cover} />
+        <MyText
+            size={`${headerSize}px`}
+            text={text}
+
+        />
     </Cont>
 }
