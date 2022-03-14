@@ -17,6 +17,7 @@ import ThemeToggle from '../comps/ThemeToggle'
 import { useState } from 'react'
 import { Switch, FormControlLabel } from '@mui/material'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
 
 
@@ -108,6 +109,8 @@ const ButtonCont = styled.div`
 
 
 export default function Settings() {
+
+  const router = useRouter();
 
   //visual states
   const { theme, setTheme } = useTheme();
@@ -236,6 +239,13 @@ export default function Settings() {
 
   }
 
+  function HandleLogout() {
+    setEmail(null)
+    setName(null)
+    localStorage.clear();
+    router.push('/login')
+  }
+
 
   //user info updates end
 
@@ -361,6 +371,10 @@ export default function Settings() {
 
             </HalfCont>
           </Cont>
+          <MyButton
+            text='Logout'
+            onClick={HandleLogout}
+          />
 
 
         </Dashboard>
