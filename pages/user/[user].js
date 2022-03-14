@@ -16,6 +16,7 @@ import MySwitch from '../../comps/Switch'
 import Slider from '../../comps/Slider'
 import UserInfo from '../../comps/UserInfo'
 import { useState } from 'react'
+import axios from 'axios'
 
 
 
@@ -110,6 +111,19 @@ export default function User() {
 
     const [addedRecent, setAddedRecent] = useState(true)
 
+    const [newPlaylistName, setNewPlaylistName] = useState(null);
+
+    function HandleNewPlaylistName(value){
+        setNewPlaylistName(value)
+    }   
+
+    function CreateNewPlaylist(){
+        const newPlaylist = {
+            name: newPlaylistName,
+        }
+        axios.post('http://localhost:3001/update-userName')
+    }
+
     return (
         <>
             <Head>
@@ -119,6 +133,8 @@ export default function User() {
             </Head>
             <NavBar />
             <Page>
+                <input placeholder='new playlist name...' onChange={(e) => HandleNewPlaylistName(e.target.value)}></input>
+                <button onClick={CreateNewPlaylist}>add new playlist</button>
                 <Dashboard
                     bg={themes[theme].contrast}>
 
