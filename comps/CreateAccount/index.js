@@ -49,7 +49,7 @@ export default function CreateNewAccount() {
     
     const {name, setName} = useName();
     const {email, setEmail} = useEmail();
-    
+
     function HandleName(value) {
         setUsersName(value)
         console.log(usersName)
@@ -74,7 +74,6 @@ export default function CreateNewAccount() {
             email: userEmail,
             password: userPassword
         }
-        // console.log(userEmail, userPassword, newUser)
         axios.post('http://localhost:3001/signup', newUser)
         localStorage.setItem('name', usersName)
         localStorage.setItem('email', userEmail)
