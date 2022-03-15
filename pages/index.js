@@ -18,6 +18,16 @@ import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
 
+
+const DndLogo = styled.img`
+height: 20px;
+width: 20px;
+
+display: flex;
+justify-content: flex-end;
+`;
+
+
 const Page = styled.div`
   display:flex;
   margin:0;
@@ -458,6 +468,7 @@ export default function Home() {
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
             />)}
           </TrackScoll>
+          <DndLogo src="../public/bopbot_neutral.svg"></DndLogo>
 
         </TracksCont>
 
