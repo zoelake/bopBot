@@ -41,14 +41,6 @@ const NavLink = styled.p`
     font-weight: bold;
     line-height: 0;
     text-decoration: none;
-<<<<<<< HEAD
-    font-size: 18px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    color: ${props=>props.color};
-=======
     font-size: ${props => props.size};
     color: ${props => props.color};
     display: flex;
@@ -56,7 +48,6 @@ const NavLink = styled.p`
     align-items: center;
     line-height: 50px;
 
->>>>>>> ebafdfe611b3d800d23114a475998c9eab36ed85
     :hover {
         color: ${props => props.linkHover};
     }
@@ -119,16 +110,6 @@ const NavBar = ({
         bg={themes[theme].mid}
     >
         <LinkCont>
-<<<<<<< HEAD
-        <NavLink href="/" 
-        color={themes[theme].focus}
-        linkHover={themes[theme].highlight}
-        >
-            <RiHome2Fill
-            style={{marginRight:'5px'}}
-            /> Home
-        </NavLink>
-=======
             <Logo
                 src={'/bopBot_neutral.svg'}
                 onClick={goHome}
@@ -141,30 +122,8 @@ const NavBar = ({
             >
                 <RiHome2Fill style={{ marginRight: '10px' }} /> Home
             </NavLink> */}
->>>>>>> ebafdfe611b3d800d23114a475998c9eab36ed85
         </LinkCont>
         <LinkCont>
-<<<<<<< HEAD
-        <NavLink href="/" 
-        color={themes[theme].focus}
-        linkHover={themes[theme].highlight}
-        >
-            <RiMvFill
-            style={{marginRight:'5px'}}
-            /> Library
-        </NavLink>
-        </LinkCont>
-
-        <LinkCont>
-        <NavLink href="/" 
-        color={themes[theme].focus}
-        linkHover={themes[theme].highlight}
-        >
-            <RiSettings4Fill
-            style={{marginRight:'5px'}}
-            /> Settings
-        </NavLink>
-=======
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goLibrary}
@@ -182,7 +141,6 @@ const NavBar = ({
             >
                 <RiSettings4Fill style={{ marginRight: '10px' }} /> Settings
             </NavLink>
->>>>>>> ebafdfe611b3d800d23114a475998c9eab36ed85
         </LinkCont>
 
     </Container>

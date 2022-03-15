@@ -1,20 +1,20 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import MyButton from '../../comps/Button'
-import NavBar from '../../comps/Nav'
-import MyTrack from '../../comps/TrackInfo'
+import MyButton from '../comps/Button'
+import NavBar from '../comps/Nav'
+import MyTrack from '../comps/TrackInfo'
 
-import Playlist from '../../comps/Playlist'
-import SbButton from '../../comps/SbButton'
-import Toggle from '../../comps/Toggle'
-import MyText from '../../comps/Text'
-import { themes } from '../../utils/variables'
-import { useTheme, useTitle, useHeader, usePar } from '../../utils/provider'
+import Playlist from '../comps/Playlist'
+import SbButton from '../comps/SbButton'
+import Toggle from '../comps/Toggle'
+import MyText from '../comps/Text'
+import { themes } from '../utils/variables'
+import { useTheme, useTitle, useHeader, usePar } from '../utils/provider'
 import styled from 'styled-components';
-import { device } from '../../styles/mediaSizes'
-import MySwitch from '../../comps/Switch'
-import Slider from '../../comps/Slider'
-import UserInfo from '../../comps/UserInfo'
+import { device } from '../styles/mediaSizes'
+import MySwitch from '../comps/Switch'
+import Slider from '../comps/Slider'
+import UserInfo from '../comps/UserInfo'
 import { useState } from 'react'
 
 
@@ -62,13 +62,19 @@ const UserCont = styled.div`
 
 const SbCont = styled.div`
   display: flex;
-  height: 500px;
-  width: 800px;
-  justify-content: space-aroud;
+  /* justify-content: space-between; */
+  align-items: center;
+  padding-left: 30px;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height:230px;
+  position: relative;
+  top:-20px;
 
   border:2px solid red;
   flex-grow: 1;
-  flex-flow: column wrap;
+  width: 50vw
 `;
 const SliderCont = styled.div`
   display: flex;
@@ -183,27 +189,7 @@ export default function User() {
                             color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
                             text='liked'
                         />
-                        <Playlist
-                            cover='/playlistRap.png'
-                            onClick={() => setSelected('rap')}
-                            bg={selected === 'rap' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'rap' ? themes[theme].white : themes[theme].accent}
-                            text='rap'
-                        />
-                        <Playlist
-                            cover='/playlistPop.png'
-                            onClick={() => setSelected('pop')}
-                            bg={selected === 'pop' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'pop' ? themes[theme].white : themes[theme].accent}
-                            text='pop'
-                        />
-                        <Playlist
-                            cover='/playlistIndie.png'
-                            onClick={() => setSelected('indie')}
-                            bg={selected === 'indie' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'indie' ? themes[theme].white : themes[theme].accent}
-                            text='indie'
-                        />
+
 
                     </SbCont>
                 </Dashboard>
