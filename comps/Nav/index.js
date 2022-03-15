@@ -47,6 +47,7 @@ const NavLink = styled.p`
     justify-content: space-between;
     align-items: center;
     line-height: 50px;
+    cursor: pointer;
 
     :hover {
         color: ${props => props.linkHover};
@@ -54,8 +55,9 @@ const NavLink = styled.p`
 `;
 
 const Logo = styled.img`
-    height:100%;
+    height:80%;
     margin: 0px 0px 0px 10px;
+    cursor: pointer;
 `;
 
 const LinkCont = styled.div`

@@ -21,7 +21,7 @@ const Cont = styled.div`
         background-color: ${props => props.bgHover};
         color: ${props => props.textHover};
     } */
-    
+    cursor: pointer;
 `;
 const Text = styled.p`
     display:flex;   

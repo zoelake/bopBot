@@ -25,26 +25,30 @@ const Page = styled.div`
   margin:0;
   justify-content: center;
   width: 100vw;
-  position: absolute;
   height:95vh;
   bottom:0;
 
   border:2px solid red;
 `;
 
-
-
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
-    height:45vh;
-    padding:30px 10px 10px 60px;
     
 
     @media ${device.mobile}{
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height:100%;
+        top:20%;
 
     }
 
     @media ${device.tablet}{
+        flex-direction: row;
+        justify-content: space-between;
+        height:95vh;
     }
 
     @media ${device.desktop}{
@@ -55,20 +59,54 @@ const Dashboard = styled.div`
 `;
 
 const UserCont = styled.div`
-    background-color: blue;
-    width: 50 vw;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 50vw;
+    height: 150px;
+    padding-bottom: 10px;
+    margin-top: 100px;
+`;
+
+const UserImage = styled.div`
+    border-radius: 50px;
+    background-color: pink;
+    margin: 10px 0px 10px 10px;
     height: 100px;
+    width: 100px;
+`;
+
+const UserID = styled.div`
+    display: flex;
+    align-items: center;
+    font-size: 50px; 
+    color: ${props => props.color};
+    height: 100px;
+    width: 25vw;
+    padding-left: 25px;
+`;
+
+const LeftCont = styled.div`
+    display: flex;
+    flex-direction: column; 
+    padding-left: 50px;
 `;
 
 const SbCont = styled.div`
   display: flex;
-  height: 500px;
+  height: 50vh;
   width: 800px;
   justify-content: space-aroud;
 
   border:2px solid red;
   flex-grow: 1;
   flex-flow: column wrap;
+
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+ 
 `;
 const SliderCont = styled.div`
   display: flex;
@@ -80,8 +118,8 @@ const SliderCont = styled.div`
 
 const SpaceCont = styled.div`
 display: flex;
-width: 90%;
-padding-left: 5px;
+width: 50vw;
+padding-left: 20px;
 
 justify-content: space-between;
 border:2px solid red;
@@ -94,7 +132,7 @@ const TracksCont = styled.div`
     /* bottom:0;
     left:10px; */
     align-self: center;
-    width:80%;
+    width:50vw;
 
     flex-grow: 1
     
@@ -102,6 +140,7 @@ const TracksCont = styled.div`
 
 const RegCont = styled.div`
   padding-left: 30px;
+  border:2px solid red;
   
 `;
 
@@ -132,7 +171,16 @@ export default function User() {
                 <link rel="icon" href="#" />
             </Head>
             <Page>
-                <UserCont></UserCont>
+                <LeftCont>
+
+                
+                <UserCont>
+                    <UserImage/>
+                    <UserID
+                     color={themes[theme].text} 
+                    >User 123</UserID>
+
+                </UserCont>
 
                 <Dashboard
                     bg={themes[theme].contrast}>
@@ -207,6 +255,8 @@ export default function User() {
 
                     </SbCont>
                 </Dashboard>
+                </LeftCont>
+
                 <TracksCont>
                         <SpaceCont>
                             <MyText
@@ -231,8 +281,10 @@ export default function User() {
                         </RegCont>
 
                     </TracksCont>
+                    
 
             </Page>
+        
         </>
     )
 }

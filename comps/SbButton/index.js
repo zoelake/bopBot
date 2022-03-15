@@ -20,7 +20,7 @@ const Cont = styled.div`
     /* :hover {
         border: 2px solid ${props => props.borderHover};
     } */
-    
+    cursor: pointer;
 `;
 
 export default function SbButton({

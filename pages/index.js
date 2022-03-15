@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 
 const Page = styled.div`
   display:flex;
-  margin:0;
+  margin-top: 50px;
   
   position: absolute;
   
@@ -71,14 +71,17 @@ const Dashboard = styled.div`
       width:55%;
       padding:30px 10px 10px 60px;
     }
+
+    border:2px solid red;
 `;
 
 const SbCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  width: 75%;
   height:auto;
   justify-content: left;
+  border:2px solid red;
   /* padding-left: 30px; */
 `;
 const SliderCont = styled.div`
@@ -87,7 +90,7 @@ const SliderCont = styled.div`
   justify-content: space-evenly;
   align-self: center;
   /* padding-left: 30px; */
-  /* border:2px solid green; */
+  border:2px solid green;
   
 
   @media ${device.mobile}{
@@ -96,8 +99,11 @@ const SliderCont = styled.div`
     }
 
     @media ${device.tablet}{
+      justify-content: row;
       width: 60%;
-      padding: 0 10%;
+      align-items: center;
+      justify-content: center;
+      
     }
 
     @media ${device.desktop}{
@@ -116,10 +122,11 @@ const TrackScoll = styled.div`
 const TracksCont = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin-top: 100px;
   
-  height:95vh;
+  height:60vh;
   justify-content: left;
-  /* border:2px solid green; */
+  border:2px solid green;
   
 
   @media ${device.mobile}{
@@ -139,13 +146,39 @@ const TracksCont = styled.div`
 
 `;
 
+const TopCont = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 150px;
+  width: 50vw;
+`;
 
+const BotContainer = styled.div`
+  display: flex;
+  border:2px solid pink;
+  width: 50vw;
+  height: 15vh;
+  margin: 5px 5px 5px 0px;
+  justify-content: flex-end;
+  align-items: center;
+
+`;
+
+const BopBot = styled.img`
+    height:50%;
+    margin: 0px 0px 0px 10px;
+    cursor: pointer;
+`;
 
 const Divider = styled.div`
     background-color: ${props => props.color};
     align-self: center;
-    width:1px;
-    height:90%;
+    height: 1px;
+    width:100%;
+    position: relative;
+    margin-top: -90px;
+    margin-bottom: 20px;
 `;
 
 var timer = null;
@@ -431,14 +464,20 @@ export default function Home() {
 
         </Dashboard>
 
-        <Divider color={themes[theme].text} />
-
         <TracksCont>
 
+          <TopCont>
           <MyText
             text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
             size={`${headerSize}px`}
           />
+          <MyButton
+            text="sort"
+            width="75px"
+          />
+          </TopCont>
+
+          <Divider color={themes[theme].text} />
 
           <TrackScoll>
             {/* <MyTrack /> */}
@@ -453,7 +492,11 @@ export default function Home() {
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
             />)}
           </TrackScoll>
-
+          <BotContainer>
+            <BopBot
+              src={'/bopBot_sleepy.svg'}
+            />
+          </BotContainer>
         </TracksCont>
 
 

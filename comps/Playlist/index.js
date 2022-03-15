@@ -12,15 +12,16 @@ const Cont = styled.div`
     flex-direction:column;
     border-radius:10px;
     padding: 15px 0px 10px 0px;
-    margin:0 40px 0 0 ;
+    margin:10px 40px 15px 10px ;
     justify-content: space-around;
     background-color:${props => props.bg};
     color: ${props => props.color};
+    cursor: pointer;
 
     /* :hover {
         border: 2px solid ${props => props.borderHover};
     } */
-
+    
 `;
 
 
