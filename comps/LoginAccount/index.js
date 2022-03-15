@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { useAvatar, useEmail, useName, useTheme, useToken } from "../../utils/provider";
 import { useState } from 'react';
 import MyButton from '../Button';
 import { useRouter } from 'next/router'
@@ -24,7 +24,7 @@ const LoginInput = styled.input`
     background-color: ${props => props.bg};
     color:${props => props.txt};
     height:50px;
-    border:1.5px solid #8B64FA;
+    border:1.5px solid ${props=>props.border};
     margin:5px;
     padding:0 10px;
     width:90%;
@@ -39,13 +39,22 @@ const ButtonCont = styled.div`
 
 
 export default function LoginAccount() {
+
     const router = useRouter();
+
+    //local storage info
     const [userEmail, setUserEmail] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
-    // const [user, setUser] = useState({
-    //     email: '',
-    //     password: '',
-    // });
+
+    //provider info
+    const { name, setName } = useName();
+    const { email, setEmail } = useEmail();
+    const { avatar, setAvatar } = useAvatar();
+    const { token, setToken } = useToken();
+
+    //ui states 
+    const [border, setBorder] = useState(true);
+    const [inputError, setInputError] = useState(false);
 
     function HandleEmail(value) {
         setUserEmail(value)
@@ -57,15 +66,7 @@ export default function LoginAccount() {
         console.log(userPassword)
     }
 
-    function CreateAccount() {
-        console.log('creating acc')
-        const newUser = {
-            email: userEmail,
-            password: userPassword
-        }
-        console.log(userEmail, userPassword, newUser)
-        axios.post('http://localhost:3001/signup', newUser)
-    }
+
 
     function Login() {
         const getUser = {
@@ -73,33 +74,38 @@ export default function LoginAccount() {
             password: userPassword
         }
         axios.post('http://localhost:3001/login', getUser)
-            .then(token => {
-                if (token) {
-                    console.log(token)
-                    localStorage.setItem('token', token)
+            .then((res) => {
+                if (res) {
+                    console.log(res.data.name)
+                    localStorage.setItem('name', res.data.name)
+                    localStorage.setItem('email', res.data.email)
+                    // localStorage.setItem('token', res.data.token)
+                    setName(res.data.name)
+                    setEmail(res.data.email)
+                    setAvatar(res.data.avatar)
+                    // setToken(res.data.token)
+
                     router.push('/')
-                } else {
-                    console.log('no tokes :(')
-                }
+
+                } 
             })
             .catch(e => {
                 console.log(e)
+                setBorder(false)
+                setInputError(true)
             })
-        // console.log(getUser)
 
-        // if (res !== false) {
-        //     router.push('/')
-        // } else {
-        //     console.log('res came back false')
-        // }
     }
+
+    
 
     return (
         <InputCont>
             <h1>Login to your account</h1>
             <p>Welcome back!</p>
-            <LoginInput name='email' placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} />
-            <LoginInput name='password' placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} />
+            <p>{inputError ? 'Credentials incorrect or not found. Please, try again.' : ''}</p>
+            <LoginInput border={border ? '#8B64FA' : 'red'} name='email' placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} onSelect={()=>setBorder(true)}/>
+            <LoginInput border={border ? '#8B64FA' : 'red'} name='password' placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} onSelect={()=>setBorder(true)} />
             <ButtonCont>
                 <MyButton onClick={Login} text='Login' />
                 <p>Don't have an account?</p>

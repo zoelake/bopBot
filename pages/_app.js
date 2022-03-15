@@ -1,12 +1,13 @@
 import '../styles/globals.css'
-import MyThemeProvider, { usePage } from '../utils/provider'
+import MyThemeProvider, { usePage, useName } from '../utils/provider'
 import "./_app.css"
 import { createGlobalStyle } from 'styled-components';
 import NavBar from '../comps/Nav';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import MyButton from '../comps/Button';
+import Login from '../comps/LoginAccount';
+
 
 const GlobalStyle = createGlobalStyle`
 //fonts
@@ -23,32 +24,22 @@ function MyApp({ Component, pageProps }) {
 
   const router = useRouter();
   const page = router.params;
-  const [login, setLogin] = useState(false)
+  const {name} = useName();
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      if (localStorage.getItem('token' !== undefined)) {
-        () => setLogin(true)
-      } else {
-          () => setLogin(false)
-          router.push('/login')
+    if (localStorage.getItem('name')) {
+      console.log('user loged in')
 
-      } 
     } else {
-      () => setLogin(false)
       router.push('/login')
     }
-
-    console.log(login)
-
   }, [page])
 
 
-    return <MyThemeProvider>
-      <GlobalStyle />
-      <NavBar />
-      <Component {...pageProps} />
-    </MyThemeProvider>
+  return <MyThemeProvider>
+    <GlobalStyle />
+    <Component {...pageProps} />
+  </MyThemeProvider>
 
 
 }

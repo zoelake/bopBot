@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { useEmail, useName, useTheme } from "../../utils/provider";
 import { useState } from 'react';
 import MyButton from '../Button';
 import { useRouter } from 'next/router';
@@ -25,7 +25,7 @@ const LoginInput = styled.input`
     background-color: ${props => props.bg};
     color:${props => props.txt};
     height:50px;
-    border:1.5px solid #8B64FA;
+    border:1.5px solid ${props=>props.border};
     margin:5px;
     padding:0 10px;
     width:90%;
@@ -43,12 +43,24 @@ export default function CreateNewAccount() {
 
     const router = useRouter();
     const { theme } = useTheme();
+
+    // local storage info
+    const [usersName, setUsersName] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
-    // const [user, setUser] = useState({
-    //     email: '',
-    //     password: '',
-    // });
+
+    //provider info
+    const { name, setName } = useName();
+    const { email, setEmail } = useEmail();
+
+    //ui states
+    const [border, setBorder] = useState(true);
+    const [inputError, setInputError] = useState(false);
+
+    function HandleName(value) {
+        setUsersName(value)
+        console.log(usersName)
+    }
 
     function HandleEmail(value) {
         setUserEmail(value)
@@ -60,24 +72,31 @@ export default function CreateNewAccount() {
         console.log(userPassword)
     }
 
+
+
     function CreateAccount() {
-        console.log('creating acc')
         const newUser = {
+            name: usersName,
             email: userEmail,
             password: userPassword
         }
-        // console.log(userEmail, userPassword, newUser)
         axios.post('http://localhost:3001/signup', newUser)
-        router.push('/')
+            .then((res) => {
+                if (res.status == 201) {
+                    localStorage.setItem('name', usersName)
+                    localStorage.setItem('email', userEmail)
+                    setName(usersName)
+                    setEmail(userEmail)
+                    router.push('/')
+                } 
+            }).catch(e => {
+                console.log(e)
+                setBorder(false)
+                setInputError(true)
+            })
     }
 
-    // function Login() {
-    //     const getUser = {
-    //         email: userEmail,
-    //         password: userPassword
-    //     }
-    //     axios.post('http://localhost:3001/login', getUser)
-    // }
+    
 
     return (
         <InputCont
@@ -85,8 +104,10 @@ export default function CreateNewAccount() {
         >
             <h1>Create an Account</h1>
             <p style={{ textAlign: 'center', width: '80%' }}>Create an account to get started!</p>
-            <LoginInput placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} />
-            <LoginInput placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} />
+            <p>{inputError ? 'Credentials incorrect or not found. Please, try again.' : ''}</p>
+            <LoginInput border={'#8B64FA'} placeholder='Name...' onChange={(e) => HandleName(e.target.value)} />
+            <LoginInput border={border ? '#8B64FA' : 'red'} placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} onSelect={()=>setBorder(true)}/>
+            <LoginInput border={'#8B64FA'} placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} />
             <ButtonCont>
                 <MyButton onClick={CreateAccount} text='Create Account' />
                 <p>Already have an account?</p>
