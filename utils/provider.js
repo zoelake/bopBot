@@ -23,8 +23,14 @@ const initialState = {
     setSbSize: () => { },
 
     //user
-    user:null,
-    setUser: () => {},
+    name:null,
+    setName: () => {},
+    email:null,
+    setEmail: () => {},
+    avatar:null,
+    setAvatar: () => {},
+    token:null,
+    setToken: () => {},
 }
 
 const MyThemeContext = createContext(initialState);
@@ -43,11 +49,14 @@ export default function MyThemeProvider({ children }) {
     const [parSize, setParSize] = useState(initialState.parSize)
     const [sbSize, setSbSize] = useState(initialState.sbSize)
     //user
-    const [user, setUser] = useState(initialState.user)
+    const [name, setName] = useState(initialState.name)
+    const [email, setEmail] = useState(initialState.email)
+    const [avatar, setAvatar] = useState(initialState.email)
+    const [token, setToken] = useState(initialState.token)
 
 
     return <MyThemeContext.Provider value={{
-        theme, setTheme, page, setPage, explicit, setExplicit, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize, sbSize, setSbSize, user, setUser,
+        theme, setTheme, page, setPage, explicit, setExplicit, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize, sbSize, setSbSize, name, setName, email, setEmail, avatar, setAvatar, token, setToken,
     }}>
         <style jsx global>
             {`
@@ -95,7 +104,24 @@ export const useSbSize = () => {
     return { sbSize, setSbSize };
 }
 
-export const currentUser = () => {
-    const { user, setUser } = useContext(MyThemeContext);
-    return { user, setUser };
+export const useName = () => {
+    const { name, setName } = useContext(MyThemeContext);
+    return { name, setName };
 }
+
+export const useEmail = () => {
+    const { email, setEmail } = useContext(MyThemeContext);
+    return { email, setEmail };
+}
+
+export const useAvatar = () => {
+    const { avatar, setAvatar } = useContext(MyThemeContext);
+    return { avatar, setAvatar };
+}
+
+export const useToken = () => {
+    const { token, setToken } = useContext(MyThemeContext);
+    return { token, setToken };
+}
+
+
