@@ -20,8 +20,8 @@ import { useRouter } from "next/router";
 
 
 const DndLogo = styled.img`
-height: 20px;
-width: 20px;
+height: 60px;
+width: 60px;
 
 display: flex;
 justify-content: flex-end;
@@ -468,7 +468,7 @@ export default function Home() {
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
             />)}
           </TrackScoll>
-          <DndLogo src="../public/bopbot_neutral.svg"></DndLogo>
+          <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
 
         </TracksCont>
 
