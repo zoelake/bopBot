@@ -205,14 +205,13 @@ export default function User() {
         getPlaylists()
     }, [])
 
-    function getPlaylists() {
-
-        const usersPlaylists = {
-            name: email,
-            hello: 'world'
-        };
-
-        axios.get('http://localhost:3001/get-playlists', usersPlaylists)
+    function getPlaylists() {   
+        console.log('GETTING PLAYLISTS')
+        const user = {
+            playlist_name: playlistInput,
+            user: localStorage.getItem('email')
+        }
+        axios.post('http://localhost:3001/get-playlists', user)
             .then((res) => {
                 if (res.status == 200) {
                     console.log(res.data.playlists)
