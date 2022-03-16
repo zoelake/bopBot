@@ -275,15 +275,17 @@ export default function Home() {
     axios.post('http://localhost:3001/new/playlist/liked', track)
   }
 
-  const [newTracks, setNewTracks] = useState([]);
+  const [newTracks, setNewTracks] = useState();
+  let loadedTracks = null;
 
   function getTracks() {
     console.log('connecting to database...')
-    axios.get('http://localhost:3001/tracks', newTracks)
+    axios.get('http://localhost:3001/tracks')
       .then((res) => {
-        // console.log('here are your tracks! ' + res.data)
-        setNewTracks(res.data)
-        console.log(newTracks);
+        console.log('here are your tracks! ' + res)
+        // setNewTracks(res)
+        loadedTracks = res.data
+        console.log(loadedTracks);
 
       }).catch(e => {
         console.log(e)
@@ -302,7 +304,7 @@ export default function Home() {
       </Head>
       <NavBar />
       <Page>
-        {/* <p>{newTracks}</p> */}
+        <p>{newTracks}</p>
         <Dashboard>
           <button onClick={getTracks}>get mongo tracks</button>
           <MyText

@@ -1,9 +1,8 @@
 import tracks from '../../utils/dataSet.json'
 import { filtering, sorting } from '../../utils/functions';
 import axios from 'axios';
-import { useState } from 'react';
 
-const handler = async (req, res) => {
+export default function handler(req, res) {
 
     //HELPER FUNCTIONS FOR YOU TO USE!
     // console.log(req.query, req.body)
@@ -11,60 +10,60 @@ const handler = async (req, res) => {
     //const files = await Read();
 
     //detect if filter/save/read
-    let newTracks = null;
-    const [dataReady, setDataReady] = useState(false)
 
+    var lists = [];
+    let loadedTracks = null;
+
+    console.log('connecting to database...')
     axios.get('http://localhost:3001/tracks')
-        .then((res) => {
-            // console.log('here are your tracks! ' + res.data)
-            newTracks = res.data;
-            console.log(newTracks);
-            if (newTracks !== null) {
-                console.log('data is ready')
-                setDataReady(true)
+        .then((red) => {
+            console.log('here are your tracks! ' + red)
+            loadedTracks = red.data
+            console.log(loadedTracks);
+            if (loadedTracks !== null) {
+
+                console.log('filtering data')
+                const { genre, acousticness, danceability, energy, instrumentals, loudness, tempo } = req.query;
+
+
+
+
+                if (genre || acousticness || danceability || energy || instrumentals || loudness || tempo
+                ) {
+                    if (genre) {
+                        lists = filtering(loadedTracks, {
+                            [genre]: 1,
+                            acousticness: acousticness,
+                            danceability: danceability,
+                            energy: energy,
+                            instrumentals: instrumentals,
+                            loudness: loudness,
+                            tempo: tempo,
+                        })
+                    } else {
+                        lists = filtering(loadedTracks, {
+                            acousticness: acousticness,
+                            danceability: danceability,
+                            energy: energy,
+                            instrumentals: instrumentals,
+                            loudness: loudness,
+                            tempo: tempo,
+                        })
+                    }
+
+
+                    lists = lists.slice(0, 10);
+                    res.status(200).json(lists);
+                }
+
             }
 
-        }).catch(e => {
+
+
+        }).catch((e) => {
             console.log(e)
         })
-    var lists = [];
-
-    if (dataReady) {
-
-        console.log('filtering data')
-        const { genre, acousticness, danceability, energy, instrumentals, loudness, tempo } = req.query;
 
 
-
-
-        if (genre || acousticness || danceability || energy || instrumentals || loudness || tempo
-        ) {
-            if (genre) {
-                lists = filtering(newTracks, {
-                    [genre]: 1,
-                    acousticness: acousticness,
-                    danceability: danceability,
-                    energy: energy,
-                    instrumentals: instrumentals,
-                    loudness: loudness,
-                    tempo: tempo,
-                })
-            } else {
-                lists = filtering(newTracks, {
-                    acousticness: acousticness,
-                    danceability: danceability,
-                    energy: energy,
-                    instrumentals: instrumentals,
-                    loudness: loudness,
-                    tempo: tempo,
-                })
-            }
-
-        }
-    }
-    lists = lists.slice(0, 10);
-    res.status(200).json(lists);
 
 }
-
-export default handler;
