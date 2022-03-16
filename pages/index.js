@@ -18,16 +18,6 @@ import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
 
-
-const DndLogo = styled.img`
-height: 60px;
-width: 60px;
-
-display: flex;
-justify-content: flex-end;
-`;
-
-
 const Page = styled.div`
   display:flex;
   margin:0;
@@ -267,7 +257,7 @@ export default function Home() {
   // ]
 
   //setting user data
-  const {name} = useName();
+  const { name } = useName();
   //end set user data
 
   const [track, setTrackToSend] = useState({});
@@ -285,6 +275,23 @@ export default function Home() {
     axios.post('http://localhost:3001/new/playlist/liked', track)
   }
 
+  const [newTracks, setNewTracks] = useState([]);
+
+  function getTracks() {
+    console.log('connecting to database...')
+    axios.get('http://localhost:3001/tracks', newTracks)
+      .then((res) => {
+        // console.log('here are your tracks! ' + res.data)
+        setNewTracks(res.data)
+        console.log(newTracks);
+
+      }).catch(e => {
+        console.log(e)
+      })
+
+  }
+
+
 
   return (
     <>
@@ -295,8 +302,9 @@ export default function Home() {
       </Head>
       <NavBar />
       <Page>
-
+        {/* <p>{newTracks}</p> */}
         <Dashboard>
+          <button onClick={getTracks}>get mongo tracks</button>
           <MyText
             weight={500}
             lineHeight='0'
@@ -468,7 +476,6 @@ export default function Home() {
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
             />)}
           </TrackScoll>
-          <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
 
         </TracksCont>
 
@@ -480,5 +487,6 @@ export default function Home() {
 
 
 }
+
 
 
