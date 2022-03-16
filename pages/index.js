@@ -302,9 +302,8 @@ export default function Home() {
       </Head>
       <NavBar />
       <Page>
-        {/* <p>{newTracks}</p> */}
         <Dashboard>
-          <button onClick={getTracks}>get mongo tracks</button>
+          {/* <button onClick={getTracks}>get mongo tracks</button> */}
           <MyText
             weight={500}
             lineHeight='0'

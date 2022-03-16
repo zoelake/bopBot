@@ -261,11 +261,11 @@ export default function User() {
             </Head>
             <NavBar />
             <Page>
-                <input placeholder='new playlist name / current ...' onChange={(e) => HandlePlaylists(e.target.value)}></input>
+                {/* <input placeholder='new playlist name / current ...' onChange={(e) => HandlePlaylists(e.target.value)}></input>
                 <input placeholder='updating playlist name to...' onChange={(e) => HandlePlaylists2(e.target.value)}></input>
                 <button onClick={CreateNewPlaylist}>add new playlist</button>
                 <button onClick={UpdatePlaylist}>update a playlist name</button>
-                <button onClick={DeletePlaylist}>delete playlist</button>
+                <button onClick={DeletePlaylist}>delete playlist</button> */}
                 <Dashboard
                     bg={themes[theme].contrast}>
 
