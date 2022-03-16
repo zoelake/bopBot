@@ -9,13 +9,13 @@ import SbButton from '../../comps/SbButton'
 import Toggle from '../../comps/Toggle'
 import MyText from '../../comps/Text'
 import { themes } from '../../utils/variables'
-import { useTheme, useTitle, useHeader, usePar, useId } from '../../utils/provider'
+import { useTheme, useTitle, useHeader, usePar, useId, useEmail } from '../../utils/provider'
 import styled from 'styled-components';
 import { device } from '../../styles/mediaSizes'
 import MySwitch from '../../comps/Switch'
 import Slider from '../../comps/Slider'
 import UserInfo from '../../comps/UserInfo'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
@@ -117,6 +117,10 @@ export default function User() {
     const [playlistInput, setPlaylistInput] = useState(null);
     const [playlistInput2, setPlaylistInput2] = useState(null);
     const [playlistImg, setPlaylistImg] = useState(null);
+    const [usersPlaylists, setUserPlaylists] = useState([])
+
+
+
 
     function HandlePlaylists(value) {
         setPlaylistInput(value)
@@ -141,13 +145,15 @@ export default function User() {
             }).catch(e => {
                 console.log(e)
             })
+        setTimeout(getPlaylists, 500);
+
     }
 
     function UpdatePlaylist() {
         const playlist = {
             playlist_name: playlistInput,
-            playlist_newName:playlistInput2,
-            playlist_newImg:playlistImg,
+            playlist_newName: playlistInput2,
+            playlist_newImg: playlistImg,
             user: localStorage.getItem('email')
         }
         axios.post('http://localhost:3001/update-playlist', playlist)
@@ -158,6 +164,9 @@ export default function User() {
             }).catch(e => {
                 console.log(e)
             })
+        setTimeout(getPlaylists, 500);
+
+
     }
 
     function DeletePlaylist() {
@@ -173,16 +182,46 @@ export default function User() {
             }).catch(e => {
                 console.log(e)
             })
+
+        setTimeout(getPlaylists, 500);
+
     }
 
 
     const { id, setId } = useId();
+    const { email, setEmail } = useEmail();
     const router = useRouter();
 
     if (typeof window !== 'undefined') {
         if (localStorage.getItem('id')) {
             setId(localStorage.getItem('id'))
         }
+        if (localStorage.getItem('email')) {
+            setEmail(localStorage.getItem('email'))
+
+        }
+    }
+    useEffect(() => {
+        getPlaylists()
+    }, [])
+
+    function getPlaylists() {
+
+        const usersPlaylists = {
+            name: email,
+            hello: 'world'
+        };
+
+        axios.get('http://localhost:3001/get-playlists', usersPlaylists)
+            .then((res) => {
+                if (res.status == 200) {
+                    console.log(res.data.playlists)
+                    setUserPlaylists(res.data.playlists)
+                }
+            }).catch(e => {
+                console.log(e)
+            })
+
     }
 
     if (router.isReady) {
@@ -241,14 +280,25 @@ export default function User() {
 
                     <SbCont>
                         {/* map this out: */}
-                        <Playlist
-                            cover='/playlistLiked.png'
-                            onClick={() => setSelected('liked')}
+                        {usersPlaylists !== [] ? usersPlaylists.map((o) => <Playlist
+                            key={o._id}
+                            text={o.name}
+                            cover={o.img}
+                            onClick={() => setSelected(o.name)}
                             bg={selected === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
                             color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
-                            text='liked'
-                        />
-                        <Playlist
+
+                        />)
+                            : <Playlist
+                                cover='/playlistLiked.png'
+                                onClick={() => setSelected('liked')}
+                                bg={selected === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
+                                color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
+                                text='Loading'
+                            />
+                        }
+
+                        {/* <Playlist
                             cover='/playlistRap.png'
                             onClick={() => setSelected('rap')}
                             bg={selected === 'rap' ? themes[theme].accent : themes[theme].playBg}
@@ -268,7 +318,7 @@ export default function User() {
                             bg={selected === 'indie' ? themes[theme].accent : themes[theme].playBg}
                             color={selected === 'indie' ? themes[theme].white : themes[theme].accent}
                             text='indie'
-                        />
+                        /> */}
 
                     </SbCont>
                 </Dashboard>
