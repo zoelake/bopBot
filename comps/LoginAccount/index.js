@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { themes } from "../../utils/variables";
-import { useAvatar, useEmail, useName, useTheme, useToken } from "../../utils/provider";
+import { useAvatar, useEmail, useId, useName, useTheme, useToken } from "../../utils/provider";
 import { useState } from 'react';
 import MyButton from '../Button';
 import { useRouter } from 'next/router'
@@ -49,6 +49,7 @@ export default function LoginAccount() {
     //provider info
     const { name, setName } = useName();
     const { email, setEmail } = useEmail();
+    const { id, setId } = useId();
     const { avatar, setAvatar } = useAvatar();
     const { token, setToken } = useToken();
 
@@ -79,8 +80,10 @@ export default function LoginAccount() {
                     console.log(res.data.name)
                     localStorage.setItem('name', res.data.name)
                     localStorage.setItem('email', res.data.email)
+                    localStorage.setItem('id', res.data._id)
                     // localStorage.setItem('token', res.data.token)
                     setName(res.data.name)
+                    setId(res.data._id)
                     setEmail(res.data.email)
                     setAvatar(res.data.avatar)
                     // setToken(res.data.token)

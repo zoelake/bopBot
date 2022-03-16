@@ -9,7 +9,7 @@ import SbButton from '../../comps/SbButton'
 import Toggle from '../../comps/Toggle'
 import MyText from '../../comps/Text'
 import { themes } from '../../utils/variables'
-import { useTheme, useTitle, useHeader, usePar } from '../../utils/provider'
+import { useTheme, useTitle, useHeader, usePar, useId } from '../../utils/provider'
 import styled from 'styled-components';
 import { device } from '../../styles/mediaSizes'
 import MySwitch from '../../comps/Switch'
@@ -17,6 +17,7 @@ import Slider from '../../comps/Slider'
 import UserInfo from '../../comps/UserInfo'
 import { useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
 
 
@@ -113,16 +114,38 @@ export default function User() {
 
     const [newPlaylistName, setNewPlaylistName] = useState(null);
 
-    function HandleNewPlaylistName(value){
+    function HandleNewPlaylistName(value) {
         setNewPlaylistName(value)
-    }   
+    }
 
-    function CreateNewPlaylist(){
+    function CreateNewPlaylist() {
         const newPlaylist = {
             name: newPlaylistName,
         }
         axios.post('http://localhost:3001/update-userName')
     }
+
+    //not saving very well 
+    const { id, setId } = useId();
+
+    const router = useRouter();
+
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('id')) {
+            setId(localStorage.getItem('id'))
+        }
+    }
+
+    if (router.isReady) {
+        console.log('router is ready')
+        const activeUser = router.asPath;
+        console.log(id)
+        console.log(activeUser)
+        if (`/user/${id}` !== activeUser) {
+            return <p>nothing</p>
+        }
+    }
+
 
     return (
         <>
@@ -180,29 +203,29 @@ export default function User() {
                     </SbCont>
                 </Dashboard>
                 <TracksCont>
-                        <SpaceCont>
-                            <MyText
-                                text={selected === null ? 'liked' : selected}
-                                size={`${headerSize}px`}
-                            />
-                            <MyButton
-                                onClick={() => setAddedRecent(!addedRecent)}
-                                text={addedRecent ? 'See oldest ' : 'See newest'}
-                            />
+                    <SpaceCont>
+                        <MyText
+                            text={selected === null ? 'liked' : selected}
+                            size={`${headerSize}px`}
+                        />
+                        <MyButton
+                            onClick={() => setAddedRecent(!addedRecent)}
+                            text={addedRecent ? 'See oldest ' : 'See newest'}
+                        />
 
-                        </SpaceCont>
+                    </SpaceCont>
 
-                        <Divider
-                            color={themes[theme].text} />
-                        <br></br>
+                    <Divider
+                        color={themes[theme].text} />
+                    <br></br>
 
-                        <RegCont>
-                            <MyTrack />
-                            <MyTrack />
-                            <MyTrack />
-                        </RegCont>
+                    <RegCont>
+                        <MyTrack />
+                        <MyTrack />
+                        <MyTrack />
+                    </RegCont>
 
-                    </TracksCont>
+                </TracksCont>
 
             </Page>
         </>
