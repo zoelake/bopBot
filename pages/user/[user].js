@@ -278,7 +278,6 @@ export default function User() {
                     />
 
                     <SbCont>
-                        {/* map this out: */}
                         {usersPlaylists !== [] ? usersPlaylists.map((o) => <Playlist
                             key={o._id}
                             text={o.name}
