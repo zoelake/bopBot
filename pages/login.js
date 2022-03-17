@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import styled from 'styled-components'
+import CreateNewAccount from '../comps/CreateAccount';
 import LoginAccount from "../comps/LoginAccount";
 
 const Page = styled.div`
@@ -11,10 +13,16 @@ const Page = styled.div`
 
 export default function CreateAccount() {
 
+    const [view, setView] = useState('login')
+
+    if (view == 'login') {
+        return <Page>
+            <LoginAccount switchView={() => setView('create-account')} />
+        </Page>
+    }
     return (
         <Page>
-            <LoginAccount />
-            {/* banner */}
+            <CreateNewAccount switchView={() => setView('login')} />
         </Page>
     )
 }

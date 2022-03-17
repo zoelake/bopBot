@@ -69,7 +69,7 @@ const LinkCont = styled.div`
 
 
 const NavBar = ({
-    id = 1,
+    // id = 1,
     visibility = 'visible',
 }) => {
 
@@ -98,6 +98,7 @@ const NavBar = ({
     }
 
     function goLibrary() {
+        const id = localStorage.getItem('id')
         router.push(`/user/${id}`)
         setPage('library')
     }

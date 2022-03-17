@@ -23,14 +23,16 @@ const initialState = {
     setSbSize: () => { },
 
     //user
-    name:null,
-    setName: () => {},
-    email:null,
-    setEmail: () => {},
-    avatar:null,
-    setAvatar: () => {},
-    token:null,
-    setToken: () => {},
+    name: null,
+    setName: () => { },
+    email: null,
+    setEmail: () => { },
+    avatar: null,
+    setAvatar: () => { },
+    id: null,
+    setId: () => { },
+    token: null,
+    setToken: () => { },
 }
 
 const MyThemeContext = createContext(initialState);
@@ -53,10 +55,11 @@ export default function MyThemeProvider({ children }) {
     const [email, setEmail] = useState(initialState.email)
     const [avatar, setAvatar] = useState(initialState.email)
     const [token, setToken] = useState(initialState.token)
+    const [id, setId] = useState(initialState.id)
 
 
     return <MyThemeContext.Provider value={{
-        theme, setTheme, page, setPage, explicit, setExplicit, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize, sbSize, setSbSize, name, setName, email, setEmail, avatar, setAvatar, token, setToken,
+        theme, setTheme, page, setPage, explicit, setExplicit, titleSize, setTitleSize, headerSize, setHeaderSize, parSize, setParSize, sbSize, setSbSize, name, setName, email, setEmail, avatar, setAvatar, token, setToken, id, setId
     }}>
         <style jsx global>
             {`
@@ -112,6 +115,11 @@ export const useName = () => {
 export const useEmail = () => {
     const { email, setEmail } = useContext(MyThemeContext);
     return { email, setEmail };
+}
+
+export const useId = () => {
+    const { id, setId } = useContext(MyThemeContext);
+    return { id, setId };
 }
 
 export const useAvatar = () => {

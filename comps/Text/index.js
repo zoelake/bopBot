@@ -22,12 +22,14 @@ export default function MyText({
     weight,
     lineHeight = 'auto',
     hover,
+    onClick = () => {},
 }){
 
     const {theme} = useTheme();
    
 
     return <Text
+    onClick={onClick}
    color={color || themes[theme].text}
     fontSize={size}
     height={lineHeight}
