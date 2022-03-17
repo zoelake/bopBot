@@ -118,6 +118,10 @@ export default function User() {
     const [playlistInput2, setPlaylistInput2] = useState(null);
     const [playlistImg, setPlaylistImg] = useState(null);
     const [usersPlaylists, setUserPlaylists] = useState([])
+    const [likedPlaylist, setLikedPlaylist] = useState([])
+    const [selectedPlaylist, setSelectedPlaylist] = useState(null)
+    const [selectedPlaylistId, setSelectedPlaylistId] = useState(null)
+
 
 
 
@@ -205,7 +209,7 @@ export default function User() {
         getPlaylists()
     }, [])
 
-    function getPlaylists() {   
+    function getPlaylists() {
         console.log('GETTING PLAYLISTS')
         const user = {
             playlist_name: playlistInput,
@@ -214,13 +218,34 @@ export default function User() {
         axios.post('http://localhost:3001/get-playlists', user)
             .then((res) => {
                 if (res.status == 200) {
-                    console.log(res.data.playlists)
+                    console.log(res.data)
                     setUserPlaylists(res.data.playlists)
+                    setLikedPlaylist(res.data.liked)
                 }
             }).catch(e => {
                 console.log(e)
             })
 
+    }
+
+    function getPlaylistByName() {
+        console.log('GETTING SPECIFIC PLAYLIST')
+        console.log('playlist id')
+        const user = {
+            playlist_id: selectedPlaylistId,
+            email: localStorage.getItem('email')
+        }
+        console.log(user)
+        axios.get('http://localhost:3001/get-a-playlist', user)
+            .then((res) => {
+                if (res.status == 200) {
+                    console.log('ur res: ')
+                    console.log(res.data)
+                    setSelectedPlaylist(res.data)
+                }
+            }).catch((e) => {
+                console.log(e)
+            })
     }
 
     if (router.isReady) {
@@ -251,6 +276,13 @@ export default function User() {
         }
     }
 
+    function handlePlaylistClick(playlist) {
+        console.log('the playlist:')
+        console.log(playlist._id)
+        setSelected(playlist.name)
+        setSelectedPlaylistId(playlist._id)
+        getPlaylistByName();
+    }
 
     return (
         <>
@@ -278,11 +310,19 @@ export default function User() {
                     />
 
                     <SbCont>
+                        <Playlist
+                            text='likes'
+                            cover={'/heart.png'}
+                            onClick={() => setSelected('likes')}
+                            bg={selected === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
+                            color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
+                        />
+
                         {usersPlaylists !== [] ? usersPlaylists.map((o) => <Playlist
                             key={o._id}
                             text={o.name}
                             cover={o.img}
-                            onClick={() => setSelected(o.name)}
+                            onClick={(obj) => handlePlaylistClick(o)}
                             bg={selected === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
                             color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
 
@@ -296,34 +336,13 @@ export default function User() {
                             />
                         }
 
-                        {/* <Playlist
-                            cover='/playlistRap.png'
-                            onClick={() => setSelected('rap')}
-                            bg={selected === 'rap' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'rap' ? themes[theme].white : themes[theme].accent}
-                            text='rap'
-                        />
-                        <Playlist
-                            cover='/playlistPop.png'
-                            onClick={() => setSelected('pop')}
-                            bg={selected === 'pop' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'pop' ? themes[theme].white : themes[theme].accent}
-                            text='pop'
-                        />
-                        <Playlist
-                            cover='/playlistIndie.png'
-                            onClick={() => setSelected('indie')}
-                            bg={selected === 'indie' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'indie' ? themes[theme].white : themes[theme].accent}
-                            text='indie'
-                        /> */}
 
                     </SbCont>
                 </Dashboard>
                 <TracksCont>
                     <SpaceCont>
                         <MyText
-                            text={selected === null ? 'liked' : selected}
+                            text={selected === null ? 'likes' : selected}
                             size={`${headerSize}px`}
                         />
                         <MyButton
@@ -338,9 +357,28 @@ export default function User() {
                     <br></br>
 
                     <RegCont>
-                        <MyTrack />
-                        <MyTrack />
-                        <MyTrack />
+                        {selected == 'likes' & likedPlaylist !== [] ? likedPlaylist.map((o, i) => <MyTrack
+                            key={i}
+                            onTrackClick={() => router.push(o.Uri)}
+                            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+                            OpenOptions={(obj) => handleTrackOptions(o)}
+                            artist={o.Artist}
+                            song={o.Title}
+                            album={o.Album}
+                            time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                        />) : usersPlaylists.map((o, i) => <MyTrack
+                            key={i}
+                            onTrackClick={() => router.push(o.Uri)}
+                            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+                            OpenOptions={(obj) => handleTrackOptions(o)}
+                            artist={o.Artist}
+                            song={o.Title}
+                            album={o.Album}
+                            time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                        />)}
+
+
+
                     </RegCont>
 
                 </TracksCont>
