@@ -38,7 +38,9 @@ const ButtonCont = styled.div`
 `;
 
 
-export default function LoginAccount() {
+export default function LoginAccount({
+    switchView = () => {},
+}) {
 
     const router = useRouter();
 
@@ -112,7 +114,7 @@ export default function LoginAccount() {
             <ButtonCont>
                 <MyButton onClick={Login} text='Login' />
                 <p>Don't have an account?</p>
-                <p style={{ textDecoration: 'underline' }} onClick={() => router.push('/create-account')}>Create Account</p>
+                <p style={{ textDecoration: 'underline' }} onClick={switchView}>Create Account</p>
             </ButtonCont>
         </InputCont>
     );
