@@ -148,6 +148,19 @@ const Divider = styled.div`
     height:90%;
 `;
 
+//please fix this styling lol
+const Model = styled.div`
+  width: 300px;
+  height:300px;
+  padding:5px;
+  position:absolute;
+  top:20%;
+  left:45%;
+  background-color: #fff;
+  color:black;
+  z-index:1000;
+`;
+
 var timer = null;
 
 export default function Home() {
@@ -260,34 +273,96 @@ export default function Home() {
   const { name } = useName();
   //end set user data
 
-  const [track, setTrackToSend] = useState({});
+  const [trackModel, setTrackModel] = useState(false);
+  const [selectedPlaylist, setSelectedPlaylist] = useState([])
+  const [selectedTrack, setSelectedTrack] = useState([])
 
-  function PostToLiked(id, trackdata) {
-    console.log('this is' + trackdata.Title)
-    track[id] = {
-      ...track[id],
-      ...trackdata
-    }
-    setTrackToSend({
-      ...track
-    })
-    console.log(track)
-    axios.post('http://localhost:3001/new/playlist/liked', track)
+  function handleTrackOptions(trackdata) {
+    console.log(trackdata)
+    //display model
+    setTrackModel(!trackModel)
+    setSelectedTrack(trackdata)
+    console.log('modle is set to: ' + trackModel)
+
   }
 
-  const [newTracks, setNewTracks] = useState([]);
+  function SetAndAddTrack(playlist) {
+    console.log('playlist name: ' + playlist)
+    setSelectedPlaylist(playlist)
+    AddTrackToPlaylist(selectedTrack, playlist)
+  }
+
+  function AddTrackToPlaylist(trackdata, playlist) {
+    console.log(trackdata)
+    console.log('playlist: ' + playlist)
+    const info = {
+      user: localStorage.getItem('email'),
+      playlist_name: playlist,
+      track: trackdata,
+    }
+    console.log(info)
+    axios.post('http://localhost:3001/tracks-add-playlist', info).then((res) => {
+      console.log('returning:')
+      console.log(res)
+    }).catch(e => {
+      console.log(e)
+    })
+  }
+
+  function AddTrackToLiked(trackdata) {
+    console.log(trackdata)
+    const info = {
+      user: localStorage.getItem('email'),
+      track: trackdata,
+    }
+    console.log(info)
+    axios.post('http://localhost:3001/tracks-add-liked', info).then((res) => {
+      console.log('added to likes:')
+      console.log(res)
+    }).catch(e => {
+      console.log(e)
+    })
+  }
+
+  const [newTracks, setNewTracks] = useState();
+  let loadedTracks = null;
 
   function getTracks() {
     console.log('connecting to database...')
-    axios.get('http://localhost:3001/tracks', newTracks)
+    axios.get('http://localhost:3001/tracks')
       .then((res) => {
-        // console.log('here are your tracks! ' + res.data)
-        setNewTracks(res.data)
-        console.log(newTracks);
+        console.log('here are your tracks! ' + res)
+        // setNewTracks(res)
+        loadedTracks = res.data
+        console.log(loadedTracks);
 
       }).catch(e => {
         console.log(e)
       })
+
+  }
+
+  const [usersPlaylists, setUserPlaylists] = useState([]);
+
+  useEffect(() => {
+    getPlaylists()
+  }, [])
+
+  function getPlaylists() {
+    console.log('GETTING PLAYLISTS')
+    const user = {
+      user: localStorage.getItem('email')
+    }
+    axios.post('http://localhost:3001/get-playlists', user)
+      .then((res) => {
+        if (res.status == 200) {
+          console.log(res.data.playlists)
+          setUserPlaylists(res.data.playlists);
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+    setTrackModel(false)
 
   }
 
@@ -303,7 +378,24 @@ export default function Home() {
       <NavBar />
       <Page>
         <Dashboard>
-          {/* <button onClick={getTracks}>get mongo tracks</button> */}
+
+          {trackModel ?
+            <Model onBlur={() => setTrackModel(!trackModel)}>
+
+              <MyText
+                text='Add to playlists:'
+                size={`${headerSize}px`}
+              />
+              {usersPlaylists !== [] ? usersPlaylists.map((o) => <MyText
+                key={o._id}
+                text={o.name}
+                size={`${parSize}px`}
+                onClick={(obj) => SetAndAddTrack(o.name)}
+              />) : <></>}
+
+            </Model>
+            : <></>}
+
           <MyText
             weight={500}
             lineHeight='0'
@@ -467,8 +559,10 @@ export default function Home() {
             {load ? <div>Loading...</div> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
+
               onTrackClick={() => router.push(o.Uri)}
-              AddToLikedPlaylist={(obj) => PostToLiked(o.id, o, obj)}
+              AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+              OpenOptions={(obj) => handleTrackOptions(o)}
               artist={o.Artist}
               song={o.Title}
               album={o.Album}

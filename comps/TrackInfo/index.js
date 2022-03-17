@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
-import { usePar, useTheme } from "../../utils/provider";
+import { usePar, useHeader, useTheme } from "../../utils/provider";
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import MyRadio from "../Radio";
 import MyText from "../Text";
 import { device } from "../../styles/mediaSizes";
@@ -55,7 +56,6 @@ const Cont2 = styled.div`
     top:-8px;
     position: relative;
 `;
-
 const Cont3 = styled.div`
     display: flex;
     width: 10%;
@@ -63,14 +63,12 @@ const Cont3 = styled.div`
 
      
 `;
-
 const Cont4 = styled.div`
     display: flex;
     width: 35%;
     align-self: flex-start;
      
 `;
-
 const Cont5 = styled.div`
     display: flex;
     width: 5%;
@@ -79,7 +77,6 @@ const Cont5 = styled.div`
 
      
 `;
-
 const Cont6 = styled.div`
     display: column;
     justify-content: space-between;
@@ -87,7 +84,6 @@ const Cont6 = styled.div`
     width: 4%;
     align-self: flex-start;
 
-    
 `;
 
 const Dots = styled.div`
@@ -98,6 +94,17 @@ const Dots = styled.div`
     margin-bottom: 2px;
 `;
 
+const Model = styled.div`
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height:auto;
+    background-color: rgba(255,255,255,0.5);
+    padding:10px;
+`;
+
+
 export default function MyTrack({
     text = 'button',
     size = '18px',
@@ -106,15 +113,16 @@ export default function MyTrack({
     song = 'In the House',
     album = 'Diffy',
     onTrackClick = () => { },
-    onDotsClick = () => { },
+    OpenOptions = () => { },
     AddToLikedPlaylist = () => { },
 }) {
     const [heart, setHeart] = useState(false);
     const { theme } = useTheme();
     const { parSize } = usePar();
+    const { headerSize } = useHeader();
     const [selected, setSelected] = useState(false)
 
-    function LikeTrack(){
+    function LikeTrack() {
         setSelected(!selected);
         AddToLikedPlaylist();
     }
@@ -126,6 +134,8 @@ export default function MyTrack({
                 color={themes[theme].text}
             >1</Text>
         </Cont1> */}
+
+
 
         <Cont2 onClick={onTrackClick}>
             <MyText
@@ -158,7 +168,7 @@ export default function MyTrack({
         <Cont5>
             <MyRadio shape={'heart'} inner={selected} onClick={LikeTrack} />
         </Cont5>
-        <Cont6 onClick={onDotsClick}>
+        <Cont6 onClick={OpenOptions}>
             <Dots col={themes[theme].text} />
             <Dots col={themes[theme].text} />
             <Dots col={themes[theme].text} />
