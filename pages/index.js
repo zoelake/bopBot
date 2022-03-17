@@ -18,6 +18,25 @@ import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
 
+import { TouchBackend } from 'react-dnd-touch-backend'
+//import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import Dropzone from '../comps/Dropzone'
+import { v4 as uuidv4 } from 'uuid';
+
+import { io } from "socket.io-client";
+import TrackInfoDnd from '../comps/TrackInfoDnd'
+
+
+const DndLogo = styled.img`
+height: 60px;
+width: 60px;
+
+display: flex;
+justify-content: flex-end;
+`;
+
+
 const Page = styled.div`
   display:flex;
   margin:0;
@@ -270,7 +289,7 @@ export default function Home() {
   // ]
 
   //setting user data
-  const { name } = useName();
+  const {name} = useName();
   //end set user data
 
   const [trackModel, setTrackModel] = useState(false);
@@ -324,6 +343,7 @@ export default function Home() {
     })
   }
 
+<<<<<<< HEAD
   const [newTracks, setNewTracks] = useState();
   let loadedTracks = null;
 
@@ -339,9 +359,24 @@ export default function Home() {
       }).catch(e => {
         console.log(e)
       })
+=======
+  const [dndtrack, setDndtrack] = useState({});
 
+  const HandleUpdateTrack = (id, trackdata) => {
+    console.log('this is' + trackdata.Title)
+    dndtrack[id] = {
+      ...dndtrack[id],
+      ...trackdata
+    }
+>>>>>>> 3a4deea88951acc11e0e0f8a9daeee2c7f8a4efc
+
+    setDndtrack({
+      ...dndtrack
+    })
+    console.log('test dnd', dndtrack)
   }
 
+<<<<<<< HEAD
   const [usersPlaylists, setUserPlaylists] = useState([]);
 
   useEffect(() => {
@@ -366,7 +401,50 @@ export default function Home() {
 
   }
 
+=======
+  const [mySoc, setMySoc] = useState(null);
 
+  const [txt, setTxt] = useState('');
+
+  const [msgs, setMsgs] = useState([]);
+>>>>>>> 3a4deea88951acc11e0e0f8a9daeee2c7f8a4efc
+
+  const [users, setUsers] = useState({});
+
+  useEffect(()=>{
+    // const socket = io("ws://example.com/my-namespace", {
+    //   reconnectionDelayMax: 10000,
+    //   auth: {
+    //     token: "123"
+    //   },
+    //   query: {
+    //     "my-key": "my-value"
+    //   }
+    // });
+    const socket = io("http://localhost:8888");
+
+    socket.on("init_user", (users) => {
+      // set the user into the object so you store the users
+      // console.log(users);
+      setUsers(users);
+    })
+    
+    socket.on("joined", (id, txt) => {
+      setMsgs((prev) => [
+        ...prev,
+        `${id} is now playing ${txt}`
+      ]);
+    })
+
+    setMySoc(socket)
+  }, [])
+
+  const EmitToIO = async () => {
+    //mySoc to emit
+    if(mySoc != null) {
+      mySoc.emit("user_ready", txt);
+    }
+  }
 
   return (
     <>
@@ -377,7 +455,9 @@ export default function Home() {
       </Head>
       <NavBar />
       <Page>
+
         <Dashboard>
+<<<<<<< HEAD
 
           {trackModel ?
             <Model onBlur={() => setTrackModel(!trackModel)}>
@@ -396,6 +476,8 @@ export default function Home() {
             </Model>
             : <></>}
 
+=======
+>>>>>>> 3a4deea88951acc11e0e0f8a9daeee2c7f8a4efc
           <MyText
             weight={500}
             lineHeight='0'
@@ -554,6 +636,7 @@ export default function Home() {
             size={`${headerSize}px`}
           />
 
+<<<<<<< HEAD
           <TrackScoll>
             {/* <MyTrack /> */}
             {load ? <div>Loading...</div> : <></>}
@@ -570,8 +653,68 @@ export default function Home() {
             />)}
           </TrackScoll>
 
-        </TracksCont>
+=======
+          <DndProvider backend={TouchBackend} options={{
+            enableTouchEvents: false,
+            enableMouseEvents: true
+          }}>
+            <TrackScoll>
+              {/* <MyTrack /> */}
+              {load ? <div>Loading...</div> : <></>}
+                {tracks.map((o, i) => <MyTrack
+                  key={i}
+                  onTrackClick={() => router.push(o.Uri)}
+                  AddToLikedPlaylist={(obj) => PostToLiked(o.id, o, obj)}
+                  artist={o.Artist}
+                  song={o.Title}
+                  album={o.Album}
+                  time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                  onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
+                />)}
+            </TrackScoll>
+            <MyTrack song='Pls memorize this' artist='Alicia Yien' album='Pls work'/>
+          
+            <Dropzone onDropItem={(item) => {
+                console.log('pls show this', dndtrack)
+                const t_id = uuidv4();
 
+                setDndtrack((prev) => ({
+                  ...prev,
+                  [t_id]:{id: t_id}
+                }))
+              }}>
+              <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
+              {Object.values(dndtrack).map((o, i) => <MyTrack
+                type='boardtracks'
+                key={i}
+                artist={o.Artist}
+                song={o.Title}
+                album={o.Album}
+                // time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                trackpos={o.pos}
+                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
+              />)}
+
+              {Object.values(dndtrack).map((o, i) => <TrackInfoDnd
+                type='boardtracks'
+                key={i}
+                trackpos={o.pos}
+                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
+              >
+                {o.id} - {o.Title} - {o.Artist}
+              </TrackInfoDnd>)}
+
+              <input type='text' onChange={(e)=>setTxt(e.target.value)} />
+              <button onClick={EmitToIO}>Join and Alert</button>
+              {msgs.map((o, i) => <div key={i} style={{backgroundColor: 'red', padding: 10}}>
+                {o}
+              </div>)}
+              
+            </Dropzone>
+          </DndProvider>
+>>>>>>> 3a4deea88951acc11e0e0f8a9daeee2c7f8a4efc
+        </TracksCont>
+        
 
 
       </Page>
@@ -580,6 +723,5 @@ export default function Home() {
 
 
 }
-
 
 

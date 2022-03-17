@@ -2,11 +2,16 @@ import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { usePar, useHeader, useTheme } from "../../utils/provider";
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import axios from "axios";
+=======
+import React, { useState, useEffect } from "react";
+>>>>>>> 3a4deea88951acc11e0e0f8a9daeee2c7f8a4efc
 import MyRadio from "../Radio";
 import MyText from "../Text";
 import { device } from "../../styles/mediaSizes";
+import { useDrag, useDrop } from 'react-dnd'
 
 const Text = styled.p`
     color: ${props => props.color};
@@ -37,7 +42,12 @@ const TrackCont = styled.div`
     @media ${device.desktop}{
         width: 40vw;
     }
-    
+    ${({op})=>op && `opacity:${op};`};
+    ${({position, left, top})=> (position === 'fixed' || position ==='absolute') && `
+        left: ${left}px;
+        top: ${top}px;
+        position: ${position};
+    `}
 `;
 
 // const Cont1 = styled.div`
@@ -115,6 +125,11 @@ export default function MyTrack({
     onTrackClick = () => { },
     OpenOptions = () => { },
     AddToLikedPlaylist = () => { },
+    type='tracks',
+    trackpos=null,
+    children=null,
+    content=null,
+    onUpdateTrack = () => {}
 }) {
     const [heart, setHeart] = useState(false);
     const { theme } = useTheme();
@@ -127,43 +142,109 @@ export default function MyTrack({
         AddToLikedPlaylist();
     }
 
-    return <TrackCont>
+    const [pos, setPos] = useState(trackpos || {
+        left: 0,
+        top: 0,
+        position: 'relative'
+    })
 
-        {/* <Cont1>
-            <Text
-                color={themes[theme].text}
-            >1</Text>
-        </Cont1> */}
+    // const [timeContent, setTimeContent] = useState(time)
+    // const [artistContent, setArtistContent] = useState(artist)
+    // const [songContent, setSongContent] = useState(song)
+    // const [albumContent, setAlbumContent] = useState(album)
+    
+
+    useEffect(() => {
+        if (type === 'boardtracks') {
+          onUpdateTrack({
+            pos,
+            // timeContent,
+            // artistContent,
+            // songContent,
+            // albumContent
+          })
+        }
+    }, [pos])  
+
+    // timeContent, artistContent, songContent, albumContent
+      
+	const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
+            // "type" is required. It is used by the "accept" specification of drop targets.
+        type: type,
+        item: {type},
+            // The collect function utilizes a "monitor" instance (see the Overview for what this is)
+            // to pull important pieces of state from the DnD system.
+        end: (item,monitor) => {
+        if(type === 'boardtracks'){
+            setPos({
+            left: monitor.getClientOffset().x,
+            top: monitor.getClientOffset().y,
+            // position: 'fixed'
+            })
+        }
+        },
+        collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+        coords: monitor.getClientOffset(),
+        })
+    }))
+
+    // console.log(coords)
+    //console.log(isDragging);
+
+    const sty = {
+        left: type === 'boardtracks' ? pos.left : null,
+        top: type === 'boardtracks' ? pos.top : null,
+        position: type === 'boardtracks' ? pos.position : null
+    }
+
+    if(coords && isDragging) {
+        sty.left = coords.x + 10
+        sty.top = coords.y
+        sty.position = 'fixed'
+    }
+
+    return <TrackCont ref={dragPreview} 
+        op={isDragging ? 0.5 :1}
+        {...sty}
+        >
+            <TrackCont ref={drag}>
+            {/* {content} */}
+
+            {/* <Cont1>
+                <Text
+                    color={themes[theme].text}
+                >1</Text>
+            </Cont1> */}
 
 
+            <Cont2 onClick={onTrackClick}>
+                <MyText
+                    text={song}
+                    size={`${parSize}px`}
+                    lineHeight={0}
+                    weight={600}
+                    hover={themes[theme].heart}
+                />
 
-        <Cont2 onClick={onTrackClick}>
-            <MyText
-                text={song}
-                size={`${parSize}px`}
-                lineHeight={0}
-                weight={600}
-                hover={themes[theme].heart}
-            />
 
+                <Text
+                    color={themes[theme].accent}
 
-            <Text
-                color={themes[theme].accent}
+                >{artist}</Text>
+            </Cont2>
 
-            >{artist}</Text>
-        </Cont2>
+            <Cont3>
+                <Text
+                    color={themes[theme].text}
+                >{time}</Text>
+            </Cont3>
 
-        <Cont3>
-            <Text
-                color={themes[theme].text}
-            >{time}</Text>
-        </Cont3>
-
-        <Cont4>
-            <Text
-                color={themes[theme].text}
-            >{album}</Text>
-        </Cont4>
+            <Cont4>
+                <Text
+                    color={themes[theme].text}
+                >{album}</Text>
+            </Cont4>
 
         <Cont5>
             <MyRadio shape={'heart'} inner={selected} onClick={LikeTrack} />
@@ -175,10 +256,15 @@ export default function MyTrack({
         </Cont6>
 
 
+            </TrackCont>
 
 
 
-    </TrackCont>
+
+
+        </TrackCont>
+  
+    
 
     // <Text
     // color={themes[theme].focus}
