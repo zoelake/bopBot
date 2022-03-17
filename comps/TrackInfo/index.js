@@ -2,12 +2,8 @@ import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { usePar, useHeader, useTheme } from "../../utils/provider";
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
-<<<<<<< HEAD
-import { useState, useEffect } from "react";
 import axios from "axios";
-=======
 import React, { useState, useEffect } from "react";
->>>>>>> 3a4deea88951acc11e0e0f8a9daeee2c7f8a4efc
 import MyRadio from "../Radio";
 import MyText from "../Text";
 import { device } from "../../styles/mediaSizes";
@@ -42,8 +38,8 @@ const TrackCont = styled.div`
     @media ${device.desktop}{
         width: 40vw;
     }
-    ${({op})=>op && `opacity:${op};`};
-    ${({position, left, top})=> (position === 'fixed' || position ==='absolute') && `
+    ${({ op }) => op && `opacity:${op};`};
+    ${({ position, left, top }) => (position === 'fixed' || position === 'absolute') && `
         left: ${left}px;
         top: ${top}px;
         position: ${position};
@@ -125,11 +121,11 @@ export default function MyTrack({
     onTrackClick = () => { },
     OpenOptions = () => { },
     AddToLikedPlaylist = () => { },
-    type='tracks',
-    trackpos=null,
-    children=null,
-    content=null,
-    onUpdateTrack = () => {}
+    type = 'tracks',
+    trackpos = null,
+    children = null,
+    content = null,
+    onUpdateTrack = () => { }
 }) {
     const [heart, setHeart] = useState(false);
     const { theme } = useTheme();
@@ -152,40 +148,40 @@ export default function MyTrack({
     // const [artistContent, setArtistContent] = useState(artist)
     // const [songContent, setSongContent] = useState(song)
     // const [albumContent, setAlbumContent] = useState(album)
-    
+
 
     useEffect(() => {
         if (type === 'boardtracks') {
-          onUpdateTrack({
-            pos,
-            // timeContent,
-            // artistContent,
-            // songContent,
-            // albumContent
-          })
-        }
-    }, [pos])  
-
-    // timeContent, artistContent, songContent, albumContent
-      
-	const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
-            // "type" is required. It is used by the "accept" specification of drop targets.
-        type: type,
-        item: {type},
-            // The collect function utilizes a "monitor" instance (see the Overview for what this is)
-            // to pull important pieces of state from the DnD system.
-        end: (item,monitor) => {
-        if(type === 'boardtracks'){
-            setPos({
-            left: monitor.getClientOffset().x,
-            top: monitor.getClientOffset().y,
-            // position: 'fixed'
+            onUpdateTrack({
+                pos,
+                // timeContent,
+                // artistContent,
+                // songContent,
+                // albumContent
             })
         }
+    }, [pos])
+
+    // timeContent, artistContent, songContent, albumContent
+
+    const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
+        // "type" is required. It is used by the "accept" specification of drop targets.
+        type: type,
+        item: { type },
+        // The collect function utilizes a "monitor" instance (see the Overview for what this is)
+        // to pull important pieces of state from the DnD system.
+        end: (item, monitor) => {
+            if (type === 'boardtracks') {
+                setPos({
+                    left: monitor.getClientOffset().x,
+                    top: monitor.getClientOffset().y,
+                    // position: 'fixed'
+                })
+            }
         },
         collect: (monitor) => ({
-        isDragging: monitor.isDragging(),
-        coords: monitor.getClientOffset(),
+            isDragging: monitor.isDragging(),
+            coords: monitor.getClientOffset(),
         })
     }))
 
@@ -198,17 +194,17 @@ export default function MyTrack({
         position: type === 'boardtracks' ? pos.position : null
     }
 
-    if(coords && isDragging) {
+    if (coords && isDragging) {
         sty.left = coords.x + 10
         sty.top = coords.y
         sty.position = 'fixed'
     }
 
-    return <TrackCont ref={dragPreview} 
-        op={isDragging ? 0.5 :1}
+    return <TrackCont ref={dragPreview}
+        op={isDragging ? 0.5 : 1}
         {...sty}
-        >
-            <TrackCont ref={drag}>
+    >
+        <TrackCont ref={drag}>
             {/* {content} */}
 
             {/* <Cont1>
@@ -246,25 +242,25 @@ export default function MyTrack({
                 >{album}</Text>
             </Cont4>
 
-        <Cont5>
-            <MyRadio shape={'heart'} inner={selected} onClick={LikeTrack} />
-        </Cont5>
-        <Cont6 onClick={OpenOptions}>
-            <Dots col={themes[theme].text} />
-            <Dots col={themes[theme].text} />
-            <Dots col={themes[theme].text} />
-        </Cont6>
-
-
-            </TrackCont>
-
-
-
+            <Cont5>
+                <MyRadio shape={'heart'} inner={selected} onClick={LikeTrack} />
+            </Cont5>
+            <Cont6 onClick={OpenOptions}>
+                <Dots col={themes[theme].text} />
+                <Dots col={themes[theme].text} />
+                <Dots col={themes[theme].text} />
+            </Cont6>
 
 
         </TrackCont>
-  
-    
+
+
+
+
+
+    </TrackCont>
+
+
 
     // <Text
     // color={themes[theme].focus}
