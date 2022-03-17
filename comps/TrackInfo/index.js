@@ -144,30 +144,28 @@ export default function MyTrack({
         position: 'relative'
     })
 
-    // const [timeContent, setTimeContent] = useState(time)
-    // const [artistContent, setArtistContent] = useState(artist)
-    // const [songContent, setSongContent] = useState(song)
-    // const [albumContent, setAlbumContent] = useState(album)
-
 
     useEffect(() => {
         if (type === 'boardtracks') {
             onUpdateTrack({
                 pos,
-                // timeContent,
-                // artistContent,
-                // songContent,
-                // albumContent
+
             })
         }
     }, [pos])
 
-    // timeContent, artistContent, songContent, albumContent
 
     const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
         // "type" is required. It is used by the "accept" specification of drop targets.
         type: type,
-        item: { type },
+        item: {
+            //store the track info you want to send over to the socket
+            type,
+            song,
+            time,
+            artist,
+            album,
+        },
         // The collect function utilizes a "monitor" instance (see the Overview for what this is)
         // to pull important pieces of state from the DnD system.
         end: (item, monitor) => {
