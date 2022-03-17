@@ -737,6 +737,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { io } from "socket.io-client";
 import TrackInfoDnd from '../comps/TrackInfoDnd'
+import EditPlaylist from '../comps/EditPlaylistModal'
 
 
 const DndLogo = styled.img`
@@ -1278,8 +1279,10 @@ export default function Home() {
 
             </Dropzone>
           </DndProvider>
+          <EditPlaylist/>
         </TracksCont>
-
+              
+       
 
 
       </Page>
