@@ -9,7 +9,7 @@ import SbButton from '../../comps/SbButton'
 import Toggle from '../../comps/Toggle'
 import MyText from '../../comps/Text'
 import { themes } from '../../utils/variables'
-import { useTheme, useTitle, useHeader, usePar, useId, useEmail } from '../../utils/provider'
+import { useTheme, useTitle, useHeader, useId, useEmail } from '../../utils/provider'
 import styled from 'styled-components';
 import { device } from '../../styles/mediaSizes'
 import MySwitch from '../../comps/Switch'
@@ -20,6 +20,8 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist } from '../../utils/backendFunctions';
+
 
 
 
@@ -33,7 +35,6 @@ const Page = styled.div`
   height:95vh;
   bottom:0;
 `;
-
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
     height:45vh;
@@ -74,7 +75,6 @@ const SliderCont = styled.div`
   justify-content: space-evenly;
   padding-left: 30px;
 `;
-
 const SpaceCont = styled.div`
 display: flex;
 width: 90%;
@@ -82,7 +82,6 @@ padding-left: 5px;
 
 justify-content: space-between;
 `;
-
 const TracksCont = styled.div`
     height:40%;
     /* border:2px solid red; */
@@ -92,11 +91,9 @@ const TracksCont = styled.div`
     align-self: center;
     width:80%;
 `;
-
 const RegCont = styled.div`
   padding-left: 30px;
 `;
-
 const Divider = styled.div`
     background-color: ${props => props.color};
     width:90%;
@@ -106,137 +103,37 @@ const Divider = styled.div`
 
 export default function User() {
 
-    //this will be replaced with data from db
+    const router = useRouter();
 
+    //global styles
     const { theme } = useTheme();
-    const [selected, setSelected] = useState(null);
     const { titleSize } = useTitle();
     const { headerSize } = useHeader();
-    const { parSize } = usePar();
 
+    //user info
+    const { id, setId } = useId();
+    const { email, setEmail } = useEmail();
+
+    //for sort by age button
     const [addedRecent, setAddedRecent] = useState(true)
 
-    const [playlistInput, setPlaylistInput] = useState(null);
-    const [playlistInput2, setPlaylistInput2] = useState(null);
+    //for updating & loading playlists
     const [playlistImg, setPlaylistImg] = useState(null);
     const [usersPlaylists, setUserPlaylists] = useState([])
     const [likedPlaylist, setLikedPlaylist] = useState([])
     const [selectedPlaylist, setSelectedPlaylist] = useState(null)
     const [selectedPlaylistId, setSelectedPlaylistId] = useState(null)
     const [selectedPlaylistCover, setSelectedPlaylistCover] = useState(null)
+    const [newPlaylistName, setNewPlaylistName] = useState(null)
+    const [updatePlaylistName, setUpdatePlaylistName] = useState(null)
+
+    //toggle models
+    const [editPlaylistView, setEditPlaylistView] = useState(false)
+    const [addPlaylistView, setAddPlaylistView] = useState(false)
 
 
 
-    function AddTrackToLiked(trackdata) {
-        console.log(trackdata)
-        const info = {
-            user: localStorage.getItem('email'),
-            track: trackdata,
-        }
-        console.log(info)
-        axios.post('http://localhost:3001/tracks-add-liked', info).then((res) => {
-            console.log('added to likes:')
-            console.log(res)
-        }).catch(e => {
-            console.log(e)
-        })
-    }
-
-
-
-    function DeleteTrackFromLiked(trackdata) {
-        console.log(trackdata)
-        const info = {
-            user: localStorage.getItem('email'),
-            track: trackdata,
-        }
-        console.log(info)
-        axios.post('http://localhost:3001/tracks-delete-liked', info).then((res) => {
-            console.log('deleted from likes:')
-            console.log(res)
-        }).catch(e => {
-            console.log(e)
-        })
-    }
-
-
-    function HandlePlaylists(value) {
-        setPlaylistInput2(value)
-        console.log('new playlist name: ' + playlistInput)
-    }
-    // function HandlePlaylists2(value) {
-    //     setPlaylistInput2(value)
-    //     console.log('updating name: ' + playlistInput2)
-    // }
-
-    function CreateNewPlaylist() {
-        setAddPlaylistView(!addPlaylistView)
-        const newPlaylist = {
-            playlist_name: newPlaylistName,
-            playlist_img: 'https://placekitten.com/100/100',
-            user: localStorage.getItem('email')
-        }
-        axios.post('http://localhost:3001/create-playlist', newPlaylist)
-            .then((res) => {
-                if (res.status == 200) {
-                    console.log(res.data + ' was added!')
-                }
-            }).catch(e => {
-                console.log(e)
-            })
-        setTimeout(getPlaylists, 500);
-
-    }
-
-    function UpdatePlaylist() {
-        console.log('updating playlist')
-        setEditPlaylistView(false)
-        const playlist = {
-            playlist_name: selected,
-            playlist_newName: updatePlaylistName,
-            playlist_newImg: playlistImg,
-            user: localStorage.getItem('email')
-        }
-        console.log('playlist')
-        console.log(playlist)
-        axios.post('http://localhost:3001/update-playlist', playlist)
-            .then((res) => {
-
-                console.log(res.data + ' was updated!')
-
-            }).catch(e => {
-                console.log(e)
-            })
-        setTimeout(getPlaylists, 500);
-
-
-    }
-
-    function DeletePlaylist() {
-        console.log('deleting playlist')
-        setEditPlaylistView(false)
-        const playlist = {
-            playlist_name: selected,
-            user: localStorage.getItem('email')
-        }
-        axios.post('http://localhost:3001/delete-playlist', playlist)
-            .then((res) => {
-
-                console.log(res.data + ' was delete!')
-
-            }).catch(e => {
-                console.log(e)
-            })
-
-        setTimeout(getPlaylists, 500);
-
-    }
-
-
-    const { id, setId } = useId();
-    const { email, setEmail } = useEmail();
-    const router = useRouter();
-
+    //load user & playlist data on load
     if (typeof window !== 'undefined') {
         if (localStorage.getItem('id')) {
             setId(localStorage.getItem('id'))
@@ -245,55 +142,15 @@ export default function User() {
             setEmail(localStorage.getItem('email'))
 
         }
-    }
-    useEffect(() => {
-        getPlaylists()
-    }, [])
-
-    function getPlaylists() {
-        console.log('GETTING PLAYLISTS')
-        const user = {
-            playlist_name: playlistInput,
-            user: localStorage.getItem('email')
-        }
-        axios.post('http://localhost:3001/get-playlists', user)
-            .then((res) => {
-                if (res.status == 200) {
-                    console.log(res.data)
-                    setUserPlaylists(res.data.playlists)
-                    setLikedPlaylist(res.data.liked)
-                }
-            }).catch(e => {
-                console.log(e)
-            })
+        useEffect(() => {
+            getPlaylists()
+        }, [])
 
     }
 
-    function getPlaylistByName() {
-        console.log('GETTING SPECIFIC PLAYLIST')
-        console.log('playlist id')
-        const user = {
-            playlist_id: selectedPlaylistId,
-            email: localStorage.getItem('email')
-        }
-        console.log(user)
-        axios.get('http://localhost:3001/get-a-playlist', user)
-            .then((res) => {
-                if (res.status == 200) {
-                    console.log('ur res: ')
-                    console.log(res.data)
-                    setSelectedPlaylist(res.data)
-                }
-            }).catch((e) => {
-                console.log(e)
-            })
-    }
-
+    //protect users' page from unauthorized accounts
     if (router.isReady) {
-        // console.log('router is ready')
         const activeUser = router.asPath;
-        // console.log(id)
-        // console.log(activeUser)
         if (`/user/${id}` !== activeUser) {
             return (<>
                 <Head>
@@ -317,20 +174,84 @@ export default function User() {
         }
     }
 
-    function handlePlaylistClick(playlist) {
-        console.log('the playlist:')
-        console.log(playlist._id)
-        setSelected(playlist.name)
-        setSelectedPlaylistId(playlist._id)
-        setSelectedPlaylistCover(playlist.img)
-        getPlaylistByName();
+    //API CALLS TO BACKEND
+    function getPlaylists() {
+
+        console.log('GETTING PLAYLISTS')
+        const user = {
+            user: localStorage.getItem('email')
+        }
+        axios.post('http://localhost:3001/get-playlists', user)
+            .then((res) => {
+                if (res.status == 200) {
+                    console.log('res.data.playlists')
+                    console.log(res.data.playlists)
+                    setUserPlaylists(res.data.playlists);
+                }
+            }).catch(e => {
+                console.log(e)
+            })
+
     }
 
-    const [editPlaylistView, setEditPlaylistView] = useState(false)
-    const [addPlaylistView, setAddPlaylistView] = useState(false)
+    function getPlaylistById(id) {
+        console.log(`getting playlist by its id: ${id}`)
+        const user = {
+            playlist_id: id,
+            email: localStorage.getItem('email')
+        }
+        console.log('user')
+        console.log(user)
+        axios.post('http://localhost:3001/get-a-playlist', user)
+            .then((res) => {
+                if (res.status == 200) {
+                    console.log('ur res: ')
+                    console.log(res.data)
+                    // return res.data;
+                }
+            }).catch((e) => {
+                console.log(e)
+            })
+    }
 
-    const [newPlaylistName, setNewPlaylistName] = useState(null)
-    const [updatePlaylistName, setUpdatePlaylistName] = useState(null)
+
+    //page functions
+    function onDeleteClick() {
+        setEditPlaylistView(false)
+        DeletePlaylist(selectedPlaylist)
+    }
+   
+    function handlePlaylistClick(playlist) {
+        //sets currently selected playlist
+        console.log(`playlist ${playlist.name}`)
+
+        setSelectedPlaylist(playlist.name)
+        setSelectedPlaylistId(playlist._id)
+        setSelectedPlaylistCover(playlist.img)
+
+        //updates playlists
+        setUserPlaylists(() => {
+            getPlaylistById(selectedPlaylistId);
+        })
+        console.log('USERS NEW PLAYLIOST')
+        console.log(usersPlaylists)
+    }
+
+   
+    function onAddSaveClick() {
+        setAddPlaylistView(!addPlaylistView)
+        CreateNewPlaylist(newPlaylistName)
+    }
+
+    function onEditSaveClick() {
+        setEditPlaylistView(!editPlaylistView)
+        console.log('editing ' + selectedPlaylist)
+        UpdatePlaylist(selectedPlaylist, updatePlaylistName, playlistImg)
+        getPlaylists();
+    }
+
+
+
 
     return (
         <>
@@ -341,29 +262,27 @@ export default function User() {
             </Head>
             <NavBar />
             <Page>
-                <input placeholder='new playlist name / current ...' onChange={(e) => HandlePlaylists(e.target.value)}></input>
-                <input placeholder='updating playlist name to...' onChange={(e) => HandlePlaylists2(e.target.value)}></input>
-                <button onClick={CreateNewPlaylist}>add new playlist</button>
-                <button onClick={UpdatePlaylist}>update a playlist name</button>
-                <button onClick={DeletePlaylist}>delete playlist</button>
                 <Dashboard
                     bg={themes[theme].contrast}>
+        
 
                     {/* <UserInfo /> */}
 
+                    {/* if users clicks create playlist */}
                     {addPlaylistView ? <AddPlaylist
                         coverSrc=''
                         handleChange={(e) => setNewPlaylistName(e.target.value)}
                         onXClick={() => setAddPlaylistView(false)}
-                        onSaveClick={CreateNewPlaylist}
+                        onSaveClick={onAddSaveClick}
                     /> : <></>}
 
+                    {/* if users clicks edit playlist */}
                     {editPlaylistView ? <EditPlaylist
-                        playlist={selected}
+                        playlist={selectedPlaylist}
                         handleChange={(e) => setUpdatePlaylistName(e.target.value)}
                         onXClick={() => setEditPlaylistView(false)}
-                        onSaveClick={UpdatePlaylist}
-                        onDeleteClick={DeletePlaylist}
+                        onSaveClick={onEditSaveClick}
+                        onDeleteClick={onDeleteClick}
                     /> : <></>}
 
 
@@ -382,25 +301,26 @@ export default function User() {
                         <Playlist
                             text='likes'
                             cover={'/heart.png'}
-                            onClick={() => setSelected('likes')}
-                            bg={selected === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
+                            onClick={() => setSelectedPlaylist('likes')}
+                            bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
+                            color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
                         />
+
 
                         {usersPlaylists !== [] ? usersPlaylists.map((o) => <Playlist
                             key={o._id}
                             text={o.name}
                             cover={o.img}
                             onClick={(obj) => handlePlaylistClick(o)}
-                            bg={selected === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
+                            bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
+                            color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
 
                         />)
                             : <Playlist
                                 cover='/playlistLiked.png'
-                                onClick={() => setSelected('liked')}
-                                bg={selected === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
-                                color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
+                                onClick={() => setSelectedPlaylist('liked')}
+                                bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
+                                color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
                                 text='Loading'
                             />
                         }
@@ -411,7 +331,7 @@ export default function User() {
                 <TracksCont>
                     <SpaceCont>
                         <MyText
-                            text={selected === null ? 'likes' : selected}
+                            text={selectedPlaylist === null ? 'likes' : selectedPlaylist}
                             size={`${headerSize}px`}
                         />
                         <MyButton
@@ -431,7 +351,7 @@ export default function User() {
                     <br></br>
 
                     <RegCont>
-                        {selected == 'likes' & likedPlaylist !== [] ? likedPlaylist.map((o, i) => <MyTrack
+                        {selectedPlaylist == 'likes' & likedPlaylist !== [] ? likedPlaylist.map((o, i) => <MyTrack
                             key={i}
                             onTrackClick={() => router.push(o.Uri)}
                             AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}

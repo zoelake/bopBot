@@ -6,7 +6,6 @@ import MyText from "../../comps/Text/index"
 import SbButton from "../SbButton";
 import MyButton from "../Button";
 
-
 const Cont = styled.div`
     width:567px;
     height:557px;
