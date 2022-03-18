@@ -304,7 +304,7 @@ export default function Home() {
         <Dashboard>
 
           {/* if users click '...' on track */}
-          {trackModel ?
+          {/* {trackModel ?
             <Model onBlur={() => setTrackModel(!trackModel)}>
 
               <MyText
@@ -319,7 +319,7 @@ export default function Home() {
               />) : <></>}
 
             </Model>
-            : <></>}
+            : <></>} */}
 
           <MyText
             weight={500}

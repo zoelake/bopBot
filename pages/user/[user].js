@@ -215,6 +215,7 @@ export default function User() {
             })
     }
 
+    const [selectedTracks, setSelectedTracks] = useState([])
 
     //page functions
     function onDeleteClick() {
@@ -222,24 +223,37 @@ export default function User() {
         DeletePlaylist(selectedPlaylist)
         getPlaylists()
     }
-   
+
     function handlePlaylistClick(playlist) {
         //sets currently selected playlist
-        console.log(`playlist ${playlist.name}`)
+        console.log(`playlist tracks`)
+        console.log(playlist.tracks)
 
         setSelectedPlaylist(playlist.name)
         setSelectedPlaylistId(playlist._id)
         setSelectedPlaylistCover(playlist.img)
+        setSelectedTracks(playlist.tracks)
+        const { tracks } = playlist;
+        console.log('tracks')
+        console.log(tracks)
+        setSelectedTracks(tracks)
+        console.log('selectedTracks')
+        console.log(selectedTracks)
+
 
         //updates playlists
-        setUserPlaylists(() => {
-            getPlaylistById(selectedPlaylistId);
-        })
+        // setUserPlaylists(() => {
+        //     getPlaylistById(selectedPlaylistId);
+        // })
         console.log('USERS NEW PLAYLIOST')
         console.log(usersPlaylists)
+        console.log('selected playlist')
+        console.log(selectedPlaylist)
+        getPlaylists()
+
     }
 
-   
+
     function onAddSaveClick() {
         setAddPlaylistView(!addPlaylistView)
         CreateNewPlaylist(newPlaylistName)
@@ -253,7 +267,16 @@ export default function User() {
         getPlaylists();
     }
 
+    function handleTrackOptions(trackdata) {
+        console.log(trackdata)
+        const playlist = localStorage.getItem('selectedPlaylist')
+        //add to playlist
+        console.log('sending to add track to playlist:')
+        console.log(trackdata, playlist)
+        AddTrackToPlaylist(trackdata, playlist);
+        getPlaylists()
 
+    }
 
 
     return (
@@ -265,11 +288,11 @@ export default function User() {
             </Head>
             <NavBar />
             <Page>
-               
-                
+
+
                 <Dashboard
                     bg={themes[theme].contrast}>
-        
+
 
                     {/* <UserInfo /> */}
 
@@ -312,8 +335,8 @@ export default function User() {
                         />
 
 
-                        {usersPlaylists !== [] ? usersPlaylists.map((o) => <Playlist
-                            key={o._id}
+                        {usersPlaylists !== [] ? usersPlaylists.map((o,i) => <Playlist
+                            key={i}
                             text={o.name}
                             cover={o.img}
                             onClick={(obj) => handlePlaylistClick(o)}
@@ -322,6 +345,7 @@ export default function User() {
 
                         />)
                             : <Playlist
+                                key={i}
                                 cover='/playlistLiked.png'
                                 onClick={() => setSelectedPlaylist('liked')}
                                 bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
@@ -334,9 +358,9 @@ export default function User() {
                     </SbCont>
                 </Dashboard>
                 <TracksCont>
-                <MyTrack />
-       
-                    {/* <SpaceCont>
+                    <MyTrack />
+
+                    <SpaceCont>
                         <MyText
                             text={selectedPlaylist === null ? 'likes' : selectedPlaylist}
                             size={`${headerSize}px`}
@@ -368,7 +392,7 @@ export default function User() {
                             song={o.Title}
                             album={o.Album}
                             time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                        />) : usersPlaylists.map((o, i) => <MyTrack
+                        />) : selectedTracks.map((o, i) => <MyTrack
                             key={i}
                             onTrackClick={() => router.push(o.Uri)}
                             AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
@@ -382,7 +406,7 @@ export default function User() {
 
 
 
-                    </RegCont> */}
+                    </RegCont>
 
                 </TracksCont>
 
