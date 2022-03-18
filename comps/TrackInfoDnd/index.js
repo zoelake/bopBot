@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import styled from 'styled-components';
 
 const TrackCont = styled.div`
-  background-color: #FAD;
+  background-color: #FAD; 
   width: fit-content;
   ${({op})=>op && `opacity:${op};`};
   ${({position, left, top})=> (position === 'fixed' || position ==='absolute') && `
