@@ -87,7 +87,6 @@ export function CreateNewPlaylist(name) {
         }).catch(e => {
             console.log(e)
         })
-    setTimeout(getPlaylists, 500);
 
 }
 
@@ -107,7 +106,6 @@ export function DeletePlaylist(name) {
             console.log(e)
         })
 
-    setTimeout(getPlaylists, 500);
 
 }
 

@@ -21,6 +21,7 @@ import { useRouter } from 'next/router'
 import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist } from '../../utils/backendFunctions';
+import DropDownEdit from '../../comps/DropDownModal'
 
 
 
@@ -219,6 +220,7 @@ export default function User() {
     function onDeleteClick() {
         setEditPlaylistView(false)
         DeletePlaylist(selectedPlaylist)
+        getPlaylists()
     }
    
     function handlePlaylistClick(playlist) {
@@ -241,6 +243,7 @@ export default function User() {
     function onAddSaveClick() {
         setAddPlaylistView(!addPlaylistView)
         CreateNewPlaylist(newPlaylistName)
+        getPlaylists();
     }
 
     function onEditSaveClick() {
@@ -262,6 +265,8 @@ export default function User() {
             </Head>
             <NavBar />
             <Page>
+               
+                
                 <Dashboard
                     bg={themes[theme].contrast}>
         
@@ -329,7 +334,9 @@ export default function User() {
                     </SbCont>
                 </Dashboard>
                 <TracksCont>
-                    <SpaceCont>
+                <MyTrack />
+       
+                    {/* <SpaceCont>
                         <MyText
                             text={selectedPlaylist === null ? 'likes' : selectedPlaylist}
                             size={`${headerSize}px`}
@@ -375,7 +382,7 @@ export default function User() {
 
 
 
-                    </RegCont>
+                    </RegCont> */}
 
                 </TracksCont>
 

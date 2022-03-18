@@ -270,14 +270,19 @@ export default function Home() {
 
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
-    //display model
-    setTrackModel(!trackModel)
     setSelectedTrack(trackdata)
     console.log('modle is set to: ' + trackModel)
+    const playlist = localStorage.getItem('selectedPlaylist')
+    //add to playlist
+    console.log('sending to add track to playlist:')
+    console.log(trackdata, playlist)
+    AddTrackToPlaylist(trackdata, playlist);
 
   }
 
-  function SetAndAddTrack(playlist) {
+  function SetAndAddTrack(req) {
+    console.log('req')
+    console.log(req)
     console.log('playlist name: ' + playlist)
     setSelectedPlaylist(playlist)
     AddTrackToPlaylist(selectedTrack, playlist)

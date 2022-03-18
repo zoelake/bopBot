@@ -7,6 +7,7 @@ import axios from "axios";
 import MyRadio from "../Radio";
 import MyText from "../Text";
 import { device } from "../../styles/mediaSizes";
+import DropDownEdit from "../DropDownModal";
 
 const Text = styled.p`
     color: ${props => props.color};
@@ -112,6 +113,7 @@ export default function MyTrack({
     artist = 'Zoë James',
     song = 'In the House',
     album = 'Diffy',
+    playlists,
     onTrackClick = () => { },
     OpenOptions = () => { },
     AddToLikedPlaylist = () => { },
@@ -179,10 +181,9 @@ export default function MyTrack({
         <Cont5>
             <MyRadio shape={'heart'} inner={selected} onClick={LikeTrack} />
         </Cont5>
-        <Cont6 onClick={OpenOptions}>
-            <Dots col={themes[theme].text} />
-            <Dots col={themes[theme].text} />
-            <Dots col={themes[theme].text} />
+        <Cont6 
+        onClick={OpenOptions}>
+            <DropDownEdit />
         </Cont6>
 
 
