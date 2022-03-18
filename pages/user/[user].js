@@ -18,6 +18,8 @@ import UserInfo from '../../comps/UserInfo'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import EditPlaylist from '../../comps/EditPlaylistModal'
+import AddPlaylist from '../../comps/AddPlaylistModal'
 
 
 
@@ -121,23 +123,56 @@ export default function User() {
     const [likedPlaylist, setLikedPlaylist] = useState([])
     const [selectedPlaylist, setSelectedPlaylist] = useState(null)
     const [selectedPlaylistId, setSelectedPlaylistId] = useState(null)
+    const [selectedPlaylistCover, setSelectedPlaylistCover] = useState(null)
 
 
 
+    function AddTrackToLiked(trackdata) {
+        console.log(trackdata)
+        const info = {
+            user: localStorage.getItem('email'),
+            track: trackdata,
+        }
+        console.log(info)
+        axios.post('http://localhost:3001/tracks-add-liked', info).then((res) => {
+            console.log('added to likes:')
+            console.log(res)
+        }).catch(e => {
+            console.log(e)
+        })
+    }
+
+
+
+    function DeleteTrackFromLiked(trackdata) {
+        console.log(trackdata)
+        const info = {
+            user: localStorage.getItem('email'),
+            track: trackdata,
+        }
+        console.log(info)
+        axios.post('http://localhost:3001/tracks-delete-liked', info).then((res) => {
+            console.log('deleted from likes:')
+            console.log(res)
+        }).catch(e => {
+            console.log(e)
+        })
+    }
 
 
     function HandlePlaylists(value) {
-        setPlaylistInput(value)
+        setPlaylistInput2(value)
         console.log('new playlist name: ' + playlistInput)
     }
-    function HandlePlaylists2(value) {
-        setPlaylistInput2(value)
-        console.log('updating name: ' + playlistInput2)
-    }
+    // function HandlePlaylists2(value) {
+    //     setPlaylistInput2(value)
+    //     console.log('updating name: ' + playlistInput2)
+    // }
 
     function CreateNewPlaylist() {
+        setAddPlaylistView(!addPlaylistView)
         const newPlaylist = {
-            playlist_name: playlistInput,
+            playlist_name: newPlaylistName,
             playlist_img: 'https://placekitten.com/100/100',
             user: localStorage.getItem('email')
         }
@@ -154,12 +189,16 @@ export default function User() {
     }
 
     function UpdatePlaylist() {
+        console.log('updating playlist')
+        setEditPlaylistView(false)
         const playlist = {
-            playlist_name: playlistInput,
-            playlist_newName: playlistInput2,
+            playlist_name: selected,
+            playlist_newName: updatePlaylistName,
             playlist_newImg: playlistImg,
             user: localStorage.getItem('email')
         }
+        console.log('playlist')
+        console.log(playlist)
         axios.post('http://localhost:3001/update-playlist', playlist)
             .then((res) => {
 
@@ -174,8 +213,10 @@ export default function User() {
     }
 
     function DeletePlaylist() {
+        console.log('deleting playlist')
+        setEditPlaylistView(false)
         const playlist = {
-            playlist_name: playlistInput,
+            playlist_name: selected,
             user: localStorage.getItem('email')
         }
         axios.post('http://localhost:3001/delete-playlist', playlist)
@@ -281,8 +322,15 @@ export default function User() {
         console.log(playlist._id)
         setSelected(playlist.name)
         setSelectedPlaylistId(playlist._id)
+        setSelectedPlaylistCover(playlist.img)
         getPlaylistByName();
     }
+
+    const [editPlaylistView, setEditPlaylistView] = useState(false)
+    const [addPlaylistView, setAddPlaylistView] = useState(false)
+
+    const [newPlaylistName, setNewPlaylistName] = useState(null)
+    const [updatePlaylistName, setUpdatePlaylistName] = useState(null)
 
     return (
         <>
@@ -302,12 +350,33 @@ export default function User() {
                     bg={themes[theme].contrast}>
 
                     {/* <UserInfo /> */}
+
+                    {addPlaylistView ? <AddPlaylist
+                        coverSrc=''
+                        handleChange={(e) => setNewPlaylistName(e.target.value)}
+                        onXClick={() => setAddPlaylistView(false)}
+                        onSaveClick={CreateNewPlaylist}
+                    /> : <></>}
+
+                    {editPlaylistView ? <EditPlaylist
+                        playlist={selected}
+                        handleChange={(e) => setUpdatePlaylistName(e.target.value)}
+                        onXClick={() => setEditPlaylistView(false)}
+                        onSaveClick={UpdatePlaylist}
+                        onDeleteClick={DeletePlaylist}
+                    /> : <></>}
+
+
                     <MyText
                         weight={500}
                         lineHeight='0'
                         text={`Your playlists`}
                         size={`${titleSize}px`}
                     />
+
+                    <MyButton
+                        onClick={() => setAddPlaylistView(!addPlaylistView)}
+                        text='create playlist' />
 
                     <SbCont>
                         <Playlist
@@ -346,6 +415,11 @@ export default function User() {
                             size={`${headerSize}px`}
                         />
                         <MyButton
+                            onClick={() => setEditPlaylistView(!editPlaylistView)}
+                            text={editPlaylistView ? 'close ' : 'edit'}
+                        />
+
+                        <MyButton
                             onClick={() => setAddedRecent(!addedRecent)}
                             text={addedRecent ? 'See oldest ' : 'See newest'}
                         />
@@ -361,6 +435,7 @@ export default function User() {
                             key={i}
                             onTrackClick={() => router.push(o.Uri)}
                             AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+                            DeleteFromLikedPlaylist={(obj) => DeleteTrackFromLiked(o)}
                             OpenOptions={(obj) => handleTrackOptions(o)}
                             artist={o.Artist}
                             song={o.Title}
@@ -370,6 +445,7 @@ export default function User() {
                             key={i}
                             onTrackClick={() => router.push(o.Uri)}
                             AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+                            DeleteFromLikedPlaylist={(obj) => DeleteTrackFromLiked(o)}
                             OpenOptions={(obj) => handleTrackOptions(o)}
                             artist={o.Artist}
                             song={o.Title}

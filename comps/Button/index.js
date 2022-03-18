@@ -34,7 +34,8 @@ export default function MyButton({
     text = 'button',
     onClick = () => { },
     shadow,
-    width = 'auto'
+    width = 'auto',
+    style
 }) {
 
     const { theme } = useTheme();
@@ -42,6 +43,7 @@ export default function MyButton({
 
 
     return <Cont
+    style={style}
         onClick={onClick}
         bg={themes[theme].heart}
         color={themes[theme].white}

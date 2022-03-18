@@ -115,6 +115,7 @@ export default function MyTrack({
     onTrackClick = () => { },
     OpenOptions = () => { },
     AddToLikedPlaylist = () => { },
+    DeleteFromLikedPlaylist = () => { },
 }) {
     const [heart, setHeart] = useState(false);
     const { theme } = useTheme();
@@ -124,7 +125,17 @@ export default function MyTrack({
 
     function LikeTrack() {
         setSelected(!selected);
-        AddToLikedPlaylist();
+
+        setTimeout(() => {
+            if (selected === false) {
+                console.log('adding track')
+                AddToLikedPlaylist();
+            }
+            if (selected === true) {
+                console.log('deleting track')
+                DeleteFromLikedPlaylist();
+            }
+        }, [500])
     }
 
     return <TrackCont>

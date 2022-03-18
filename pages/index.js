@@ -309,6 +309,9 @@ export default function Home() {
     })
   }
 
+  
+
+
   function AddTrackToLiked(trackdata) {
     console.log(trackdata)
     const info = {
@@ -323,6 +326,25 @@ export default function Home() {
       console.log(e)
     })
   }
+
+  
+
+  function DeleteTrackFromLiked(trackdata) {
+    console.log(trackdata)
+    const info = {
+      user: localStorage.getItem('email'),
+      track: trackdata,
+    }
+    console.log(info)
+    axios.post('http://localhost:3001/tracks-delete-liked', info).then((res) => {
+      console.log('deleted from likes:')
+      console.log(res)
+    }).catch(e => {
+      console.log(e)
+    })
+  }
+  
+
 
   const [newTracks, setNewTracks] = useState();
   let loadedTracks = null;
@@ -564,6 +586,7 @@ export default function Home() {
 
               onTrackClick={() => router.push(o.Uri)}
               AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+              DeleteFromLikedPlaylist={(obj) => DeleteTrackFromLiked(o)}
               OpenOptions={(obj) => handleTrackOptions(o)}
               artist={o.Artist}
               song={o.Title}
