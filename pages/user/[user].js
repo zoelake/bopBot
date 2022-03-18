@@ -35,14 +35,11 @@ const Page = styled.div`
 
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
-<<<<<<< HEAD
-=======
     height:45vh;
     padding:30px 10px 10px 60px;
     display: flex;
     justify-content:center ;
     /* border: 2px solid blue; */
->>>>>>> 80fc38c2eea44cab6152847505c63a10db88a682
     
 
     @media ${device.mobile}{
@@ -352,7 +349,6 @@ export default function User() {
             </Head>
             <NavBar />
             <Page>
-<<<<<<< HEAD
                 <LeftCont>
 
                 
@@ -366,11 +362,8 @@ export default function User() {
 
                 <UserCont></UserCont>
 
-                <input placeholder='new playlist name...' onChange={(e) => HandleNewPlaylistName(e.target.value)}></input>
-=======
                 <input placeholder='new playlist name / current ...' onChange={(e) => HandlePlaylists(e.target.value)}></input>
                 <input placeholder='updating playlist name to...' onChange={(e) => HandlePlaylists2(e.target.value)}></input>
->>>>>>> 80fc38c2eea44cab6152847505c63a10db88a682
                 <button onClick={CreateNewPlaylist}>add new playlist</button>
                 <button onClick={UpdatePlaylist}>update a playlist name</button>
                 <button onClick={DeletePlaylist}>delete playlist</button>
@@ -394,36 +387,6 @@ export default function User() {
                             color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
                         />
 
-<<<<<<< HEAD
-                        <Playlist
-                            cover='/playlistLiked.png'
-                            onClick={() => setSelected('liked')}
-                            bg={selected === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
-                            text='liked'
-                        />
-                        <Playlist
-                            cover='/playlistRap.png'
-                            onClick={() => setSelected('rap')}
-                            bg={selected === 'rap' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'rap' ? themes[theme].white : themes[theme].accent}
-                            text='rap'
-                        />
-                        <Playlist
-                            cover='/playlistPop.png'
-                            onClick={() => setSelected('pop')}
-                            bg={selected === 'pop' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'pop' ? themes[theme].white : themes[theme].accent}
-                            text='pop'
-                        />
-                        <Playlist
-                            cover='/playlistIndie.png'
-                            onClick={() => setSelected('indie')}
-                            bg={selected === 'indie' ? themes[theme].accent : themes[theme].playBg}
-                            color={selected === 'indie' ? themes[theme].white : themes[theme].accent}
-                            text='indie'
-                        />
-=======
                         {usersPlaylists !== [] ? usersPlaylists.map((o) => <Playlist
                             key={o._id}
                             text={o.name}
@@ -442,7 +405,6 @@ export default function User() {
                             />
                         }
 
->>>>>>> 80fc38c2eea44cab6152847505c63a10db88a682
 
                     </SbCont>
                 </Dashboard>
@@ -490,12 +452,7 @@ export default function User() {
 
                     </RegCont>
 
-<<<<<<< HEAD
-                    </TracksCont>
-                    
-=======
                 </TracksCont>
->>>>>>> 80fc38c2eea44cab6152847505c63a10db88a682
 
             </Page>
         
