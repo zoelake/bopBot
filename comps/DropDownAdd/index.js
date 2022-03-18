@@ -6,24 +6,22 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import styled from "styled-components";
 
-
 import { themes } from "../../utils/variables";
 import { useTheme, usePar } from "../../utils/provider";
 
 
 const ButtonCont = styled.div`
-    color: ${props => props.color};
+    /* display:flex; */
+    /* justify-content: center ;
+    align-content: center; */
+    background-color:${props => props.bg};
     cursor: pointer;
 `;
 
-const MenuCont = styled.div`
-    color: ${props => props.color};
-`;
-
 const options = [
-    'Edit Details',
+    'Add to playlist',
     'Download',
-    'Delete',
+
 ];
 
 const ITEM_HEIGHT = 48;
@@ -49,7 +47,7 @@ export default function DropDownEdit({
   return (
     <div>
       <ButtonCont
-        aria-label="more" //accessbility
+        aria-label="more" //aria is for accessbility
         id="long-button"
         color={themes[theme].dark}
         //need to figure out theming
@@ -68,16 +66,15 @@ export default function DropDownEdit({
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-
         PaperProps={{
-            style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-              width: '20ch',
-              color: '#fff',
-              backgroundColor:themes[theme].heart,
-            //   backgroundColor:${props => props.bg};
-            },
-          }}
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+            width: '20ch',
+            color: '#fff',
+            backgroundColor:themes[theme].heart,
+        
+          },
+        }}
       >
         {options.map((option) => (
           <MenuItem key={option} selected={option === ''} onClick={handleClose}>
