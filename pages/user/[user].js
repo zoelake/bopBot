@@ -20,7 +20,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
-import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist } from '../../utils/backendFunctions';
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, RemoveTrackFromPlaylist } from '../../utils/backendFunctions';
 import DropDownEdit from '../../comps/DropDownModal'
 
 
@@ -122,7 +122,7 @@ export default function User() {
     const [playlistImg, setPlaylistImg] = useState(null);
     const [usersPlaylists, setUserPlaylists] = useState([])
     const [likedPlaylist, setLikedPlaylist] = useState([])
-    const [selectedPlaylist, setSelectedPlaylist] = useState(null)
+    const [selectedPlaylist, setSelectedPlaylist] = useState('likes')
     const [selectedPlaylistId, setSelectedPlaylistId] = useState(null)
     const [selectedPlaylistCover, setSelectedPlaylistCover] = useState(null)
     const [newPlaylistName, setNewPlaylistName] = useState(null)
@@ -188,6 +188,7 @@ export default function User() {
                     console.log('res.data.playlists')
                     console.log(res.data.playlists)
                     setUserPlaylists(res.data.playlists);
+                    setLikedPlaylist(res.data.liked)
                 }
             }).catch(e => {
                 console.log(e)
@@ -222,34 +223,24 @@ export default function User() {
         setEditPlaylistView(false)
         DeletePlaylist(selectedPlaylist)
         getPlaylists()
+        const { updatetracks } = usersPlaylists
+        setSelectedTracks(updatetracks)
     }
 
     function handlePlaylistClick(playlist) {
         //sets currently selected playlist
-        console.log(`playlist tracks`)
-        console.log(playlist.tracks)
+        const { tracks } = playlist;
+        console.log(tracks)
+        setSelectedTracks(tracks)
 
         setSelectedPlaylist(playlist.name)
         setSelectedPlaylistId(playlist._id)
         setSelectedPlaylistCover(playlist.img)
-        setSelectedTracks(playlist.tracks)
-        const { tracks } = playlist;
-        console.log('tracks')
-        console.log(tracks)
-        setSelectedTracks(tracks)
-        console.log('selectedTracks')
-        console.log(selectedTracks)
+
+        console.log(selectedPlaylist, selectedPlaylistId, selectedPlaylistCover)
 
 
-        //updates playlists
-        // setUserPlaylists(() => {
-        //     getPlaylistById(selectedPlaylistId);
-        // })
-        console.log('USERS NEW PLAYLIOST')
-        console.log(usersPlaylists)
-        console.log('selected playlist')
-        console.log(selectedPlaylist)
-        getPlaylists()
+        // getPlaylists()
 
     }
 
@@ -258,6 +249,8 @@ export default function User() {
         setAddPlaylistView(!addPlaylistView)
         CreateNewPlaylist(newPlaylistName)
         getPlaylists();
+        const { updatetracks } = usersPlaylists
+        setSelectedTracks(updatetracks)
     }
 
     function onEditSaveClick() {
@@ -265,17 +258,25 @@ export default function User() {
         console.log('editing ' + selectedPlaylist)
         UpdatePlaylist(selectedPlaylist, updatePlaylistName, playlistImg)
         getPlaylists();
+        const { updatetracks } = usersPlaylists
+        setSelectedTracks(updatetracks)
     }
 
     function handleTrackOptions(trackdata) {
         console.log(trackdata)
         const playlist = localStorage.getItem('selectedPlaylist')
-        //add to playlist
-        console.log('sending to add track to playlist:')
-        console.log(trackdata, playlist)
-        AddTrackToPlaylist(trackdata, playlist);
-        getPlaylists()
+        const request = localStorage.getItem('request')
 
+        if (request)
+            if (request == 'add') {
+                console.log(`adding ${trackdata.name} to ${playlist}`)
+                AddTrackToPlaylist(trackdata, playlist);
+            } else if (request == 'remove') {
+                console.log(`adding ${trackdata.name} to ${playlist}`)
+                RemoveTrackFromPlaylist(trackdata, playlist);
+            }
+
+        getPlaylists()
     }
 
 
@@ -335,7 +336,7 @@ export default function User() {
                         />
 
 
-                        {usersPlaylists !== [] ? usersPlaylists.map((o,i) => <Playlist
+                        {usersPlaylists !== [] ? usersPlaylists.map((o, i) => <Playlist
                             key={i}
                             text={o.name}
                             cover={o.img}
@@ -358,11 +359,10 @@ export default function User() {
                     </SbCont>
                 </Dashboard>
                 <TracksCont>
-                    <MyTrack />
 
                     <SpaceCont>
                         <MyText
-                            text={selectedPlaylist === null ? 'likes' : selectedPlaylist}
+                            text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
                             size={`${headerSize}px`}
                         />
                         <MyButton
@@ -382,7 +382,7 @@ export default function User() {
                     <br></br>
 
                     <RegCont>
-                        {selectedPlaylist == 'likes' & likedPlaylist !== [] ? likedPlaylist.map((o, i) => <MyTrack
+                        {selectedPlaylist == 'likes' ? likedPlaylist.map((o, i) => <MyTrack
                             key={i}
                             onTrackClick={() => router.push(o.Uri)}
                             AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}

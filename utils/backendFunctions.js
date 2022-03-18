@@ -2,9 +2,12 @@ import axios from "axios";
 import { useState } from "react";
 
 
+
+
+
 //PLAYLIST FUNCTIONS
 
-export function a() {
+export function getPlaylists() {
 
     console.log('GETTING PLAYLISTS')
     const user = {
@@ -41,6 +44,7 @@ export function AddTrackToPlaylist(trackdata, playlist) {
         console.log(e)
     })
 }
+
 
 
 export function AddTrackToLiked(trackdata) {
@@ -92,7 +96,7 @@ export function CreateNewPlaylist(name) {
 
 
 export function DeletePlaylist(name) {
-    console.log('deleting playlist')
+    console.log('deleting playlist') 
     const playlist = {
         playlist_name: name,
         user: localStorage.getItem('email')
@@ -109,7 +113,7 @@ export function DeletePlaylist(name) {
 
 }
 
-export function UpdatePlaylist({ name, newName, img, updatePlaylist = () => { }, }) {
+export function UpdatePlaylist({ name, newName, img, }) {
     console.log(`updating ${name} to ${newName}`)
     const playlist = {
         playlist_name: name,
@@ -125,6 +129,5 @@ export function UpdatePlaylist({ name, newName, img, updatePlaylist = () => { },
         }).catch(e => {
             console.log(e)
         })
-    setTimeout(updatePlaylist(), 500);
 
 }
