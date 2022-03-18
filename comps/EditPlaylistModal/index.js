@@ -1,10 +1,13 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
-import { usePar, useTheme } from "../../utils/provider";
+import { usePar, useHeader, useTitle, useTheme } from "../../utils/provider";
 import MyText from "../../comps/Text/index"
 
-import SbButton from "../SbButton";
+import SbButton from "../SbButton"
 
+const {parSize} = usePar()
+const {headerSize} = useHeader()
+const {titleSize} = useTitle()
 
 const Cont = styled.div`
     width:567px;
@@ -23,7 +26,7 @@ margin-top: 40px;
 `;
 
 const EPText = styled.text`
-    font-size: 36px;
+    font-size: ${titleSize};
     color:white;
 `;
 
@@ -38,7 +41,7 @@ const MidCont = styled.div`
 
 const ChangeImageText = styled.text`
     color: white;
-    font-size: 18px;
+    font-size: ${parSize};
     text-decoration: underline;
     margin-top: 10px;
 
@@ -53,6 +56,17 @@ const BotInput = styled.input`
     background-color: #7C7C7C;
     border-radius:10px;
     margin-top: 22px;
+
+    ::placeholder,
+    ::-webkit-input-placeholder {
+    color: lightgray;
+    font-size: ${parSize};
+    display: flex;
+
+     }
+     /* :-ms-input-placeholder {
+     color: red;
+    } */
 `;
 
 const ButtonCont =styled.div`
