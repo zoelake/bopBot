@@ -222,9 +222,8 @@ export default function User() {
     function onDeleteClick() {
         setEditPlaylistView(false)
         DeletePlaylist(selectedPlaylist)
+        setSelectedTracks([])
         getPlaylists()
-        const { updatetracks } = usersPlaylists
-        setSelectedTracks(updatetracks)
     }
 
     function handlePlaylistClick(playlist) {
@@ -239,9 +238,6 @@ export default function User() {
 
         console.log(selectedPlaylist, selectedPlaylistId, selectedPlaylistCover)
 
-
-        // getPlaylists()
-
     }
 
 
@@ -249,17 +245,17 @@ export default function User() {
         setAddPlaylistView(!addPlaylistView)
         CreateNewPlaylist(newPlaylistName)
         getPlaylists();
-        const { updatetracks } = usersPlaylists
-        setSelectedTracks(updatetracks)
+
     }
 
     function onEditSaveClick() {
         setEditPlaylistView(!editPlaylistView)
         console.log('editing ' + selectedPlaylist)
+        console.log(selectedPlaylist, updatePlaylistName, playlistImg)
         UpdatePlaylist(selectedPlaylist, updatePlaylistName, playlistImg)
+        setSelectedPlaylist(updatePlaylistName)
         getPlaylists();
-        const { updatetracks } = usersPlaylists
-        setSelectedTracks(updatetracks)
+
     }
 
     function handleTrackOptions(trackdata) {
@@ -392,7 +388,9 @@ export default function User() {
                             song={o.Title}
                             album={o.Album}
                             time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                        />) : selectedTracks.map((o, i) => <MyTrack
+                        />) : <></>}
+
+                        {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? selectedTracks.map((o, i) => <MyTrack
                             key={i}
                             onTrackClick={() => router.push(o.Uri)}
                             AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
@@ -402,7 +400,7 @@ export default function User() {
                             song={o.Title}
                             album={o.Album}
                             time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                        />)}
+                        />) : <></>}
 
 
 
