@@ -183,7 +183,7 @@ export default function MyTrack({
         </Cont5>
         <Cont6 
         onClick={OpenOptions}>
-            <DropDownEdit />
+            <DropDownEdit/>
         </Cont6>
 
 

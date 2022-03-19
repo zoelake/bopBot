@@ -48,6 +48,7 @@ export default function DropDownEdit({
   const { theme } = useTheme();
   const [userPlaylists, setUserPlaylists] = useState([])
 
+
   const testOptions = [
     'Add to playlist',
     'Download',
@@ -78,6 +79,13 @@ export default function DropDownEdit({
 
   function onSelect(playlist_name, e) {
     localStorage.setItem('selectedPlaylist', playlist_name)
+    localStorage.setItem('request', 'add')
+    handleClose();
+  }
+
+  function onDeselect(playlist_name, e) {
+    localStorage.setItem('selectedPlaylist', playlist_name)
+    localStorage.setItem('request', 'remove')
     handleClose();
   }
 
@@ -142,6 +150,28 @@ export default function DropDownEdit({
               key={i}
               selected={o === ''}
               onClick={(obj, e) => onSelect(o.name, e)}
+            >
+              {o.name}
+            </MenuItem>
+          ))}
+        <ListItemText>Remove from:</ListItemText>
+        {userPlaylists !== [] ? userPlaylists.map((o, i) => (<div style={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}>
+          <MenuItem
+            key={i}
+            selected={o === ''}
+            onClick={(obj, e) => onDeselect(o.name, e)}
+          >
+            {o.name}
+          </MenuItem></div>
+        ))
+          : testOptions.map((o, i) => (
+            <MenuItem
+              key={i}
+              selected={o === ''}
+              onClick={(obj, e) => onDeSelect(o.name, e)}
             >
               {o.name}
             </MenuItem>

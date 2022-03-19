@@ -122,13 +122,14 @@ export default function User() {
     const [playlistImg, setPlaylistImg] = useState(null);
     const [usersPlaylists, setUserPlaylists] = useState([])
     const [likedPlaylist, setLikedPlaylist] = useState([])
-    const [selectedPlaylist, setSelectedPlaylist] = useState('likes')
     const [selectedPlaylistId, setSelectedPlaylistId] = useState(null)
     const [selectedPlaylistCover, setSelectedPlaylistCover] = useState(null)
     const [newPlaylistName, setNewPlaylistName] = useState(null)
     const [updatePlaylistName, setUpdatePlaylistName] = useState(null)
-
-    //toggle models
+    const [selectedTracks, setSelectedTracks] = useState([])
+    
+    //toggle models & views
+    const [selectedPlaylist, setSelectedPlaylist] = useState('likes')
     const [editPlaylistView, setEditPlaylistView] = useState(false)
     const [addPlaylistView, setAddPlaylistView] = useState(false)
 
@@ -216,7 +217,7 @@ export default function User() {
             })
     }
 
-    const [selectedTracks, setSelectedTracks] = useState([])
+   
 
     //page functions
     function onDeleteClick() {
@@ -268,7 +269,7 @@ export default function User() {
                 console.log(`adding ${trackdata.name} to ${playlist}`)
                 AddTrackToPlaylist(trackdata, playlist);
             } else if (request == 'remove') {
-                console.log(`adding ${trackdata.name} to ${playlist}`)
+                console.log(`removing ${trackdata.name} from ${playlist}`)
                 RemoveTrackFromPlaylist(trackdata, playlist);
             }
 

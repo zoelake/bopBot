@@ -27,6 +27,22 @@ export function getPlaylists() {
 
 }
 
+export function RemoveTrackFromPlaylist(trackdata, playlist) {
+    console.log(trackdata)
+    console.log('playlist: ' + playlist)
+    const info = {
+        user: localStorage.getItem('email'),
+        playlist_name: playlist,
+        track: trackdata,
+    }
+    console.log(info)
+    axios.post('http://localhost:3001/tracks-remove-playlist', info).then((res) => {
+        console.log('returning:')
+        console.log(res)
+    }).catch(e => {
+        console.log(e)
+    })
+}
 
 export function AddTrackToPlaylist(trackdata, playlist) {
     console.log(trackdata)
@@ -113,7 +129,7 @@ export function DeletePlaylist(name) {
 
 }
 
-export function UpdatePlaylist({ name, newName, img, }) {
+export function UpdatePlaylist( name, newName, img) {
     console.log(`updating ${name} to ${newName}`)
     const playlist = {
         playlist_name: name,
@@ -121,6 +137,8 @@ export function UpdatePlaylist({ name, newName, img, }) {
         playlist_newImg: img,
         user: localStorage.getItem('email')
     }
+    console.log('playlist')
+    console.log(playlist)
     axios.post('http://localhost:3001/update-playlist', playlist)
         .then((res) => {
 
