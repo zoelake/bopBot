@@ -32,9 +32,8 @@ import DropDownEdit from '../comps/DropDownEdit'
 import DropDownAdd from '../comps/DropDownAdd'
 import DropDownStyled from '../comps/DropDownStyled'
 import { SongContainer } from '../comps/Container'
-import { ItemTypes } from '../ItemTypes'
 
-import example from '../example'
+// import example from '../example'
 import { Card } from '../comps/Card'
 import { Container } from '../comps/Container'
 
