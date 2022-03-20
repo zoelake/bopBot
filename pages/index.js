@@ -737,7 +737,7 @@ export default function Home() {
 
             </Dropzone>
           </DndProvider>
-          <EditPlaylist/>
+      
         </TracksCont>
               
        

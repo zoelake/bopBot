@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
-import { usePar, useHeader, useTitle, useTheme } from "../../utils/provider";
+import { usePar, useHeader, useTitle, titleSize, parSize, headerSize, useTheme } from "../../utils/provider";
 import MyText from "../../comps/Text/index"
+
 
 import SbButton from "../SbButton"
 
-const {parSize} = usePar()
-const {headerSize} = useHeader()
-const {titleSize} = useTitle()
+
 
 const Cont = styled.div`
     width:567px;
@@ -77,9 +76,13 @@ const ButtonCont =styled.div`
 `;
 
 
+
 const EditPlaylist = ({
     
 }) => {
+    const {parSize} = usePar()
+    const {headerSize} = useHeader()
+    const {titleSize} = useTitle()
     return (
     <Cont>
         <TopCont>
