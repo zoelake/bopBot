@@ -55,44 +55,37 @@ const BotInput = styled.input`
 `;
 
 const ButtonCont = styled.div`
-
     display:flex;
     justify-content: flex-end;
     margin-top: 30px;
     margin-right: 30px;
+    border:2px solid green;
+
 `;
 
 
-const EditPlaylist = ({
-    playlist = 'Playlist',
-    coverSrc = '/playlistPop.png',
+const AddPlaylist = ({
+    coverSrc = '',
     onXClick = () => { },
     onSaveClick = () => { },
-    onDeleteClick = () => { },
     handleChange = () => { },
 }) => {
     return (
         <Cont>
             <TopCont>
-                <EPText>Edit {playlist}</EPText>
+                <EPText>Create new Playlist</EPText>
                 <img onClick={onXClick} width="40.33px" height="40.33px" src={"/purpleX.png"} />
             </TopCont>
 
             <MidCont>
                 <img width="207.69px" height="215.38px" src={coverSrc}></img>
-                <ChangeImageText>Change image</ChangeImageText>
-                <BotInput onChange={handleChange} type="text" placeholder="edit title here"  ></BotInput>
+                <ChangeImageText>Add image</ChangeImageText>
+                <BotInput onChange={handleChange} type="text" placeholder="enter title here"  ></BotInput>
             </MidCont>
 
             <MyButton
                 onClick={onSaveClick}
                 text="Save"
-                width="20%"
-                style={{ position: 'relative', left: '70%' }}
-            />
-            <MyButton
-                onClick={onDeleteClick}
-                text="Delete"
                 width="20%"
                 style={{ position: 'relative', left: '70%' }}
             />
@@ -104,4 +97,4 @@ const EditPlaylist = ({
     );
 }
 
-export default EditPlaylist;
+export default AddPlaylist;

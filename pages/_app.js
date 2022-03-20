@@ -45,6 +45,7 @@ function MyApp({ Component, pageProps }) {
   return <MyThemeProvider>
     <GlobalStyle />
     <Component {...pageProps} />
+    
   </MyThemeProvider>
 
 
