@@ -2,35 +2,31 @@ import Head from 'next/head'
 import Image from 'next/image'
 import MyButton from '../comps/Button'
 import NavBar from '../comps/Nav'
-import MyTrack from '../comps/TrackInfo'
-
-import Playlist from '../comps/Playlist'
-import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
+import ThemeToggle from '../comps/ThemeToggle'
+
 import { themes } from '../utils/variables'
 import { useTheme, useTitle, useHeader, usePar, useExplicit, useSbSize, useName, useEmail, } from "../utils/provider"; import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
-import MySwitch from '../comps/Switch'
-import Slider from '../comps/Slider'
-import ThemeToggle from '../comps/ThemeToggle'
 import { useState } from 'react'
-import { Switch, FormControlLabel } from '@mui/material'
+import { Switch, FormControlLabel, Input, Avatar } from '@mui/material'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
 
 
-const Page = styled.div`
-  display:flex;
-  flex-direction: row;
-  margin:0;
-  justify-content: space-between;
-`;
+// const Page = styled.div`
+//   display:flex;
+//   flex-direction: row;
+//   margin:0;
+//   justify-content: space-between;
+//   border:2px solid green;
+// `;
 
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
-    height:95vh;
+    height:100%;
     width:100%;
     padding:30px 10px 10px 60px;
 
@@ -46,46 +42,135 @@ const Dashboard = styled.div`
     }
 `;
 
-const Cont = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
+// const Cont = styled.div`
+//   display: flex;
+//   flex-direction: row;
+// `;
 
-const HalfCont = styled.div`
-  flex:${props => props.flex};
-  height:80vh;
-  /* border:3px solid red; */
-  padding:10px 10px 10px 30px;
-  display: flex;
-  flex-direction: column;
-  align-content: space-between;
+// const HalfCont = styled.div`
+//   flex:${props => props.flex};
+//   height:80vh;
+//   border:3px solid red; 
+//   padding:10px 10px 10px 30px;
+//   display: flex;
+//   flex-direction: column;
+//   align-content: space-between;
 
-`;
+// `;
 
-const QuartCont = styled.div`
-  flex: ${props => props.height};
-  /* border:2px solid blue; */
-  padding-top:${props => props.padding};
-`;
+// const QuartCont = styled.div`
+//   flex: ${props => props.height};
+//   border:2px solid blue; 
+//   padding-top:${props => props.padding};
+  
+// `;
 
-const Divider = styled.div`
-  height:80vh;
-  width:2px;
-  background-color: ${props => props.col};
-
-`;
-
-const InputCont = styled.div`
-    width:80%;
-    max-width:500px;
+const PageContent = styled.div`
     display: flex;
+    width: 70%;
+    height: 100%;
     flex-direction: column;
     justify-content: center;
+    flex-wrap: wrap;
+    margin: 0% 0% 0% 0%;
+    padding: 2% 0% 0% 0%;
+`;
+
+const Section = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+
+    @media ${device.mobile}{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+  
+      }
+  
+      @media ${device.tablet}{
+        justify-content: row;
+        width: 60%;
+        align-items: center;
+        justify-content: center;
+        
+      }
+  
+      @media ${device.desktop}{
+        width: 80%;
+        padding: 0 10%;
+  
+      }
+`;
+
+const SectionTitle = styled.div`
+  display: flex;
+  height: ${props => props.height}; 
+  flex-grow: 1;
+  width: 50%;
+`;
+
+const SectionContent = styled.div`
+    display: flex;
+    flex-grow: 1;
+    height: ${props => props.height}; 
+    width: 50%;
+    flex-direction: column;  
+`;
+
+const LogoutSection = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: flex-end;
+  height: 200px;
+  width: 50%;
+`;
+
+// const Divider = styled.div`
+//   height:80vh;
+//   width:2px;
+//   background-color: ${props => props.col};
+
+// `;
+
+const InputCont = styled.div`
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
     align-content: space-around;
-    align-items: center;
     padding:5px;
-    border-radius: 5px;
-    background-color: #fff;
+
+`;
+
+const AvatarCont = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 500px;
+    height: 300px;
+    justify-content: space-evenly;
+
+    @media ${device.mobile}{
+      width: 100%;
+      
+      }
+  
+      @media ${device.tablet}{
+
+        
+      }
+  
+      @media ${device.desktop}{
+        width: 60%;
+        padding: 0 10%;
+  
+      }
+`;
+
+const AvatarTest = styled.div`
+    height: 100px;
+    width: 100px;
+    background-color: black;
 `;
 
 const LoginInput = styled.input`
@@ -93,22 +178,27 @@ const LoginInput = styled.input`
     background-color: ${props => props.bg};
     color:${props => props.txt};
     height:50px;
-    border:1.5px solid #8B64FA;
+    border:1.5px solid #525252;
     margin:5px;
     padding:0 10px;
-    width:90%;
-`;
-
-const ButtonCont = styled.div`
-    display: flex;
-    flex-direction:column;
-    justify-content: space-around;
-    text-align:center ;
+    width: 300px;
 `;
 
 
+// const ButtonCont = styled.button`
+//     display: flex;
+//     text-align:center;
+//     background-color: red;
+//     border-radius: 10px;
+//     height: 30px;
+//     width: 
+// `;
 
-export default function Settings() {
+
+
+export default function Settings(
+  {height="500px"}
+) {
 
   const router = useRouter();
 
@@ -116,7 +206,7 @@ export default function Settings() {
   const { theme, setTheme } = useTheme();
   const [themeCol, setThemeCol] = useState(theme);
   const { titleSize, setTitleSize } = useTitle();
-  const { headerSize, setHeaderSize } = useHeader();
+  const { headerSize, setHeaderSize } = useHeader(); 
   const { parSize, setParSize } = usePar();
   const { explicit, setExplicit } = useExplicit();
   const { sbSize, setSbSize } = useSbSize();
@@ -189,10 +279,6 @@ export default function Settings() {
   }
 
 
-
-
-
-
   function UpdateName() {
     const updateName = {
       name: localStorage.getItem('name'),
@@ -258,127 +344,193 @@ export default function Settings() {
         <link rel="icon" href="#" />
       </Head>
       <NavBar />
-      <Page>
+
+      <PageContent>
         <Dashboard
           bg={themes[theme].contrast}>
           <MyText
             weight={500}
             text={`Settings`}
             size={`${titleSize}px`} />
-          <Cont>
-            <HalfCont flex={1}>
-              <QuartCont height={2.5}>
-                <MyText
-                  text='Themes'
-                  size={`${headerSize}px`}
-                />
-              </QuartCont>
-              <QuartCont height={1}>
-                <MyText
-                  text='Font size'
-                  size={`${headerSize}px`}
-                />
-              </QuartCont>
-              <QuartCont height={1}>
-                <MyText
-                  text='Explicit content'
-                  size={`${headerSize}px`}
-                />
-              </QuartCont>
 
-              <QuartCont height={1}>
-                <MyText
+              <Section>
+
+                {/* themes */}
+
+                <SectionTitle
+                height={'200px'}>
+                  <MyText
+                    text='Themes'
+                    size={`${headerSize}px`}
+                  />
+                </SectionTitle>
+
+                <SectionContent
+                height={'400px'}
+                >
+                    <ThemeToggle
+                      radioClick={() => setTheme('dark')}
+                      mode='Dark Mode'
+                      theme1={themes.dark.accent}
+                      theme2={themes.dark.contrast}
+                      inner={theme === 'dark' ? true : false}
+
+                    />
+                    <ThemeToggle
+                      radioClick={() => setTheme('light')}
+                      mode='Light Mode'
+                      theme1={themes.light.accent}
+                      theme2={themes.light.contrast}
+                      inner={theme === 'light' ? true : false}
+                    />
+                    <ThemeToggle
+                      radioClick={() => setTheme('retro')}
+                      mode='Retro'
+                      theme1={themes.retro.contrast}
+                      theme2={themes.retro.accent}
+                      inner={theme === 'retro' ? true : false}
+                    />
+                    <ThemeToggle
+                      radioClick={() => setTheme('funky')}
+                      mode='Funk'
+                      theme1={themes.funky.contrast}
+                      theme2={themes.funky.mid}
+                      inner={theme === 'funky' ? true : false}
+                    />
+                  </SectionContent>
+              </Section>
+
+              <Section>
+
+                {/* font */}
+
+                  <SectionTitle>
+                    <MyText
+                    text='Font size'
+                    size={`${headerSize}px`}
+                    />
+                  </SectionTitle>
+
+                  <SectionContent
+                  height={'300px'}>
+                    <MyText
+                      size={`${parSize}px`}
+                      text={'Text will now be ✨THIS✨ big'}
+                    />
+                    <Toggle
+                      increase={increaseFont}
+                      decrease={decreaseFont}
+                    />
+                  </SectionContent>
+               </Section>   
+
+              <Section>
+
+                {/* font-size */}
+
+                <SectionTitle
+                height={'200px'}
+                >
+                  <MyText
+                    text='Explicit content'
+                    size={`${headerSize}px`}
+                  />
+                </SectionTitle>
+
+                <SectionContent
+                 height={'200px'}
+                >
+                  <FormControlLabel control={
+                    <Switch
+                      onChange={() => setExplicit(!explicit)}
+                    />} label={explicit ? 'Allowed' : 'Disabled'} />
+                </SectionContent>
+              </Section>
+
+              <Section>
+
+                {/* update details */}
+
+                <SectionTitle>
+                  <MyText
                   text='Update account details'
                   size={`${headerSize}px`}
-                />
-              </QuartCont>
+                  />
+                </SectionTitle>
+                    
+                  <SectionContent
+                  height={'200px'}
+                  >
+
+                    <MyText
+                    size={`${parSize}px`}
+                    text={`Select Your Avatar`}
+                    />
+
+                    <AvatarCont>
+                      <AvatarTest/> <AvatarTest/> <AvatarTest/> <AvatarTest/>
+                    </AvatarCont>
 
 
+                    <MyText
+                    size={`${parSize}px`}
+                    text={`Current name: ${name}`}
+                    />
+
+                    <InputCont>
+                      <LoginInput 
+                      placeholder='Enter new name...' 
+                      onChange={(e) => HandleName(e.target.value)} 
+                      bg={themes[theme].playBg}
+                      />
+                      <MyButton 
+                      onClick={UpdateName}
+                      width="200px"
+                      bg={themes[theme].sliderBg}
+                      text = 'Update Name'
+                      >Update name</MyButton>
+                    </InputCont>
+
+                    <InputCont>
+                      <MyText
+                        size={`${parSize}px`}
+                        text={`Current email: ${email}`}
+                      />
+                      <LoginInput 
+                      placeholder='Enter new email...' 
+                      onChange={(e) => HandleEmail(e.target.value)} 
+                      bg="themes[theme].playBg"
+                      />
+                      <MyButton 
+                      onClick={UpdateEmail}
+                      width="200px"
+                      bg={themes[theme].sliderBg}
+                      text = 'Update Email'
+                      >Update email</MyButton>
+                    </InputCont> 
+
+                    <LogoutSection>
+                      <MyButton
+                        text='Logout'
+                        width="200px"
+                        bg={themes[theme].accent}
+                        onClick={HandleLogout}
+                      />
+                    </LogoutSection>  
+
+                  </SectionContent> 
 
 
-            </HalfCont>
-            <Divider
-              col={themes[theme].text}
-            />
-            <HalfCont flex={2}>
-              <QuartCont padding={'24px'} height={2}>
+                </Section>
+          {/* <Divider
+              //col={themes[theme].text}
+            /> */}
 
-
-                <ThemeToggle
-                  radioClick={() => setTheme('dark')}
-                  mode='Dark Mode'
-                  theme1={themes.dark.accent}
-                  theme2={themes.dark.contrast}
-                  inner={theme === 'dark' ? true : false}
-
-                />
-                <ThemeToggle
-                  radioClick={() => setTheme('light')}
-                  mode='Light Mode'
-                  theme1={themes.light.accent}
-                  theme2={themes.light.contrast}
-                  inner={theme === 'light' ? true : false}
-                />
-                <ThemeToggle
-                  radioClick={() => setTheme('retro')}
-                  mode='Retro'
-                  theme1={themes.retro.contrast}
-                  theme2={themes.retro.accent}
-                  inner={theme === 'retro' ? true : false}
-                />
-                <ThemeToggle
-                  radioClick={() => setTheme('funky')}
-                  mode='Funk'
-                  theme1={themes.funky.contrast}
-                  theme2={themes.funky.mid}
-                  inner={theme === 'funky' ? true : false}
-                />
-              </QuartCont>
-              <QuartCont height={1}>
-                <MyText
-                  size={`${parSize}px`}
-                  text={'Text will now be ✨THIS✨ big'}
-                />
-                <Toggle
-                  increase={increaseFont}
-                  decrease={decreaseFont}
-                />
-
-              </QuartCont>
-              <QuartCont height={1}>
-                <FormControlLabel control={
-                  <Switch
-                    onChange={() => setExplicit(!explicit)}
-                  />} label={explicit ? 'Allowed' : 'Disabled'} />
-              </QuartCont>
-              <QuartCont>
-                <MyText
-                  size={`${parSize}px`}
-                  text={`Current name: ${name}`}
-                />
-                <LoginInput placeholder='Enter new name...' onChange={(e) => HandleName(e.target.value)} />
-                <button onClick={UpdateName}>Update name</button>
-                <MyText
-                  size={`${parSize}px`}
-                  text={`Current email: ${email}`}
-                />
-                <LoginInput placeholder='Enter new email...' onChange={(e) => HandleEmail(e.target.value)} />
-                <button onClick={UpdateEmail}>Update email</button>
-
-
-              </QuartCont>
-
-
-            </HalfCont>
-          </Cont>
-          <MyButton
-            text='Logout'
-            onClick={HandleLogout}
-          />
+    
 
 
         </Dashboard>
-      </Page>
+      </PageContent>
 
 
     </>

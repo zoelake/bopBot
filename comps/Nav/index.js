@@ -24,6 +24,7 @@ const Container = styled.nav`
     /* padding:5px; */
 
     @media ${device.mobile}{ 
+        
     }
 
     @media ${device.tablet}{

@@ -31,6 +31,7 @@ const Text = styled.p`
 `;
 
 export default function MyButton({
+    bg = 'white',
     text = 'button',
     onClick = () => { },
     shadow,
@@ -43,7 +44,7 @@ export default function MyButton({
 
     return <Cont
         onClick={onClick}
-        bg={themes[theme].heart}
+        bg={bg|| themes[theme].heart}
         color={themes[theme].white}
         shadow={shadow}
         width={width}
