@@ -22,6 +22,8 @@ import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, SetTracksAsUnfavourite, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
 import DropDownEdit from '../../comps/DropDownModal'
+import { DndProvider } from 'react-dnd'
+import { TouchBackend } from 'react-dnd-touch-backend'
 
 
 
@@ -304,7 +306,6 @@ export default function User() {
             <NavBar />
             <Page>
 
-
                 <Dashboard
                     bg={themes[theme].contrast}>
 
@@ -396,34 +397,39 @@ export default function User() {
                     <br></br>
 
                     <RegCont>
-                        {selectedPlaylist == 'likes' ? likedPlaylist.map((o, i) => <MyTrack
-                            key={i}
-                            selected={o.Canada}
-                            onTrackClick={() => router.push(o.Uri)}
-                            AddToLikedPlaylist={(obj) => setAsLiked(o)}
-                            DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-                            OpenOptions={(obj) => handleTrackOptions(o)}
-                            artist={o.Artist}
-                            song={o.Title}
-                            album={o.Album}
-                            time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                        />) : <></>}
+                        <DndProvider backend={TouchBackend} options={{
+                            enableTouchEvents: false,
+                            enableMouseEvents: true
+                        }}>
+                            {selectedPlaylist == 'likes' ? likedPlaylist.map((o, i) => <MyTrack
+                                key={i}
+                                selected={o.Canada}
+                                onTrackClick={() => router.push(o.Uri)}
+                                AddToLikedPlaylist={(obj) => setAsLiked(o)}
+                                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
+                                OpenOptions={(obj) => handleTrackOptions(o)}
+                                artist={o.Artist}
+                                song={o.Title}
+                                album={o.Album}
+                                time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                            />) : <></>}
 
-                        {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? selectedTracks.map((o, i) => <MyTrack
-                            key={i}
-                            selected={o.Canada}
-                            onTrackClick={() => router.push(o.Uri)}
-                            AddToLikedPlaylist={(obj) => setAsLiked(o)}
-                            DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-                            OpenOptions={(obj) => handleTrackOptions(o)}
-                            artist={o.Artist}
-                            song={o.Title}
-                            album={o.Album}
-                            time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                        />) : <></>}
+                            {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? selectedTracks.map((o, i) => <MyTrack
+                                key={i}
+                                selected={o.Canada}
+                                onTrackClick={() => router.push(o.Uri)}
+                                AddToLikedPlaylist={(obj) => setAsLiked(o)}
+                                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
+                                OpenOptions={(obj) => handleTrackOptions(o)}
+                                artist={o.Artist}
+                                song={o.Title}
+                                album={o.Album}
+                                time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                            />) : <></>}
 
 
 
+                        </DndProvider>
                     </RegCont>
 
                 </TracksCont>

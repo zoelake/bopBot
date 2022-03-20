@@ -105,6 +105,8 @@ const NavBar = ({
         setPage('settings')
     }
 
+    
+
     return <><Container
         visibility={visibility}
         bg={themes[theme].mid}
@@ -124,6 +126,8 @@ const NavBar = ({
             </NavLink> */}
         </LinkCont>
         <LinkCont>
+
+            
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goLibrary}

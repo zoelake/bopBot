@@ -6,6 +6,7 @@ import MyText from "../../comps/Text/index"
 import SbButton from "../SbButton";
 import MyButton from "../Button";
 
+
 const Cont = styled.div`
     width:567px;
     height:557px;
@@ -54,12 +55,11 @@ const BotInput = styled.input`
 `;
 
 const ButtonCont = styled.div`
+
     display:flex;
     justify-content: flex-end;
     margin-top: 30px;
     margin-right: 30px;
-    border:2px solid green;
-
 `;
 
 

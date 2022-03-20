@@ -18,12 +18,28 @@ import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, SetTracksAsUnfavourite, RemoveTrackFromPlaylist } from '../utils/backendFunctions';
+
+import { TouchBackend } from 'react-dnd-touch-backend'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import Dropzone from '../comps/Dropzone'
+import { v4 as uuidv4 } from 'uuid';
+
+import { io } from "socket.io-client";
+import TrackInfoDnd from '../comps/TrackInfoDnd'
+import EditPlaylist from '../comps/EditPlaylistModal'
+import BopBot from '../comps/BopBot'
+
+
+
+
+
 const Page = styled.div`
   display:flex;
   margin:0;
-  
+  width:100%;
   position: absolute;
-  
+
   bottom:0;
   /* border:8px solid green; */
 
@@ -50,8 +66,8 @@ const Page = styled.div`
 `;
 const Dashboard = styled.div`
     height:95vh;
-    width:55%;
-    
+    width:60%;
+
     /* border:5px solid red; */
 
 
@@ -86,7 +102,7 @@ const SliderCont = styled.div`
   align-self: center;
   /* padding-left: 30px; */
   /* border:2px solid green; */
-  
+
 
   @media ${device.mobile}{
     width: 100%;
@@ -107,16 +123,16 @@ const SliderCont = styled.div`
 const TrackScoll = styled.div`
   height:100%;
   overflow: scroll;
-  width: 100%;
+  width: 20%;
 `;
 const TracksCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  
+
   height:95vh;
   justify-content: left;
   /* border:2px solid green; */
-  
+
 
   @media ${device.mobile}{
     width: 90%;
@@ -198,7 +214,7 @@ export default function Home() {
   }, [])
 
 
-  //API CALLS TO BACKEND
+  // //API CALLS TO BACKEND
   function getPlaylists() {
 
     console.log('GETTING PLAYLISTS')
@@ -218,8 +234,8 @@ export default function Home() {
 
   }
 
-  //page functions
-  //---run filter
+  // //page functions
+  // //---run filter
   const inputFilter = async () => {
     setLoad(true)
     console.log('input generated!')
@@ -259,10 +275,6 @@ export default function Home() {
     }
   }
 
-
-
-
-
   const [selectedPlaylist, setSelectedPlaylist] = useState([])
 
 
@@ -284,6 +296,7 @@ export default function Home() {
     getPlaylists()
   }
 
+
   function SetAndAddTrack(req) {
     console.log('req')
     console.log(req)
@@ -300,9 +313,61 @@ export default function Home() {
   function setAsUnliked(trackdata) {
     SetTracksAsUnfavourite(trackdata)
     DeleteTrackFromLiked(trackdata)
+
+    const [newTracks, setNewTracks] = useState();
+    let loadedTracks = null;
+
+    function getTracks() {
+      console.log('connecting to database...')
+      axios.get('http://localhost:3001/tracks')
+        .then((res) => {
+          console.log('here are your tracks! ' + res)
+          // setNewTracks(res)
+          loadedTracks = res.data
+          console.log(loadedTracks);
+
+        }).catch(e => {
+          console.log(e)
+        })
+    }
+
   }
 
 
+  useEffect(() => {
+    getPlaylists()
+  }, [])
+
+  function getPlaylists() {
+    console.log('GETTING PLAYLISTS')
+    const user = {
+      user: localStorage.getItem('email')
+    }
+    axios.post('http://localhost:3001/get-playlists', user)
+      .then((res) => {
+        if (res.status == 200) {
+          console.log(res.data.playlists)
+          setUserPlaylists(res.data.playlists);
+          console.log('playlists')
+          console.log(usersPlaylists)
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+    setTrackModel(false)
+
+  }
+
+
+  function handleTrackOptions(trackdata) {
+    console.log(trackdata)
+    //display model
+    setSelectedTrack(trackdata)
+    console.log('modle is set to: ' + trackModel)
+    getPlaylists();
+    setTrackModel(!trackModel)
+
+  }
 
   return (
     <>
@@ -313,25 +378,8 @@ export default function Home() {
       </Head>
       <NavBar />
       <Page>
+
         <Dashboard>
-
-          {/* if users click '...' on track */}
-          {/* {trackModel ?
-            <Model onBlur={() => setTrackModel(!trackModel)}>
-
-              <MyText
-                text='Add to playlists:'
-                size={`${headerSize}px`}
-              />
-              {usersPlaylists !== [] ? usersPlaylists.map((o) => <MyText
-                key={o._id}
-                text={o.name}
-                size={`${parSize}px`}
-                onClick={(obj) => SetAndAddTrack(o.name)}
-              />) : <></>}
-
-            </Model>
-            : <></>} */}
 
           <MyText
             weight={500}
@@ -508,39 +556,32 @@ export default function Home() {
             />)}
           </TrackScoll>
         </TracksCont>
+
+
+        <TrackScoll>
+          <DndProvider backend={TouchBackend} options={{
+            enableTouchEvents: false,
+            enableMouseEvents: true
+          }}>
+          {/* <MyTrack /> */}
+          {load ? <div>Loading...</div> : <></>}
+          {tracks.map((o, i) => <MyTrack
+            key={i}
+
+            onTrackClick={() => router.push(o.Uri)}
+            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+            OpenOptions={(obj) => handleTrackOptions(o)}
+            artist={o.Artist}
+            song={o.Title}
+            album={o.Album}
+            time={((o.duration_ms / 1000) / 60).toFixed(2)}
+          />)}
+        <BopBot />
+          </DndProvider>
+        </TrackScoll>
+
+        {/* <EditPlaylist /> */}
       </Page>
     </>
   )
 }
-
-
-
-
-// const sliderValues = [
-  //   {
-  //     'title': 'Acousticness',
-  //     'value': acValue,
-  //     'onChange': (e) => setAcValue(ev.target.value)
-  //   },
-  //   {
-  //     'title': 'Danceability',
-  //     'value': dncValue,
-  //     'onChange': (e) => setDncValue(ev.target.value)
-  //   },
-  //   {
-  //     'title': 'Energy',
-  //     'value': enValue,
-  //     'onChange': (e) => setEnValue(ev.target.value),
-  //   },
-  //   {
-  //     'title': 'Instrumentals',
-  //     'value': instValue,
-  //     'onChange': (e) => setInstValue(ev.target.value)
-  //   },
-  //   {
-  //     'title': 'Loudness',
-  //     'value': ldValue,
-  //     'onChange': (e) => setLdValue(ev.target.value)
-  //   },
-
-  // ]

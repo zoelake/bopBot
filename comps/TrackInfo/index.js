@@ -2,12 +2,13 @@ import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { usePar, useHeader, useTheme } from "../../utils/provider";
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
-import { useState, useEffect } from "react";
 import axios from "axios";
+import React, { useState, useEffect } from "react";
 import MyRadio from "../Radio";
 import MyText from "../Text";
 import { device } from "../../styles/mediaSizes";
 import DropDownEdit from "../DropDownModal";
+import { useDrag, useDrop } from 'react-dnd'
 
 const Text = styled.p`
     color: ${props => props.color};
@@ -38,7 +39,7 @@ const TrackCont = styled.div`
     @media ${device.desktop}{
         width: 40vw;
     }
-    
+
 `;
 
 // const Cont1 = styled.div`
@@ -95,20 +96,10 @@ const Dots = styled.div`
     margin-bottom: 2px;
 `;
 
-const Model = styled.div`
-    position:absolute;
-    display: flex;
-    flex-direction: column;
-    width: 200px;
-    height:auto;
-    background-color: rgba(255,255,255,0.5);
-    padding:10px;
-`;
 
 
 export default function MyTrack({
-    text = 'button',
-    size = '18px',
+   
     time = '2:55',
     artist = 'Zoë James',
     song = 'In the House',
@@ -119,6 +110,11 @@ export default function MyTrack({
     OpenOptions = () => { },
     AddToLikedPlaylist = () => { },
     DeleteFromLikedPlaylist = () => { },
+    type = 'tracks',
+    trackpos = null,
+    children = null,
+    content = null,
+    onUpdateTrack = () => { }
 }) {
     const [heart, setHeart] = useState(false);
     const { theme } = useTheme();
@@ -140,43 +136,49 @@ export default function MyTrack({
         }
     }
 
-    return <TrackCont>
-
-        {/* <Cont1>
-            <Text
-                color={themes[theme].text}
-            >1</Text>
-        </Cont1> */}
 
 
+    return <TrackCont 
+    >
+        <TrackCont >
+            {/* {content} */}
 
-        <Cont2 onClick={onTrackClick}>
-            <MyText
-                text={song}
-                size={`${parSize}px`}
-                lineHeight={0}
-                weight={600}
-                hover={themes[theme].heart}
-            />
+            {/* <Cont1>
+                <Text
+                    color={themes[theme].text}
+                >1</Text>
+            </Cont1> */}
 
 
-            <Text
-                color={themes[theme].accent}
+            <Cont2 onClick={onTrackClick}>
+                <MyText
+                    text={song}
+                    size={`${parSize}px`}
+                    lineHeight={0}
+                    weight={600}
+                    hover={themes[theme].heart}
+                />
 
-            >{artist}</Text>
-        </Cont2>
 
-        <Cont3>
-            <Text
-                color={themes[theme].text}
-            >{time}</Text>
-        </Cont3>
+                <Text
+                    color={themes[theme].accent}
 
-        <Cont4>
-            <Text
-                color={themes[theme].text}
-            >{album}</Text>
-        </Cont4>
+                >{artist}</Text>
+            </Cont2>
+
+            <Cont3>
+                <Text
+                    color={themes[theme].text}
+                >{time}</Text>
+            </Cont3>
+
+            <Cont4>
+                <Text
+                    color={themes[theme].text}
+                >{album}</Text>
+            </Cont4>
+
+          
 
         <Cont5>
             <MyRadio shape={'heart'} inner={selected == 100 ? true : false} onClick={LikeTrack} />
@@ -186,11 +188,11 @@ export default function MyTrack({
             <DropDownEdit />
         </Cont6>
 
-
-
-
+        </TrackCont>
 
     </TrackCont>
+
+
 
     // <Text
     // color={themes[theme].focus}
