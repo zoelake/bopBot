@@ -17,13 +17,29 @@ import Slider from '../comps/Slider'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, SetTracksAsUnfavourite, RemoveTrackFromPlaylist } from '../utils/backendFunctions';
+
+import { TouchBackend } from 'react-dnd-touch-backend'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import Dropzone from '../comps/Dropzone'
+import { v4 as uuidv4 } from 'uuid';
+
+import { io } from "socket.io-client";
+import TrackInfoDnd from '../comps/TrackInfoDnd'
+import EditPlaylist from '../comps/EditPlaylistModal'
+import BopBot from '../comps/BopBot'
+
+
+
+
 
 const Page = styled.div`
   display:flex;
-  margin-top: 50px;
-  
+  margin:0;
+  width:100%;
   position: absolute;
-  
+
   bottom:0;
   /* border:8px solid green; */
 
@@ -48,11 +64,10 @@ const Page = styled.div`
   }
 
 `;
-
 const Dashboard = styled.div`
     height:95vh;
-    width:55%;
-    
+    width:60%;
+
     /* border:5px solid red; */
 
 
@@ -71,17 +86,13 @@ const Dashboard = styled.div`
       width:55%;
       padding:30px 10px 10px 60px;
     }
-
-    border:2px solid red;
 `;
-
 const SbCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 75%;
+  width: 100%;
   height:auto;
   justify-content: left;
-  border:2px solid red;
   /* padding-left: 30px; */
 `;
 const SliderCont = styled.div`
@@ -90,8 +101,8 @@ const SliderCont = styled.div`
   justify-content: space-evenly;
   align-self: center;
   /* padding-left: 30px; */
-  border:2px solid green;
-  
+  /* border:2px solid green; */
+
 
   @media ${device.mobile}{
     width: 100%;
@@ -99,11 +110,8 @@ const SliderCont = styled.div`
     }
 
     @media ${device.tablet}{
-      justify-content: row;
       width: 60%;
-      align-items: center;
-      justify-content: center;
-      
+      padding: 0 10%;
     }
 
     @media ${device.desktop}{
@@ -112,22 +120,19 @@ const SliderCont = styled.div`
 
     }
 `;
-
 const TrackScoll = styled.div`
   height:100%;
   overflow: scroll;
-  width: 100%;
+  width: 20%;
 `;
-
 const TracksCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-top: 100px;
-  
-  height:60vh;
+
+  height:95vh;
   justify-content: left;
-  border:2px solid green;
-  
+  /* border:2px solid green; */
+
 
   @media ${device.mobile}{
     width: 90%;
@@ -145,42 +150,12 @@ const TracksCont = styled.div`
 }
 
 `;
-
-const TopCont = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 150px;
-  width: 50vw;
-`;
-
-const BotContainer = styled.div`
-  display: flex;
-  border:2px solid pink;
-  width: 50vw;
-  height: 15vh;
-  margin: 5px 5px 5px 0px;
-  justify-content: flex-end;
-  align-items: center;
-
-`;
-
-const BopBot = styled.img`
-    height:50%;
-    margin: 0px 0px 0px 10px;
-    cursor: pointer;
-`;
-
 const Divider = styled.div`
     background-color: ${props => props.color};
     align-self: center;
-    height: 1px;
-    width:100%;
-    position: relative;
-    margin-top: -90px;
-    margin-bottom: 20px;
+    width:1px;
+    height:90%;
 `;
-
 //please fix this styling lol
 const Model = styled.div`
   width: 300px;
@@ -200,16 +175,19 @@ export default function Home() {
 
   const router = useRouter();
 
-  //theme states
+  //global styles
   const { theme } = useTheme();
   const { titleSize } = useTitle();
   const { headerSize } = useHeader();
   const { parSize } = usePar();
   const { sbSize } = useSbSize();
 
-  //genre genre
+  //user info
+  const { name } = useName();
+
+  //set soundboard values 
   const [genre, setGenre] = useState(null)
-  //slider values
+  // --- slider values
   const [acValue, setAcValue] = useState(0);
   const [dncValue, setDncValue] = useState(0);
   const [enValue, setEnValue] = useState(0);
@@ -217,23 +195,48 @@ export default function Home() {
   const [ldValue, setLdValue] = useState(0)
   const [tpValue, setTpValue] = useState(0);
 
+  //toggle models
+  const [trackModel, setTrackModel] = useState(false);
 
 
+  //for updating & loading playlists/tracks
+  //---all tracks from api
   const [tracks, setTracks] = useState([]);
+  //---is api loading
   const [load, setLoad] = useState(null);
-  const [button, setButton] = useState(false)
+  //---currently selected track (onClick)
+  const [selectedTrack, setSelectedTrack] = useState([])
+  //---current users playlists
+  const [usersPlaylists, setUserPlaylists] = useState([]);
 
-  function buttonPress() {
-    setButton(true)
-    setTimeout(() => {
-      setButton(false)
-    }, 200);
+  useEffect(() => {
+    getPlaylists()
+  }, [])
+
+
+  // //API CALLS TO BACKEND
+  function getPlaylists() {
+
+    console.log('GETTING PLAYLISTS')
+    const user = {
+      user: localStorage.getItem('email')
+    }
+    axios.post('http://localhost:3001/get-playlists', user)
+      .then((res) => {
+        if (res.status == 200) {
+          console.log('res.data.playlists')
+          console.log(res.data.playlists)
+          setUserPlaylists(res.data.playlists);
+        }
+      }).catch(e => {
+        console.log(e)
+      })
 
   }
 
-
+  // //page functions
+  // //---run filter
   const inputFilter = async () => {
-    buttonPress();
     setLoad(true)
     console.log('input generated!')
     if (timer === null) {
@@ -272,110 +275,64 @@ export default function Home() {
     }
   }
 
-
-  // const sliderValues = [
-  //   {
-  //     'title': 'Acousticness',
-  //     'value': acValue,
-  //     'onChange': (e) => setAcValue(ev.target.value)
-  //   },
-  //   {
-  //     'title': 'Danceability',
-  //     'value': dncValue,
-  //     'onChange': (e) => setDncValue(ev.target.value)
-  //   },
-  //   {
-  //     'title': 'Energy',
-  //     'value': enValue,
-  //     'onChange': (e) => setEnValue(ev.target.value),
-  //   },
-  //   {
-  //     'title': 'Instrumentals',
-  //     'value': instValue,
-  //     'onChange': (e) => setInstValue(ev.target.value)
-  //   },
-  //   {
-  //     'title': 'Loudness',
-  //     'value': ldValue,
-  //     'onChange': (e) => setLdValue(ev.target.value)
-  //   },
-
-  // ]
-
-  //setting user data
-  const { name } = useName();
-  //end set user data
-
-  const [trackModel, setTrackModel] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState([])
-  const [selectedTrack, setSelectedTrack] = useState([])
+
+
 
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
-    //display model
-    setTrackModel(!trackModel)
-    setSelectedTrack(trackdata)
-    console.log('modle is set to: ' + trackModel)
+    const playlist = localStorage.getItem('selectedPlaylist')
+    const request = localStorage.getItem('request')
 
+    if (request)
+      if (request == 'add') {
+        console.log(`adding ${trackdata.name} to ${playlist}`)
+        AddTrackToPlaylist(trackdata, playlist);
+      } else if (request == 'remove') {
+        console.log(`removing ${trackdata.name} from ${playlist}`)
+        RemoveTrackFromPlaylist(trackdata, playlist);
+      }
+
+    getPlaylists()
   }
 
-  function SetAndAddTrack(playlist) {
+
+  function SetAndAddTrack(req) {
+    console.log('req')
+    console.log(req)
     console.log('playlist name: ' + playlist)
     setSelectedPlaylist(playlist)
     AddTrackToPlaylist(selectedTrack, playlist)
   }
 
-  function AddTrackToPlaylist(trackdata, playlist) {
-    console.log(trackdata)
-    console.log('playlist: ' + playlist)
-    const info = {
-      user: localStorage.getItem('email'),
-      playlist_name: playlist,
-      track: trackdata,
+  function setAsLiked(trackdata) {
+    SetTracksAsFavourite(trackdata)
+    AddTrackToLiked(trackdata)
+  }
+
+  function setAsUnliked(trackdata) {
+    SetTracksAsUnfavourite(trackdata)
+    DeleteTrackFromLiked(trackdata)
+
+    const [newTracks, setNewTracks] = useState();
+    let loadedTracks = null;
+
+    function getTracks() {
+      console.log('connecting to database...')
+      axios.get('http://localhost:3001/tracks')
+        .then((res) => {
+          console.log('here are your tracks! ' + res)
+          // setNewTracks(res)
+          loadedTracks = res.data
+          console.log(loadedTracks);
+
+        }).catch(e => {
+          console.log(e)
+        })
     }
-    console.log(info)
-    axios.post('http://localhost:3001/tracks-add-playlist', info).then((res) => {
-      console.log('returning:')
-      console.log(res)
-    }).catch(e => {
-      console.log(e)
-    })
-  }
-
-  function AddTrackToLiked(trackdata) {
-    console.log(trackdata)
-    const info = {
-      user: localStorage.getItem('email'),
-      track: trackdata,
-    }
-    console.log(info)
-    axios.post('http://localhost:3001/tracks-add-liked', info).then((res) => {
-      console.log('added to likes:')
-      console.log(res)
-    }).catch(e => {
-      console.log(e)
-    })
-  }
-
-  const [newTracks, setNewTracks] = useState();
-  let loadedTracks = null;
-
-  function getTracks() {
-    console.log('connecting to database...')
-    axios.get('http://localhost:3001/tracks')
-      .then((res) => {
-        console.log('here are your tracks! ' + res)
-        // setNewTracks(res)
-        loadedTracks = res.data
-        console.log(loadedTracks);
-
-      }).catch(e => {
-        console.log(e)
-      })
 
   }
 
-  const [usersPlaylists, setUserPlaylists] = useState([]);
 
   useEffect(() => {
     getPlaylists()
@@ -391,6 +348,8 @@ export default function Home() {
         if (res.status == 200) {
           console.log(res.data.playlists)
           setUserPlaylists(res.data.playlists);
+          console.log('playlists')
+          console.log(usersPlaylists)
         }
       }).catch(e => {
         console.log(e)
@@ -400,6 +359,15 @@ export default function Home() {
   }
 
 
+  function handleTrackOptions(trackdata) {
+    console.log(trackdata)
+    //display model
+    setSelectedTrack(trackdata)
+    console.log('modle is set to: ' + trackModel)
+    getPlaylists();
+    setTrackModel(!trackModel)
+
+  }
 
   return (
     <>
@@ -410,26 +378,8 @@ export default function Home() {
       </Head>
       <NavBar />
       <Page>
+
         <Dashboard>
-
-          {trackModel ?
-            <Model onBlur={() => setTrackModel(!trackModel)}>
-
-              <MyText
-                text='Add to playlists:'
-                size={`${headerSize}px`}
-              />
-              {usersPlaylists !== [] ? usersPlaylists.map((o) => <MyText
-                key={o._id}
-                text={o.name}
-                size={`${parSize}px`}
-                onClick={(obj) => SetAndAddTrack(o.name)}
-              />) : <></>}
-
-            </Model>
-            : <></>}
-
-
 
           <MyText
             weight={500}
@@ -575,34 +525,29 @@ export default function Home() {
               width={device.mobile ? '100%' : 'auto'}
               onClick={inputFilter}
               text='generate'
-              shadow={button ? 'inset 2px 2px 4px rgba(0,0,0,0.1)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'} />
+            />
           </div>
 
         </Dashboard>
 
+        <Divider color={themes[theme].text} />
+
         <TracksCont>
 
-          <TopCont>
           <MyText
             text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
             size={`${headerSize}px`}
           />
-          <MyButton
-            text="sort"
-            width="75px"
-          />
-          </TopCont>
 
-          <Divider color={themes[theme].text} />
-
+          {/* loaded tracks from api call */}
           <TrackScoll>
-            {/* <MyTrack /> */}
             {load ? <div>Loading...</div> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
-
+              selected={o.Canada}
               onTrackClick={() => router.push(o.Uri)}
-              AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+              AddToLikedPlaylist={(obj) => setAsLiked(o)}
+              DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
               OpenOptions={(obj) => handleTrackOptions(o)}
               artist={o.Artist}
               song={o.Title}
@@ -610,23 +555,33 @@ export default function Home() {
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
             />)}
           </TrackScoll>
-          <BotContainer>
-            <BopBot
-              src={'/bopBot_sleepy.svg'}
-            />
-          </BotContainer>
-          
-
         </TracksCont>
 
 
+        <TrackScoll>
+          <DndProvider backend={TouchBackend} options={{
+            enableTouchEvents: false,
+            enableMouseEvents: true
+          }}>
+          {/* <MyTrack /> */}
+          {load ? <div>Loading...</div> : <></>}
+          {tracks.map((o, i) => <MyTrack
+            key={i}
 
+            onTrackClick={() => router.push(o.Uri)}
+            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+            OpenOptions={(obj) => handleTrackOptions(o)}
+            artist={o.Artist}
+            song={o.Title}
+            album={o.Album}
+            time={((o.duration_ms / 1000) / 60).toFixed(2)}
+          />)}
+        <BopBot />
+          </DndProvider>
+        </TrackScoll>
+
+        {/* <EditPlaylist /> */}
       </Page>
     </>
   )
-
-
 }
-
-
-

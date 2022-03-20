@@ -6,7 +6,7 @@ import MyText from "../Text";
 
 const Cont = styled.div`
     width:${props => props.width}px;
-    height:${props => props.width}px;
+    height:${props => props.height}px;
     background-color: ${props => props.bg};
     color: ${props => props.color};
     justify-content: center;
@@ -29,7 +29,8 @@ export default function SbButton({
     color,
     textCol,
     width,
-    shadow = 'transparent'
+    shadow = 'transparent',
+    height= "65"
 }) {
 
     const { theme } = useTheme();
@@ -45,7 +46,8 @@ export default function SbButton({
         onClick={onClick}
         // border={themes[theme].focus}
         bg={themes[theme].accent}
-
+        height={height}
+    
     >
         <MyText
             text={text}

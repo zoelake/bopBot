@@ -17,6 +17,7 @@ const Cont = styled.div`
     width: ${props=>props.width};
 
 
+
     /* :hover {
         background-color: ${props => props.bgHover};
         color: ${props => props.textHover};
