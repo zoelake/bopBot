@@ -17,8 +17,7 @@ import Slider from '../comps/Slider'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
-import { AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked } from '../utils/backendFunctions'
-
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, SetTracksAsUnfavourite, RemoveTrackFromPlaylist } from '../utils/backendFunctions';
 const Page = styled.div`
   display:flex;
   margin:0;
@@ -270,14 +269,19 @@ export default function Home() {
 
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
-    setSelectedTrack(trackdata)
-    console.log('modle is set to: ' + trackModel)
     const playlist = localStorage.getItem('selectedPlaylist')
-    //add to playlist
-    console.log('sending to add track to playlist:')
-    console.log(trackdata, playlist)
-    AddTrackToPlaylist(trackdata, playlist);
+    const request = localStorage.getItem('request')
 
+    if (request)
+      if (request == 'add') {
+        console.log(`adding ${trackdata.name} to ${playlist}`)
+        AddTrackToPlaylist(trackdata, playlist);
+      } else if (request == 'remove') {
+        console.log(`removing ${trackdata.name} from ${playlist}`)
+        RemoveTrackFromPlaylist(trackdata, playlist);
+      }
+
+    getPlaylists()
   }
 
   function SetAndAddTrack(req) {
@@ -288,7 +292,15 @@ export default function Home() {
     AddTrackToPlaylist(selectedTrack, playlist)
   }
 
+  function setAsLiked(trackdata) {
+    SetTracksAsFavourite(trackdata)
+    AddTrackToLiked(trackdata)
+  }
 
+  function setAsUnliked(trackdata) {
+    SetTracksAsUnfavourite(trackdata)
+    DeleteTrackFromLiked(trackdata)
+  }
 
 
 
@@ -484,9 +496,10 @@ export default function Home() {
             {load ? <div>Loading...</div> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
+              selected={o.Canada}
               onTrackClick={() => router.push(o.Uri)}
-              AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
-              DeleteFromLikedPlaylist={(obj) => DeleteTrackFromLiked(o)}
+              AddToLikedPlaylist={(obj) => setAsLiked(o)}
+              DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
               OpenOptions={(obj) => handleTrackOptions(o)}
               artist={o.Artist}
               song={o.Title}

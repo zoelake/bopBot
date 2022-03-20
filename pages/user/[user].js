@@ -20,7 +20,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
-import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, RemoveTrackFromPlaylist } from '../../utils/backendFunctions';
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, SetTracksAsUnfavourite, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
 import DropDownEdit from '../../comps/DropDownModal'
 
 
@@ -127,7 +127,7 @@ export default function User() {
     const [newPlaylistName, setNewPlaylistName] = useState(null)
     const [updatePlaylistName, setUpdatePlaylistName] = useState(null)
     const [selectedTracks, setSelectedTracks] = useState([])
-    
+
     //toggle models & views
     const [selectedPlaylist, setSelectedPlaylist] = useState('likes')
     const [editPlaylistView, setEditPlaylistView] = useState(false)
@@ -217,7 +217,7 @@ export default function User() {
             })
     }
 
-   
+
 
     //page functions
     function onDeleteClick() {
@@ -260,6 +260,7 @@ export default function User() {
     }
 
     function handleTrackOptions(trackdata) {
+        console.log('opening model for options')
         console.log(trackdata)
         const playlist = localStorage.getItem('selectedPlaylist')
         const request = localStorage.getItem('request')
@@ -276,6 +277,22 @@ export default function User() {
         getPlaylists()
     }
 
+
+
+    function setAsLiked(trackdata) {
+        console.log('liked')
+        AddTrackToLiked(trackdata)
+        SetTracksAsFavourite(trackdata)
+        // AddTrackToLiked(trackdata)
+    }
+
+    function setAsUnliked(trackdata) {
+        console.log('unliked')
+        SetTracksAsUnfavourite(trackdata)
+        DeleteTrackFromLiked(trackdata)
+        RemoveFromThisPlaylist(trackdata, selectedPlaylist)
+        // DeleteTrackFromLiked(trackdata)
+    }
 
     return (
         <>
@@ -381,9 +398,10 @@ export default function User() {
                     <RegCont>
                         {selectedPlaylist == 'likes' ? likedPlaylist.map((o, i) => <MyTrack
                             key={i}
+                            selected={o.Canada}
                             onTrackClick={() => router.push(o.Uri)}
-                            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
-                            DeleteFromLikedPlaylist={(obj) => DeleteTrackFromLiked(o)}
+                            AddToLikedPlaylist={(obj) => setAsLiked(o)}
+                            DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
                             OpenOptions={(obj) => handleTrackOptions(o)}
                             artist={o.Artist}
                             song={o.Title}
@@ -393,9 +411,10 @@ export default function User() {
 
                         {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? selectedTracks.map((o, i) => <MyTrack
                             key={i}
+                            selected={o.Canada}
                             onTrackClick={() => router.push(o.Uri)}
-                            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
-                            DeleteFromLikedPlaylist={(obj) => DeleteTrackFromLiked(o)}
+                            AddToLikedPlaylist={(obj) => setAsLiked(o)}
+                            DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
                             OpenOptions={(obj) => handleTrackOptions(o)}
                             artist={o.Artist}
                             song={o.Title}

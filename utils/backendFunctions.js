@@ -71,12 +71,65 @@ export function AddTrackToLiked(trackdata) {
     }
     console.log(info)
     axios.post('http://localhost:3001/tracks-add-liked', info).then((res) => {
-        console.log('added to likes:')
+        console.log('added to likes')
         console.log(res)
+        // res.send(res.status)
+
     }).catch(e => {
         console.log(e)
     })
 }
+
+export function SetTracksAsFavourite(trackdata) {
+    console.log(trackdata)
+    const info = {
+        user: localStorage.getItem('email'),
+        track: trackdata,
+    }
+    console.log(info)
+    axios.post('http://localhost:3001/tracks-set-favourite', info).then((res) => {
+        console.log('track now favourited')
+        console.log(res)
+
+    }).catch(e => {
+        console.log(e)
+    })
+}
+
+export function SetTracksAsUnfavourite(trackdata) {
+    console.log(trackdata)
+    const info = {
+        user: localStorage.getItem('email'),
+        track: trackdata,
+    }
+    console.log(info)
+    axios.post('http://localhost:3001/tracks-set-unfavourite', info).then((res) => {
+        console.log('track now favourited')
+        console.log(res)
+
+    }).catch(e => {
+        console.log(e)
+    })
+}
+
+export function RemoveFromThisPlaylist(trackdata, playlist) {
+    console.log(trackdata)
+    const info = {
+        user: localStorage.getItem('email'),
+        track: trackdata,
+        playlist_name: playlist
+    }
+    console.log(info)
+    axios.post('http://localhost:3001/tracks-update-unfavourite-playlist', info).then((res) => {
+        console.log('track now favourited')
+        console.log(res)
+
+    }).catch(e => {
+        console.log(e)
+    })
+}
+
+
 
 export function DeleteTrackFromLiked(trackdata) {
     console.log(trackdata)

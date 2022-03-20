@@ -133,12 +133,11 @@ export default function DropDownEdit({
         }}
       >
         <ListItemText>Add to:</ListItemText>
-        {userPlaylists !== [] ? userPlaylists.map((o, i) => (<div style={{
+        {userPlaylists !== [] ? userPlaylists.map((o, i) => (<div key={i} style={{
           display: 'flex',
           flexDirection: 'row',
         }}>
           <MenuItem
-            key={i}
             selected={o === ''}
             onClick={(obj, e) => onSelect(o.name, e)}
           >
@@ -155,12 +154,11 @@ export default function DropDownEdit({
             </MenuItem>
           ))}
         <ListItemText>Remove from:</ListItemText>
-        {userPlaylists !== [] ? userPlaylists.map((o, i) => (<div style={{
+        {userPlaylists !== [] ? userPlaylists.map((o, i) => (<div key={i} style={{
           display: 'flex',
           flexDirection: 'row',
         }}>
           <MenuItem
-            key={i}
             selected={o === ''}
             onClick={(obj, e) => onDeselect(o.name, e)}
           >

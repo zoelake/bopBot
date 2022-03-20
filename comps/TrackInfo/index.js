@@ -114,6 +114,7 @@ export default function MyTrack({
     song = 'In the House',
     album = 'Diffy',
     playlists,
+    selected = false,
     onTrackClick = () => { },
     OpenOptions = () => { },
     AddToLikedPlaylist = () => { },
@@ -123,21 +124,20 @@ export default function MyTrack({
     const { theme } = useTheme();
     const { parSize } = usePar();
     const { headerSize } = useHeader();
-    const [selected, setSelected] = useState(false)
 
     function LikeTrack() {
-        setSelected(!selected);
+        // setSelected(!selected);
+        console.log('selected')
+        console.log(selected)
 
-        setTimeout(() => {
-            if (selected === false) {
-                console.log('adding track')
-                AddToLikedPlaylist();
-            }
-            if (selected === true) {
-                console.log('deleting track')
-                DeleteFromLikedPlaylist();
-            }
-        }, [500])
+        if (selected !== 100) {
+            console.log('adding track')
+            AddToLikedPlaylist();
+        }
+        if (selected == 100) {
+            console.log('deleting track')
+            DeleteFromLikedPlaylist();
+        }
     }
 
     return <TrackCont>
@@ -179,11 +179,11 @@ export default function MyTrack({
         </Cont4>
 
         <Cont5>
-            <MyRadio shape={'heart'} inner={selected} onClick={LikeTrack} />
+            <MyRadio shape={'heart'} inner={selected == 100 ? true : false} onClick={LikeTrack} />
         </Cont5>
-        <Cont6 
-        onClick={OpenOptions}>
-            <DropDownEdit/>
+        <Cont6
+            onClick={OpenOptions}>
+            <DropDownEdit />
         </Cont6>
 
 
