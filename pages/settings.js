@@ -108,6 +108,7 @@ const SectionTitle = styled.div`
   height: ${props => props.height}; 
   flex-grow: 1;
   width: 50%;
+  border: 2px solid blue;
 `;
 
 const SectionContent = styled.div`
@@ -116,6 +117,7 @@ const SectionContent = styled.div`
     height: ${props => props.height}; 
     width: 50%;
     flex-direction: column;  
+    border: 2px solid blue;
 `;
 
 const LogoutSection = styled.div`
