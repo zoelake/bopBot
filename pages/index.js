@@ -33,7 +33,6 @@ import BopBot from '../comps/BopBot'
 
 
 
-
 const Page = styled.div`
   display:flex;
   margin:0;
@@ -87,6 +86,15 @@ const Dashboard = styled.div`
       padding:30px 10px 10px 60px;
     }
 `;
+
+const DndLogo = styled.img`
+height: 60px;
+width: 60px;
+
+display: flex;
+justify-content: flex-end;
+`;
+
 const SbCont = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -358,6 +366,63 @@ export default function Home() {
 
   }
 
+  const [dndtrack, setDndtrack] = useState([]);
+
+  // const HandleUpdateTrack = (id, trackdata) => {
+  //   console.log('this is' + trackdata.Title)
+  //   dndtrack[id] = {
+  //     ...dndtrack[id],
+  //     ...trackdata
+  //   }
+
+  //   setDndtrack({
+  //     ...dndtrack
+  //   })
+  //   console.log('test dnd', dndtrack)
+  // }
+
+  const [mySoc, setMySoc] = useState(null);
+
+  const [txt, setTxt] = useState('');
+
+  const [msgs, setMsgs] = useState([]);
+
+  const [users, setUsers] = useState({});
+
+  useEffect(()=>{
+    // const socket = io("ws://example.com/my-namespace", {
+    //   reconnectionDelayMax: 10000,
+    //   auth: {
+    //     token: "123"
+    //   },
+    //   query: {
+    //     "my-key": "my-value"
+    //   }
+    // });
+    const socket = io("http://localhost:8888");
+
+    socket.on("init_user", (users) => {
+      // set the user into the object so you store the users
+      // console.log(users);
+      setUsers(users);
+    })
+    
+    socket.on("joined", (id, txt) => {
+      setMsgs((prev) => [
+        ...prev,
+        `${id} is now playing ${txt}`
+      ]);
+    })
+
+    setMySoc(socket)
+  }, [])
+
+  const EmitToIO = async () => {
+    //mySoc to emit
+    if(mySoc != null) {
+      mySoc.emit("user_ready", txt);
+    }
+  }
 
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
@@ -539,24 +604,56 @@ export default function Home() {
             size={`${headerSize}px`}
           />
 
-          {/* loaded tracks from api call */}
-          <TrackScoll>
-            {load ? <div>Loading...</div> : <></>}
-            {tracks.map((o, i) => <MyTrack
-              key={i}
-              selected={o.Canada}
-              onTrackClick={() => router.push(o.Uri)}
-              AddToLikedPlaylist={(obj) => setAsLiked(o)}
-              DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-              OpenOptions={(obj) => handleTrackOptions(o)}
-              artist={o.Artist}
-              song={o.Title}
-              album={o.Album}
-              time={((o.duration_ms / 1000) / 60).toFixed(2)}
-            />)}
-          </TrackScoll>
-        </TracksCont>
+          <DndProvider backend={TouchBackend} options={{
+            enableTouchEvents: false,
+            enableMouseEvents: true
+          }}>
+            <TrackScoll>
+              {/* <MyTrack /> */}
+              {load ? <div>Loading...</div> : <></>}
+                {tracks.map((o, i) => <MyTrack
+                  key={i}
+                  onTrackClick={() => router.push(o.Uri)}
+                  AddToLikedPlaylist={(obj) => PostToLiked(o.id, o, obj)}
+                  artist={o.Artist}
+                  song={o.Title}
+                  album={o.Album}
+                  time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                  onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
+                  item={o}
+                />)}
+            </TrackScoll>
+          
+            <Dropzone onDropItem={(item) => {
+                dndtrack[item.Title] = item;
+                setDndtrack({
+                  ...dndtrack
+                })
+              }}>
+              <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
+              {Object.values(dndtrack).map((o, i) => <MyTrack
+                type='boardtracks'
+                key={i}
+                artist={o.Artist}
+                song={o.Title}
+                album={o.Album}
+                time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                trackpos={o.pos}
+                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
+                item={o}
+              />)}
 
+              <input type='text' onChange={(e)=>setTxt(e.target.value)} />
+              <button onClick={EmitToIO}>Join and Alert</button>
+              {msgs.map((o, i) => <div key={i} style={{backgroundColor: 'red', padding: 10}}>
+                {o}
+              </div>)}
+              
+            </Dropzone>
+          </DndProvider>
+
+        </TracksCont>
+        
 
         <TrackScoll>
           <DndProvider backend={TouchBackend} options={{
