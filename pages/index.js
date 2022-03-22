@@ -25,7 +25,6 @@ import Dropzone from '../comps/Dropzone'
 import { v4 as uuidv4 } from 'uuid';
 
 import { io } from "socket.io-client";
-import TrackInfoDnd from '../comps/TrackInfoDnd'
 
 
 const DndLogo = styled.img`
@@ -294,20 +293,20 @@ export default function Home() {
     axios.post('http://localhost:3001/new/playlist/liked', track)
   }
 
-  const [dndtrack, setDndtrack] = useState({});
+  const [dndtrack, setDndtrack] = useState([]);
 
-  const HandleUpdateTrack = (id, trackdata) => {
-    console.log('this is' + trackdata.Title)
-    dndtrack[id] = {
-      ...dndtrack[id],
-      ...trackdata
-    }
+  // const HandleUpdateTrack = (id, trackdata) => {
+  //   console.log('this is' + trackdata.Title)
+  //   dndtrack[id] = {
+  //     ...dndtrack[id],
+  //     ...trackdata
+  //   }
 
-    setDndtrack({
-      ...dndtrack
-    })
-    console.log('test dnd', dndtrack)
-  }
+  //   setDndtrack({
+  //     ...dndtrack
+  //   })
+  //   console.log('test dnd', dndtrack)
+  // }
 
   const [mySoc, setMySoc] = useState(null);
 
@@ -537,18 +536,15 @@ export default function Home() {
                   album={o.Album}
                   time={((o.duration_ms / 1000) / 60).toFixed(2)}
                   onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
+                  item={o}
                 />)}
             </TrackScoll>
-            <MyTrack song='Pls memorize this' artist='Alicia Yien' album='Pls work'/>
           
             <Dropzone onDropItem={(item) => {
-                console.log('pls show this', dndtrack)
-                const t_id = uuidv4();
-
-                setDndtrack((prev) => ({
-                  ...prev,
-                  [t_id]:{id: t_id}
-                }))
+                dndtrack[item.Title] = item;
+                setDndtrack({
+                  ...dndtrack
+                })
               }}>
               <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
               {Object.values(dndtrack).map((o, i) => <MyTrack
@@ -557,19 +553,11 @@ export default function Home() {
                 artist={o.Artist}
                 song={o.Title}
                 album={o.Album}
-                // time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                time={((o.duration_ms / 1000) / 60).toFixed(2)}
                 trackpos={o.pos}
                 onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
+                item={o}
               />)}
-
-              {Object.values(dndtrack).map((o, i) => <TrackInfoDnd
-                type='boardtracks'
-                key={i}
-                trackpos={o.pos}
-                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
-              >
-                {o.id} - {o.Title} - {o.Artist}
-              </TrackInfoDnd>)}
 
               <input type='text' onChange={(e)=>setTxt(e.target.value)} />
               <button onClick={EmitToIO}>Join and Alert</button>

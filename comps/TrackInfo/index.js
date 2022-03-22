@@ -114,11 +114,8 @@ export default function MyTrack({
     onTrackClick = () => { },
     onDotsClick = () => { },
     AddToLikedPlaylist = () => { },
-    type='tracks',
-    trackpos=null,
     children=null,
-    content=null,
-    onUpdateTrack = () => {}
+    item={}
 }) {
     const [heart, setHeart] = useState(false);
     const { theme } = useTheme();
@@ -130,7 +127,7 @@ export default function MyTrack({
         AddToLikedPlaylist();
     }
 
-    const [pos, setPos] = useState(trackpos || {
+    const [pos, setPos] = useState({
         left: 0,
         top: 0,
         position: 'relative'
@@ -140,30 +137,17 @@ export default function MyTrack({
     // const [artistContent, setArtistContent] = useState(artist)
     // const [songContent, setSongContent] = useState(song)
     // const [albumContent, setAlbumContent] = useState(album)
-    
-
-    useEffect(() => {
-        if (type === 'boardtracks') {
-          onUpdateTrack({
-            pos,
-            // timeContent,
-            // artistContent,
-            // songContent,
-            // albumContent
-          })
-        }
-    }, [pos])  
 
     // timeContent, artistContent, songContent, albumContent
       
 	const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
             // "type" is required. It is used by the "accept" specification of drop targets.
-        type: type,
-        item: {type},
+        type: 'tracks',
+        item,
             // The collect function utilizes a "monitor" instance (see the Overview for what this is)
             // to pull important pieces of state from the DnD system.
         end: (item,monitor) => {
-        if(type === 'boardtracks'){
+        if(!monitor.didDrop()){
             setPos({
             left: monitor.getClientOffset().x,
             top: monitor.getClientOffset().y,
@@ -181,9 +165,9 @@ export default function MyTrack({
     //console.log(isDragging);
 
     const sty = {
-        left: type === 'boardtracks' ? pos.left : null,
-        top: type === 'boardtracks' ? pos.top : null,
-        position: type === 'boardtracks' ? pos.position : null
+        left: pos.left,
+        top: pos.top,
+        position: pos.position
     }
 
     if(coords && isDragging) {
@@ -197,7 +181,7 @@ export default function MyTrack({
         {...sty}
         >
             <TrackCont ref={drag}>
-            {/* {content} */}
+            {children}
 
             {/* <Cont1>
                 <Text
