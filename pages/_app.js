@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import MyThemeProvider, { usePage, useName } from '../utils/provider'
+import MyThemeProvider, { usePage, useName, useId } from '../utils/provider'
 import "./_app.css"
 import { createGlobalStyle } from 'styled-components';
 import NavBar from '../comps/Nav';
@@ -23,22 +23,29 @@ body{
 function MyApp({ Component, pageProps }) {
 
   const router = useRouter();
-  const page = router.params;
-  const {name} = useName();
+  const page = router.asPath;
+  const { name, setName } = useName();
+  const { id, setId } = useId();
 
-  useEffect(() => {
-    if (localStorage.getItem('name')) {
-      console.log('user loged in')
+  if(typeof window !== 'undefined'){
+    useEffect(() => {
+      if (localStorage.getItem('name')) {
+        console.log('user loged in')
+        setName(localStorage.getItem('name'))
+        setId(localStorage.getItem('id'))
+  
+      } else {
+        router.push('/login')
+      }
+    }, [page])
 
-    } else {
-      router.push('/login')
-    }
-  }, [page])
+  }
 
 
   return <MyThemeProvider>
     <GlobalStyle />
     <Component {...pageProps} />
+    
   </MyThemeProvider>
 
 

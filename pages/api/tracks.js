@@ -1,7 +1,8 @@
 import tracks from '../../utils/dataSet.json'
 import { filtering, sorting } from '../../utils/functions';
+import axios from 'axios';
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
 
     //HELPER FUNCTIONS FOR YOU TO USE!
     // console.log(req.query, req.body)
@@ -9,35 +10,61 @@ export default async function handler(req, res) {
     //const files = await Read();
 
     //detect if filter/save/read
-    const { genre, acousticness, danceability, energy, instrumentals, loudness, tempo } = req.query;
+
+
     var lists = [];
+    let loadedTracks = null;
 
-    if (genre || acousticness || danceability || energy || instrumentals || loudness || tempo
-    ) {
-        if (genre) {
-            lists = filtering(tracks, {
-                [genre]: 1,
-                acousticness: acousticness,
-                danceability: danceability,
-                energy: energy,
-                instrumentals: instrumentals,
-                loudness: loudness,
-                tempo: tempo,
-            })
-        } else {
-            lists = filtering(tracks, {
-                acousticness: acousticness,
-                danceability: danceability,
-                energy: energy,
-                instrumentals: instrumentals,
-                loudness: loudness,
-                tempo: tempo,
-            })
-        }
-    }
+    console.log('connecting to database...')
+    axios.get('http://localhost:3001/tracks')
+        .then((red) => {
+            console.log('here are your tracks! ' + red)
+            loadedTracks = red.data
+            console.log(loadedTracks);
+            if (loadedTracks !== null) {
+
+                console.log('filtering data')
+                const { genre, acousticness, danceability, energy, instrumentals, loudness, tempo } = req.query;
 
 
-    lists = lists.slice(0, 10);
-    res.status(200).json(lists);
+
+
+                if (genre || acousticness || danceability || energy || instrumentals || loudness || tempo
+                ) {
+                    if (genre) {
+                        lists = filtering(loadedTracks, {
+                            [genre]: 1,
+                            acousticness: acousticness,
+                            danceability: danceability,
+                            energy: energy,
+                            instrumentals: instrumentals,
+                            loudness: loudness,
+                            tempo: tempo,
+                        })
+                    } else {
+                        lists = filtering(loadedTracks, {
+                            acousticness: acousticness,
+                            danceability: danceability,
+                            energy: energy,
+                            instrumentals: instrumentals,
+                            loudness: loudness,
+                            tempo: tempo,
+                        })
+                    }
+
+
+                    lists = lists.slice(0, 10);
+                    res.status(200).json(lists);
+                }
+
+            }
+
+
+
+        }).catch((e) => {
+            console.log(e)
+        })
+
+
 
 }

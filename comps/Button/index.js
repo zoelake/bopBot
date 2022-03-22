@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { useTheme, usePar } from "../../utils/provider";
 import { device } from "../../styles/mediaSizes";
+import { useState } from "react";
 
 const Cont = styled.div`
     padding: 5px 8px;
@@ -15,6 +16,7 @@ const Cont = styled.div`
     color: ${props => props.color};
     box-shadow:${props => props.shadow};
     width: ${props=>props.width};
+
 
 
     /* :hover {
@@ -34,21 +36,32 @@ export default function MyButton({
     text = 'button',
     onClick = () => { },
     shadow,
-    width = 'auto'
+    width = 'auto',
+    style
 }) {
 
     const { theme } = useTheme();
     const { parSize } = usePar();
 
+    const [press, setPress] = useState(false);
+
+    function buttonPress() {
+        onClick();
+        setPress(true)
+        setTimeout(() => {
+          setPress(false)
+        }, 200);
+    
+      }
+
 
     return <Cont
-        onClick={onClick}
+    style={style}
+        onClick={buttonPress}
         bg={themes[theme].heart}
         color={themes[theme].white}
-        shadow={shadow}
+        shadow={press ? 'inset 2px 2px 4px rgba(0,0,0,0.1)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
         width={width}
-    // bgHover={themes[theme].bntSelected}
-    // textHover={themes[theme].bntTxtSelect}
     >
         <Text
             // color={themes[theme].focus}

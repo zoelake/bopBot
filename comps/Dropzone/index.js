@@ -25,10 +25,10 @@ export default function Dropzone ({
     })
   }))
 
-	return <DropCont
-			ref={drop}
-      bg={canDrop && isOver ? '#999' : '#CCC'}
-		>
-      {children}
-		</DropCont>
+  return <DropCont
+    ref={drop}
+    bg={canDrop && isOver ? '#999' : '#CCC'}
+  >
+    {children}
+  </DropCont>
 }

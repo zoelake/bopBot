@@ -67,7 +67,7 @@ const LinkCont = styled.div`
 
 
 const NavBar = ({
-    id = 1,
+    // id = 1,
     visibility = 'visible',
 }) => {
 
@@ -96,6 +96,7 @@ const NavBar = ({
     }
 
     function goLibrary() {
+        const id = localStorage.getItem('id')
         router.push(`/user/${id}`)
         setPage('library')
     }
@@ -104,6 +105,8 @@ const NavBar = ({
         router.push('/settings')
         setPage('settings')
     }
+
+    
 
     return <><Container
         visibility={visibility}
@@ -124,6 +127,8 @@ const NavBar = ({
             </NavLink> */}
         </LinkCont>
         <LinkCont>
+
+            
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goLibrary}

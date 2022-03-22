@@ -17,31 +17,28 @@ import Slider from '../comps/Slider'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, SetTracksAsUnfavourite, RemoveTrackFromPlaylist } from '../utils/backendFunctions';
 
 import { TouchBackend } from 'react-dnd-touch-backend'
-//import { HTML5Backend } from 'react-dnd-html5-backend'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import Dropzone from '../comps/Dropzone'
 import { v4 as uuidv4 } from 'uuid';
 
 import { io } from "socket.io-client";
+import TrackInfoDnd from '../comps/TrackInfoDnd'
+import EditPlaylist from '../comps/EditPlaylistModal'
+import BopBot from '../comps/BopBot'
 
 
-const DndLogo = styled.img`
-height: 60px;
-width: 60px;
-
-display: flex;
-justify-content: flex-end;
-`;
 
 
 const Page = styled.div`
   display:flex;
   margin:0;
-  
+  width:100%;
   position: absolute;
-  
+
   bottom:0;
   /* border:8px solid green; */
 
@@ -66,11 +63,10 @@ const Page = styled.div`
   }
 
 `;
-
 const Dashboard = styled.div`
     height:95vh;
-    width:55%;
-    
+    width:60%;
+
     /* border:5px solid red; */
 
 
@@ -91,6 +87,14 @@ const Dashboard = styled.div`
     }
 `;
 
+const DndLogo = styled.img`
+height: 60px;
+width: 60px;
+
+display: flex;
+justify-content: flex-end;
+`;
+
 const SbCont = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -106,7 +110,7 @@ const SliderCont = styled.div`
   align-self: center;
   /* padding-left: 30px; */
   /* border:2px solid green; */
-  
+
 
   @media ${device.mobile}{
     width: 100%;
@@ -124,21 +128,19 @@ const SliderCont = styled.div`
 
     }
 `;
-
 const TrackScoll = styled.div`
   height:100%;
   overflow: scroll;
-  width: 100%;
+  width: 20%;
 `;
-
 const TracksCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  
+
   height:95vh;
   justify-content: left;
   /* border:2px solid green; */
-  
+
 
   @media ${device.mobile}{
     width: 90%;
@@ -156,14 +158,23 @@ const TracksCont = styled.div`
 }
 
 `;
-
-
-
 const Divider = styled.div`
     background-color: ${props => props.color};
     align-self: center;
     width:1px;
     height:90%;
+`;
+//please fix this styling lol
+const Model = styled.div`
+  width: 300px;
+  height:300px;
+  padding:5px;
+  position:absolute;
+  top:20%;
+  left:45%;
+  background-color: #fff;
+  color:black;
+  z-index:1000;
 `;
 
 var timer = null;
@@ -172,16 +183,19 @@ export default function Home() {
 
   const router = useRouter();
 
-  //theme states
+  //global styles
   const { theme } = useTheme();
   const { titleSize } = useTitle();
   const { headerSize } = useHeader();
   const { parSize } = usePar();
   const { sbSize } = useSbSize();
 
-  //genre genre
+  //user info
+  const { name } = useName();
+
+  //set soundboard values 
   const [genre, setGenre] = useState(null)
-  //slider values
+  // --- slider values
   const [acValue, setAcValue] = useState(0);
   const [dncValue, setDncValue] = useState(0);
   const [enValue, setEnValue] = useState(0);
@@ -189,23 +203,48 @@ export default function Home() {
   const [ldValue, setLdValue] = useState(0)
   const [tpValue, setTpValue] = useState(0);
 
+  //toggle models
+  const [trackModel, setTrackModel] = useState(false);
 
 
+  //for updating & loading playlists/tracks
+  //---all tracks from api
   const [tracks, setTracks] = useState([]);
+  //---is api loading
   const [load, setLoad] = useState(null);
-  const [button, setButton] = useState(false)
+  //---currently selected track (onClick)
+  const [selectedTrack, setSelectedTrack] = useState([])
+  //---current users playlists
+  const [usersPlaylists, setUserPlaylists] = useState([]);
 
-  function buttonPress() {
-    setButton(true)
-    setTimeout(() => {
-      setButton(false)
-    }, 200);
+  useEffect(() => {
+    getPlaylists()
+  }, [])
+
+
+  // //API CALLS TO BACKEND
+  function getPlaylists() {
+
+    console.log('GETTING PLAYLISTS')
+    const user = {
+      user: localStorage.getItem('email')
+    }
+    axios.post('http://localhost:3001/get-playlists', user)
+      .then((res) => {
+        if (res.status == 200) {
+          console.log('res.data.playlists')
+          console.log(res.data.playlists)
+          setUserPlaylists(res.data.playlists);
+        }
+      }).catch(e => {
+        console.log(e)
+      })
 
   }
 
-
+  // //page functions
+  // //---run filter
   const inputFilter = async () => {
-    buttonPress();
     setLoad(true)
     console.log('input generated!')
     if (timer === null) {
@@ -244,53 +283,87 @@ export default function Home() {
     }
   }
 
+  const [selectedPlaylist, setSelectedPlaylist] = useState([])
 
-  // const sliderValues = [
-  //   {
-  //     'title': 'Acousticness',
-  //     'value': acValue,
-  //     'onChange': (e) => setAcValue(ev.target.value)
-  //   },
-  //   {
-  //     'title': 'Danceability',
-  //     'value': dncValue,
-  //     'onChange': (e) => setDncValue(ev.target.value)
-  //   },
-  //   {
-  //     'title': 'Energy',
-  //     'value': enValue,
-  //     'onChange': (e) => setEnValue(ev.target.value),
-  //   },
-  //   {
-  //     'title': 'Instrumentals',
-  //     'value': instValue,
-  //     'onChange': (e) => setInstValue(ev.target.value)
-  //   },
-  //   {
-  //     'title': 'Loudness',
-  //     'value': ldValue,
-  //     'onChange': (e) => setLdValue(ev.target.value)
-  //   },
 
-  // ]
 
-  //setting user data
-  const {name} = useName();
-  //end set user data
+  function handleTrackOptions(trackdata) {
+    console.log(trackdata)
+    const playlist = localStorage.getItem('selectedPlaylist')
+    const request = localStorage.getItem('request')
 
-  const [track, setTrackToSend] = useState({});
+    if (request)
+      if (request == 'add') {
+        console.log(`adding ${trackdata.name} to ${playlist}`)
+        AddTrackToPlaylist(trackdata, playlist);
+      } else if (request == 'remove') {
+        console.log(`removing ${trackdata.name} from ${playlist}`)
+        RemoveTrackFromPlaylist(trackdata, playlist);
+      }
 
-  function PostToLiked(id, trackdata) {
-    console.log('this is' + trackdata.Title)
-    track[id] = {
-      ...track[id],
-      ...trackdata
+    getPlaylists()
+  }
+
+
+  function SetAndAddTrack(req) {
+    console.log('req')
+    console.log(req)
+    console.log('playlist name: ' + playlist)
+    setSelectedPlaylist(playlist)
+    AddTrackToPlaylist(selectedTrack, playlist)
+  }
+
+  function setAsLiked(trackdata) {
+    SetTracksAsFavourite(trackdata)
+    AddTrackToLiked(trackdata)
+  }
+
+  function setAsUnliked(trackdata) {
+    SetTracksAsUnfavourite(trackdata)
+    DeleteTrackFromLiked(trackdata)
+
+    const [newTracks, setNewTracks] = useState();
+    let loadedTracks = null;
+
+    function getTracks() {
+      console.log('connecting to database...')
+      axios.get('http://localhost:3001/tracks')
+        .then((res) => {
+          console.log('here are your tracks! ' + res)
+          // setNewTracks(res)
+          loadedTracks = res.data
+          console.log(loadedTracks);
+
+        }).catch(e => {
+          console.log(e)
+        })
     }
-    setTrackToSend({
-      ...track
-    })
-    console.log(track)
-    axios.post('http://localhost:3001/new/playlist/liked', track)
+
+  }
+
+
+  useEffect(() => {
+    getPlaylists()
+  }, [])
+
+  function getPlaylists() {
+    console.log('GETTING PLAYLISTS')
+    const user = {
+      user: localStorage.getItem('email')
+    }
+    axios.post('http://localhost:3001/get-playlists', user)
+      .then((res) => {
+        if (res.status == 200) {
+          console.log(res.data.playlists)
+          setUserPlaylists(res.data.playlists);
+          console.log('playlists')
+          console.log(usersPlaylists)
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+    setTrackModel(false)
+
   }
 
   const [dndtrack, setDndtrack] = useState([]);
@@ -351,6 +424,16 @@ export default function Home() {
     }
   }
 
+  function handleTrackOptions(trackdata) {
+    console.log(trackdata)
+    //display model
+    setSelectedTrack(trackdata)
+    console.log('modle is set to: ' + trackModel)
+    getPlaylists();
+    setTrackModel(!trackModel)
+
+  }
+
   return (
     <>
       <Head>
@@ -362,6 +445,7 @@ export default function Home() {
       <Page>
 
         <Dashboard>
+
           <MyText
             weight={500}
             lineHeight='0'
@@ -506,7 +590,7 @@ export default function Home() {
               width={device.mobile ? '100%' : 'auto'}
               onClick={inputFilter}
               text='generate'
-              shadow={button ? 'inset 2px 2px 4px rgba(0,0,0,0.1)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'} />
+            />
           </div>
 
         </Dashboard>
@@ -567,15 +651,34 @@ export default function Home() {
               
             </Dropzone>
           </DndProvider>
+
         </TracksCont>
         
 
+        <TrackScoll>
+          <DndProvider backend={TouchBackend} options={{
+            enableTouchEvents: false,
+            enableMouseEvents: true
+          }}>
+          {/* <MyTrack /> */}
+          {load ? <div>Loading...</div> : <></>}
+          {tracks.map((o, i) => <MyTrack
+            key={i}
 
+            onTrackClick={() => router.push(o.Uri)}
+            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+            OpenOptions={(obj) => handleTrackOptions(o)}
+            artist={o.Artist}
+            song={o.Title}
+            album={o.Album}
+            time={((o.duration_ms / 1000) / 60).toFixed(2)}
+          />)}
+        <BopBot />
+          </DndProvider>
+        </TrackScoll>
+
+        {/* <EditPlaylist /> */}
       </Page>
     </>
   )
-
-
 }
-
-
