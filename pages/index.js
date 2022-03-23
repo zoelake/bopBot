@@ -221,7 +221,7 @@ export default function Home() {
     const user = {
       user: localStorage.getItem('email')
     }
-    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
+    axios.post('http://localhost:3001/get-playlists', user)
       .then((res) => {
         if (res.status == 200) {
           console.log('res.data.playlists')
@@ -319,7 +319,7 @@ export default function Home() {
 
     function getTracks() {
       console.log('connecting to database...')
-      axios.get('https://bopbot-backend.herokuapp.com/tracks')
+      axios.get('http://localhost:3001/tracks')
         .then((res) => {
           console.log('here are your tracks! ' + res)
           // setNewTracks(res)
@@ -343,7 +343,7 @@ export default function Home() {
     const user = {
       user: localStorage.getItem('email')
     }
-    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
+    axios.post('http://localhost:3001/get-playlists', user)
       .then((res) => {
         if (res.status == 200) {
           console.log(res.data.playlists)
