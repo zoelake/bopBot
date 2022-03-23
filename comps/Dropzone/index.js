@@ -5,9 +5,13 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 
 const DropCont = styled.div`
-  height: 70vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 10vh;
   background: ${({ bg }) => bg || '#DDD'};
-  width: 100%;
+  width: 40vw;
+
 `;
 
 export default function Dropzone({

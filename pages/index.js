@@ -3,6 +3,7 @@ import Image from 'next/image'
 import MyButton from '../comps/Button'
 import NavBar from '../comps/Nav'
 import MyTrack from '../comps/TrackInfo'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 import Playlist from '../comps/Playlist'
 import SbButton from '../comps/SbButton'
@@ -65,10 +66,15 @@ const Page = styled.div`
 
 `;
 const Dashboard = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  align-self: center;
     height:95vh;
-    width:60%;
+    width:100vw;
 
-    /* border:5px solid red; */
+     border:5px solid red;
 
 
     @media ${device.mobile}{
@@ -83,25 +89,45 @@ const Dashboard = styled.div`
     }
 
     @media ${device.desktop}{
-      width:55%;
+      width:100vw;
       padding:30px 10px 10px 60px;
     }
 `;
+
 const SbCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  max-width: 60%;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
   height:auto;
-  justify-content: left;
-  /* padding-left: 30px; */
+  // background-color: pink;
+
+  @media ${device.mobile}{
+    width: 100%;
+
+    }
+
+    @media ${device.tablet}{
+      width: 60%;
+      padding: 0 10%;
+    }
+
+    @media ${device.desktop}{
+      width: 60%;
+      padding: 0 10%;
+
+    }
 `;
+
+
 const SliderCont = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-self: center;
-  /* padding-left: 30px; */
-  /* border:2px solid green; */
+  // background-color: pink;
 
 
   @media ${device.mobile}{
@@ -121,9 +147,10 @@ const SliderCont = styled.div`
     }
 `;
 const TrackScoll = styled.div`
-  height:100%;
+  max-height: 80vh;
   overflow: scroll;
-  width: 20%;
+  width: 50%;
+  scrollbar-color: blue;
 `;
 const TracksCont = styled.div`
   display: flex;
@@ -131,7 +158,7 @@ const TracksCont = styled.div`
 
   height:95vh;
   justify-content: left;
-  /* border:2px solid green; */
+  border:2px solid green;
 
 
   @media ${device.mobile}{
@@ -150,23 +177,53 @@ const TracksCont = styled.div`
 }
 
 `;
+
+const RightCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width:50vw;
+  height: 100%;
+  // background-color: blue;
+
+  // @media ${device.mobile}{
+  //   width:90%;
+  //   padding:30px 0px 10px 0px;
+  //   margin-bottom: 200px;
+  // }
+
+  // @media ${device.tablet}{
+  //   width:55%;
+  //   padding:30px 10px 10px 60px;
+  // }
+
+  // @media ${device.desktop}{
+  //   width:50vw;
+  //   padding:30px 10px 10px 60px;
+  // }
+`;
+
+const Tracks = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  width:100vw;
+  height: 50%;
+  // background-color: blue;
+  padding:30px 10px 10px 60px;
+`;
+
+const BotCont = styled.div`
+  display: flex;
+  flex-grow: 1; 
+  padding:30px 10px 10px 60px;
+`;
+
 const Divider = styled.div`
     background-color: ${props => props.color};
     align-self: center;
     width:1px;
     height:90%;
-`;
-//please fix this styling lol
-const Model = styled.div`
-  width: 300px;
-  height:300px;
-  padding:5px;
-  position:absolute;
-  top:20%;
-  left:45%;
-  background-color: #fff;
-  color:black;
-  z-index:1000;
 `;
 
 var timer = null;
@@ -387,6 +444,7 @@ export default function Home() {
             text={`Welcome, ${name}!`}
             size={`${titleSize}px`}
           />
+
           <MyText
             text='Genres'
             size={`${headerSize}px`}
@@ -522,63 +580,65 @@ export default function Home() {
             justifyContent: 'right',
           }}>
             <MyButton
-              width={device.mobile ? '100%' : 'auto'}
+              width={device.mobile ? '200px' : 'auto'}
               onClick={inputFilter}
-              text='generate'
+              text='Generate'
             />
           </div>
-
         </Dashboard>
 
         <Divider color={themes[theme].text} />
 
-        <TracksCont>
+      <RightCont>
+        <Tracks>
+            <MyText
+              text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
+              size={`${headerSize}px`}
+            />
 
-          <MyText
-            text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
-            size={`${headerSize}px`}
-          />
+            {/* loaded tracks from api call */}
+            <PerfectScrollbar>
+              {load ? <div>Loading...</div> : <></>}
+              {tracks.map((o, i) => <MyTrack
+                key={i}
+                selected={o.Canada}
+                onTrackClick={() => router.push(o.Uri)}
+                AddToLikedPlaylist={(obj) => setAsLiked(o)}
+                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
+                OpenOptions={(obj) => handleTrackOptions(o)}
+                artist={o.Artist}
+                song={o.Title}
+                album={o.Album}
+                time={((o.duration_ms / 1000) / 60).toFixed(2)}
+              />)}
+            </PerfectScrollbar>
+        </Tracks>
 
-          {/* loaded tracks from api call */}
-          <TrackScoll>
-            {load ? <div>Loading...</div> : <></>}
-            {tracks.map((o, i) => <MyTrack
-              key={i}
-              selected={o.Canada}
-              onTrackClick={() => router.push(o.Uri)}
-              AddToLikedPlaylist={(obj) => setAsLiked(o)}
-              DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-              OpenOptions={(obj) => handleTrackOptions(o)}
-              artist={o.Artist}
-              song={o.Title}
-              album={o.Album}
-              time={((o.duration_ms / 1000) / 60).toFixed(2)}
-            />)}
-          </TrackScoll>
-        </TracksCont>
+                        {/* bopBot section*/}
+               <BotCont>
+                  <PerfectScrollbar>
+                    <DndProvider backend={TouchBackend} options={{
+                      enableTouchEvents: false,
+                      enableMouseEvents: true
+                    }}>
+                    {/* <MyTrack /> */}
+                    {load ? <div>Loading...</div> : <></>}
+                    {tracks.map((o, i) => <MyTrack
+                      key={i}
 
-
-        <TrackScoll>
-          <DndProvider backend={TouchBackend} options={{
-            enableTouchEvents: false,
-            enableMouseEvents: true
-          }}>
-          {/* <MyTrack /> */}
-          {load ? <div>Loading...</div> : <></>}
-          {tracks.map((o, i) => <MyTrack
-            key={i}
-
-            onTrackClick={() => router.push(o.Uri)}
-            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
-            OpenOptions={(obj) => handleTrackOptions(o)}
-            artist={o.Artist}
-            song={o.Title}
-            album={o.Album}
-            time={((o.duration_ms / 1000) / 60).toFixed(2)}
-          />)}
-        <BopBot />
-          </DndProvider>
-        </TrackScoll>
+                      onTrackClick={() => router.push(o.Uri)}
+                      AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+                      OpenOptions={(obj) => handleTrackOptions(o)}
+                      artist={o.Artist}
+                      song={o.Title}
+                      album={o.Album}
+                      time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                    />)}
+                    <BopBot />
+                    </DndProvider>
+                </PerfectScrollbar>
+            </BotCont> 
+        </RightCont>
 
         {/* <EditPlaylist /> */}
       </Page>

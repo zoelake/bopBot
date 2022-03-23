@@ -5,19 +5,19 @@ import { device } from "../../styles/mediaSizes";
 import { useState } from "react";
 
 const Cont = styled.div`
-padding: 5px 8px;
+padding: 20px 8px;
 margin:5px;
-height: 35px;
+height: 20px;
 width:${props => props.width};
-border-radius:5px;
+border-radius:7px;
 display:flex;
 justify-content: center;
+align-items: center;
 background-color:${props => props.bg};
 color: ${props => props.color};
-box-shadow:${props => props.shadow};
+// box-shadow:${props => props.shadow};
 width: ${props=>props.width};
-
-
+cursor: pointer;
 
 /* :hover {
     background-color: ${props => props.bgHover};

@@ -120,14 +120,6 @@ const SectionContent = styled.div`
     border: 2px solid blue;
 `;
 
-const LogoutSection = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex-flow: flex-end;
-  height: 200px;
-  width: 50%;
-`;
-
 // const Divider = styled.div`
 //   height:80vh;
 //   width:2px;
@@ -153,7 +145,7 @@ const AvatarCont = styled.div`
     justify-content: space-evenly;
 
     @media ${device.mobile}{
-      width: 100%;
+      width: 20vw;
       
       }
   
@@ -172,7 +164,16 @@ const AvatarCont = styled.div`
 const AvatarTest = styled.div`
     height: 100px;
     width: 100px;
+    margin: 10px;
     background-color: black;
+`;
+
+const LogoutSection = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  height: 300px;
+  width: 50vw;
+  justify-content: flex-end;
 `;
 
 const LoginInput = styled.input`
@@ -184,6 +185,27 @@ const LoginInput = styled.input`
     margin:5px;
     padding:0 10px;
     width: 300px;
+`;
+
+const NewPw = styled.div`
+      display: flex;
+      flex-grow: 1;
+      padding: 10px;
+      flex-direction: column;
+`;
+
+const ConfirmPw = styled.div`
+      display: flex;
+      flex-grow: 1;
+      padding: 10px;
+      flex-direction: column;
+`;
+
+const PwCont = styled.div`
+      display: flex;
+      width: 30vw;
+      flex-wrap: wrap;
+      flex-direction: row; 
 `;
 
 
@@ -463,6 +485,7 @@ export default function Settings(
                   <SectionContent
                   height={'200px'}
                   >
+                    {/* avatar */}
 
                     <MyText
                     size={`${parSize}px`}
@@ -473,6 +496,7 @@ export default function Settings(
                       <AvatarTest/> <AvatarTest/> <AvatarTest/> <AvatarTest/>
                     </AvatarCont>
 
+                    {/* name */}
 
                     <MyText
                     size={`${parSize}px`}
@@ -493,6 +517,8 @@ export default function Settings(
                       >Update name</MyButton>
                     </InputCont>
 
+                    {/* email */}
+
                     <InputCont>
                       <MyText
                         size={`${parSize}px`}
@@ -501,7 +527,7 @@ export default function Settings(
                       <LoginInput 
                       placeholder='Enter new email...' 
                       onChange={(e) => HandleEmail(e.target.value)} 
-                      bg="themes[theme].playBg"
+                      bg={themes[theme].playBg}
                       />
                       <MyButton 
                       onClick={UpdateEmail}
@@ -510,6 +536,47 @@ export default function Settings(
                       text = 'Update Email'
                       >Update email</MyButton>
                     </InputCont> 
+
+                    <InputCont>
+
+                      {/* password */}
+
+                      <PwCont>
+
+                      <NewPw>
+                        <MyText
+                          size={`${parSize}px`}
+                          text={`Enter New Password`}
+                        />
+                        <LoginInput 
+                          placeholder='Enter new password...' 
+                          onChange={(e) => HandleEmail(e.target.value)} 
+                          bg={themes[theme].playBg}
+                        />
+                      </NewPw>
+
+                      <ConfirmPw>
+                        <MyText
+                          size={`${parSize}px`}
+                          text={`Confirm Password`}
+                        />
+                        <LoginInput 
+                          placeholder='Confirm old password...' 
+                          onChange={(e) => HandleEmail(e.target.value)} 
+                          bg={themes[theme].playBg}
+                          />
+                      </ConfirmPw>
+                      </PwCont>
+
+                      <MyButton 
+                      onClick={UpdateEmail}
+                      width="200px"
+                      bg={themes[theme].sliderBg}
+                      text = 'Update Password'
+                      >Update email</MyButton>
+                    </InputCont> 
+
+
 
                     <LogoutSection>
                       <MyButton
