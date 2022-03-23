@@ -15,13 +15,19 @@ import { device } from '../../styles/mediaSizes'
 import MySwitch from '../../comps/Switch'
 import Slider from '../../comps/Slider'
 import UserInfo from '../../comps/UserInfo'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback} from 'react'
+import { useDrag, useDrop } from 'react-dnd';
+
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, SetTracksAsUnfavourite, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
 import DropDownEdit from '../../comps/DropDownModal'
+
+import { Container } from '../../comps/Container'
+import { ItemTypes } from '../../ItemTypes'
 import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 
@@ -102,6 +108,7 @@ const Divider = styled.div`
     width:90%;
     height:1px;
 `;
+
 
 
 export default function User() {
@@ -232,9 +239,11 @@ export default function User() {
     function handlePlaylistClick(playlist) {
         //sets currently selected playlist
         const { tracks } = playlist;
+        console.log('tracks')
         console.log(tracks)
         setSelectedTracks(tracks)
-
+        console.log('selectedTracks')
+        console.log(selectedTracks)
         setSelectedPlaylist(playlist.name)
         setSelectedPlaylistId(playlist._id)
         setSelectedPlaylistCover(playlist.img)
@@ -295,6 +304,18 @@ export default function User() {
         RemoveFromThisPlaylist(trackdata, selectedPlaylist)
         // DeleteTrackFromLiked(trackdata)
     }
+
+    // const ref = useRef(null);
+    // const [selected, setSelected] = useState(false)
+
+    // const moveCard = useCallback((dragIndex, hoverIndex) => {
+    //     setCards((prevCards) => update(prevCards, {
+    //         $splice: [
+    //             [dragIndex, 1],
+    //             [hoverIndex, 0, prevCards[dragIndex]],
+    //         ],
+    //     }));
+    // }, []);
 
     return (
         <>
@@ -360,14 +381,7 @@ export default function User() {
                             color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
 
                         />)
-                            : <Playlist
-                                key={i}
-                                cover='/playlistLiked.png'
-                                onClick={() => setSelectedPlaylist('liked')}
-                                bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
-                                color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
-                                text='Loading'
-                            />
+                            : <></>
                         }
 
 
@@ -401,38 +415,26 @@ export default function User() {
                             enableTouchEvents: false,
                             enableMouseEvents: true
                         }}>
-                            {selectedPlaylist == 'likes' ? likedPlaylist.map((o, i) => <MyTrack
-                                key={i}
-                                selected={o.Canada}
-                                onTrackClick={() => router.push(o.Uri)}
-                                AddToLikedPlaylist={(obj) => setAsLiked(o)}
-                                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-                                OpenOptions={(obj) => handleTrackOptions(o)}
-                                artist={o.Artist}
-                                song={o.Title}
-                                album={o.Album}
-                                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                            />) : <></>}
+                            {selectedPlaylist == 'likes' ? 
+                            <Container
+                            test={likedPlaylist}
+                            // moveCard={moveCard}
+                        
+                            /> : <></>}
 
-                            {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? selectedTracks.map((o, i) => <MyTrack
-                                key={i}
-                                selected={o.Canada}
-                                onTrackClick={() => router.push(o.Uri)}
-                                AddToLikedPlaylist={(obj) => setAsLiked(o)}
-                                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-                                OpenOptions={(obj) => handleTrackOptions(o)}
-                                artist={o.Artist}
-                                song={o.Title}
-                                album={o.Album}
-                                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                            />) : <></>}
+                            {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? <Container
+                                test={selectedTracks}
+                                // moveCard={moveCard}
+                              
+                            /> : <></>}
 
-
+                        
 
                         </DndProvider>
                     </RegCont>
 
                 </TracksCont>
+
 
             </Page>
         </>
