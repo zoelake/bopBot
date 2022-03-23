@@ -37,7 +37,8 @@ export default function MyButton({
     onClick = () => { },
     shadow,
     width = 'auto',
-    style
+    style,
+    bg
 }) {
 
     const { theme } = useTheme();
@@ -58,7 +59,7 @@ export default function MyButton({
     return <Cont
     style={style}
         onClick={buttonPress}
-        bg={themes[theme].heart}
+        bg={bg || themes[theme].heart}
         color={themes[theme].white}
         shadow={press ? 'inset 2px 2px 4px rgba(0,0,0,0.1)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
         width={width}

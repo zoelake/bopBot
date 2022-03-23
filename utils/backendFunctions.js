@@ -13,7 +13,7 @@ export function getPlaylists() {
     const user = {
         user: localStorage.getItem('email')
     }
-    axios.post('http://localhost:3001/get-playlists', user)
+    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
         .then((res) => {
             if (res.status == 200) {
                 console.log('res.data.playlists')
@@ -36,7 +36,7 @@ export function RemoveTrackFromPlaylist(trackdata, playlist) {
         track: trackdata,
     }
     console.log(info)
-    axios.post('http://localhost:3001/tracks-remove-playlist', info).then((res) => {
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-remove-playlist', info).then((res) => {
         console.log('returning:')
         console.log(res)
     }).catch(e => {
@@ -53,7 +53,7 @@ export function AddTrackToPlaylist(trackdata, playlist) {
         track: trackdata,
     }
     console.log(info)
-    axios.post('http://localhost:3001/tracks-add-playlist', info).then((res) => {
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-add-playlist', info).then((res) => {
         console.log('returning:')
         console.log(res)
     }).catch(e => {
@@ -70,7 +70,7 @@ export function AddTrackToLiked(trackdata) {
         track: trackdata,
     }
     console.log(info)
-    axios.post('http://localhost:3001/tracks-add-liked', info).then((res) => {
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-add-liked', info).then((res) => {
         console.log('added to likes')
         console.log(res)
         // res.send(res.status)
@@ -87,7 +87,7 @@ export function SetTracksAsFavourite(trackdata) {
         track: trackdata,
     }
     console.log(info)
-    axios.post('http://localhost:3001/tracks-set-favourite', info).then((res) => {
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-set-favourite', info).then((res) => {
         console.log('track now favourited')
         console.log(res)
 
@@ -103,7 +103,7 @@ export function SetTracksAsUnfavourite(trackdata) {
         track: trackdata,
     }
     console.log(info)
-    axios.post('http://localhost:3001/tracks-set-unfavourite', info).then((res) => {
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-set-unfavourite', info).then((res) => {
         console.log('track now favourited')
         console.log(res)
 
@@ -120,7 +120,7 @@ export function RemoveFromThisPlaylist(trackdata, playlist) {
         playlist_name: playlist
     }
     console.log(info)
-    axios.post('http://localhost:3001/tracks-update-unfavourite-playlist', info).then((res) => {
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-update-unfavourite-playlist', info).then((res) => {
         console.log('track now favourited')
         console.log(res)
 
@@ -138,7 +138,7 @@ export function DeleteTrackFromLiked(trackdata) {
         track: trackdata,
     }
     console.log(info)
-    axios.post('http://localhost:3001/tracks-delete-liked', info).then((res) => {
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-delete-liked', info).then((res) => {
         console.log('deleted from likes:')
         console.log(res)
     }).catch(e => {
@@ -152,7 +152,7 @@ export function CreateNewPlaylist(name) {
         playlist_img: 'https://placekitten.com/100/100',
         user: localStorage.getItem('email')
     }
-    axios.post('http://localhost:3001/create-playlist', newPlaylist)
+    axios.post('https://bopbot-backend.herokuapp.com/create-playlist', newPlaylist)
         .then((res) => {
             if (res.status == 200) {
                 console.log(res.data + ' was added!')
@@ -165,12 +165,12 @@ export function CreateNewPlaylist(name) {
 
 
 export function DeletePlaylist(name) {
-    console.log('deleting playlist') 
+    console.log('deleting playlist')
     const playlist = {
         playlist_name: name,
         user: localStorage.getItem('email')
     }
-    axios.post('http://localhost:3001/delete-playlist', playlist)
+    axios.post('https://bopbot-backend.herokuapp.com/delete-playlist', playlist)
         .then((res) => {
 
             console.log(res.data + ' was delete!')
@@ -182,7 +182,7 @@ export function DeletePlaylist(name) {
 
 }
 
-export function UpdatePlaylist( name, newName, img) {
+export function UpdatePlaylist(name, newName, img) {
     console.log(`updating ${name} to ${newName}`)
     const playlist = {
         playlist_name: name,
@@ -192,7 +192,7 @@ export function UpdatePlaylist( name, newName, img) {
     }
     console.log('playlist')
     console.log(playlist)
-    axios.post('http://localhost:3001/update-playlist', playlist)
+    axios.post('https://bopbot-backend.herokuapp.com/update-playlist', playlist)
         .then((res) => {
 
             console.log(res.data + ' was updated!')
