@@ -30,7 +30,6 @@ import BopBot from '../comps/BopBot'
 
 
 
-
 const Page = styled.div`
   display:flex;
   margin:0;
@@ -65,7 +64,7 @@ const Dashboard = styled.div`
   padding-top: 150px;
   display: flex;
   flex-direction: column;
-  flex-basis: auot;
+  flex-basis: auto;
   justify-content: center;
   height:100vh;
   width:100vw;

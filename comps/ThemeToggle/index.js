@@ -34,7 +34,7 @@ const Cont = styled.div`
         flex-direction: row;
         margin-bottom: 30px;
         justify-content: space-between;
-        max-width: 500px;
+        max-width: 80%;
 
     }
 

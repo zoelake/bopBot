@@ -162,9 +162,9 @@ const SectionContent = styled.div`
 
   @media ${device.desktop}{
     display: flex;
-    flex-grow: 1;
+    flex-grow: 2;
     height: ${props => props.height}; 
-    width: 50%;
+    width: 100%;
     flex-direction: column;  
 
   }
@@ -178,12 +178,11 @@ const SectionContent = styled.div`
 // `;
 
 const InputCont = styled.div`
-    max-width: 500px;
+    max-width: 800px;
     display: flex;
     flex-direction: column;
     align-content: space-around;
     padding:5px;
-
 `;
 
 const AvatarCont = styled.div`
@@ -311,7 +310,7 @@ const ConfirmPw = styled.div`
 
 const PwCont = styled.div`
       display: flex;
-      width: 30vw;
+      width: 50vw;
       flex-wrap: wrap;
       flex-direction: row; 
 `;

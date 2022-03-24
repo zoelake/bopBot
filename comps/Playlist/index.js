@@ -5,14 +5,14 @@ import { device } from "../../styles/mediaSizes";
 
 const Cont = styled.div`
     display:flex;
-    min-width: 155px;
-    height: 165px;
+    min-width: 130px;
+    height: 140px;
     justify-content: center;
     align-items: center;
     flex-direction:column;
     border-radius:10px;
     padding: 15px 0px 10px 0px;
-    margin:10px 40px 15px 10px ;
+    margin: 10px;
     justify-content: space-around;
     background-color:${props => props.bg};
     color: ${props => props.color};
@@ -27,9 +27,10 @@ const Cont = styled.div`
 
 
 const Cover = styled.img`
-    height:140px;
+    height:300px;
     width:100px;
     border-radius:5px;
+    object-fit: cover;
     overflow: hidden;  
 `;
 

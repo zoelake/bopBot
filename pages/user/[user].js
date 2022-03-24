@@ -96,6 +96,7 @@ const Top = styled.div`
     height: 20vh;
     justify-content: flex-start;
     align-items: center;
+
 `;
 
 const Middle = styled.div`
@@ -375,6 +376,8 @@ export default function User() {
                         onDeleteClick={onDeleteClick}
                     /> : <></>}
 
+                        {/* Top Avatar Header */}
+
                         <Top>
                             <Avatar
                                 bg={themes[theme].accent}
@@ -384,6 +387,8 @@ export default function User() {
                                 size={`${titleSize}px`}
                             />
                         </Top>
+
+
 
                         <Middle>
                             <MyText
