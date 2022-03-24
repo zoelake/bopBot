@@ -7,7 +7,23 @@ import SbButton from "../SbButton";
 import MyButton from "../Button";
 
 
+const Page = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    position: fixed;
+`;
+
 const Cont = styled.div`
+    display: flex;
+    flex-direction: column;
     width:567px;
     height:557px;
     background-color: #282828;
@@ -18,9 +34,9 @@ const Cont = styled.div`
 `;
 
 const TopCont = styled.div`
-display: flex;
-justify-content: space-around;
-margin-top: 40px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
 `;
 
 const EPText = styled.text`
@@ -55,11 +71,9 @@ const BotInput = styled.input`
 `;
 
 const ButtonCont = styled.div`
-
+    padding: 10px;
     display:flex;
-    justify-content: flex-end;
-    margin-top: 30px;
-    margin-right: 30px;
+    width: 567px;
 `;
 
 
@@ -72,35 +86,35 @@ const EditPlaylist = ({
     handleChange = () => { },
 }) => {
     return (
-        <Cont>
-            <TopCont>
-                <EPText>Edit {playlist}</EPText>
-                <img onClick={onXClick} width="40.33px" height="40.33px" src={"/purpleX.png"} />
-            </TopCont>
+        <Page>
+            <Cont>
+                <TopCont>
+                    <EPText>Edit {playlist}</EPText>
+                    <img onClick={onXClick} width="40.33px" height="40.33px" src={"/purpleX.png"} />
+                </TopCont>
 
-            <MidCont>
-                <img width="207.69px" height="215.38px" src={coverSrc}></img>
-                <ChangeImageText>Change image</ChangeImageText>
-                <BotInput onChange={handleChange} type="text" placeholder="edit title here"  ></BotInput>
-            </MidCont>
+                <MidCont>
+                    <img width="207.69px" height="215.38px" src={coverSrc}></img>
+                    <ChangeImageText>Change image</ChangeImageText>
+                    <BotInput onChange={handleChange} type="text" placeholder="edit title here"  ></BotInput>
+                </MidCont>
 
-            <MyButton
-                onClick={onSaveClick}
-                text="Save"
-                width="20%"
-                style={{ position: 'relative', left: '70%' }}
-            />
-            <MyButton
-                onClick={onDeleteClick}
-                text="Delete"
-                width="20%"
-                style={{ position: 'relative', left: '70%' }}
-            />
-
-
-
-
-        </Cont>
+                <ButtonCont>
+                    <MyButton
+                        onClick={onSaveClick}
+                        text="Save"
+                        width="10%"
+                        style={{ position: 'relative', left: '70%' }}
+                    />
+                    <MyButton
+                        onClick={onDeleteClick}
+                        text="Delete"
+                        width="10%"
+                        style={{ position: 'relative', left: '70%' }}
+                    />
+                </ButtonCont>
+            </Cont>
+        </Page>
     );
 }
 

@@ -7,6 +7,20 @@ import SbButton from "../SbButton";
 import MyButton from "../Button";
 
 
+const Page = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    position: fixed;
+`;
+
 const Cont = styled.div`
     width:567px;
     height:557px;
@@ -71,29 +85,31 @@ const AddPlaylist = ({
     handleChange = () => { },
 }) => {
     return (
-        <Cont>
-            <TopCont>
-                <EPText>Create new Playlist</EPText>
-                <img onClick={onXClick} width="40.33px" height="40.33px" src={"/purpleX.png"} />
-            </TopCont>
+        <Page>
+            <Cont>
+                <TopCont>
+                    <EPText>Create new Playlist</EPText>
+                    <img onClick={onXClick} width="40.33px" height="40.33px" src={"/purpleX.png"} />
+                </TopCont>
 
-            <MidCont>
-                <img width="207.69px" height="215.38px" src={coverSrc}></img>
-                <ChangeImageText>Add image</ChangeImageText>
-                <BotInput onChange={handleChange} type="text" placeholder="enter title here"  ></BotInput>
-            </MidCont>
+                <MidCont>
+                    <img width="207.69px" height="215.38px" src={coverSrc}></img>
+                    <ChangeImageText>Add image</ChangeImageText>
+                    <BotInput onChange={handleChange} type="text" placeholder="enter title here"  ></BotInput>
+                </MidCont>
 
-            <MyButton
-                onClick={onSaveClick}
-                text="Save"
-                width="20%"
-                style={{ position: 'relative', left: '70%' }}
-            />
-
-
+                <MyButton
+                    onClick={onSaveClick}
+                    text="Save"
+                    width="20%"
+                    style={{ position: 'relative', left: '70%' }}
+                />
 
 
-        </Cont>
+
+
+            </Cont>
+        </Page>
     );
 }
 

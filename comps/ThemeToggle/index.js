@@ -6,31 +6,111 @@ import MyText from "../Text";
 import { teal } from "@mui/material/colors";
 import MyRadio from "../Radio";
 import { useState } from "react";
+import { device } from '../../styles/mediaSizes'
 
 const Cont = styled.div`
-    display:flex;
-    flex-direction: row;
-    margin-bottom: 30px;
-    justify-content: space-between;
-    max-width: 500px;
+
+
+    @media ${device.mobile}{
+        display:flex;
+        flex-direction: row;
+        margin-bottom: 30px;
+        justify-content: space-between;
+        max-width: 400px;
+
+    }
+
+    @media ${device.tablet}{
+        display:flex;
+        flex-direction: row;
+        margin-bottom: 30px;
+        justify-content: space-between;
+        max-width: 500px;
+
+    }
+
+    @media ${device.desktop}{
+        display:flex;
+        flex-direction: row;
+        margin-bottom: 30px;
+        justify-content: space-between;
+        max-width: 500px;
+
+    }
+
 `;
 
 const ThemeColCont = styled.div`
+@media ${device.mobile}{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 250px;
+    height:50px;
+
+  }
+
+  @media ${device.tablet}{
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 400px;
     height:50px;
+
+  }
+
+  @media ${device.desktop}{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 400px;
+    height:50px;
+
+  }
+
 `;
 
 const ThemeCol = styled.div`
+
+@media ${device.mobile}{
+    background-color: ${props => props.col};
+    width:20px;
+    height:20px;
+
+  }
+
+  @media ${device.tablet}{
     background-color: ${props => props.col};
     width:40px;
     height:40px;
+
+  }
+
+  @media ${device.desktop}{
+    background-color: ${props => props.col};
+    width:40px;
+    height:40px;
+
+  }
+
 `;
 
 const Spacer = styled.div`
+@media ${device.mobile}{
+    width:10px;
+
+  }
+
+  @media ${device.tablet}{
     width:20px;
+
+  }
+
+  @media ${device.desktop}{
+    width:20px;
+
+  }
+    
 `;
 
 

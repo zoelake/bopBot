@@ -5,28 +5,64 @@ import { device } from "../../styles/mediaSizes";
 import { useState } from "react";
 
 const Cont = styled.div`
-padding: 20px 8px;
-margin:5px;
-height: 20px;
-width:${props => props.width};
-border-radius:7px;
-display:flex;
-justify-content: center;
-align-items: center;
-background-color:${props => props.bg};
-color: ${props => props.color};
-// box-shadow:${props => props.shadow};
-width: ${props=>props.width};
-cursor: pointer;
 
-/* :hover {
-    background-color: ${props => props.bgHover};
-    color: ${props => props.textHover};
-} */
+
+    @media ${device.mobile}{
+        padding: 20px 8px;
+        margin:5px;
+        height: 10px;
+        width: 100px;
+
+
+    }
+
+    @media ${device.tablet}{
+
+
+    }
+
+    @media ${device.desktop}{
+
+
+    }
+
+    padding: 20px 8px;
+    margin:5px;
+    height: 20px;
+    width:${props => props.width};
+    border-radius:7px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color:${props => props.bg};
+    color: ${props => props.color};
+    // box-shadow:${props => props.shadow};
+    width: ${props=>props.width};
+    cursor: pointer;
+
+    /* :hover {
+        background-color: ${props => props.bgHover};
+        color: ${props => props.textHover};
+    } */
 
 `
 ;
 const Text = styled.p`
+@media ${device.mobile}{
+    font-size: 10px;
+
+}
+
+@media ${device.tablet}{
+
+
+}
+
+@media ${device.desktop}{
+
+
+}
+
 display:flex;   
 justify-content: center;
 align-items: center;

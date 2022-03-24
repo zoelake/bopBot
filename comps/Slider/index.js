@@ -17,12 +17,12 @@ const SliderCont = styled.div``;
 
 const SliderMain = styled(Slider)`
     color: ${props => props.barcolor};
-    height:115px;
+    height:100px;
     width:10px;
     & .MuiSlider-thumb {
         border-radius: 5px;
-        height: 35px;
-        width: 23px;
+        height: 20px;
+        width: 15px;
         color: ${props => props.thumbcolor};
         box-shadow: inset 3px 3px 2px rgba(255,255,255,0.25);
     }

@@ -25,19 +25,27 @@ import { useRouter } from 'next/router'
 // `;
 
 const Dashboard = styled.div`
-    background-color: ${props => props.bg};
-    height:100%;
-    width:100%;
-    padding:30px 10px 10px 60px;
 
     @media ${device.mobile}{
+      background-color: ${props => props.bg};
+      height:100%;
+      width:100%;
+      padding: 10px;
 
     }
 
     @media ${device.tablet}{
+      background-color: ${props => props.bg};
+      height:100%;
+      width:100%;
+      padding:30px 10px 10px 60px;
     }
 
     @media ${device.desktop}{
+      background-color: ${props => props.bg};
+      height:100%;
+      width:100%;
+      padding:30px 10px 10px 60px;
        
     }
 `;
@@ -67,7 +75,7 @@ const Dashboard = styled.div`
 
 const PageContent = styled.div`
     display: flex;
-    width: 70%;
+    width: 100%;
     height: 100%;
     flex-direction: column;
     justify-content: center;
@@ -79,8 +87,10 @@ const PageContent = styled.div`
 const Section = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
     width: 80%;
-
+    
     @media ${device.mobile}{
       display: flex;
       flex-direction: column;
@@ -104,20 +114,60 @@ const Section = styled.div`
 `;
 
 const SectionTitle = styled.div`
+
+@media ${device.mobile}{
   display: flex;
-  height: ${props => props.height}; 
-  flex-grow: 1;
+  height: 100px; 
+  // flex-grow: 1;
   width: 50%;
-  border: 2px solid blue;
+  background-color: 
+  }
+
+  @media ${device.tablet}{
+    display: flex;
+    height: ${props => props.height}; 
+    // flex-grow: 1;
+    width: 50%;
+    background-color: 
+  }
+
+  @media ${device.desktop}{
+    display: flex;
+    height: ${props => props.height}; 
+    // flex-grow: 1;
+    width: 50%;
+    background-color: 
+  }
+
 `;
 
 const SectionContent = styled.div`
+@media ${device.mobile}{
+  display: flex;
+  flex-grow: 1;
+  height: 300px; 
+  width: 50%;
+  flex-direction: column;  
+  
+  }
+
+  @media ${device.tablet}{
     display: flex;
     flex-grow: 1;
     height: ${props => props.height}; 
     width: 50%;
     flex-direction: column;  
-    border: 2px solid blue;
+
+  }
+
+  @media ${device.desktop}{
+    display: flex;
+    flex-grow: 1;
+    height: ${props => props.height}; 
+    width: 50%;
+    flex-direction: column;  
+
+  }
 `;
 
 // const Divider = styled.div`
@@ -137,46 +187,103 @@ const InputCont = styled.div`
 `;
 
 const AvatarCont = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    max-width: 500px;
-    height: 300px;
-    justify-content: space-evenly;
 
     @media ${device.mobile}{
-      width: 20vw;
+      display: flex;
+      flex-direction: row;
+      max-width: 200px;
+      height: 500px;
+      justify-content: space-evenly;
+      width: 50vw;
+      padding: 0 10%;
       
       }
   
       @media ${device.tablet}{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        max-width: 500px;
+        height: 300px;
+        justify-content: space-evenly;
+        width: 60%;
+        padding: 0 10%;
 
         
       }
   
       @media ${device.desktop}{
-        width: 60%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        max-width: 500px;
+        height: 300px;
+        justify-content: space-evenly;
+        width: 50vw;
         padding: 0 10%;
   
       }
 `;
 
 const AvatarTest = styled.div`
+
+@media ${device.mobile}{
+  height: 50px;
+  width: 50px;
+  margin: 5px;
+  background-color: black;
+  
+  }
+
+  @media ${device.tablet}{
     height: 100px;
     width: 100px;
     margin: 10px;
     background-color: black;
+
+    
+  }
+
+  @media ${device.desktop}{
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+    background-color: black;
+
+  }
+
 `;
 
 const LogoutSection = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height: 300px;
-  width: 50vw;
-  justify-content: flex-end;
+    @media ${device.mobile}{
+      width: 60vw;
+
+    }
+
+    display: flex;
+    flex-wrap: wrap;
+    height: 300px;
+    width: 40vw;
+    padding: 20px;
+    justify-content: flex-end;
 `;
 
 const LoginInput = styled.input`
+
+@media ${device.mobile}{
+    height:35px;
+    width: 300px;
+  
+  }
+
+  @media ${device.tablet}{
+    
+  }
+
+  @media ${device.desktop}{
+
+  }
+
     border-radius: 5px;
     background-color: ${props => props.bg};
     color:${props => props.txt};
@@ -185,6 +292,7 @@ const LoginInput = styled.input`
     margin:5px;
     padding:0 10px;
     width: 300px;
+
 `;
 
 const NewPw = styled.div`
@@ -382,7 +490,7 @@ export default function Settings(
                 {/* themes */}
 
                 <SectionTitle
-                height={'200px'}>
+                height={'400px'}>
                   <MyText
                     text='Themes'
                     size={`${headerSize}px`}
@@ -428,7 +536,9 @@ export default function Settings(
 
                 {/* font */}
 
-                  <SectionTitle>
+                  <SectionTitle
+                  height={'300px'}
+                  >
                     <MyText
                     text='Font size'
                     size={`${headerSize}px`}
@@ -475,7 +585,9 @@ export default function Settings(
 
                 {/* update details */}
 
-                <SectionTitle>
+                <SectionTitle
+                height={'200px'}
+                >
                   <MyText
                   text='Update account details'
                   size={`${headerSize}px`}

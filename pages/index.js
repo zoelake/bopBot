@@ -3,17 +3,13 @@ import Image from 'next/image'
 import MyButton from '../comps/Button'
 import NavBar from '../comps/Nav'
 import MyTrack from '../comps/TrackInfo'
-import PerfectScrollbar from 'react-perfect-scrollbar'
 
-import Playlist from '../comps/Playlist'
 import SbButton from '../comps/SbButton'
-import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
 import { useTheme, useTitle, useHeader, usePar, useSbSize, useName } from "../utils/provider";
 import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
-import MySwitch from '../comps/Switch'
 import Slider from '../comps/Slider'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
@@ -66,59 +62,57 @@ const Page = styled.div`
 
 `;
 const Dashboard = styled.div`
+  padding-top: 200px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   justify-content: center;
-  align-self: center;
-    height:95vh;
-    width:100vw;
-
-     border:5px solid red;
+  height:100vh;
+  width:100vw;
+  margin-left: 20px;
 
 
-    @media ${device.mobile}{
-      width:90%;
-      padding:30px 0px 10px 0px;
-      margin-bottom: 200px;
-    }
+    // @media ${device.mobile}{
+    //   width:90%;
+    //   padding:30px 0px 10px 0px;
+    //   margin-bottom: 200px;
+    // }
 
-    @media ${device.tablet}{
-      width:55%;
-      padding:30px 10px 10px 60px;
-    }
+    // @media ${device.tablet}{
+    //   width:55%;
+    //   padding:30px 10px 10px 60px;
+    // }
 
-    @media ${device.desktop}{
-      width:100vw;
-      padding:30px 10px 10px 60px;
-    }
+    // @media ${device.desktop}{
+    //   width:100vw;
+    // }
 `;
 
 const SbCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-  max-width: 60%;
+  max-width: 100%;
   align-items: center;
   align-self: center;
   justify-content: center;
-  height:auto;
+  height: 50vh;
   // background-color: pink;
 
-  @media ${device.mobile}{
-    width: 100%;
+  // @media ${device.mobile}{
+  //   width: 100%;
 
-    }
+  //   }
 
-    @media ${device.tablet}{
-      width: 60%;
-      padding: 0 10%;
-    }
+  //   @media ${device.tablet}{
+  //     width: 60%;
+  //     padding: 0 10%;
+  //   }
 
-    @media ${device.desktop}{
-      width: 60%;
-      padding: 0 10%;
+  //   @media ${device.desktop}{
+  //     width: 60%;
+  //     padding: 0 10%;
 
-    }
+  //   }
 `;
 
 
@@ -141,7 +135,7 @@ const SliderCont = styled.div`
     }
 
     @media ${device.desktop}{
-      width: 60%;
+      width: 100%;
       padding: 0 10%;
 
     }
@@ -162,19 +156,19 @@ const TracksCont = styled.div`
 
 
   @media ${device.mobile}{
-    width: 90%;
+      width: 90%;
 
-}
+  }
 
-@media ${device.tablet}{
-  width: 45%;
-  padding: 30px 0 0 30px;
-}
+  @media ${device.tablet}{
+    width: 45%;
+    padding: 30px 0 0 30px;
+  }
 
-@media ${device.desktop}{
-  width: 45%;
-  padding: 30px 0 0 30px;
-}
+  @media ${device.desktop}{
+    width: 45%;
+    padding: 30px 0 0 30px;
+  }
 
 `;
 
@@ -182,9 +176,9 @@ const RightCont = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  width:50vw;
-  height: 100%;
-  // background-color: blue;
+  width:  50vw;
+  height: 100vh;
+  padding-top: 100px;
 
   // @media ${device.mobile}{
   //   width:90%;
@@ -208,8 +202,7 @@ const Tracks = styled.div`
   flex-direction: column;
   flex-grow: 2;
   width:100vw;
-  height: 50%;
-  // background-color: blue;
+  height: 100vh;
   padding:30px 10px 10px 60px;
 `;
 
@@ -580,7 +573,7 @@ export default function Home() {
             justifyContent: 'right',
           }}>
             <MyButton
-              width={device.mobile ? '200px' : 'auto'}
+              width={device.mobile ? '150px' : 'auto'}
               onClick={inputFilter}
               text='Generate'
             />
@@ -597,7 +590,7 @@ export default function Home() {
             />
 
             {/* loaded tracks from api call */}
-            <PerfectScrollbar>
+            
               {load ? <div>Loading...</div> : <></>}
               {tracks.map((o, i) => <MyTrack
                 key={i}
@@ -611,12 +604,12 @@ export default function Home() {
                 album={o.Album}
                 time={((o.duration_ms / 1000) / 60).toFixed(2)}
               />)}
-            </PerfectScrollbar>
+            
         </Tracks>
 
                         {/* bopBot section*/}
                <BotCont>
-                  <PerfectScrollbar>
+                  
                     <DndProvider backend={TouchBackend} options={{
                       enableTouchEvents: false,
                       enableMouseEvents: true
@@ -636,7 +629,7 @@ export default function Home() {
                     />)}
                     <BopBot />
                     </DndProvider>
-                </PerfectScrollbar>
+                
             </BotCont> 
         </RightCont>
 

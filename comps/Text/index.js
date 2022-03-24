@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
+import { device } from "../../styles/mediaSizes";
 
 
 const Text = styled.p`

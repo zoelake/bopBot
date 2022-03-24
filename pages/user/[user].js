@@ -30,21 +30,26 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 
 const Page = styled.div`
   display:flex;
-  flex-direction: column;
-  margin:0;
+  flex-direction: row;
+  margin: 10px;
+  padding: 10px;
   justify-content: center;
   width: 100vw;
-  position: absolute;
+  position: relative;
   height:95vh;
   bottom:0;
 `;
+
 const Dashboard = styled.div`
+    display: flex;
     background-color: ${props => props.bg};
-    height:45vh;
-    padding:30px 10px 10px 60px;
+    flex-direction: column;
+    height:100vh;
+    padding:30px 20px 10px 20px;
     display: flex;
     justify-content:center ;
-    /* border: 2px solid blue; */
+    flex-grow: 1;
+    width: 50vw;
     
 
     @media ${device.mobile}{
@@ -58,44 +63,85 @@ const Dashboard = styled.div`
        
     }
 `;
-const SbCont = styled.div`
-  display: flex;
-  /* justify-content: space-between; */
-  align-items: center;
-  padding-left: 30px;
-  white-space: nowrap;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  height:230px;
-  padding-left: 30px;
-  position: relative;
-  top:-20px;
-`;
-const SliderCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 750px;
-  justify-content: space-evenly;
-  padding-left: 30px;
-`;
-const SpaceCont = styled.div`
-display: flex;
-width: 90%;
-padding-left: 5px;
+const Playlists = styled.div`
+        display: flex;
+        /* justify-content: space-between; */
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        flex-grow: 2;
+        // align-items: center;
+        white-space: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        height:50vh;
+        //   position: relative;
+        //   top:-20px;
 
-justify-content: space-between;
 `;
+
+const SliderCont = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    width: 750px;
+    justify-content: space-evenly;
+    padding-left: 30px;
+`;
+
+const Top = styled.div`
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    width: 50vw;
+    height: 20vh;
+    justify-content: flex-start;
+    align-items: center;
+`;
+
+const Middle = styled.div`
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    width: 50vw;
+    justify-content: space-between;
+`;
+
+const SpaceCont = styled.div`
+    display: flex;
+    width: 90%;
+    padding-left: 5px;
+
+    justify-content: space-between;
+`;
+
+const Avatar = styled.div`
+    height: 100px;
+    width: 100px;
+    background-color: ${props => props.bg};
+    margin: 20px;
+`;
+
+const RightCont = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 50vw;
+
+`;
+
 const TracksCont = styled.div`
+    display: flex;
     height:40%;
-    /* border:2px solid red; */
+    flex-direction: column;
     /* position: absolute; */
-    /* bottom:0;
-    left:10px; */
-    align-self: center;
-    width:80%;
+    /* bottom:0; */
+    width:50vw;
+    margin-top: -50px;
 `;
 const RegCont = styled.div`
-  padding-left: 30px;
+    padding-left: 30px;
 `;
 const Divider = styled.div`
     background-color: ${props => props.color};
@@ -329,19 +375,34 @@ export default function User() {
                         onDeleteClick={onDeleteClick}
                     /> : <></>}
 
+                        <Top>
+                            <Avatar
+                                bg={themes[theme].accent}
+                            />
+                            <MyText
+                                text='Username Here'
+                                size={`${titleSize}px`}
+                            />
+                        </Top>
 
-                    <MyText
-                        weight={500}
-                        lineHeight='0'
-                        text={`Your playlists`}
-                        size={`${titleSize}px`}
-                    />
+                        <Middle>
+                            <MyText
+                                weight={500}
+                                lineHeight='0'
+                                text={`Your playlists`}
+                                size={`${headerSize}px`}
+                            />
 
-                    <MyButton
-                        onClick={() => setAddPlaylistView(!addPlaylistView)}
-                        text='create playlist' />
+                            <MyButton
+                            onClick={() => setAddPlaylistView(!addPlaylistView)}
+                            text='create playlist' 
+                            width="150px"
+                            />
+                        </Middle>
 
-                    <SbCont>
+
+                    <Playlists>
+
                         <Playlist
                             text='likes'
                             cover={'/heart.png'}
@@ -369,70 +430,67 @@ export default function User() {
                                 text='Loading'
                             />
                         }
-
-
-                    </SbCont>
+                    </Playlists>
                 </Dashboard>
-                <TracksCont>
+                
+                <RightCont>
+                    <TracksCont>
 
-                    <SpaceCont>
-                        <MyText
-                            text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
-                            size={`${headerSize}px`}
-                        />
-                        <MyButton
-                            onClick={() => setEditPlaylistView(!editPlaylistView)}
-                            text={editPlaylistView ? 'close ' : 'edit'}
-                        />
+                        <SpaceCont>
+                            <MyText
+                                text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
+                                size={`${headerSize}px`}
+                            />
+                            <MyButton
+                                onClick={() => setEditPlaylistView(!editPlaylistView)}
+                                text={editPlaylistView ? 'close ' : 'edit'}
+                                width="100px"
+                            />
 
-                        <MyButton
-                            onClick={() => setAddedRecent(!addedRecent)}
-                            text={addedRecent ? 'See oldest ' : 'See newest'}
-                        />
+                        </SpaceCont>
 
-                    </SpaceCont>
+                        <Divider
+                            color={themes[theme].text} />
+                        <br></br>
 
-                    <Divider
-                        color={themes[theme].text} />
-                    <br></br>
+                        <RegCont>
+                            <DndProvider backend={TouchBackend} options={{
+                                enableTouchEvents: false,
+                                enableMouseEvents: true
+                            }}>
+                                {selectedPlaylist == 'likes' ? likedPlaylist.map((o, i) => <MyTrack
+                                    key={i}
+                                    selected={o.Canada}
+                                    onTrackClick={() => router.push(o.Uri)}
+                                    AddToLikedPlaylist={(obj) => setAsLiked(o)}
+                                    DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
+                                    OpenOptions={(obj) => handleTrackOptions(o)}
+                                    artist={o.Artist}
+                                    song={o.Title}
+                                    album={o.Album}
+                                    time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                                />) : <></>}
 
-                    <RegCont>
-                        <DndProvider backend={TouchBackend} options={{
-                            enableTouchEvents: false,
-                            enableMouseEvents: true
-                        }}>
-                            {selectedPlaylist == 'likes' ? likedPlaylist.map((o, i) => <MyTrack
-                                key={i}
-                                selected={o.Canada}
-                                onTrackClick={() => router.push(o.Uri)}
-                                AddToLikedPlaylist={(obj) => setAsLiked(o)}
-                                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-                                OpenOptions={(obj) => handleTrackOptions(o)}
-                                artist={o.Artist}
-                                song={o.Title}
-                                album={o.Album}
-                                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                            />) : <></>}
-
-                            {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? selectedTracks.map((o, i) => <MyTrack
-                                key={i}
-                                selected={o.Canada}
-                                onTrackClick={() => router.push(o.Uri)}
-                                AddToLikedPlaylist={(obj) => setAsLiked(o)}
-                                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-                                OpenOptions={(obj) => handleTrackOptions(o)}
-                                artist={o.Artist}
-                                song={o.Title}
-                                album={o.Album}
-                                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                            />) : <></>}
+                                {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? selectedTracks.map((o, i) => <MyTrack
+                                    key={i}
+                                    selected={o.Canada}
+                                    onTrackClick={() => router.push(o.Uri)}
+                                    AddToLikedPlaylist={(obj) => setAsLiked(o)}
+                                    DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
+                                    OpenOptions={(obj) => handleTrackOptions(o)}
+                                    artist={o.Artist}
+                                    song={o.Title}
+                                    album={o.Album}
+                                    time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                                />) : <></>}
 
 
 
-                        </DndProvider>
-                    </RegCont>
+                            </DndProvider>
+                        </RegCont>
 
-                </TracksCont>
+                    </TracksCont>
+                </RightCont>
 
             </Page>
         </>
