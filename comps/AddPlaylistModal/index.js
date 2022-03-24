@@ -22,8 +22,8 @@ const Page = styled.div`
 `;
 
 const Cont = styled.div`
-    width:567px;
-    height:557px;
+    width:450px;
+    height:520px;
     background-color: #282828;
     border-radius: 20.95px;
     justify-content: center;
@@ -86,6 +86,7 @@ const AddPlaylist = ({
 }) => {
     return (
         <Page>
+
             <Cont>
                 <TopCont>
                     <EPText>Create new Playlist</EPText>

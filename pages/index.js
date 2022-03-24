@@ -62,10 +62,10 @@ const Page = styled.div`
 
 `;
 const Dashboard = styled.div`
-  padding-top: 200px;
+  padding-top: 150px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex-basis: auot;
   justify-content: center;
   height:100vh;
   width:100vw;
@@ -121,6 +121,7 @@ const SliderCont = styled.div`
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-self: center;
+  height: 100vh;
   // background-color: pink;
 
 
@@ -135,7 +136,7 @@ const SliderCont = styled.div`
     }
 
     @media ${device.desktop}{
-      width: 100%;
+      width: 70%;
       padding: 0 10%;
 
     }
@@ -178,7 +179,7 @@ const RightCont = styled.div`
   flex-grow: 1;
   width:  50vw;
   height: 100vh;
-  padding-top: 100px;
+  padding-top: 50px;
 
   // @media ${device.mobile}{
   //   width:90%;
@@ -204,6 +205,7 @@ const Tracks = styled.div`
   width:100vw;
   height: 100vh;
   padding:30px 10px 10px 60px;
+  
 `;
 
 const BotCont = styled.div`
@@ -216,7 +218,7 @@ const Divider = styled.div`
     background-color: ${props => props.color};
     align-self: center;
     width:1px;
-    height:90%;
+    height:1250px;
 `;
 
 var timer = null;

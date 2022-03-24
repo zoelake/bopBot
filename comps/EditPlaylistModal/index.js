@@ -24,33 +24,52 @@ const Page = styled.div`
 const Cont = styled.div`
     display: flex;
     flex-direction: column;
-    width:567px;
-    height:557px;
+    width:450px;
+    height:520px;
     background-color: #282828;
     border-radius: 20.95px;
-    justify-content: center;
-    margin: 15px;
     z-index: 200;
+    padding:20px;
+`;
+
+const HoldItems = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
 `;
 
 const TopCont = styled.div`
     display: flex;
+    flex-grow: 1;
     justify-content: space-around;
     margin-top: 40px;
+    width:100%;
 `;
 
 const EPText = styled.text`
     font-size: 36px;
     color:white;
 `;
+const Row = styled.div`
+    display:flex;
+    flex-direction: row;
+    width: 200px;
+    padding: 10px;
+    
 
-const MidCont = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 40px;
 `;
+
+// const MidCont = styled.div`
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     flex-direction: column;
+//     margin-top: 40px;
+// `;
 
 const ChangeImageText = styled.text`
     color: white;
@@ -67,13 +86,17 @@ const BotInput = styled.input`
     height: 44.78px;
     background-color: #7C7C7C;
     border-radius:10px;
-    margin-top: 22px;
+    
+
 `;
 
-const ButtonCont = styled.div`
+const BottomCont = styled.div`
     padding: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items:flex-end;
     display:flex;
-    width: 567px;
+
 `;
 
 
@@ -88,31 +111,35 @@ const EditPlaylist = ({
     return (
         <Page>
             <Cont>
+                <HoldItems>
+
+                
                 <TopCont>
                     <EPText>Edit {playlist}</EPText>
                     <img onClick={onXClick} width="40.33px" height="40.33px" src={"/purpleX.png"} />
                 </TopCont>
 
-                <MidCont>
-                    <img width="207.69px" height="215.38px" src={coverSrc}></img>
+                <img width="207.69px" height="215.38px" src={coverSrc}></img>
                     <ChangeImageText>Change image</ChangeImageText>
-                    <BotInput onChange={handleChange} type="text" placeholder="edit title here"  ></BotInput>
-                </MidCont>
+                    
 
-                <ButtonCont>
-                    <MyButton
-                        onClick={onSaveClick}
-                        text="Save"
-                        width="10%"
-                        style={{ position: 'relative', left: '70%' }}
-                    />
-                    <MyButton
-                        onClick={onDeleteClick}
-                        text="Delete"
-                        width="10%"
-                        style={{ position: 'relative', left: '70%' }}
-                    />
-                </ButtonCont>
+                    <BottomCont>
+                        <BotInput onChange={handleChange} type="text" placeholder="edit title here"  ></BotInput>
+                        <Row>
+
+                        <MyButton
+                            onClick={onSaveClick}
+                            text="Save"
+                            width="50%"
+                            />
+                        <MyButton
+                            onClick={onDeleteClick}
+                            text="Delete"
+                            width="70%"
+                            />
+                            </Row>
+                    </BottomCont>
+                </HoldItems>
             </Cont>
         </Page>
     );
