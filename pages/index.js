@@ -26,7 +26,6 @@ import Dropzone from '../comps/Dropzone'
 import { v4 as uuidv4 } from 'uuid';
 
 import { io } from "socket.io-client";
-import TrackInfoDnd from '../comps/TrackInfoDnd'
 import EditPlaylist from '../comps/EditPlaylistModal'
 import BopBot from '../comps/BopBot'
 
