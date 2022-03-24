@@ -27,7 +27,6 @@ import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite
 import DropDownEdit from '../../comps/DropDownModal'
 
 import { Container } from '../../comps/Container'
-import { ItemTypes } from '../../ItemTypes'
 import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 
@@ -417,13 +416,13 @@ export default function User() {
                         }}>
                             {selectedPlaylist == 'likes' ? 
                             <Container
-                            test={likedPlaylist}
+                            data={likedPlaylist}
                             // moveCard={moveCard}
                         
                             /> : <></>}
 
                             {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? <Container
-                                test={selectedTracks}
+                                data={selectedTracks}
                                 // moveCard={moveCard}
                               
                             /> : <></>}
@@ -431,7 +430,9 @@ export default function User() {
                         
 
                         </DndProvider>
+                        
                     </RegCont>
+           
 
                 </TracksCont>
 

@@ -1,14 +1,17 @@
 
 import { Card } from '../Card';
 import update from 'immutability-helper';
-import {useState, useCallback} from 'react'
+import {useState, useCallback, useEffect} from 'react'
 import { useRouter } from 'next/router'
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, SetTracksAsUnfavourite, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
+import { color } from '@mui/system';
 
 
 const style = {
-    width: 600,
+    // width: 600,
     // fontSize: `${parSize}`,
+    // backgroundColor:'#fad',
+    
 };
 
 export const Container = ({ data = null}) => {
@@ -16,6 +19,11 @@ export const Container = ({ data = null}) => {
 
     //toggle models & views
     const [selectedPlaylist, setSelectedPlaylist] = useState('likes')
+    const [cards, setCards] = useState([]);
+
+    useEffect(()=>{
+        if (data) {setCards(data)}
+     },[data])
   
     //page functions
     function handleTrackOptions(trackdata) {
@@ -53,6 +61,7 @@ export const Container = ({ data = null}) => {
 
 
         const moveCard = useCallback((dragIndex, hoverIndex) => {
+            console.log(dragIndex, hoverIndex)
             setCards((prevCards) => update(prevCards, {
                 $splice: [
                     [dragIndex, 1],
@@ -64,7 +73,7 @@ export const Container = ({ data = null}) => {
             return (<Card 
                 index={i}
                 id={o._id}
-                key={o._id} 
+                key={o._id+'-'+i} 
                 song={o.Title} 
                 selected={o.Canada}
                 artist={o.Artist}
@@ -76,6 +85,6 @@ export const Container = ({ data = null}) => {
                 DeleteFromLikedPlaylist={(obj)=>setAsUnliked(o)}
                 moveCard={moveCard}/>)}, []);
         return <div style={style}>
-            {data !== null ? data.map((o, i) => renderCard(o, i)) : <></>}
+            {cards !== null ? cards.map((o, i) => renderCard(o, i)) : <></>}
          </div>;
 };

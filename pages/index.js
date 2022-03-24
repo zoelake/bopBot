@@ -122,14 +122,16 @@ const SliderCont = styled.div`
 `;
 const TrackScoll = styled.div`
   height:100%;
+  /* background-color: #fad; */
   overflow: scroll;
-  width: 20%;
+  width: auto;
 `;
 const TracksCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-
+  /* display: flex; */
+  /* flex-direction:row ; */
+  /* flex-wrap: wrap; */
   height:95vh;
+
   justify-content: left;
   /* border:2px solid green; */
 
@@ -558,12 +560,12 @@ export default function Home() {
         </TracksCont>
 
 
-        <TrackScoll>
+        {/* <TrackScoll>
           <DndProvider backend={TouchBackend} options={{
             enableTouchEvents: false,
             enableMouseEvents: true
           }}>
-          {/* <MyTrack /> */}
+          <MyTrack />
           {load ? <div>Loading...</div> : <></>}
           {tracks.map((o, i) => <MyTrack
             key={i}
@@ -578,9 +580,9 @@ export default function Home() {
           />)}
         <BopBot />
           </DndProvider>
-        </TrackScoll>
+        </TrackScoll> */}
 
-        {/* <EditPlaylist /> */}
+       {/* <EditPlaylist /> */}
       </Page>
     </>
   )

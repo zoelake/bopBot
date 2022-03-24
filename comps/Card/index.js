@@ -1,16 +1,15 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { ItemTypes } from '../../ItemTypes';
 //idk what this does??????? 
 import React, { useState, useEffect } from "react";
 
 import { themes } from '../../utils/variables';
-import { usePar, useHeader, useTheme } from "../../utils/provider";
+import { usePar, useHeader, useTheme, theme } from "../../utils/provider";
 import styled from 'styled-components';
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
 import MyRadio from "../Radio";
-
 import MyText from '../Text';
+import DropDownEdit from '../DropDownModal';
 
 const Text = styled.p`
     color: ${props => props.color};
@@ -25,10 +24,15 @@ const Text = styled.p`
 
 const CardCont = styled.div`
     display: flex;
-    align-items: center;
-    /* flex-direction: row; */
-    justify-content: space-evenly;
-    height:80px;
+    /* flex-direction: row;
+    justify-content: flex-start; */
+    height:50px;
+    width: 90%;
+    /* height: 51, */
+    padding: 5px 5px;
+    background-color: ${props=>props.bg};
+    color: #fff;
+    cursor: move;
 
     
 `;
@@ -39,11 +43,17 @@ const Cont2 = styled.div`
 `;
 
 const Cont3 = styled.div`
-    width:300px;
+    width:450px;
 
 `;
 
 const Cont4 = styled.div`
+    display: flex;
+    min-width: 250px;
+    margin-right:1rem ;
+    /* justify-content: flex-start ; */
+    /* background-color:#fad ; */
+    /* padding-right: 1rem ; */
 `;
 
 const Dotcont = styled.div`
@@ -53,6 +63,24 @@ const Dotcont = styled.div`
     align-content:center; */
 
 
+`;
+
+const BigCont = styled.div`
+    display: flex ;
+    flex-direction: row ;
+    justify-content:flex-start ;
+    align-items:center ;
+    width: 450px;
+`;
+
+const DurationCont = styled.div`
+    width: 50px;
+    margin-right:1rem ;
+`;
+
+const LikeIconCont = styled.div`
+    width: 50px;
+    /* margin-right:1rem ; */
 `;
 
 
@@ -65,36 +93,51 @@ const Dots = styled.div`
 `;
 
 
-const style = {
-    // border: '1px dashed gray',
-    height: 51,
-    padding: '5px 5px',
-    backgroundColor: '#000',
-    // backgroundColor: themes[theme].heart,
-    color: '#fff',
-    cursor: 'move',
-};
+// const style = {
+//     // border: '1px dashed gray',
+//     // height: 51,
+//     // padding: '5px 5px',
+//     // backgroundColor: '#ccc',
+//     // color: '#fff',
+//     // cursor: 'move',
+// };
 
 export const Card = ({ 
-    id, 
-    title, 
-    index, 
-    artist, duration, albumname, moveCard,
-    //data
-
-   OpenOptions = () => { },
+    time, 
+    artist,
+    song, 
+    album, 
+    selected = false,
+    onTrackClick = () => {},
+    OpenOptions = () => { },
     AddToLikedPlaylist = () => { },
+    DeleteFromLikedPlaylist = () => { },
+    
+     moveCard,
+    //data
+    id,
+    index,
+
 }) => {
     const ref = useRef(null);
     const { theme } = useTheme();
     const { parSize } = usePar();
-    const [selected, setSelected] = useState(false)
 
     function LikeTrack() {
-        setSelected(!selected);
-        AddToLikedPlaylist();
-        
+        // setSelected(!selected);
+        console.log('selected')
+        console.log(selected)
+
+        if (selected !== 100) {
+            console.log('adding track')
+            AddToLikedPlaylist();
+        }
+        if (selected == 100) {
+            console.log('deleting track')
+            DeleteFromLikedPlaylist();
+        }
     }
+
 
     const [{ handlerId }, drop] = useDrop({
         accept: 'card',
@@ -153,56 +196,57 @@ export const Card = ({
     const opacity = isDragging ? 0 : 1;
     drag(drop(ref));
     return (<CardCont ref={ref} 
-            style={{ ...style, opacity }} 
+            bg={themes[theme].heart}
+            style={{ opacity }} 
             op={isDragging ? 0.5 : 1}
             data-handler-id={handlerId}>
-			<Cont2>
+			{/* <Cont2>
             {id}
-            </Cont2>
+            </Cont2> */}
 
-            <Cont3>
+            <Cont3 onClick={onTrackClick}>
                 <MyText
-                    text={title}
+                    text={song}
                     size={`${parSize}px`}
                     lineHeight={0}
                     weight={400}
                     hover={themes[theme].heart} 
                     //is this working?
-                    >
-                    {title}
-                </MyText>
+                    />
 
                 <Text
-                    color={themes[theme].accent}>
+                    color={themes[theme].grey}>
                     {artist}
                 </Text>
             </Cont3>
+        <BigCont>
+            <DurationCont>
+                <Text
+                    color={themes[theme].text}
+                    >
+                    {time}
+                </Text>
+            </DurationCont>
 
             <Cont4>
                 <Text
                     color={themes[theme].text}
                     >
-                    {duration}
+                    {album}
                 </Text>
             </Cont4>
 
-            <Cont4>
-                <Text
-                    color={themes[theme].text}
-                    >
-                    {albumname}
-                </Text>
-            </Cont4>
-
-            <Cont4>
-                <MyRadio shape={'heart'} inner={selected} onClick={LikeTrack} />
-            </Cont4>
+            <LikeIconCont>
+                <MyRadio shape={'heart'} inner={selected == 100 ? true : false} onClick={LikeTrack} />
+            </LikeIconCont>
 
             <Dotcont onClick={OpenOptions}>
+                {/* <Dots col={themes[theme].text} />
                 <Dots col={themes[theme].text} />
-                <Dots col={themes[theme].text} />
-                <Dots col={themes[theme].text} />
+                <Dots col={themes[theme].text} /> */}
+                <DropDownEdit/>
             </Dotcont>
+            </BigCont>
 
 		</CardCont>);
 };

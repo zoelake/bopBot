@@ -3,12 +3,11 @@ import { themes } from "../../utils/variables";
 import { usePar, useHeader, useTheme } from "../../utils/provider";
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, } from "react";
 import MyRadio from "../Radio";
 import MyText from "../Text";
 import { device } from "../../styles/mediaSizes";
 import DropDownEdit from "../DropDownModal";
-import { useDrag, useDrop } from 'react-dnd'
 
 const Text = styled.p`
     color: ${props => props.color};
@@ -120,6 +119,7 @@ export default function MyTrack({
     const { theme } = useTheme();
     const { parSize } = usePar();
     const { headerSize } = useHeader();
+
 
     function LikeTrack() {
         // setSelected(!selected);
