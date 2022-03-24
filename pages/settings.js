@@ -200,7 +200,7 @@ export default function Settings() {
     }
     console.log('current name: ' + localStorage.getItem('name'))
     console.log('updated name: ' + updatedName)
-    axios.post('http://localhost:3001/update-userName', updateName)
+    axios.post('https://bopbot-backend.herokuapp.com/update-userName', updateName)
       .then((res) => {
         if (res) {
           console.log('returned name: ' + res.data)
@@ -223,7 +223,7 @@ export default function Settings() {
     }
     console.log('current name: ' + localStorage.getItem('email'))
     console.log('updated name: ' + updatedEmail)
-    axios.post('http://localhost:3001/update-userEmail', updateEmail)
+    axios.post('https://bopbot-backend.herokuapp.com/update-userEmail', updateEmail)
       .then((res) => {
         if (res) {
           console.log('returned email: ' + res.data)

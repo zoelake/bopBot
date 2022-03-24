@@ -185,7 +185,7 @@ export default function User() {
         const user = {
             user: localStorage.getItem('email')
         }
-        axios.post('http://localhost:3001/get-playlists', user)
+        axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
             .then((res) => {
                 if (res.status == 200) {
                     console.log('res.data.playlists')
@@ -207,7 +207,7 @@ export default function User() {
         }
         console.log('user')
         console.log(user)
-        axios.post('http://localhost:3001/get-a-playlist', user)
+        axios.post('https://bopbot-backend.herokuapp.com/get-a-playlist', user)
             .then((res) => {
                 if (res.status == 200) {
                     console.log('ur res: ')

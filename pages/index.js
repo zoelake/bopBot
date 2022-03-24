@@ -308,6 +308,8 @@ export default function Home() {
   function setAsLiked(trackdata) {
     SetTracksAsFavourite(trackdata)
     AddTrackToLiked(trackdata)
+    console.log('THIS IS TRACK ID:')
+    console.log(trackdata._id)
   }
 
   function setAsUnliked(trackdata) {
@@ -319,7 +321,7 @@ export default function Home() {
 
     function getTracks() {
       console.log('connecting to database...')
-      axios.get('http://localhost:3001/tracks')
+      axios.get('https://bopbot-backend.herokuapp.com/tracks')
         .then((res) => {
           console.log('here are your tracks! ' + res)
           // setNewTracks(res)
@@ -343,7 +345,7 @@ export default function Home() {
     const user = {
       user: localStorage.getItem('email')
     }
-    axios.post('http://localhost:3001/get-playlists', user)
+    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
       .then((res) => {
         if (res.status == 200) {
           console.log(res.data.playlists)
@@ -563,20 +565,20 @@ export default function Home() {
             enableTouchEvents: false,
             enableMouseEvents: true
           }}>
-          {/* <MyTrack /> */}
-          {load ? <div>Loading...</div> : <></>}
-          {tracks.map((o, i) => <MyTrack
-            key={i}
+            {/* <MyTrack /> */}
+            {load ? <div>Loading...</div> : <></>}
+            {tracks.map((o, i) => <MyTrack
+              key={i}
 
-            onTrackClick={() => router.push(o.Uri)}
-            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
-            OpenOptions={(obj) => handleTrackOptions(o)}
-            artist={o.Artist}
-            song={o.Title}
-            album={o.Album}
-            time={((o.duration_ms / 1000) / 60).toFixed(2)}
-          />)}
-        <BopBot />
+              onTrackClick={() => router.push(o.Uri)}
+              AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+              OpenOptions={(obj) => handleTrackOptions(o)}
+              artist={o.Artist}
+              song={o.Title}
+              album={o.Album}
+              time={((o.duration_ms / 1000) / 60).toFixed(2)}
+            />)}
+            <BopBot />
           </DndProvider>
         </TrackScoll>
 
