@@ -24,7 +24,7 @@ const LoginInput = styled.input`
     background-color: ${props => props.bg};
     color:${props => props.txt};
     height:50px;
-    border:1.5px solid ${props=>props.border};
+    border:1.5px solid ${props => props.border};
     margin:5px;
     padding:0 10px;
     width:90%;
@@ -39,7 +39,7 @@ const ButtonCont = styled.div`
 
 
 export default function LoginAccount({
-    switchView = () => {},
+    switchView = () => { },
 }) {
 
     const router = useRouter();
@@ -76,7 +76,7 @@ export default function LoginAccount({
             email: userEmail,
             password: userPassword
         }
-        axios.post('http://localhost:3001/login', getUser)
+        axios.post('https://bopbot-backend.herokuapp.com/login', getUser)
             .then((res) => {
                 if (res) {
                     console.log(res.data.name)
@@ -92,7 +92,7 @@ export default function LoginAccount({
 
                     router.push('/')
 
-                } 
+                }
             })
             .catch(e => {
                 console.log(e)
@@ -102,15 +102,15 @@ export default function LoginAccount({
 
     }
 
-    
+
 
     return (
         <InputCont>
             <h1>Login to your account</h1>
             <p>Welcome back!</p>
             <p>{inputError ? 'Credentials incorrect or not found. Please, try again.' : ''}</p>
-            <LoginInput border={border ? '#8B64FA' : 'red'} name='email' placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} onSelect={()=>setBorder(true)}/>
-            <LoginInput border={border ? '#8B64FA' : 'red'} name='password' placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} onSelect={()=>setBorder(true)} />
+            <LoginInput border={border ? '#8B64FA' : 'red'} name='email' placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} onSelect={() => setBorder(true)} />
+            <LoginInput border={border ? '#8B64FA' : 'red'} name='password' placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} onSelect={() => setBorder(true)} />
             <ButtonCont>
                 <MyButton onClick={Login} text='Login' />
                 <p>Don't have an account?</p>
