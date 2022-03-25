@@ -37,10 +37,8 @@ const Page = styled.div`
   display:flex;
   width:100%;
   position: absolute;
-  height: 100%;
-
-  bottom:0;
-  /* border:8px solid green; */
+  bottom:0;  
+  height: 100%;  
 
   @media ${device.mobile}{
     flex-direction: column;
@@ -67,14 +65,14 @@ const Dashboard = styled.div`
     display: flex;
     flex-direction: column;
     flex-basis: auto;
-    justify-content: center;
+    justify-content: left;
+
+    /* border:5px solid red; */
+
 
     @media ${device.mobile}{
       width:90%;
-      margin-top: 700px;
-      // padding: 0px 0px 50px 0px;
-      // margin-bottom: 200px;
-
+      height: 100%;
     }
 
     @media ${device.tablet}{
@@ -154,8 +152,7 @@ const SliderCont = styled.div`
 const TrackScoll = styled.div`
   max-height: 80vh;
   overflow: scroll;
-  width: 50%;
-  scrollbar-color: blue;
+  width: 10%;
 `;
 const TracksCont = styled.div`
   display: flex;
@@ -167,8 +164,11 @@ const TracksCont = styled.div`
 
 
   @media ${device.mobile}{
-      width: 90%;
-
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
   }
 
   @media ${device.tablet}{
@@ -614,10 +614,11 @@ export default function Home() {
 
         <Tracks>
 
-          <MyText
+          {/* <MyText
             text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
             size={`${headerSize}px`}
-          />
+
+          /> */}
 
           {/* loaded tracks from api call */}
           <TrackScoll>
@@ -633,12 +634,19 @@ export default function Home() {
               song={o.Title}
               album={o.Album}
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
-            />)}
+              />)}
+
           </TrackScoll>
         </Tracks>
-
+        <MyText
+            text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
+            size={`${headerSize}px`}
+            
+          />
 
         <BotCont>
+        <TrackScoll>
+      
           <DndProvider backend={TouchBackend} options={{
             enableTouchEvents: false,
             enableMouseEvents: true
@@ -647,7 +655,7 @@ export default function Home() {
             {load ? <div>Loading...</div> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
-
+              
               onTrackClick={() => router.push(o.Uri)}
               AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
               OpenOptions={(obj) => handleTrackOptions(o)}
@@ -655,9 +663,12 @@ export default function Home() {
               song={o.Title}
               album={o.Album}
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
-            />)}
+              />)}
+           
             <BopBot />
+          
           </DndProvider>
+          </TrackScoll>
         </BotCont>
 
         </RightCont>

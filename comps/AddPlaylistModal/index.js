@@ -38,7 +38,7 @@ const MidCont = styled.div`
 
 const ChangeImageText = styled.text`
     color: white;
-    font-size: 18px;
+    font-size: ${props => props.size};
     text-decoration: underline;
     margin-top: 10px;
 `;
