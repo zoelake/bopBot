@@ -13,13 +13,14 @@ const Cont = styled.div`
     margin-bottom: 30px;
     justify-content: space-between;
     max-width: 500px;
+    width: 100%;
 `;
 
 const ThemeColCont = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 400px;
+    width: 100%;
     height:50px;
 `;
 
