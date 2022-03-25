@@ -45,6 +45,7 @@ const Page = styled.div`
     justify-content: center;
     align-items: center;
     height:100%;
+    max-height: 100%;
     top:20%;
   }
 

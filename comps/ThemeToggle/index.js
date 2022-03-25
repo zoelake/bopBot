@@ -6,6 +6,8 @@ import MyText from "../Text";
 import { teal } from "@mui/material/colors";
 import MyRadio from "../Radio";
 import { useState } from "react";
+import { device } from "../../styles/mediaSizes";
+
 
 const Cont = styled.div`
     display:flex;
@@ -28,6 +30,16 @@ const ThemeCol = styled.div`
     background-color: ${props => props.col};
     width:40px;
     height:40px;
+    @media ${device.mobile}{
+        width:40px ;
+    }
+
+    @media ${device.tablet}{
+    }
+
+    @media ${device.desktop}{
+       
+    }
 `;
 
 const Spacer = styled.div`
