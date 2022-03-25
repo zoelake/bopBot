@@ -5,6 +5,8 @@ import MyText from "../../comps/Text/index"
 
 import SbButton from "../SbButton";
 import MyButton from "../Button";
+import { Carousel } from 'react-responsive-carousel';
+
 
 
 const Cont = styled.div`
@@ -78,7 +80,33 @@ const AddPlaylist = ({
             </TopCont>
 
             <MidCont>
-                <img width="207.69px" height="215.38px" src={coverSrc}></img>
+                <Carousel
+                    ar
+                    infiniteLoop={true}
+                    showIndicators={false}
+                    showStatus={false}
+                    swipeable={true}
+                    showThumbs={false}
+                    emulateTouch={true}
+                >
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_happy.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_happy.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_embarassed.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_embarassed.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_mad.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_mad.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_neutral.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_neutral.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_sleepy.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_sleepy.svg'} />
+                    </div>
+
+
+                </Carousel>
                 <ChangeImageText>Add image</ChangeImageText>
                 <BotInput onChange={handleChange} type="text" placeholder="enter title here"  ></BotInput>
             </MidCont>
