@@ -35,11 +35,11 @@ import BopBot from '../comps/BopBot'
 
 const Page = styled.div`
   display:flex;
+  margin:0;
   width:100%;
   position: absolute;
-  bottom:0;  
-  height: 100%;  
-
+  bottom:0;
+  /* border:8px solid green; */
   @media ${device.mobile}{
     flex-direction: column;
     justify-content: center;
@@ -47,202 +47,102 @@ const Page = styled.div`
     height:100%;
     top:20%;
   }
-
   @media ${device.tablet}{
     flex-direction: row;
-    // height:95vh;
+    justify-content: space-between;
+    height:95vh;
   }
-
   @media ${device.desktop}{
-    margin:0;
     flex-direction: row;
     justify-content: space-between;
-    // height:95vh;
+    height:95vh;
   }
-
 `;
 const Dashboard = styled.div`
-    display: flex;
-    flex-direction: column;
-    flex-basis: auto;
-    justify-content: left;
-
+    height:95vh;
+    width:60%;
     /* border:5px solid red; */
-
-
     @media ${device.mobile}{
       width:90%;
-      height: 100%;
+      padding:30px 0px 10px 0px;
+      margin-bottom: 200px;
     }
-
     @media ${device.tablet}{
-      width: 100vw;
-      height:100vh;
-      margin-top: 200px;
+      width:55%;
+      padding:30px 10px 10px 60px;
     }
-
     @media ${device.desktop}{
-      padding-top: 150px;
-      height:100vh;
-      width:100vw;
-      margin-left: 20px;
-      margin-top: 10px;
+      width:55%;
+      padding:30px 10px 10px 60px;
     }
 `;
-
 const SbCont = styled.div`
-display: flex;
-flex-wrap: wrap;
-align-items: center;
-align-self: center;
-justify-content: center;
-
-
-  @media ${device.mobile}{
-
-    max-width: 100%;
-    height: 50vh;
-    flex-grow: 1;
-    // padding: 30px 0px 10px 5px;
-    // background-color: pink;
-
-    }
-
-    @media ${device.tablet}{
-      width: 100%;
-    }
-
-    @media ${device.desktop}{
-      max-width: 90%;
-      align-items: center;
-      align-self: center;
-      justify-content: center;
-      height: 50vh;
-      // background-color: pink;
-
-    }
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height:auto;
+  justify-content: left;
+  /* padding-left: 30px; */
 `;
-
-
 const SliderCont = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-self: center;
-  height: 100vh;
-
+  /* padding-left: 30px; */
+  /* border:2px solid green; */
   @media ${device.mobile}{
     width: 100%;
-    height: 70vh;
-    // padding: 30px 0px 10px 5px;
-
     }
-
     @media ${device.tablet}{
-      width: 100%;
-      height: 100%;
-    }
-
-    @media ${device.desktop}{
-      width: 70%;
+      width: 60%;
       padding: 0 10%;
-
+    }
+    @media ${device.desktop}{
+      width: 60%;
+      padding: 0 10%;
     }
 `;
 const TrackScoll = styled.div`
-  max-height: 80vh;
+  height:100%;
   overflow: scroll;
-  width: 10%;
+  width: 20%;
 `;
 const TracksCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-
   height:95vh;
   justify-content: left;
-  border:2px solid green;
-
-
+  /* border:2px solid green; */
   @media ${device.mobile}{
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    
-  }
-
-  @media ${device.tablet}{
-    width: 45%;
-    padding: 30px 0 0 30px;
-  }
-
-  @media ${device.desktop}{
-    width: 45%;
-    padding: 30px 0 0 30px;
-  }
-
+    width: 90%;
+}
+@media ${device.tablet}{
+  width: 45%;
+  padding: 30px 0 0 30px;
+}
+@media ${device.desktop}{
+  width: 45%;
+  padding: 30px 0 0 30px;
+}
 `;
-
-const RightCont = styled.div`
-  display: flex;
-  flex-direction: column;
-  width:  50vw;
-  height: 100vh;
-
-    @media ${device.mobile}{
-      width:90%;
-      height: 80vh;
-      // margin-bottom: 200px;
-    }
-
-    @media ${device.tablet}{
-      width:100%;
-      height: 100%;
-
-    }
-
-    @media ${device.desktop}{
-      width:50vw;
-      padding-top: 50px;
-      flex-grow: 1;
-    }
-`;
-
-const Tracks = styled.div`
-display: flex;
-flex-direction: column;
-
-     @media ${device.mobile}{
-        width:100vw;
-        height: 80vh;
-    }
-  
-      @media ${device.tablet}{
-        width:100%;
-        height: 100%;
-        // background-color: red;
-    }
-  
-      @media ${device.desktop}{
-        width:30vw;
-        height: 100vh;
-        padding:30px 10px 10px 60px;
-        flex-grow: 2;
-    }
-  
-`;
-
-const BotCont = styled.div`
-  display: flex;
-  flex-grow: 1; 
-  padding:30px 10px 10px 60px;
-`;
-
 const Divider = styled.div`
     background-color: ${props => props.color};
     align-self: center;
     width:1px;
-    height:1250px;
+    height:90%;
+`;
+//please fix this styling lol
+const Model = styled.div`
+  width: 300px;
+  height:300px;
+  padding:5px;
+  position:absolute;
+  top:20%;
+  left:45%;
+  background-color: #fff;
+  color:black;
+  z-index:1000;
 `;
 
 var timer = null;
@@ -352,6 +252,7 @@ export default function Home() {
   }
 
   const [selectedPlaylist, setSelectedPlaylist] = useState([])
+
 
 
   function handleTrackOptions(trackdata) {
@@ -609,16 +510,12 @@ export default function Home() {
 
         <Divider color={themes[theme].text} />
 
-        <RightCont>
+        <TracksCont>
 
-
-        <Tracks>
-
-          {/* <MyText
+          <MyText
             text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
             size={`${headerSize}px`}
-
-          /> */}
+          />
 
           {/* loaded tracks from api call */}
           <TrackScoll>
@@ -634,19 +531,12 @@ export default function Home() {
               song={o.Title}
               album={o.Album}
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
-              />)}
-
+            />)}
           </TrackScoll>
-        </Tracks>
-        <MyText
-            text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
-            size={`${headerSize}px`}
-            
-          />
+        </TracksCont>
 
-        <BotCont>
+
         <TrackScoll>
-      
           <DndProvider backend={TouchBackend} options={{
             enableTouchEvents: false,
             enableMouseEvents: true
@@ -655,7 +545,7 @@ export default function Home() {
             {load ? <div>Loading...</div> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
-              
+
               onTrackClick={() => router.push(o.Uri)}
               AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
               OpenOptions={(obj) => handleTrackOptions(o)}
@@ -663,15 +553,10 @@ export default function Home() {
               song={o.Title}
               album={o.Album}
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
-              />)}
-           
+            />)}
             <BopBot />
-          
           </DndProvider>
-          </TrackScoll>
-        </BotCont>
-
-        </RightCont>
+        </TrackScoll>
 
         {/* <EditPlaylist /> */}
       </Page>
