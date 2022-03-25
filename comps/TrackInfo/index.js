@@ -33,11 +33,11 @@ const TrackCont = styled.div`
     }
 
     @media ${device.tablet}{
-        width: 40vw;
+        width: 100%;
     }
 
     @media ${device.desktop}{
-        width: 40vw;
+        width: 100%;
     }
 
 `;
@@ -99,7 +99,7 @@ const Dots = styled.div`
 
 
 export default function MyTrack({
-   
+
     time = '2:55',
     artist = 'Zoë James',
     song = 'In the House',
@@ -125,20 +125,31 @@ export default function MyTrack({
         // setSelected(!selected);
         console.log('selected')
         console.log(selected)
+        setHeart(!heart)
 
-        if (selected !== 100) {
+        if (!heart) {
             console.log('adding track')
             AddToLikedPlaylist();
         }
-        if (selected == 100) {
+        else {
             console.log('deleting track')
             DeleteFromLikedPlaylist();
         }
     }
 
+    useEffect(() => {
+        console.log('selected?' + selected)
+        if (localStorage.getItem(`track #${selected}`) !== null) {
+            setHeart(true)
+        } else {
+            setHeart(false)
+        }
+
+    }, [heart])
 
 
-    return <TrackCont 
+
+    return <TrackCont
     >
         <TrackCont >
             {/* {content} */}
@@ -178,15 +189,15 @@ export default function MyTrack({
                 >{album}</Text>
             </Cont4>
 
-          
 
-        <Cont5>
-            <MyRadio shape={'heart'} inner={selected == 100 ? true : false} onClick={LikeTrack} />
-        </Cont5>
-        <Cont6
-            onClick={OpenOptions}>
-            <DropDownEdit />
-        </Cont6>
+
+            <Cont5>
+                <MyRadio shape={'heart'} inner={heart} onClick={LikeTrack} />
+            </Cont5>
+            <Cont6
+                onClick={OpenOptions}>
+                <DropDownEdit />
+            </Cont6>
 
         </TrackCont>
 

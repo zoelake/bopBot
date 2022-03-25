@@ -17,7 +17,7 @@ import Slider from '../comps/Slider'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
-import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, SetTracksAsUnfavourite, RemoveTrackFromPlaylist } from '../utils/backendFunctions';
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, RemoveTrackFromPlaylist } from '../utils/backendFunctions';
 
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -297,43 +297,46 @@ export default function Home() {
   }
 
 
-  function SetAndAddTrack(req) {
-    console.log('req')
-    console.log(req)
-    console.log('playlist name: ' + playlist)
-    setSelectedPlaylist(playlist)
-    AddTrackToPlaylist(selectedTrack, playlist)
-  }
+  // function SetAndAddTrack(req) {
+  //   console.log('req')
+  //   console.log(req)
+  //   console.log('playlist name: ' + playlist)
+  //   setSelectedPlaylist(playlist)
+  //   AddTrackToPlaylist(selectedTrack, playlist)
+  // }
 
   function setAsLiked(trackdata) {
-    SetTracksAsFavourite(trackdata)
-    AddTrackToLiked(trackdata)
-    console.log('THIS IS TRACK ID:')
+    console.log('liked')
     console.log(trackdata._id)
+    AddTrackToLiked(trackdata)
+    localStorage.setItem(`track #${trackdata._id}`, trackdata._id)
+
   }
 
   function setAsUnliked(trackdata) {
-    SetTracksAsUnfavourite(trackdata)
+    console.log('unliked')
+    console.log(trackdata._id)
+    localStorage.removeItem(`track #${trackdata._id}`)
     DeleteTrackFromLiked(trackdata)
 
-    const [newTracks, setNewTracks] = useState();
-    let loadedTracks = null;
-
-    function getTracks() {
-      console.log('connecting to database...')
-      axios.get('https://bopbot-backend.herokuapp.com/tracks')
-        .then((res) => {
-          console.log('here are your tracks! ' + res)
-          // setNewTracks(res)
-          loadedTracks = res.data
-          console.log(loadedTracks);
-
-        }).catch(e => {
-          console.log(e)
-        })
-    }
-
   }
+
+
+  function getTracks() {
+    console.log('connecting to database...')
+    axios.get('https://bopbot-backend.herokuapp.com/tracks')
+      .then((res) => {
+        console.log('here are your tracks! ' + res)
+        // setNewTracks(res)
+        loadedTracks = res.data
+        console.log(loadedTracks);
+
+      }).catch(e => {
+        console.log(e)
+      })
+  }
+
+
 
 
   useEffect(() => {
@@ -546,7 +549,7 @@ export default function Home() {
             {load ? <div>Loading...</div> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
-              selected={o.Canada}
+              selected={o._id}
               onTrackClick={() => router.push(o.Uri)}
               AddToLikedPlaylist={(obj) => setAsLiked(o)}
               DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
@@ -569,16 +572,17 @@ export default function Home() {
             {load ? <div>Loading...</div> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
-
+              selected={o._id}
               onTrackClick={() => router.push(o.Uri)}
-              AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+              AddToLikedPlaylist={(obj) => setAsLiked(o)}
+              DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
               OpenOptions={(obj) => handleTrackOptions(o)}
               artist={o.Artist}
               song={o.Title}
               album={o.Album}
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
             />)}
-            <BopBot />
+            {/* <BopBot /> */}
           </DndProvider>
         </TrackScoll>
 

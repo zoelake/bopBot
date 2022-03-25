@@ -20,7 +20,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
-import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, SetTracksAsUnfavourite, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
 import DropDownEdit from '../../comps/DropDownModal'
 import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
@@ -283,16 +283,20 @@ export default function User() {
 
     function setAsLiked(trackdata) {
         console.log('liked')
+        console.log(trackdata._id)
         AddTrackToLiked(trackdata)
-        SetTracksAsFavourite(trackdata)
+        localStorage.setItem(`track #${trackdata._id}`, trackdata._id)
+        // SetTracksAsFavourite(trackdata)
         // AddTrackToLiked(trackdata)
     }
 
     function setAsUnliked(trackdata) {
         console.log('unliked')
-        SetTracksAsUnfavourite(trackdata)
+        console.log(trackdata._id)
+        localStorage.removeItem(`track #${trackdata._id}`)
+        // SetTracksAsUnfavourite(trackdata)
         DeleteTrackFromLiked(trackdata)
-        RemoveFromThisPlaylist(trackdata, selectedPlaylist)
+        // RemoveFromThisPlaylist(trackdata, selectedPlaylist)
         // DeleteTrackFromLiked(trackdata)
     }
 
@@ -403,7 +407,7 @@ export default function User() {
                         }}>
                             {selectedPlaylist == 'likes' ? likedPlaylist.map((o, i) => <MyTrack
                                 key={i}
-                                selected={o.Canada}
+                                selected={o._id}
                                 onTrackClick={() => router.push(o.Uri)}
                                 AddToLikedPlaylist={(obj) => setAsLiked(o)}
                                 DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
@@ -416,7 +420,7 @@ export default function User() {
 
                             {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? selectedTracks.map((o, i) => <MyTrack
                                 key={i}
-                                selected={o.Canada}
+                                selected={o._id}
                                 onTrackClick={() => router.push(o.Uri)}
                                 AddToLikedPlaylist={(obj) => setAsLiked(o)}
                                 DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
