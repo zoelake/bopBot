@@ -32,7 +32,7 @@ const Page = styled.div`
   display:flex;
   flex-direction: row;
   margin:0;
-  justify-content: center;
+  justify-content: left;
   width: 100vw;
   position: absolute;
   height:95vh;
@@ -42,13 +42,13 @@ const Dashboard = styled.div`
     background-color: ${props => props.bg};
     height:45vh;
     padding:30px 10px 10px 60px;
-    display: flex;
-    justify-content:center ;
+
     /* border: 2px solid blue; */
     
 
     @media ${device.mobile}{
-
+        display: flex;
+        flex-direction: row;
     }
 
     @media ${device.tablet}{
@@ -144,7 +144,6 @@ export default function User() {
         }
         if (localStorage.getItem('email')) {
             setEmail(localStorage.getItem('email'))
-
         }
         useEffect(() => {
             getPlaylists()
@@ -196,7 +195,6 @@ export default function User() {
             }).catch(e => {
                 console.log(e)
             })
-
     }
 
     function getPlaylistById(id) {
@@ -219,8 +217,6 @@ export default function User() {
             })
     }
 
-
-
     //page functions
     function onDeleteClick() {
         setEditPlaylistView(false)
@@ -240,7 +236,6 @@ export default function User() {
         setSelectedPlaylistCover(playlist.img)
 
         console.log(selectedPlaylist, selectedPlaylistId, selectedPlaylistCover)
-
     }
 
 
