@@ -30,7 +30,7 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 
 const Page = styled.div`
   display:flex;
-  flex-direction: column;
+  flex-direction: row;
   margin:0;
   justify-content: center;
   width: 100vw;
