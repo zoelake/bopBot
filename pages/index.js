@@ -278,7 +278,6 @@ export default function Home() {
   const [selectedPlaylist, setSelectedPlaylist] = useState([])
 
 
-
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
     const playlist = localStorage.getItem('selectedPlaylist')

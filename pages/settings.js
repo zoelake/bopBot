@@ -26,6 +26,7 @@ const Page = styled.div`
   flex-direction: row;
   margin:0;
   justify-content: space-between;
+  height: 100%;
 `;
 
 const Dashboard = styled.div`
@@ -35,8 +36,7 @@ const Dashboard = styled.div`
     padding:30px 10px 10px 60px;
 
     @media ${device.mobile}{
-      padding:30px 10px 10px 0px;
-
+      
     }
 
     @media ${device.tablet}{
@@ -98,7 +98,23 @@ const LoginInput = styled.input`
     margin:5px;
     padding:0 10px;
     width:90%;
+
+
+    @media ${device.mobile}{
+      height: 35px;
+      width: 70%;
+      margin: 0px 5px 5px 0px;
+      
+    }
+
+    @media ${device.tablet}{
+    }
+
+    @media ${device.desktop}{
+       
+    }
 `;
+
 
 const ButtonCont = styled.div`
     display: flex;
@@ -109,7 +125,9 @@ const ButtonCont = styled.div`
 
 
 
-export default function Settings() {
+export default function Settings({
+  height="100%"
+}) {
 
   const router = useRouter();
 
@@ -367,15 +385,15 @@ export default function Settings() {
                 <button onClick={UpdateEmail}>Update email</button>
 
 
+          <MyButton
+            text='Logout'
+            onClick={HandleLogout}
+          />
               </QuartCont>
 
 
             </HalfCont>
           </Cont>
-          <MyButton
-            text='Logout'
-            onClick={HandleLogout}
-          />
 
 
         </Dashboard>
