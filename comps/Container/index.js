@@ -6,10 +6,12 @@ import { useRouter } from 'next/router'
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, SetTracksAsUnfavourite, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
 import { color } from '@mui/system';
 
-const dragCont = styled.div`
-    width: 100vw;
-`;
-
+const styles = {
+    height: '70vh',
+    overflowY: 'scroll',
+    overflowX: 'hidden',
+  }
+  //dont change!!!!!
 
 
 export const Container = ({ data = null}) => {
@@ -81,8 +83,10 @@ export const Container = ({ data = null}) => {
                 OpenOptions={(obj)=> handleTrackOptions(o)}
                 AddToLikedPlaylist={(obj)=> setAsLiked(o)}
                 DeleteFromLikedPlaylist={(obj)=>setAsUnliked(o)}
-                moveCard={moveCard}/>)}, []);
-        return <dragCont>
+                moveCard={moveCard}
+        
+                />)}, []);
+        return <div style={styles} >
             {cards !== null ? cards.map((o, i) => renderCard(o, i)) : <></>}
-         </dragCont>;
+         </div>;
 };

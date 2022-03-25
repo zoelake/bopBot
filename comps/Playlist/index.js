@@ -5,8 +5,8 @@ import { device } from "../../styles/mediaSizes";
 
 const Cont = styled.div`
     display:flex;
-    min-width: 155px;
-    height: 165px;
+    width: 125px;
+    height: 155px;
     justify-content: center;
     align-items: center;
     flex-direction:column;

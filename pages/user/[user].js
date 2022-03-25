@@ -9,7 +9,7 @@ import SbButton from '../../comps/SbButton'
 import Toggle from '../../comps/Toggle'
 import MyText from '../../comps/Text'
 import { themes } from '../../utils/variables'
-import { useTheme, useTitle, useHeader, useId, useEmail } from '../../utils/provider'
+import { useTheme, useTitle, useHeader, useId, useEmail, usePar } from '../../utils/provider'
 import styled from 'styled-components';
 import { device } from '../../styles/mediaSizes'
 import MySwitch from '../../comps/Switch'
@@ -62,21 +62,27 @@ const Page = styled.div`
   
 `;
 
-const Dashboard = styled.div`
+const Dashboard = styled.div`  
 
 
 
     @media ${device.mobile}{
-        background-color: #fad ;
+        background-color: ${props => props.bg};
         width: 100vw;
         height: 50vh;
+        padding-left: 3rem;
+        padding-top: 1rem;
+        /* justify-content:center ; */
+        
         /* flex-grow: 1; */
     }
 
     @media ${device.tablet}{
-        background-color: #fad ;
+        background-color: ${props => props.bg};
         width: 50vw;
         height:100vh;
+        padding-left: 10px;
+     
     }
 
     @media ${device.desktop}{
@@ -84,25 +90,29 @@ const Dashboard = styled.div`
         flex-direction: column ;
         background-color: ${props => props.bg};
         width:50vw;
-        /* height: 0vh; */
+        height: 90vh;
         padding:30px 10px 10px 60px;
-        justify-content: center;
-        /* background-color: red ; */
+        justify-content: flex-start;
+      
+        z-index: 1;
+
+        //min
     }
 `;
 
-const leftCont = styled.div`
-
-`;
 const leftTop = styled.div`
+
+
     @media ${device.mobile}{
-        background-color: #fad ;
         width: 100vw;
         height: 50vh;
+        /* background-color:#fad ; */
+        /* margin-left: 15px; */
         /* flex-grow: 1; */
     }
 
     @media ${device.tablet}{
+
     }
 
     @media ${device.desktop}{
@@ -116,14 +126,14 @@ const rigthCont = styled.div`
 
 
 const SbCont = styled.div`
+       overflow-y: scroll ;
+       justify-content: flex-start;
 
      @media ${device.mobile}{
         display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
+        flex-wrap: wrap;    
         height: 30vh;
-        width: 100vw;
-        overflow-y:scroll ;
+        width: 90vw;
         margin-top: 20px;
     }
 
@@ -131,42 +141,52 @@ const SbCont = styled.div`
 
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
         height: 50vh;
         width: 50vw;
-        overflow-y:scroll ;
+
         margin-top: 20px;
     }
 
     @media ${device.desktop}{
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
-        height: 25vh;
-        width: 500px;
-        overflow-y:scroll ;
+        height: 80vh;
+        width: 50vw;
         margin-top: 20px;
             }
 `;
 
 const SpaceCont = styled.div`
         display: flex;
-        width: 90%;
-        justify-content: space-between;
+        align-items:center ;
+
+        @media ${device.mobile}{
+            width: 100vw;
+            justify-content: space-between;
+
+        }
+
+        @media ${device.desktop}{
+            width: 40vw;
+            justify-content: space-between;
+
+        }
         `;
 
 const TracksCont = styled.div`
-
-
+    z-index: 1;
 
     @media ${device.mobile}{
-        background-color: #fad ;
+        display:flex;
+        flex-direction: column ;
+        align-items: center ;
         width: 100vw;
         height: 50vh;
+        /* justify-content:center ; */
     }
 
     @media ${device.tablet}{
-        background-color: #fad ;
+
         width: 50vw;
         height: 100vh;
 
@@ -174,12 +194,13 @@ const TracksCont = styled.div`
 
     @media ${device.desktop}{
         display:flex ;
-        flex-direction: row ;
-        padding:30px 10px 10px 60px;
+        flex-direction: column ;
+        /* padding:30px 10px 10px 60px; */
         justify-content:center ;
         width: 50vw;
         align-self: center;
         height: 100vh;
+        
        
     }
 `;
@@ -199,10 +220,27 @@ const RegCont = styled.div`
     }
     
 `;
+
+
 const Divider = styled.div`
     background-color: ${props => props.color};
-    width:100%;
+
     height:1px;
+
+    @media ${device.mobile}{
+        width: 80%;
+        justify-content: center;
+        height:1px;
+
+    }
+
+    @media ${device.tablet}{
+    }
+
+    @media ${device.desktop}{
+        width: 100%;
+       
+    }
 `;
 
 
@@ -238,7 +276,7 @@ export default function User() {
     const [editPlaylistView, setEditPlaylistView] = useState(false)
     const [addPlaylistView, setAddPlaylistView] = useState(false)
 
-
+    const { parSize } = usePar();
 
     //load user & playlist data on load
     if (typeof window !== 'undefined') {
@@ -449,6 +487,7 @@ export default function User() {
                     /> : <></>}
 
                     <leftTop>
+  
                             <MyText
                                 weight={500}
                                 lineHeight='0'
@@ -459,8 +498,9 @@ export default function User() {
                             <MyButton
                                 onClick={() => setAddPlaylistView(!addPlaylistView)}
                                 text='create playlist' 
-                                width= '250px'
+                                width= '200px'
                                 />
+                 
                     </leftTop>
             
                     <SbCont>
@@ -490,24 +530,24 @@ export default function User() {
 
                 </Dashboard>
                 <TracksCont>
-                    <rightCont>
-                    <SpaceCont>
-                        <MyText
-                            text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
-                            size={`${headerSize}px`}
-                            
-                        />
-                        <MyButton
-                            onClick={() => setEditPlaylistView(!editPlaylistView)}
-                            text={editPlaylistView ? 'close ' : 'edit'}
-                        />
+             
+                        <SpaceCont>
+                            <MyText
+                                text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
+                                size={`${headerSize}px`}
+                                
+                            />
+                            <MyButton
+                                onClick={() => setEditPlaylistView(!editPlaylistView)}
+                                text={editPlaylistView ? 'close ' : 'edit'}
+                            />
 
-                        <MyButton
-                            onClick={() => setAddedRecent(!addedRecent)}
-                            text={addedRecent ? 'See oldest ' : 'See newest'}
-                        />
+                            <MyButton
+                                onClick={() => setAddedRecent(!addedRecent)}
+                                text={addedRecent ? 'See oldest ' : 'See newest'}
+                            />
 
-                    </SpaceCont>
+                        </SpaceCont>
 
                     <Divider
                         color={themes[theme].text} />
@@ -537,7 +577,7 @@ export default function User() {
                         
                     </RegCont>
            
-                    </rightCont>
+         
                 </TracksCont>
 
 

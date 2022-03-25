@@ -34,12 +34,14 @@ const CardCont = styled.div`
     /* color: #fff; */
     cursor: move;
 
+
     
 `;
 
 
 const Cont3 = styled.div`
     width:100%;
+
 
 `;
 
