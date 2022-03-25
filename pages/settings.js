@@ -35,6 +35,7 @@ const Dashboard = styled.div`
     padding:30px 10px 10px 60px;
 
     @media ${device.mobile}{
+      padding:30px 10px 10px 0px;
 
     }
 
