@@ -17,12 +17,12 @@ const style = {
 export const Container = ({ data = null}) => {
     const router = useRouter();
 
-    //toggle models & views
-    const [selectedPlaylist, setSelectedPlaylist] = useState('likes')
     const [cards, setCards] = useState([]);
 
     useEffect(()=>{
-        if (data) {setCards(data)}
+        if(data) {
+            setCards(data)
+        }
      },[data])
   
     //page functions

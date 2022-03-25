@@ -31,37 +31,25 @@ const CardCont = styled.div`
     /* height: 51, */
     padding: 5px 5px;
     background-color: ${props=>props.bg};
-    color: #fff;
+    /* color: #fff; */
     cursor: move;
 
     
 `;
 
 
-const Cont2 = styled.div`
-    /* align-self: flex-start; */
-`;
-
 const Cont3 = styled.div`
-    width:450px;
+    width:60%;
 
 `;
 
 const Cont4 = styled.div`
     display: flex;
-    min-width: 250px;
-    margin-right:1rem ;
-    /* justify-content: flex-start ; */
-    /* background-color:#fad ; */
-    /* padding-right: 1rem ; */
+    width: 100%;
+
 `;
 
 const Dotcont = styled.div`
-    /* display: column; */
-    /* align-items:center ;
-    justify-content: center;
-    align-content:center; */
-
 
 `;
 
@@ -70,27 +58,22 @@ const BigCont = styled.div`
     flex-direction: row ;
     justify-content:flex-start ;
     align-items:center ;
-    width: 450px;
+    width:100%;
 `;
 
 const DurationCont = styled.div`
     width: 50px;
     margin-right:1rem ;
+
+
+
 `;
 
 const LikeIconCont = styled.div`
-    width: 50px;
-    /* margin-right:1rem ; */
+    /* width: 50px; */
+    margin: 2%;
 `;
 
-
-const Dots = styled.div`
-    background-color: ${props => props.col};
-    width:5px;
-    height:5px;
-    border-radius: 100%;
-    margin-bottom: 2px;
-`;
 
 
 // const style = {
@@ -199,11 +182,8 @@ export const Card = ({
             bg={themes[theme].heart}
             style={{ opacity }} 
             op={isDragging ? 0.5 : 1}
-            data-handler-id={handlerId}>
-			{/* <Cont2>
-            {id}
-            </Cont2> */}
-
+            data-handler-id={handlerId}
+            >
             <Cont3 onClick={onTrackClick}>
                 <MyText
                     text={song}

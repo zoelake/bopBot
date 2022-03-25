@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -8,14 +8,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import styled from "styled-components";
 
 import { themes } from "../../utils/variables";
-import { useTheme, usePar } from "../../utils/provider";
+import { useTheme, usePar,  } from "../../utils/provider";
 import { textAlign } from '@mui/system';
 
 
 const ButtonCont = styled.div`
-    /* display:flex; */
-    /* justify-content: center ;
-    align-content: center; */
     background-color:${props => props.bg};
     cursor: pointer;
 `;
@@ -34,11 +31,7 @@ export default function DropDownEdit({
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
-    console.log("event.currentTarget")
-    console.log(event)
     setAnchorEl(event.target);
-    console.log('anchorEl')
-    console.log(anchorEl)
   };
 
   const handleClose = () => {
@@ -46,6 +39,8 @@ export default function DropDownEdit({
   };
 
   const { theme } = useTheme();
+  // const ref = useRef(null);
+  //position dont delte
   const [userPlaylists, setUserPlaylists] = useState([])
 
 
@@ -97,6 +92,7 @@ export default function DropDownEdit({
         aria-label="more" //aria is for accessbility // default on mui
         id="long-button"
         color={themes[theme].dark}
+        
         //need to figure out theming
         aria-controls={open ? 'long-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}
@@ -110,14 +106,14 @@ export default function DropDownEdit({
       <Menu
         style={{
           position: 'relative',
-          left: '-200px',
         }}
         id="long-menu"
         MenuListProps={{
           'aria-labelledby': 'long-button',
         }}
+
         anchorEl={anchorEl}
-        open={open}
+        open={Boolean(anchorEl)}
         autoFocus={false}
         onClose={handleClose}
         PaperProps={{
