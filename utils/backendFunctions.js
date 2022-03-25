@@ -98,10 +98,10 @@ export function DeleteTrackFromLiked(trackdata) {
     })
 }
 
-export function CreateNewPlaylist(name) {
+export function CreateNewPlaylist(name, img) {
     const newPlaylist = {
         playlist_name: name,
-        playlist_img: 'https://placekitten.com/100/100',
+        playlist_img: img,
         user: localStorage.getItem('email')
     }
     axios.post('https://bopbot-backend.herokuapp.com/create-playlist', newPlaylist)
@@ -144,7 +144,7 @@ export function UpdatePlaylist(name, newName, img) {
     }
     console.log('playlist')
     console.log(playlist)
-    axios.post('https://bopbot-backend.herokuapp.com/update-playlist', playlist)
+    axios.post('http://localhost:3001/update-playlist', playlist)
         .then((res) => {
 
             console.log(res.data + ' was updated!')

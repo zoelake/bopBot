@@ -129,6 +129,7 @@ export default function User() {
     const [newPlaylistName, setNewPlaylistName] = useState(null)
     const [updatePlaylistName, setUpdatePlaylistName] = useState(null)
     const [selectedTracks, setSelectedTracks] = useState([])
+    const [clickedCover, setClickedCover] = useState(null)
 
     //toggle models & views
     const [selectedPlaylist, setSelectedPlaylist] = useState('likes')
@@ -246,16 +247,17 @@ export default function User() {
 
     function onAddSaveClick() {
         setAddPlaylistView(!addPlaylistView)
-        CreateNewPlaylist(newPlaylistName)
+        CreateNewPlaylist(newPlaylistName, localStorage.getItem('cover'))
         getPlaylists();
 
     }
 
+
     function onEditSaveClick() {
         setEditPlaylistView(!editPlaylistView)
         console.log('editing ' + selectedPlaylist)
-        console.log(selectedPlaylist, updatePlaylistName, playlistImg)
-        UpdatePlaylist(selectedPlaylist, updatePlaylistName, playlistImg)
+        console.log(selectedPlaylist, updatePlaylistName, localStorage.getItem('cover'))
+        UpdatePlaylist(selectedPlaylist, updatePlaylistName, localStorage.getItem('cover'))
         setSelectedPlaylist(updatePlaylistName)
         getPlaylists();
 
@@ -300,6 +302,7 @@ export default function User() {
         // DeleteTrackFromLiked(trackdata)
     }
 
+
     return (
         <>
             <Head>
@@ -318,7 +321,6 @@ export default function User() {
 
                     {/* if users clicks create playlist */}
                     {addPlaylistView ? <AddPlaylist
-                        coverSrc=''
                         handleChange={(e) => setNewPlaylistName(e.target.value)}
                         onXClick={() => setAddPlaylistView(false)}
                         onSaveClick={onAddSaveClick}
