@@ -35,9 +35,9 @@ import BopBot from '../comps/BopBot'
 
 const Page = styled.div`
   display:flex;
-  margin:0;
   width:100%;
   position: absolute;
+  height: 100%;
 
   bottom:0;
   /* border:8px solid green; */
@@ -47,83 +47,115 @@ const Page = styled.div`
     justify-content: center;
     align-items: center;
     height:100%;
-    max-height: 100%;
     top:20%;
   }
 
   @media ${device.tablet}{
     flex-direction: row;
-    justify-content: space-between;
-    height:95vh;
+    // height:95vh;
   }
 
   @media ${device.desktop}{
+    margin:0;
     flex-direction: row;
     justify-content: space-between;
-    height:95vh;
+    // height:95vh;
   }
 
 `;
 const Dashboard = styled.div`
-    height:95vh;
-    width:60%;
-
-    /* border:5px solid red; */
-
+    display: flex;
+    flex-direction: column;
+    flex-basis: auto;
+    justify-content: center;
 
     @media ${device.mobile}{
       width:90%;
-      padding:30px 0px 10px 0px;
-      margin-bottom: 200px;
+      margin-top: 700px;
+      // padding: 0px 0px 50px 0px;
+      // margin-bottom: 200px;
+
     }
 
     @media ${device.tablet}{
-      width:55%;
-      padding:30px 10px 10px 60px;
+      width: 100vw;
+      height:100vh;
+      margin-top: 200px;
     }
 
     @media ${device.desktop}{
-      width:55%;
-      padding:30px 10px 10px 60px;
+      padding-top: 150px;
+      height:100vh;
+      width:100vw;
+      margin-left: 20px;
+      margin-top: 10px;
     }
 `;
+
 const SbCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  height:auto;
-  justify-content: left;
-  /* padding-left: 30px; */
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+align-self: center;
+justify-content: center;
+
+
+  @media ${device.mobile}{
+
+    max-width: 100%;
+    height: 50vh;
+    flex-grow: 1;
+    // padding: 30px 0px 10px 5px;
+    // background-color: pink;
+
+    }
+
+    @media ${device.tablet}{
+      width: 100%;
+    }
+
+    @media ${device.desktop}{
+      max-width: 90%;
+      align-items: center;
+      align-self: center;
+      justify-content: center;
+      height: 50vh;
+      // background-color: pink;
+
+    }
 `;
+
+
 const SliderCont = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-self: center;
-  /* padding-left: 30px; */
-  /* border:2px solid green; */
-
+  height: 100vh;
 
   @media ${device.mobile}{
     width: 100%;
+    height: 70vh;
+    // padding: 30px 0px 10px 5px;
 
     }
 
     @media ${device.tablet}{
-      width: 60%;
-      padding: 0 10%;
+      width: 100%;
+      height: 100%;
     }
 
     @media ${device.desktop}{
-      width: 60%;
+      width: 70%;
       padding: 0 10%;
 
     }
 `;
 const TrackScoll = styled.div`
-  height:100%;
+  max-height: 80vh;
   overflow: scroll;
-  width: 20%;
+  width: 50%;
+  scrollbar-color: blue;
 `;
 const TracksCont = styled.div`
   display: flex;
@@ -131,42 +163,86 @@ const TracksCont = styled.div`
 
   height:95vh;
   justify-content: left;
-  /* border:2px solid green; */
+  border:2px solid green;
 
 
   @media ${device.mobile}{
-    width: 90%;
+      width: 90%;
 
-}
+  }
 
-@media ${device.tablet}{
-  width: 45%;
-  padding: 30px 0 0 30px;
-}
+  @media ${device.tablet}{
+    width: 45%;
+    padding: 30px 0 0 30px;
+  }
 
-@media ${device.desktop}{
-  width: 45%;
-  padding: 30px 0 0 30px;
-}
+  @media ${device.desktop}{
+    width: 45%;
+    padding: 30px 0 0 30px;
+  }
 
 `;
+
+const RightCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  width:  50vw;
+  height: 100vh;
+
+    @media ${device.mobile}{
+      width:90%;
+      height: 80vh;
+      // margin-bottom: 200px;
+    }
+
+    @media ${device.tablet}{
+      width:100%;
+      height: 100%;
+
+    }
+
+    @media ${device.desktop}{
+      width:50vw;
+      padding-top: 50px;
+      flex-grow: 1;
+    }
+`;
+
+const Tracks = styled.div`
+display: flex;
+flex-direction: column;
+
+     @media ${device.mobile}{
+        width:100vw;
+        height: 80vh;
+    }
+  
+      @media ${device.tablet}{
+        width:100%;
+        height: 100%;
+        // background-color: red;
+    }
+  
+      @media ${device.desktop}{
+        width:30vw;
+        height: 100vh;
+        padding:30px 10px 10px 60px;
+        flex-grow: 2;
+    }
+  
+`;
+
+const BotCont = styled.div`
+  display: flex;
+  flex-grow: 1; 
+  padding:30px 10px 10px 60px;
+`;
+
 const Divider = styled.div`
     background-color: ${props => props.color};
     align-self: center;
     width:1px;
-    height:90%;
-`;
-//please fix this styling lol
-const Model = styled.div`
-  width: 300px;
-  height:300px;
-  padding:5px;
-  position:absolute;
-  top:20%;
-  left:45%;
-  background-color: #fff;
-  color:black;
-  z-index:1000;
+    height:1250px;
 `;
 
 var timer = null;
@@ -533,7 +609,10 @@ export default function Home() {
 
         <Divider color={themes[theme].text} />
 
-        <TracksCont>
+        <RightCont>
+
+
+        <Tracks>
 
           <MyText
             text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
@@ -556,10 +635,10 @@ export default function Home() {
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
             />)}
           </TrackScoll>
-        </TracksCont>
+        </Tracks>
 
 
-        <TrackScoll>
+        <BotCont>
           <DndProvider backend={TouchBackend} options={{
             enableTouchEvents: false,
             enableMouseEvents: true
@@ -579,7 +658,9 @@ export default function Home() {
             />)}
             <BopBot />
           </DndProvider>
-        </TrackScoll>
+        </BotCont>
+
+        </RightCont>
 
         {/* <EditPlaylist /> */}
       </Page>
