@@ -26,7 +26,7 @@ import Dropzone from '../comps/Dropzone'
 import { v4 as uuidv4 } from 'uuid';
 
 import { io } from "socket.io-client";
-import TrackInfoDnd from '../comps/TrackInfoDnd'
+import TrackInfoDnd from '../comps/TrackInfoDND'
 import EditPlaylist from '../comps/EditPlaylistModal'
 import BopBot from '../comps/BopBot'
 
@@ -390,15 +390,7 @@ export default function Home() {
   const [users, setUsers] = useState({});
 
   useEffect(()=>{
-    // const socket = io("ws://example.com/my-namespace", {
-    //   reconnectionDelayMax: 10000,
-    //   auth: {
-    //     token: "123"
-    //   },
-    //   query: {
-    //     "my-key": "my-value"
-    //   }
-    // });
+ 
     const socket = io("http://localhost:8888");
 
     socket.on("init_user", (users) => {
@@ -562,13 +554,7 @@ export default function Home() {
             text='Music values'
             size={`${headerSize}px`}
           />
-          <SliderCont>
-            {/* {sliderValues.map((o, i, ev) => <Slider
-              text={o.title}
-              number={o.value}
-              value={o.value}
-              onChange={this.o.onChange}
-            />)} */}
+          <SliderCont>         
             <Slider text='Acounticness' number={acValue} value={acValue} onChange={(ev) => setAcValue(ev.target.value)} />
             <Slider text='Danceability' number={dncValue} value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
 
@@ -624,58 +610,11 @@ export default function Home() {
                 />)}
             </TrackScoll>
           
-            <Dropzone onDropItem={(item) => {
-                dndtrack[item.Title] = item;
-                setDndtrack({
-                  ...dndtrack
-                })
-              }}>
-              <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
-              {Object.values(dndtrack).map((o, i) => <MyTrack
-                type='boardtracks'
-                key={i}
-                artist={o.Artist}
-                song={o.Title}
-                album={o.Album}
-                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                trackpos={o.pos}
-                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
-                item={o}
-              />)}
-
-              <input type='text' onChange={(e)=>setTxt(e.target.value)} />
-              <button onClick={EmitToIO}>Join and Alert</button>
-              {msgs.map((o, i) => <div key={i} style={{backgroundColor: 'red', padding: 10}}>
-                {o}
-              </div>)}
-              
-            </Dropzone>
+            
+        <BopBot/>
           </DndProvider>
 
         </TracksCont>
-        
-
-        <TrackScoll>
-          <DndProvider backend={TouchBackend} options={{
-            enableTouchEvents: false,
-            enableMouseEvents: true
-          }}>
-          {/* <MyTrack /> */}
-          {load ? <div>Loading...</div> : <></>}
-          {tracks.map((o, i) => <MyTrack
-            key={i}
-
-            onTrackClick={() => router.push(o.Uri)}
-            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
-            OpenOptions={(obj) => handleTrackOptions(o)}
-            artist={o.Artist}
-            song={o.Title}
-            album={o.Album}
-            time={((o.duration_ms / 1000) / 60).toFixed(2)}
-          />)}
-        <BopBot />
-          </DndProvider>
-        </TrackScoll>
 
         {/* <EditPlaylist /> */}
       </Page>
