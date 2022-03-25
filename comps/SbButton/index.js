@@ -2,25 +2,48 @@ import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { usePar, useTheme, useSbSize } from "../../utils/provider";
 import { useEffect, useState } from "react";
+import { device } from "../../styles/mediaSizes";
 import MyText from "../Text";
 
 const Cont = styled.div`
-    width:${props => props.width}px;
-    height:${props => props.height}px;
+    display: flex;
     background-color: ${props => props.bg};
     color: ${props => props.color};
     justify-content: center;
-    display: flex;
     align-items: center;
-    border-radius:5px;
-    margin: 0 5px 5px 0;
-    box-shadow: ${props=>props.shadow};
 
 
     /* :hover {
         border: 2px solid ${props => props.borderHover};
     } */
     cursor: pointer;
+
+    @media ${device.mobile}{
+        width:70px;
+        height:70px;
+        border-radius:5px;
+        margin: 0 5px 5px 0;
+    
+        }
+
+    @media ${device.tablet}{
+        width:70px;
+        height:70px;
+        border-radius:5px;
+        margin: 0 5px 5px 0;
+
+    }
+
+    @media ${device.desktop}{
+        width:${props => props.width}px;
+        height:${props => props.height}px;
+        display: flex;
+        border-radius:5px;
+        margin: 0 5px 5px 0;
+        box-shadow: ${props=>props.shadow};
+
+
+    }
 `;
 
 export default function SbButton({
@@ -30,7 +53,7 @@ export default function SbButton({
     textCol,
     width,
     shadow = 'transparent',
-    height= "65"
+    height= "auto"
 }) {
 
     const { theme } = useTheme();

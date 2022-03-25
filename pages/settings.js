@@ -31,6 +31,7 @@ const Dashboard = styled.div`
       height:100%;
       width:100%;
       padding: 10px;
+      margin-top: 30px;
 
     }
 
@@ -117,10 +118,10 @@ const SectionTitle = styled.div`
 
 @media ${device.mobile}{
   display: flex;
-  height: 100px; 
+  height: 50px; 
   // flex-grow: 1;
-  width: 50%;
-  background-color: 
+  width: 100%;
+
   }
 
   @media ${device.tablet}{
@@ -128,7 +129,7 @@ const SectionTitle = styled.div`
     height: ${props => props.height}; 
     // flex-grow: 1;
     width: 50%;
-    background-color: 
+
   }
 
   @media ${device.desktop}{
@@ -136,7 +137,6 @@ const SectionTitle = styled.div`
     height: ${props => props.height}; 
     // flex-grow: 1;
     width: 50%;
-    background-color: 
   }
 
 `;
@@ -146,9 +146,8 @@ const SectionContent = styled.div`
   display: flex;
   flex-grow: 1;
   height: 300px; 
-  width: 50%;
+  width: 100%;
   flex-direction: column;  
-  
   }
 
   @media ${device.tablet}{
@@ -190,8 +189,8 @@ const AvatarCont = styled.div`
     @media ${device.mobile}{
       display: flex;
       flex-direction: row;
-      max-width: 200px;
-      height: 500px;
+      max-width: 100%;
+      height: 30%;
       justify-content: space-evenly;
       width: 50vw;
       padding: 0 10%;
@@ -227,8 +226,8 @@ const AvatarCont = styled.div`
 const AvatarTest = styled.div`
 
 @media ${device.mobile}{
-  height: 50px;
-  width: 50px;
+  height: 60px;
+  width: 60px;
   margin: 5px;
   background-color: black;
   
@@ -299,6 +298,7 @@ const NewPw = styled.div`
       flex-grow: 1;
       padding: 10px;
       flex-direction: column;
+
 `;
 
 const ConfirmPw = styled.div`

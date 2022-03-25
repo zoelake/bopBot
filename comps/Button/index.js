@@ -11,7 +11,7 @@ const Cont = styled.div`
         padding: 20px 8px;
         margin:5px;
         height: 10px;
-        width: 100px;
+        width: 100%;
 
 
     }
@@ -49,7 +49,7 @@ const Cont = styled.div`
 ;
 const Text = styled.p`
 @media ${device.mobile}{
-    font-size: 10px;
+    font-size: 13px;
 
 }
 

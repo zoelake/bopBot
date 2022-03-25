@@ -14,6 +14,30 @@ const Text = styled.p`
     :hover {
         color:${props=>props.hover};
     }
+
+    @media ${device.mobile}{
+        color: ${props=>props.color};
+        font-size: 15px;
+        line-height: ${props=>props.height};
+        padding:0;
+        font-weight: ${props=>props.weight};
+
+    }
+
+    @media ${device.tablet}{
+
+
+    }
+
+    @media ${device.desktop}{
+        color: ${props=>props.color};
+        font-size: ${props=>props.fontSize};
+        line-height: ${props=>props.height};
+        padding:0;
+        font-weight: ${props=>props.weight};
+
+
+    }
 `;
 
 export default function MyText({

@@ -32,9 +32,9 @@ import BopBot from '../comps/BopBot'
 
 const Page = styled.div`
   display:flex;
-  margin:0;
   width:100%;
   position: absolute;
+  height: 100%;
 
   bottom:0;
   /* border:8px solid green; */
@@ -49,69 +49,77 @@ const Page = styled.div`
 
   @media ${device.tablet}{
     flex-direction: row;
-    justify-content: space-between;
-    height:95vh;
+    // height:95vh;
   }
 
   @media ${device.desktop}{
+    margin:0;
     flex-direction: row;
     justify-content: space-between;
-    height:95vh;
+    // height:95vh;
   }
 
 `;
 const Dashboard = styled.div`
-  padding-top: 150px;
-  display: flex;
-  flex-direction: column;
-  flex-basis: auto;
-  justify-content: center;
-  height:100vh;
-  width:100vw;
-  margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-basis: auto;
+    justify-content: center;
 
+    @media ${device.mobile}{
+      width:90%;
+      margin-top: 700px;
+      // padding: 0px 0px 50px 0px;
+      // margin-bottom: 200px;
 
-    // @media ${device.mobile}{
-    //   width:90%;
-    //   padding:30px 0px 10px 0px;
-    //   margin-bottom: 200px;
-    // }
+    }
 
-    // @media ${device.tablet}{
-    //   width:55%;
-    //   padding:30px 10px 10px 60px;
-    // }
+    @media ${device.tablet}{
+      width: 100vw;
+      height:100vh;
+      margin-top: 200px;
+    }
 
-    // @media ${device.desktop}{
-    //   width:100vw;
-    // }
+    @media ${device.desktop}{
+      padding-top: 150px;
+      height:100vh;
+      width:100vw;
+      margin-left: 20px;
+      margin-top: 10px;
+    }
 `;
 
 const SbCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 100%;
-  align-items: center;
-  align-self: center;
-  justify-content: center;
-  height: 50vh;
-  // background-color: pink;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+align-self: center;
+justify-content: center;
 
-  // @media ${device.mobile}{
-  //   width: 100%;
 
-  //   }
+  @media ${device.mobile}{
 
-  //   @media ${device.tablet}{
-  //     width: 60%;
-  //     padding: 0 10%;
-  //   }
+    max-width: 100%;
+    height: 50vh;
+    flex-grow: 1;
+    // padding: 30px 0px 10px 5px;
+    // background-color: pink;
 
-  //   @media ${device.desktop}{
-  //     width: 60%;
-  //     padding: 0 10%;
+    }
 
-  //   }
+    @media ${device.tablet}{
+      width: 100%;
+    }
+
+    @media ${device.desktop}{
+      max-width: 90%;
+      align-items: center;
+      align-self: center;
+      justify-content: center;
+      height: 50vh;
+      // background-color: pink;
+
+    }
 `;
 
 
@@ -121,17 +129,17 @@ const SliderCont = styled.div`
   justify-content: space-evenly;
   align-self: center;
   height: 100vh;
-  // background-color: pink;
-
 
   @media ${device.mobile}{
     width: 100%;
+    height: 70vh;
+    // padding: 30px 0px 10px 5px;
 
     }
 
     @media ${device.tablet}{
-      width: 60%;
-      padding: 0 10%;
+      width: 100%;
+      height: 100%;
     }
 
     @media ${device.desktop}{
@@ -175,35 +183,49 @@ const TracksCont = styled.div`
 const RightCont = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   width:  50vw;
   height: 100vh;
-  padding-top: 50px;
 
-  // @media ${device.mobile}{
-  //   width:90%;
-  //   padding:30px 0px 10px 0px;
-  //   margin-bottom: 200px;
-  // }
+    @media ${device.mobile}{
+      width:90%;
+      height: 80vh;
+      // margin-bottom: 200px;
+    }
 
-  // @media ${device.tablet}{
-  //   width:55%;
-  //   padding:30px 10px 10px 60px;
-  // }
+    @media ${device.tablet}{
+      width:100%;
+      height: 100%;
 
-  // @media ${device.desktop}{
-  //   width:50vw;
-  //   padding:30px 10px 10px 60px;
-  // }
+    }
+
+    @media ${device.desktop}{
+      width:50vw;
+      padding-top: 50px;
+      flex-grow: 1;
+    }
 `;
 
 const Tracks = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 2;
-  width:100vw;
-  height: 100vh;
-  padding:30px 10px 10px 60px;
+display: flex;
+flex-direction: column;
+
+     @media ${device.mobile}{
+        width:100vw;
+        height: 80vh;
+    }
+  
+      @media ${device.tablet}{
+        width:100%;
+        height: 100%;
+        // background-color: red;
+    }
+  
+      @media ${device.desktop}{
+        width:30vw;
+        height: 100vh;
+        padding:30px 10px 10px 60px;
+        flex-grow: 2;
+    }
   
 `;
 
@@ -444,6 +466,8 @@ export default function Home() {
             size={`${headerSize}px`}
           />
 
+          {/* Sound Board Buttons */}
+
           <SbCont>
             <SbButton
               onClick={() => setGenre('country')}
@@ -545,6 +569,8 @@ export default function Home() {
               text='Trap' />
           </SbCont>
 
+        {/* Slider Container */}
+
           <MyText
             text='Music values'
             size={`${headerSize}px`}
@@ -573,6 +599,8 @@ export default function Home() {
             display: 'flex',
             justifyContent: 'right',
           }}>
+
+            {/* Generate Button */}
             <MyButton
               width={device.mobile ? '150px' : 'auto'}
               onClick={inputFilter}
@@ -583,7 +611,15 @@ export default function Home() {
 
         <Divider color={themes[theme].text} />
 
+      {/* Tracklist Side  */}
+
       <RightCont>
+
+        <MyText
+              text='Track List'
+              size={`${headerSize}px`}
+        />
+        
         <Tracks>
             <MyText
               text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
@@ -617,7 +653,7 @@ export default function Home() {
                     }}>
                     {/* <MyTrack /> */}
                     {load ? <div>Loading...</div> : <></>}
-                    {tracks.map((o, i) => <MyTrack
+                    {/* {tracks.map((o, i) => <MyTrack
                       key={i}
 
                       onTrackClick={() => router.push(o.Uri)}
@@ -627,7 +663,7 @@ export default function Home() {
                       song={o.Title}
                       album={o.Album}
                       time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                    />)}
+                    />)} */}
                     <BopBot />
                     </DndProvider>
                 

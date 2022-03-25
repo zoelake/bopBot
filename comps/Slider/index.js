@@ -17,7 +17,7 @@ const SliderCont = styled.div``;
 
 const SliderMain = styled(Slider)`
     color: ${props => props.barcolor};
-    height:200px;
+    height:100px;
     width:10px;
     & .MuiSlider-thumb {
         border-radius: 5px;

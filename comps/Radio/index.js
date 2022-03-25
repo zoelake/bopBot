@@ -7,8 +7,8 @@ import { device } from '../../styles/mediaSizes'
 const CircBorder = styled.div`
 
     @media ${device.mobile}{
-        width:20px;
-        height:20px;
+        width:25px;
+        height:25px;
         border-radius:100%;
         border:1px solid ${props => props.border};
         display: flex;
@@ -44,8 +44,8 @@ const CircInner = styled.div`
 
     @media ${device.mobile}{
         display: flex;
-        width:10px;
-        height:10px;
+        width:15px;
+        height:15px;
         border-radius:100%;
         background-color: ${props => props.col};
 

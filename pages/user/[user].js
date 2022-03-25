@@ -30,36 +30,57 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 
 const Page = styled.div`
   display:flex;
-  flex-direction: row;
-  margin: 10px;
-  padding: 10px;
   justify-content: center;
   width: 100vw;
-  position: relative;
-  height:95vh;
-  bottom:0;
+
+        @media ${device.mobile}{
+            width: 100%;
+            flex-direction: column;
+
+        }
+
+        @media ${device.tablet}{
+            height:100vh;
+            padding:30px 20px 10px 20px;
+            flex-grow: 1;
+            width: 50vw;
+        }
+
+        @media ${device.desktop}{
+            flex-direction: row;
+            margin: 10px;
+            padding: 10px;
+            position: relative;
+            height:95vh;
+            bottom:0;
+        
+        }
 `;
 
 const Dashboard = styled.div`
     display: flex;
     background-color: ${props => props.bg};
     flex-direction: column;
-    height:100vh;
-    padding:30px 20px 10px 20px;
-    display: flex;
     justify-content:center ;
-    flex-grow: 1;
-    width: 50vw;
     
 
     @media ${device.mobile}{
+        width: 100%;
 
     }
 
     @media ${device.tablet}{
+        height:100vh;
+        padding:30px 20px 10px 20px;
+        flex-grow: 1;
+        width: 50vw;
     }
 
     @media ${device.desktop}{
+        height:100vh;
+        padding:30px 20px 10px 20px;
+        flex-grow: 1;
+        width: 50vw;
        
     }
 `;
@@ -78,6 +99,13 @@ const Playlists = styled.div`
         //   position: relative;
         //   top:-20px;
 
+
+    @media ${device.mobile}{
+        width: 100%;
+        height: 250px;
+        
+    }
+
 `;
 
 const SliderCont = styled.div`
@@ -90,29 +118,88 @@ const SliderCont = styled.div`
 
 const Top = styled.div`
     display: flex;
-    flex-grow: 1;
-    flex-wrap: wrap;
-    width: 50vw;
-    height: 20vh;
     justify-content: flex-start;
     align-items: center;
+    height: 20vh;
+
+    @media ${device.mobile}{
+        width: 100%;
+        height: 20vh;
+        margin-top: 50px;
+        padding: 15px;
+        
+    }
+
+    @media ${device.tablet}{
+        flex-grow: 1;
+        flex-wrap: wrap;
+        width: 50vw;
+    }
+
+    @media ${device.desktop}{
+        flex-grow: 1;
+        flex-wrap: wrap;
+        width: 50vw;
+       
+    }
 
 `;
 
 const Middle = styled.div`
     display: flex;
-    flex-grow: 1;
-    flex-wrap: wrap;
-    width: 50vw;
-    justify-content: space-between;
+
+
+    @media ${device.mobile}{
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height 10vh;
+        padding: 20px;
+        margin: 20px 10px 10px 0px;
+        
+    }
+
+    @media ${device.tablet}{
+        flex-grow: 1;
+        flex-wrap: wrap;
+        width: 50vw;
+        justify-content: space-between;
+    }
+
+    @media ${device.desktop}{
+        flex-grow: 1;
+        flex-wrap: wrap;
+        width: 50vw;
+        justify-content: space-between;
+    }
 `;
 
 const SpaceCont = styled.div`
     display: flex;
-    width: 90%;
-    padding-left: 5px;
 
-    justify-content: space-between;
+    @media ${device.mobile}{
+        width: 100%;
+        height: 100px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+    }
+
+    @media ${device.tablet}{
+        width: 90%;
+        padding-left: 5px;
+    
+        justify-content: space-between;
+    }
+
+    @media ${device.desktop}{
+        width: 90%;
+        padding-left: 5px;
+    
+        justify-content: space-between;
+    }
 `;
 
 const Avatar = styled.div`
@@ -124,22 +211,62 @@ const Avatar = styled.div`
 
 const RightCont = styled.div`
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 50vw;
+    flex-direction: column;
+
+
+    @media ${device.mobile}{
+        width: 100%;
+        min-height: 50vh;
+        max-height: 100vh;
+        flex-direction: row;
+        align-items: center;
+        padding: 15px;
+        
+    }
+
+    @media ${device.tablet}{
+        height: 100vh;
+        width: 50vw;
+    }
+
+    @media ${device.desktop}{
+        height: 100vh;
+        width: 50vw;
+    }
 
 `;
 
 const TracksCont = styled.div`
     display: flex;
-    height:40%;
     flex-direction: column;
     /* position: absolute; */
     /* bottom:0; */
-    width:50vw;
-    margin-top: -50px;
+
+
+    @media ${device.mobile}{
+        width: 100%;
+        min-height: 50vh;
+        max-height: 100vh;
+        padding: 15px;
+        align-items: center;
+        
+    }
+
+    @media ${device.tablet}{
+        width:50vw;
+        margin-top: -50px;
+        height:40%;
+    }
+
+    @media ${device.desktop}{
+        width:50vw;
+        margin-top: -50px;
+        height:40%;
+    }
+
+
 `;
 const RegCont = styled.div`
     padding-left: 30px;
@@ -148,6 +275,11 @@ const Divider = styled.div`
     background-color: ${props => props.color};
     width:90%;
     height:1px;
+
+    @media ${device.mobile}{
+        width: 100%;
+        
+    }
 `;
 
 
