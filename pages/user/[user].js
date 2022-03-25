@@ -38,9 +38,10 @@ const Page = styled.div`
   margin:0;
   justify-content: center;
   width: 100vw;
-  position: absolute;
   height:95vh;
   bottom:0;
+
+  
 `;
 
 const Dashboard = styled.div`
