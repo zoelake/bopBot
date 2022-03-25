@@ -1,4 +1,4 @@
-
+import styled from 'styled-components';
 import { Card } from '../Card';
 import update from 'immutability-helper';
 import {useState, useCallback, useEffect} from 'react'
@@ -6,13 +6,11 @@ import { useRouter } from 'next/router'
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, SetTracksAsUnfavourite, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
 import { color } from '@mui/system';
 
+const dragCont = styled.div`
+    width: 100vw;
+`;
 
-const style = {
-    // width: 600,
-    // fontSize: `${parSize}`,
-    // backgroundColor:'#fad',
-    
-};
+
 
 export const Container = ({ data = null}) => {
     const router = useRouter();
@@ -84,7 +82,7 @@ export const Container = ({ data = null}) => {
                 AddToLikedPlaylist={(obj)=> setAsLiked(o)}
                 DeleteFromLikedPlaylist={(obj)=>setAsUnliked(o)}
                 moveCard={moveCard}/>)}, []);
-        return <div style={style}>
+        return <dragCont>
             {cards !== null ? cards.map((o, i) => renderCard(o, i)) : <></>}
-         </div>;
+         </dragCont>;
 };

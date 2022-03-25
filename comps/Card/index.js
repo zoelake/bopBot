@@ -26,8 +26,8 @@ const CardCont = styled.div`
     display: flex;
     /* flex-direction: row;
     justify-content: flex-start; */
-    height:50px;
-    width: 90%;
+    width: 100%;
+    height: 100px;
     /* height: 51, */
     padding: 5px 5px;
     background-color: ${props=>props.bg};
@@ -39,7 +39,7 @@ const CardCont = styled.div`
 
 
 const Cont3 = styled.div`
-    width:60%;
+    width:100%;
 
 `;
 

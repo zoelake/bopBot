@@ -12,7 +12,8 @@ const Cont = styled.div`
     flex-direction:column;
     border-radius:10px;
     padding: 15px 0px 10px 0px;
-    margin:0 40px 0 0 ;
+    margin: 1em;
+    //min added
     justify-content: space-around;
     background-color:${props => props.bg};
     color: ${props => props.color};
