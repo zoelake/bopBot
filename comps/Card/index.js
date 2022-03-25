@@ -179,7 +179,7 @@ export const Card = ({
     const opacity = isDragging ? 0 : 1;
     drag(drop(ref));
     return (<CardCont ref={ref} 
-            bg={themes[theme].heart}
+            bg={themes[theme].playbg}
             style={{ opacity }} 
             op={isDragging ? 0.5 : 1}
             data-handler-id={handlerId}

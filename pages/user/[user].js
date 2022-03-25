@@ -32,7 +32,6 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 
 
 
-
 const Page = styled.div`
   display:flex;
   flex-direction: column;
@@ -43,6 +42,7 @@ const Page = styled.div`
   height:95vh;
   bottom:0;
 `;
+
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
     height:45vh;
@@ -50,7 +50,6 @@ const Dashboard = styled.div`
     display: flex;
     justify-content:center ;
     /* border: 2px solid blue; */
-    
 
     @media ${device.mobile}{
 
