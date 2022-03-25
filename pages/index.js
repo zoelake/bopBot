@@ -41,6 +41,7 @@ const Page = styled.div`
   bottom:0;
   /* border:8px solid green; */
   @media ${device.mobile}{
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -505,7 +506,6 @@ export default function Home() {
               text='generate'
             />
           </div>
-
         </Dashboard>
 
         <Divider color={themes[theme].text} />
@@ -541,19 +541,7 @@ export default function Home() {
             enableTouchEvents: false,
             enableMouseEvents: true
           }}>
-            {/* <MyTrack /> */}
-            {load ? <div>Loading...</div> : <></>}
-            {tracks.map((o, i) => <MyTrack
-              key={i}
-
-              onTrackClick={() => router.push(o.Uri)}
-              AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
-              OpenOptions={(obj) => handleTrackOptions(o)}
-              artist={o.Artist}
-              song={o.Title}
-              album={o.Album}
-              time={((o.duration_ms / 1000) / 60).toFixed(2)}
-            />)}
+           
             <BopBot />
           </DndProvider>
         </TrackScoll>
