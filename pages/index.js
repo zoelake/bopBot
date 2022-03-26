@@ -26,7 +26,7 @@ import Dropzone from '../comps/Dropzone'
 import { v4 as uuidv4 } from 'uuid';
 
 import { io } from "socket.io-client";
-import TrackInfoDnd from '../comps/TrackInfoDnd'
+import TrackInfoDnd from '../comps/TrackInfoDND'
 import EditPlaylist from '../comps/EditPlaylistModal'
 import BopBot from '../comps/BopBot'
 
@@ -135,9 +135,9 @@ const TrackScoll = styled.div`
 `;
 const TracksCont = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction:column ;
 
-  height:95vh;
+  height:100%;
   justify-content: left;
   /* border:2px solid green; */
 
@@ -366,12 +366,7 @@ export default function Home() {
 
   }
 
-  // const [dndtrack, setDndtrack] = useState({
-  //   song: null,
-  //   time: null,
-  //   artist: null,
-  //   album: null
-  // });
+
 
   
 
@@ -515,7 +510,8 @@ export default function Home() {
             text='Music values'
             size={`${headerSize}px`}
           />
-          <SliderCont>
+
+          <SliderCont>         
             <Slider text='Acounticness' number={acValue} value={acValue} onChange={(ev) => setAcValue(ev.target.value)} />
             <Slider text='Danceability' number={dncValue} value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
 
@@ -572,6 +568,9 @@ export default function Home() {
             </TrackScoll>
 
           <BopBot />
+
+          
+            
           </DndProvider>
 
         </TracksCont>
