@@ -18,6 +18,8 @@ width: 60px;
 
 display: flex;
 justify-content: flex-end;
+position: absolute;
+top: 1000px;
 `;
 
 export default function BopBot() {

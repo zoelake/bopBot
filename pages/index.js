@@ -135,9 +135,9 @@ const TrackScoll = styled.div`
 `;
 const TracksCont = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction:column ;
 
-  height:95vh;
+  height:100%;
   justify-content: left;
   /* border:2px solid green; */
 
