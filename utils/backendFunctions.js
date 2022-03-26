@@ -80,6 +80,54 @@ export function AddTrackToLiked(trackdata) {
     })
 }
 
+export function SetTracksAsFavourite(trackdata) {
+    console.log(trackdata)
+    const info = {
+        user: localStorage.getItem('email'),
+        track: trackdata,
+    }
+    console.log(info)
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-set-favourite', info).then((res) => {
+        console.log('track now favourited')
+        console.log(res)
+
+    }).catch(e => {
+        console.log(e)
+    })
+}
+
+export function SetTracksAsUnfavourite(trackdata) {
+    console.log(trackdata)
+    const info = {
+        user: localStorage.getItem('email'),
+        track: trackdata,
+    }
+    console.log(info)
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-set-unfavourite', info).then((res) => {
+        console.log('track now favourited')
+        console.log(res)
+
+    }).catch(e => {
+        console.log(e)
+    })
+}
+
+export function RemoveFromThisPlaylist(trackdata, playlist) {
+    console.log(trackdata)
+    const info = {
+        user: localStorage.getItem('email'),
+        track: trackdata,
+        playlist_name: playlist
+    }
+    console.log(info)
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-update-unfavourite-playlist', info).then((res) => {
+        console.log('track now favourited')
+        console.log(res)
+
+    }).catch(e => {
+        console.log(e)
+    })
+}
 
 
 
@@ -144,7 +192,7 @@ export function UpdatePlaylist(name, newName, img) {
     }
     console.log('playlist')
     console.log(playlist)
-    axios.post('http://localhost:3001/update-playlist', playlist)
+    axios.post('https://bopbot-backend.herokuapp.com/update-playlist', playlist)
         .then((res) => {
 
             console.log(res.data + ' was updated!')

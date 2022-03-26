@@ -9,6 +9,7 @@ const Text = styled.p`
     line-height: ${props=>props.height};
     padding:0;
     font-weight: ${props=>props.weight};
+    word-wrap: break-word;
 
     :hover {
         color:${props=>props.hover};

@@ -26,9 +26,9 @@ import Dropzone from '../comps/Dropzone'
 import { v4 as uuidv4 } from 'uuid';
 
 import { io } from "socket.io-client";
-import TrackInfoDnd from '../comps/TrackInfoDnd'
 import EditPlaylist from '../comps/EditPlaylistModal'
 import BopBot from '../comps/BopBot'
+import TrackAddedPopup from '../comps/TrackAddedPopup'
 
 import Lottie from "lottie-react"
 import loadingAnim from '../public/lottie/bopbot_load.json'
@@ -43,49 +43,42 @@ const Page = styled.div`
   margin:0;
   width:100%;
   position: absolute;
-
   bottom:0;
+ 
   /* border:8px solid green; */
-
   @media ${device.mobile}{
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height:100%;
-    top:20%;
+    top:30%;
   }
-
   @media ${device.tablet}{
     flex-direction: row;
     justify-content: space-between;
     height:95vh;
   }
-
   @media ${device.desktop}{
     flex-direction: row;
     justify-content: space-between;
     height:95vh;
+    top:10%;
   }
-
 `;
 const Dashboard = styled.div`
     height:95vh;
     width:60%;
-
     /* border:5px solid red; */
-
-
     @media ${device.mobile}{
       width:90%;
       padding:30px 0px 10px 0px;
       margin-bottom: 200px;
     }
-
     @media ${device.tablet}{
       width:55%;
       padding:30px 10px 10px 60px;
     }
-
     @media ${device.desktop}{
       width:55%;
       padding:30px 10px 10px 60px;
@@ -106,22 +99,16 @@ const SliderCont = styled.div`
   align-self: center;
   /* padding-left: 30px; */
   /* border:2px solid green; */
-
-
   @media ${device.mobile}{
     width: 100%;
-
     }
-
     @media ${device.tablet}{
       width: 60%;
       padding: 0 10%;
     }
-
     @media ${device.desktop}{
       width: 60%;
       padding: 0 10%;
-
     }
 `;
 const TrackScoll = styled.div`
@@ -131,30 +118,23 @@ const TrackScoll = styled.div`
   width: auto;
 `;
 const TracksCont = styled.div`
-  /* display: flex; */
-  /* flex-direction:row ; */
-  /* flex-wrap: wrap; */
+  display: flex;
+  flex-wrap: wrap;
   height:95vh;
 
   justify-content: left;
   /* border:2px solid green; */
-
-
   @media ${device.mobile}{
     width: 90%;
-
 }
-
 @media ${device.tablet}{
   width: 45%;
   padding: 30px 0 0 30px;
 }
-
 @media ${device.desktop}{
   width: 45%;
   padding: 30px 0 0 30px;
 }
-
 `;
 const Divider = styled.div`
     background-color: ${props => props.color};
@@ -162,6 +142,7 @@ const Divider = styled.div`
     width:1px;
     height:90%;
 `;
+
 //please fix this styling lol
 const Model = styled.div`
   width: 300px;
@@ -227,7 +208,7 @@ export default function Home() {
     const user = {
       user: localStorage.getItem('email')
     }
-    axios.post('http://localhost:3001/get-playlists', user)
+    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
       .then((res) => {
         if (res.status == 200) {
           console.log('res.data.playlists')
@@ -237,7 +218,6 @@ export default function Home() {
       }).catch(e => {
         console.log(e)
       })
-
   }
 
   // //page functions
@@ -283,8 +263,6 @@ export default function Home() {
 
   const [selectedPlaylist, setSelectedPlaylist] = useState([])
 
-
-
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
     const playlist = localStorage.getItem('selectedPlaylist')
@@ -314,6 +292,8 @@ export default function Home() {
   function setAsLiked(trackdata) {
     SetTracksAsFavourite(trackdata)
     AddTrackToLiked(trackdata)
+    console.log('THIS IS TRACK ID:')
+    console.log(trackdata._id)
   }
 
   function setAsUnliked(trackdata) {
@@ -325,7 +305,7 @@ export default function Home() {
 
     function getTracks() {
       console.log('connecting to database...')
-      axios.get('http://localhost:3001/tracks')
+      axios.get('https://bopbot-backend.herokuapp.com/tracks')
         .then((res) => {
           console.log('here are your tracks! ' + res)
           // setNewTracks(res)
@@ -349,7 +329,7 @@ export default function Home() {
     const user = {
       user: localStorage.getItem('email')
     }
-    axios.post('http://localhost:3001/get-playlists', user)
+    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
       .then((res) => {
         if (res.status == 200) {
           console.log(res.data.playlists)
@@ -533,7 +513,6 @@ export default function Home() {
               text='generate'
             />
           </div>
-
         </Dashboard>
 
         <Divider color={themes[theme].text} />
@@ -566,29 +545,18 @@ export default function Home() {
         </TracksCont>
 
 
-        {/* <TrackScoll>
+        <TrackScoll>
           <DndProvider backend={TouchBackend} options={{
             enableTouchEvents: false,
             enableMouseEvents: true
           }}>
-          <MyTrack />
-          {load ? <div>Loading...</div> : <></>}
-          {tracks.map((o, i) => <MyTrack
-            key={i}
-
-            onTrackClick={() => router.push(o.Uri)}
-            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
-            OpenOptions={(obj) => handleTrackOptions(o)}
-            artist={o.Artist}
-            song={o.Title}
-            album={o.Album}
-            time={((o.duration_ms / 1000) / 60).toFixed(2)}
-          />)}
-        <BopBot />
+           
+            <BopBot />
           </DndProvider>
-        </TrackScoll> */}
+        </TrackScoll>
 
-       {/* <EditPlaylist /> */}
+        {/* <EditPlaylist /> */}
+        <TrackAddedPopup/>
       </Page>
     </>
   )

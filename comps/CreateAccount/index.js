@@ -40,7 +40,7 @@ const ButtonCont = styled.div`
 
 
 export default function CreateNewAccount({
-    switchView = () => {},
+    switchView = () => { },
 }) {
 
     const router = useRouter();
@@ -83,7 +83,8 @@ export default function CreateNewAccount({
             email: userEmail,
             password: userPassword
         }
-        axios.post('http://localhost:3001/signup', newUser)
+
+        axios.post('https://bopbot-backend.herokuapp.com/signup', newUser)
             .then((res) => {
                 if (res.status == 200) {
                     localStorage.setItem('name', res.data.name)

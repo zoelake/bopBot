@@ -222,7 +222,6 @@ z-index:1;
     
 `;
 
-
 const Divider = styled.div`
     background-color: ${props => props.color};
 
@@ -288,7 +287,6 @@ export default function User() {
         }
         if (localStorage.getItem('email')) {
             setEmail(localStorage.getItem('email'))
-
         }
         useEffect(() => {
             getPlaylists()
@@ -340,7 +338,6 @@ export default function User() {
             }).catch(e => {
                 console.log(e)
             })
-
     }
 
     function getPlaylistById(id) {
@@ -363,8 +360,6 @@ export default function User() {
             })
     }
 
-
-
     //page functions
     function onDeleteClick() {
         setEditPlaylistView(false)
@@ -384,7 +379,6 @@ export default function User() {
         setSelectedPlaylistCover(playlist.img)
 
         console.log(selectedPlaylist, selectedPlaylistId, selectedPlaylistCover)
-
     }
 
 

@@ -38,8 +38,10 @@ const Dashboard = styled.div`
     display: flex;
     flex-direction: column;
     max-width: 1200px;
+
     @media ${device.mobile}{
       padding:30px 10px 10px 10px;
+
     }
     @media ${device.tablet}{
     }
@@ -115,7 +117,9 @@ const LoginInput = styled.input`
     margin:5px;
     padding:0 10px;
     width: 200px;
+
     @media ${device.mobile}{
+
       
       }
       @media ${device.tablet}{

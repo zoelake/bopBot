@@ -103,7 +103,6 @@ export default function MyTrack({
     artist = 'Zoë James',
     song = 'In the House',
     album = 'Diffy',
-    playlists,
     selected = false,
     onTrackClick = () => { },
     OpenOptions = () => { },
