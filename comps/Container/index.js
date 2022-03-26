@@ -6,10 +6,17 @@ import { useRouter } from 'next/router'
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, SetTracksAsUnfavourite, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
 import { color } from '@mui/system';
 
+const Cont = styled.div`
+       &::-webkit-scrollbar {
+        width: 10px;
+        border: 1px solid pink;
+    }
+`;
 const styles = {
     height: '70vh',
     overflowY: 'scroll',
     overflowX: 'hidden',
+    zIndex:1,
   }
   //dont change!!!!!
 
@@ -86,7 +93,7 @@ export const Container = ({ data = null}) => {
                 moveCard={moveCard}
         
                 />)}, []);
-        return <div style={styles} >
+        return <Cont style={styles} >
             {cards !== null ? cards.map((o, i) => renderCard(o, i)) : <></>}
-         </div>;
+         </Cont>;
 };
