@@ -28,6 +28,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { io } from "socket.io-client";
 import EditPlaylist from '../comps/EditPlaylistModal'
 import BopBot from '../comps/BopBot'
+import TrackAddedPopup from '../comps/TrackAddedPopup'
 
 
 
@@ -547,6 +548,7 @@ export default function Home() {
         </TrackScoll>
 
         {/* <EditPlaylist /> */}
+        <TrackAddedPopup/>
       </Page>
     </>
   )
