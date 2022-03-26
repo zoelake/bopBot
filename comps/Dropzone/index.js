@@ -37,8 +37,9 @@ import { DndProvider } from 'react-dnd'
 // }
 
 const DropCont = styled.div`
-  height: 70vh;
-  background: ${({bg}) => bg || '#DDD'};
+
+  height: 100%;
+  /* background: ${({ bg }) => bg || '#DDD'}; */
   width: 100%;
 `;
 

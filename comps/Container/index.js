@@ -1,66 +1,67 @@
-import { useState, useCallback } from 'react';
+import styled from 'styled-components';
 import { Card } from '../Card';
 import update from 'immutability-helper';
-// import { usePar } from '../../utils/provider';
+import {useState, useCallback, useEffect} from 'react'
+import { useRouter } from 'next/router'
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, SetTracksAsUnfavourite, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
+import { color } from '@mui/system';
 
-// const parSize = usePar();
+const styles = {
+    height: '70vh',
+    overflowY: 'scroll',
+    overflowX: 'hidden',
+  }
+  //dont change!!!!!
 
-const style = {
-    width: 543,
-    // fontSize: `${parSize}`,
+
+export const Container = ({ data = null}) => {
+    const router = useRouter();
+
+    const [cards, setCards] = useState([]);
+
+    useEffect(()=>{
+        if(data) {
+            setCards(data)
+        }
+     },[data])
+  
+    //page functions
+    function handleTrackOptions(trackdata) {
+        console.log('opening model for options')
+        console.log(trackdata)
+        const playlist = localStorage.getItem('selectedPlaylist')
+        const request = localStorage.getItem('request')
+
+        if (request)
+            if (request == 'add') {
+                console.log(`adding ${trackdata.name} to ${playlist}`)
+                AddTrackToPlaylist(trackdata, playlist);
+            } else if (request == 'remove') {
+                console.log(`removing ${trackdata.name} from ${playlist}`)
+                RemoveTrackFromPlaylist(trackdata, playlist);
+            }
+
+        getPlaylists()
+    }
+
+    function setAsLiked(trackdata) {
+        console.log('liked')
+        AddTrackToLiked(trackdata)
+        SetTracksAsFavourite(trackdata)
+        // AddTrackToLiked(trackdata)
+    }
+
+    function setAsUnliked(trackdata) {
+        console.log('unliked')
+        SetTracksAsUnfavourite(trackdata)
+        DeleteTrackFromLiked(trackdata)
+        RemoveFromThisPlaylist(trackdata, selectedPlaylist)
+        // DeleteTrackFromLiked(trackdata)
+    }
 
 
-};
-
-export const Container = () => {
-    {
-        const [cards, setCards] = useState([
-            {
-                id: 1,
-                title: 'Beautiful Saihaj',
-                artist: 'Zoe James',
-                duration: '2:55',
-                albumname: 'Diffy'
-            },
-            {
-                id: 2,
-                title: 'Beauty and a Saihaj',
-                artist: 'Zoe James',
-                duration: '2:55',
-                albumname: 'Diffy'
-                
-            },
-            {
-                id: 3,
-                title: 'My Saihaj',
-                artist: 'Zoe James',
-                duration: '2:55',
-                albumname: 'Diffy'
-            },
-            {
-                id: 4,
-                title: 'Party in the Saihaj',
-                artist: 'Zoe James',
-                duration: '2:55',
-                albumname: 'Diffy'
-            },
-            {
-                id: 5,
-                title: 'Last Friday Saihaj',
-                artist: 'Zoe James',
-                duration: '2:55',
-                albumname: 'Diffy'
-            },
-            {
-                id: 6,
-                title: 'Eenie Saihaj',
-                artist: 'Zoe James',
-                duration: '2:55',
-                albumname: 'Diffy'
-            },
-
-        ]);
         const moveCard = useCallback((dragIndex, hoverIndex) => {
+            console.log(dragIndex, hoverIndex)
             setCards((prevCards) => update(prevCards, {
                 $splice: [
                     [dragIndex, 1],
@@ -68,20 +69,24 @@ export const Container = () => {
                 ],
             }));
         }, []);
-        const renderCard = useCallback((card, index) => {
-            return (<Card key=
-                {card.id} 
-                index={index} 
-                id={card.id} 
-                title={card.title} 
-                artist={card.artist}
-                duration={card.duration}
-                albumname={card.albumname}
-
-                moveCard={moveCard}/>);
-        }, []);
-        return (<>
-				<div style={style}>{cards.map((card, i) => renderCard(card, i))}</div>
-			</>);
-    }
+        const renderCard = useCallback((o, i) => {
+            return (<Card 
+                index={i}
+                id={o._id}
+                key={o._id+'-'+i} 
+                song={o.Title} 
+                selected={o.Canada}
+                artist={o.Artist}
+                time={((o.duration_ms  / 1000) / 60).toFixed(2)}
+                album={o.Album}
+                onTrackClick={() => router.push(o.Uri)}
+                OpenOptions={(obj)=> handleTrackOptions(o)}
+                AddToLikedPlaylist={(obj)=> setAsLiked(o)}
+                DeleteFromLikedPlaylist={(obj)=>setAsUnliked(o)}
+                moveCard={moveCard}
+        
+                />)}, []);
+        return <div style={styles} >
+            {cards !== null ? cards.map((o, i) => renderCard(o, i)) : <></>}
+         </div>;
 };

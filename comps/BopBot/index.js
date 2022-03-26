@@ -2,6 +2,8 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 //import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import Dropzone from '../Dropzone';
+import TrackInfoDnd from '../TrackInfoDnd';
+import MyTrack from '../TrackInfo';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -10,6 +12,10 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import MyTrack from '../TrackInfo';
 
+const Cont = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 const DndLogo = styled.img`
 height: 60px;
 width: 60px;
@@ -110,25 +116,29 @@ export default function BopBot({
             console.log('set dndtrack')
             console.log(dndtrack)
         }}>
-            <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
-            {/* {Object.values(dndtrack).map((o, i) => <MyTrack
-                type='boardtracks'
-                key={i}
-                artist={o.Artist}
-                song={o.Title}
-                album={o.Album}
-                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                trackpos={o.pos}
-                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
-                item={o}
-              />)} */}
+            <Cont>
 
+            <DndLogo src={'/BopBotLogo.svg'}>
+
+                </DndLogo>
+            {Object.values(dndtrack).map((o, i) => <MyTrack
+                type='boardtracks'
+                key={i}
+                artist={o.Artist}
+                song={o.Title}
+                album={o.Album}
+                time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                trackpos={o.pos}
+                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
+                item={o}
+                />)}
 
             <input type='text' onChange={(e) => setTxt(e.target.value)} />
             <button onClick={EmitToIO}>Join and Alert</button>
             {msgs.map((o, i) => <div key={i} style={{ backgroundColor: 'red', padding: 10 }}>
                 {o}
             </div>)}
+                </Cont>
 
         </Dropzone>
     )

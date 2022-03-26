@@ -9,45 +9,206 @@ import SbButton from '../../comps/SbButton'
 import Toggle from '../../comps/Toggle'
 import MyText from '../../comps/Text'
 import { themes } from '../../utils/variables'
-import { useTheme, useTitle, useHeader, useId, useEmail } from '../../utils/provider'
+import { useTheme, useTitle, useHeader, useId, useEmail, usePar } from '../../utils/provider'
 import styled from 'styled-components';
 import { device } from '../../styles/mediaSizes'
 import MySwitch from '../../comps/Switch'
 import Slider from '../../comps/Slider'
 import UserInfo from '../../comps/UserInfo'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback} from 'react'
+import { useDrag, useDrop } from 'react-dnd';
+
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
 import DropDownEdit from '../../comps/DropDownModal'
+
+import { Container } from '../../comps/Container'
 import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 
 
 
-
 const Page = styled.div`
-  display:flex;
-  flex-direction: column;
-  margin:0;
-  justify-content: center;
-  width: 100vw;
-  position: absolute;
-  height:95vh;
-  bottom:0;
-`;
-const Dashboard = styled.div`
-    background-color: ${props => props.bg};
-    height:45vh;
-    padding:30px 10px 10px 60px;
-    display: flex;
-    justify-content:center ;
-    /* border: 2px solid blue; */
+
+
+  @media ${device.mobile}{
+      display: flex;
+      flex-direction: column;
+      align-items:center ;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    @media ${device.tablet}{
+      display: flex;
+      flex-direction: row;
+      align-items:center ;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    @media ${device.desktop}{
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100vw;
+        height:100vh;
     
+    }
+  
+`;
+
+const Dashboard = styled.div`  
+
+
 
     @media ${device.mobile}{
+        background-color: ${props => props.bg};
+        width: 100vw;
+        height: 50vh;
+        padding-left: 3rem;
+        padding-top: 1rem;
+        /* justify-content:center ; */
+        
+        /* flex-grow: 1; */
+    }
+
+    @media ${device.tablet}{
+        background-color: ${props => props.bg};
+        width: 50vw;
+        height:100vh;
+        padding-left: 10px;
+     
+    }
+
+    @media ${device.desktop}{
+        display: flex;
+        flex-direction: column ;
+        background-color: ${props => props.bg};
+        width:50vw;
+        height: 90vh;
+        padding:30px 10px 10px 60px;
+        justify-content: flex-start;
+      
+        z-index: 1;
+
+        //min
+    }
+`;
+
+const leftTop = styled.div`
+
+
+    @media ${device.mobile}{
+        width: 100vw;
+        height: 50vh;
+        /* background-color:#fad ; */
+        /* margin-left: 15px; */
+        /* flex-grow: 1; */
+    }
+
+    @media ${device.tablet}{
+
+    }
+
+    @media ${device.desktop}{
+       
+    }
+
+`;
+
+const rigthCont = styled.div`
+`;
+
+
+const SbCont = styled.div`
+       overflow-y: scroll ;
+       justify-content: flex-start;
+
+     @media ${device.mobile}{
+        display: flex;
+        flex-wrap: wrap;    
+        height: 30vh;
+        width: 90vw;
+        margin-top: 20px;
+    }
+
+    @media ${device.tablet}{
+
+        display: flex;
+        flex-wrap: wrap;
+        height: 50vh;
+        width: 50vw;
+
+        margin-top: 20px;
+    }
+
+    @media ${device.desktop}{
+        display: flex;
+        flex-wrap: wrap;
+        height: 80vh;
+        width: 50vw;
+        margin-top: 20px;
+            }
+`;
+
+const SpaceCont = styled.div`
+        display: flex;
+        align-items:center ;
+
+        @media ${device.mobile}{
+            width: 100vw;
+            justify-content: space-between;
+
+        }
+
+        @media ${device.desktop}{
+            width: 40vw;
+            justify-content: space-between;
+
+        }
+        `;
+
+const TracksCont = styled.div`
+    z-index: 1;
+
+    @media ${device.mobile}{
+        display:flex;
+        flex-direction: column ;
+        align-items: center ;
+        width: 100vw;
+        height: 50vh;
+        /* justify-content:center ; */
+    }
+
+    @media ${device.tablet}{
+
+        width: 50vw;
+        height: 100vh;
+
+    }
+
+    @media ${device.desktop}{
+        display:flex ;
+        flex-direction: column ;
+        /* padding:30px 10px 10px 60px; */
+        justify-content:center ;
+        width: 50vw;
+        align-self: center;
+        height: 100vh;
+        
+       
+    }
+`;
+
+const RegCont = styled.div`
+
+    @media ${device.mobile}{
+        width: 100vw;
 
     }
 
@@ -57,51 +218,31 @@ const Dashboard = styled.div`
     @media ${device.desktop}{
        
     }
+    
 `;
-const SbCont = styled.div`
-  display: flex;
-  /* justify-content: space-between; */
-  align-items: center;
-  padding-left: 30px;
-  white-space: nowrap;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  height:230px;
-  padding-left: 30px;
-  position: relative;
-  top:-20px;
-`;
-const SliderCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 750px;
-  justify-content: space-evenly;
-  padding-left: 30px;
-`;
-const SpaceCont = styled.div`
-display: flex;
-width: 90%;
-padding-left: 5px;
 
-justify-content: space-between;
-`;
-const TracksCont = styled.div`
-    height:40%;
-    /* border:2px solid red; */
-    /* position: absolute; */
-    /* bottom:0;
-    left:10px; */
-    align-self: center;
-    width:80%;
-`;
-const RegCont = styled.div`
-  padding-left: 30px;
-`;
+
 const Divider = styled.div`
     background-color: ${props => props.color};
-    width:90%;
+
     height:1px;
+
+    @media ${device.mobile}{
+        width: 80%;
+        justify-content: center;
+        height:1px;
+
+    }
+
+    @media ${device.tablet}{
+    }
+
+    @media ${device.desktop}{
+        width: 100%;
+       
+    }
 `;
+
 
 
 export default function User() {
@@ -136,7 +277,7 @@ export default function User() {
     const [editPlaylistView, setEditPlaylistView] = useState(false)
     const [addPlaylistView, setAddPlaylistView] = useState(false)
 
-
+    const { parSize } = usePar();
 
     //load user & playlist data on load
     if (typeof window !== 'undefined') {
@@ -233,9 +374,11 @@ export default function User() {
     function handlePlaylistClick(playlist) {
         //sets currently selected playlist
         const { tracks } = playlist;
+        console.log('tracks')
         console.log(tracks)
         setSelectedTracks(tracks)
-
+        console.log('selectedTracks')
+        console.log(selectedTracks)
         setSelectedPlaylist(playlist.name)
         setSelectedPlaylistId(playlist._id)
         setSelectedPlaylistCover(playlist.img)
@@ -302,6 +445,17 @@ export default function User() {
         // DeleteTrackFromLiked(trackdata)
     }
 
+    // const ref = useRef(null);
+    // const [selected, setSelected] = useState(false)
+
+    // const moveCard = useCallback((dragIndex, hoverIndex) => {
+    //     setCards((prevCards) => update(prevCards, {
+    //         $splice: [
+    //             [dragIndex, 1],
+    //             [hoverIndex, 0, prevCards[dragIndex]],
+    //         ],
+    //     }));
+    // }, []);
 
     return (
         <>
@@ -310,7 +464,9 @@ export default function User() {
                 <meta name="description" content="Generated by create next app" />
                 <link rel="icon" href="#" />
             </Head>
+            <navCont>
             <NavBar />
+            </navCont>
             <Page>
 
                 <Dashboard
@@ -335,18 +491,23 @@ export default function User() {
                         onDeleteClick={onDeleteClick}
                     /> : <></>}
 
+                    <leftTop>
+  
+                            <MyText
+                                weight={500}
+                                lineHeight='0'
+                                text={`Your playlists`}
+                                size={`${titleSize}px`}
+                            />
 
-                    <MyText
-                        weight={500}
-                        lineHeight='0'
-                        text={`Your playlists`}
-                        size={`${titleSize}px`}
-                    />
-
-                    <MyButton
-                        onClick={() => setAddPlaylistView(!addPlaylistView)}
-                        text='create playlist' />
-
+                            <MyButton
+                                onClick={() => setAddPlaylistView(!addPlaylistView)}
+                                text='create playlist' 
+                                width= '200px'
+                                />
+                 
+                    </leftTop>
+            
                     <SbCont>
                         <Playlist
                             text='likes'
@@ -366,37 +527,32 @@ export default function User() {
                             color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
 
                         />)
-                            : <Playlist
-                                key={i}
-                                cover='/playlistLiked.png'
-                                onClick={() => setSelectedPlaylist('liked')}
-                                bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
-                                color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
-                                text='Loading'
-                            />
+                            : <></>
                         }
 
 
                     </SbCont>
+
                 </Dashboard>
                 <TracksCont>
+             
+                        <SpaceCont>
+                            <MyText
+                                text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
+                                size={`${headerSize}px`}
+                                
+                            />
+                            <MyButton
+                                onClick={() => setEditPlaylistView(!editPlaylistView)}
+                                text={editPlaylistView ? 'close ' : 'edit'}
+                            />
 
-                    <SpaceCont>
-                        <MyText
-                            text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
-                            size={`${headerSize}px`}
-                        />
-                        <MyButton
-                            onClick={() => setEditPlaylistView(!editPlaylistView)}
-                            text={editPlaylistView ? 'close ' : 'edit'}
-                        />
+                            <MyButton
+                                onClick={() => setAddedRecent(!addedRecent)}
+                                text={addedRecent ? 'See oldest ' : 'See newest'}
+                            />
 
-                        <MyButton
-                            onClick={() => setAddedRecent(!addedRecent)}
-                            text={addedRecent ? 'See oldest ' : 'See newest'}
-                        />
-
-                    </SpaceCont>
+                        </SpaceCont>
 
                     <Divider
                         color={themes[theme].text} />
@@ -407,38 +563,28 @@ export default function User() {
                             enableTouchEvents: false,
                             enableMouseEvents: true
                         }}>
-                            {selectedPlaylist == 'likes' ? likedPlaylist.map((o, i) => <MyTrack
-                                key={i}
-                                selected={o._id}
-                                onTrackClick={() => router.push(o.Uri)}
-                                AddToLikedPlaylist={(obj) => setAsLiked(o)}
-                                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-                                OpenOptions={(obj) => handleTrackOptions(o)}
-                                artist={o.Artist}
-                                song={o.Title}
-                                album={o.Album}
-                                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                            />) : <></>}
+                            {selectedPlaylist == 'likes' ? 
+                            <Container
+                            data={likedPlaylist}
+                            // moveCard={moveCard}
+                        
+                            /> : <></>}
 
-                            {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? selectedTracks.map((o, i) => <MyTrack
-                                key={i}
-                                selected={o._id}
-                                onTrackClick={() => router.push(o.Uri)}
-                                AddToLikedPlaylist={(obj) => setAsLiked(o)}
-                                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-                                OpenOptions={(obj) => handleTrackOptions(o)}
-                                artist={o.Artist}
-                                song={o.Title}
-                                album={o.Album}
-                                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                            />) : <></>}
+                            {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? <Container
+                                data={selectedTracks}
+                                // moveCard={moveCard}
+                              
+                            /> : <></>}
 
-
+                        
 
                         </DndProvider>
+                        
                     </RegCont>
-
+           
+         
                 </TracksCont>
+
 
             </Page>
         </>

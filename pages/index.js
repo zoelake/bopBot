@@ -29,6 +29,10 @@ import { io } from "socket.io-client";
 import EditPlaylist from '../comps/EditPlaylistModal'
 import BopBot from '../comps/BopBot'
 
+import Lottie from "lottie-react"
+import loadingAnim from '../public/lottie/bopbot_load.json'
+//lottie
+
 
 
 
@@ -121,14 +125,16 @@ const SliderCont = styled.div`
 `;
 const TrackScoll = styled.div`
   height:100%;
+  /* background-color: #fad; */
   overflow: scroll;
-  width: 20%;
+  width: auto;
 `;
 const TracksCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-
+  /* display: flex; */
+  /* flex-direction:row ; */
+  /* flex-wrap: wrap; */
   height:95vh;
+
   justify-content: left;
   /* border:2px solid green; */
 
@@ -545,7 +551,9 @@ export default function Home() {
 
           {/* loaded tracks from api call */}
           <TrackScoll>
-            {load ? <div>Loading...</div> : <></>}
+            {load ? <Lottie 
+            animationData={loadingAnim}
+            /> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
               selected={o._id}
@@ -562,30 +570,29 @@ export default function Home() {
         </TracksCont>
 
 
-        <TrackScoll>
+        {/* <TrackScoll>
           <DndProvider backend={TouchBackend} options={{
             enableTouchEvents: false,
             enableMouseEvents: true
           }}>
-            {/* <MyTrack /> */}
-            {load ? <div>Loading...</div> : <></>}
-            {tracks.map((o, i) => <MyTrack
-              key={i}
-              selected={o._id}
-              onTrackClick={() => router.push(o.Uri)}
-              AddToLikedPlaylist={(obj) => setAsLiked(o)}
-              DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-              OpenOptions={(obj) => handleTrackOptions(o)}
-              artist={o.Artist}
-              song={o.Title}
-              album={o.Album}
-              time={((o.duration_ms / 1000) / 60).toFixed(2)}
-            />)}
-            {/* <BopBot /> */}
-          </DndProvider>
-        </TrackScoll>
+          <MyTrack />
+          {load ? <div>Loading...</div> : <></>}
+          {tracks.map((o, i) => <MyTrack
+            key={i}
 
-        {/* <EditPlaylist /> */}
+            onTrackClick={() => router.push(o.Uri)}
+            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
+            OpenOptions={(obj) => handleTrackOptions(o)}
+            artist={o.Artist}
+            song={o.Title}
+            album={o.Album}
+            time={((o.duration_ms / 1000) / 60).toFixed(2)}
+          />)}
+        <BopBot />
+          </DndProvider>
+        </TrackScoll> */}
+
+       {/* <EditPlaylist /> */}
       </Page>
     </>
   )

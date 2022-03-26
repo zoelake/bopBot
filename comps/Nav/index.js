@@ -17,7 +17,8 @@ const Container = styled.nav`
     align-content: center;
     margin:0;
     width: 100%;
-    position:absolute;
+    /* position:absolute; */
+    //min's change
     top:0;
     padding:5px 0px;
     z-index:999;
