@@ -42,7 +42,7 @@ const Page = styled.div`
   display:flex;
   margin:0;
   width:100%;
-  position: absolute;
+  /* position: absolute; */
   bottom:0;
  
   /* border:8px solid green; */

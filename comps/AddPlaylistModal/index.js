@@ -7,7 +7,19 @@ import SbButton from "../SbButton";
 import MyButton from "../Button";
 import { Carousel } from 'react-responsive-carousel';
 
-
+const Page = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .3);
+    /* overflow: auto; */
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    position: absolute;
+`;
 
 const Cont = styled.div`
     width:567px;
@@ -72,6 +84,7 @@ const AddPlaylist = ({
     handleChange = () => { },
 }) => {
     return (
+    <Page>
         <Cont>
             <TopCont>
                 <EPText>Create new Playlist</EPText>
@@ -113,7 +126,7 @@ const AddPlaylist = ({
             <MyButton
                 onClick={onSaveClick}
                 text="Save"
-                width="20%"
+                width="80px;"
                 style={{ position: 'relative', left: '70%' }}
             />
 
@@ -121,6 +134,7 @@ const AddPlaylist = ({
 
 
         </Cont>
+        </Page>
     );
 }
 

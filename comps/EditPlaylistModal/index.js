@@ -154,13 +154,13 @@ const EditPlaylist = ({
                 <MyButton
                     onClick={onDeleteClick}
                     text="Delete"
-                    width="20%"
+                    width="80px"
                 // style={{ position: 'relative', left: '70%' }}
                 />
                 <MyButton
                     onClick={onSaveClick}
                     text="Save"
-                    width="20%"
+                    width="80px"
                 // style={{ position: 'relative', left: '70%' }}
                 />
             </ButtonCont>
