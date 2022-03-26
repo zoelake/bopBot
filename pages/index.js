@@ -30,6 +30,10 @@ import TrackInfoDnd from '../comps/TrackInfoDnd'
 import EditPlaylist from '../comps/EditPlaylistModal'
 import BopBot from '../comps/BopBot'
 
+import Lottie from "lottie-react"
+import loadingAnim from '../public/lottie/bopbot_load.json'
+//lottie
+
 
 
 
@@ -543,7 +547,9 @@ export default function Home() {
 
           {/* loaded tracks from api call */}
           <TrackScoll>
-            {load ? <div>Loading...</div> : <></>}
+            {load ? <Lottie 
+            animationData={loadingAnim}
+            /> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
               selected={o.Canada}

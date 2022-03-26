@@ -13,7 +13,7 @@ import DropDownEdit from '../DropDownModal';
 
 const Text = styled.p`
     color: ${props => props.color};
-    font-size: ${props => props.fontSize};
+    font-size: ${props => props.size};
     margin:0;
     padding:0;
 
@@ -27,9 +27,9 @@ const CardCont = styled.div`
     /* flex-direction: row;
     justify-content: flex-start; */
     width: 100%;
-    height: 100px;
+    height: 85px;
     /* height: 51, */
-    padding: 5px 5px;
+    /* padding: 5px 5px; */
     background-color: ${props=>props.bg};
     /* color: #fff; */
     cursor: move;
@@ -205,6 +205,7 @@ export const Card = ({
             <DurationCont>
                 <Text
                     color={themes[theme].text}
+     
                     >
                     {time}
                 </Text>
@@ -213,6 +214,7 @@ export const Card = ({
             <Cont4>
                 <Text
                     color={themes[theme].text}
+                    
                     >
                     {album}
                 </Text>
