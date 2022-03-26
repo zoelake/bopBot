@@ -2,7 +2,6 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 //import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import Dropzone from '../Dropzone';
-import TrackInfoDnd from '../TrackInfoDnd';
 import MyTrack from '../TrackInfo';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -10,7 +9,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { io } from "socket.io-client";
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import MyTrack from '../TrackInfo';
 
 const Cont = styled.div`
     display: flex;
