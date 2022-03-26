@@ -27,7 +27,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { io } from "socket.io-client";
 import EditPlaylist from '../comps/EditPlaylistModal'
-import BopBot from '../comps/BopBot'
 
 import Lottie from "lottie-react"
 import loadingAnim from '../public/lottie/bopbot_load.json'
@@ -578,7 +577,6 @@ export default function Home() {
               />)}
             </TrackScoll>
 
-          <BopBot />
 
           
             
