@@ -105,7 +105,7 @@ export default function DropDownEdit({
       </ButtonCont>
       <Menu
         style={{
-          position: 'relative',
+          position: 'absolute',
         }}
         id="long-menu"
         MenuListProps={{
@@ -122,8 +122,8 @@ export default function DropDownEdit({
             width: '200px',
             color: '#fff',
             padding: '10px',
-
             backgroundColor: themes[theme].heart,
+            zIndex: 1,
 
           },
         }}
