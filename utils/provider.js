@@ -131,5 +131,3 @@ export const useToken = () => {
     const { token, setToken } = useContext(MyThemeContext);
     return { token, setToken };
 }
-
-
