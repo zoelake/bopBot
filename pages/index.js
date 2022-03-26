@@ -373,45 +373,7 @@ export default function Home() {
   //   album: null
   // });
 
-  const [dndtrack, setDndtrack] = useState(false);
-
-
-
-  const [mySoc, setMySoc] = useState(null);
-
-  const [txt, setTxt] = useState('');
-
-  const [msgs, setMsgs] = useState([]);
-
-  const [users, setUsers] = useState({});
-
-  useEffect(() => {
-    const socket = io("http://localhost:8888");
-
-    socket.on("init_user", (users) => {
-      // set the user into the object so you store the users
-      // console.log(users);
-      setUsers(users);
-    })
-
-    socket.on("joined", (id, item) => {
-      setMsgs(() => [
-        `${id} is now playing ${socTitle} by ${socArtist}`
-      ]);
-    })
-
-
-    setMySoc(socket)
-  }, [])
-
-  const EmitToIO = async () => {
-    //mySoc to emit
-    if (mySoc != null) {
-      mySoc.emit("user_ready", socTitle, socAlbum, socArtist, socTime);
-      console.log('im here')
-      setDndtrack(true)
-    }
-  }
+  
 
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
@@ -423,10 +385,7 @@ export default function Home() {
 
   }
 
-  const [socTitle, setSockTitle] = useState()
-  const [socTime, setSockTime] = useState()
-  const [socArtist, setSockArtist] = useState()
-  const [socAlbum, setSockAlbum] = useState()
+
 
   return (
     <>
@@ -612,50 +571,7 @@ export default function Home() {
               />)}
             </TrackScoll>
 
-            <Dropzone onDropItem={(item) => {
-              const { Title, duration_ms, Artist, Album } = item
-              console.log('Title, duration_ms, Artist, Album')
-              console.log(Title, duration_ms, Artist, Album)
-              // setDndtrack({
-              //   Title,
-              //   duration_ms,
-              //   Artist,
-              //   Album,
-              // }
-              // );
-              //i know this should be the above or some variation.. but it will not work and i have no time!!!:')
-              setDndtrack(true)
-              setSockTitle(Title)
-              setSockArtist(Artist)
-              setSockAlbum(Album)
-              setSockTime(duration_ms)
-              // EmitToIO(Title, duration_ms, Artist, Album)
-              EmitToIO()
-              console.log('setting dndtrack')
-              console.log(dndtrack)
-            }}>
-
-              {msgs.map((o, i) => <div key={i} style={{ backgroundColor: 'blue', padding: 10 }}>
-                {o}
-              </div>)}
-              <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
-              {dndtrack ? <MyTrack
-                type='boardtracks'
-                // key={i}
-                artist={socArtist}
-                song={socTitle}
-                album={socAlbum}
-                time={((socTime / 1000) / 60).toFixed(2)}
-                // trackpos={o.pos}
-                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
-              // item={o}
-              /> : <>...</>}
-
-
-              <button onClick={EmitToIO}>Join and Alert</button>
-
-
-            </Dropzone>
+          <BopBot />
           </DndProvider>
 
         </TracksCont>

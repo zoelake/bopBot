@@ -10,6 +10,13 @@ import { io } from "socket.io-client";
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 
+const Cont = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+`;
+
+
 const DndLogo = styled.img`
 height: 60px;
 width: 60px;
@@ -45,7 +52,7 @@ export default function BopBot() {
         socket.on("joined", (id, txt) => {
             setMsgs((prev) => [
                 ...prev,
-                `${id} is now playing ${txt}`
+                `Someone is listening to... ${txt}`
             ]);
         })
 
@@ -94,13 +101,16 @@ export default function BopBot() {
             console.log('set dndtrack')
             console.log(dndtrack)
         }}>
-            <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
+            <Cont>
 
-            <input type='text' onChange={(e) => setTxt(e.target.value)} />
-            <button onClick={EmitToIO}>Join and Alert</button>
-            {msgs.map((o, i) => <div key={i} style={{ backgroundColor: 'red', padding: 10 }}>
-                {o}
-            </div>)}
+                <input type='text' onChange={(e) => setTxt(e.target.value)} />
+                <button onClick={EmitToIO}>Share a song!</button>
+                <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
+                {msgs.map((o, i) => <div key={i} style={{ backgroundColor: 'red', padding: 10 }}>
+                    {o}
+                </div>)}
+
+            </Cont>
 
         </Dropzone>
     )
