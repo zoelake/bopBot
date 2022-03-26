@@ -305,16 +305,16 @@ export default function Home() {
 
     function getTracks() {
       console.log('connecting to database...')
-      axios.get('https://bopbot-backend.herokuapp.com/tracks')
-        .then((res) => {
-          console.log('here are your tracks! ' + res)
-          // setNewTracks(res)
-          loadedTracks = res.data
-          console.log(loadedTracks);
+      // axios.get('https://bopbot-backend.herokuapp.com/tracks')
+      //   .then((res) => {
+      //     console.log('here are your tracks! ' + res)
+      //     // setNewTracks(res)
+      //     loadedTracks = res.data
+      //     console.log(loadedTracks);
 
-        }).catch(e => {
-          console.log(e)
-        })
+      //   }).catch(e => {
+      //     console.log(e)
+      //   })
     }
 
   }
@@ -329,17 +329,17 @@ export default function Home() {
     const user = {
       user: localStorage.getItem('email')
     }
-    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
-      .then((res) => {
-        if (res.status == 200) {
-          console.log(res.data.playlists)
-          setUserPlaylists(res.data.playlists);
-          console.log('playlists')
-          console.log(usersPlaylists)
-        }
-      }).catch(e => {
-        console.log(e)
-      })
+    // axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
+    //   .then((res) => {
+    //     if (res.status == 200) {
+    //       console.log(res.data.playlists)
+    //       setUserPlaylists(res.data.playlists);
+    //       console.log('playlists')
+    //       console.log(usersPlaylists)
+    //     }
+    //   }).catch(e => {
+    //     console.log(e)
+    //   })
     setTrackModel(false)
 
   }
@@ -551,12 +551,12 @@ export default function Home() {
             enableMouseEvents: true
           }}>
            
-            <BopBot />
+            {/* <BopBot /> */}
           </DndProvider>
         </TrackScoll>
 
         {/* <EditPlaylist /> */}
-        <TrackAddedPopup/>
+        {/* <TrackAddedPopup/> */}
       </Page>
     </>
   )
