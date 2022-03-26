@@ -28,7 +28,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { io } from "socket.io-client";
 import TrackInfoDnd from '../comps/TrackInfoDND'
 import EditPlaylist from '../comps/EditPlaylistModal'
-import BopBot from '../comps/BopBot'
 
 
 
@@ -567,7 +566,6 @@ export default function Home() {
               />)}
             </TrackScoll>
 
-          <BopBot />
 
           
             

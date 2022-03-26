@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import Login from '../comps/LoginAccount';
+import BopBot from '../comps/BopBot'
 
 
 const GlobalStyle = createGlobalStyle`
@@ -27,13 +28,13 @@ function MyApp({ Component, pageProps }) {
   const { name, setName } = useName();
   const { id, setId } = useId();
 
-  if(typeof window !== 'undefined'){
+  if (typeof window !== 'undefined') {
     useEffect(() => {
       if (localStorage.getItem('name')) {
         console.log('user loged in')
         setName(localStorage.getItem('name'))
         setId(localStorage.getItem('id'))
-  
+
       } else {
         router.push('/login')
       }
@@ -45,7 +46,9 @@ function MyApp({ Component, pageProps }) {
   return <MyThemeProvider>
     <GlobalStyle />
     <Component {...pageProps} />
-    
+    <BopBot />
+
+
   </MyThemeProvider>
 
 

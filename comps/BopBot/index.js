@@ -2,6 +2,8 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 //import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import Dropzone from '../Dropzone';
+import { device } from '../../styles/mediaSizes'
+
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,20 +11,46 @@ import { io } from "socket.io-client";
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import MyTrack from '../TrackInfo';
+import MyText from '../Text';
 
 const Cont = styled.div`
     display:flex;
     flex-direction:row;
     justify-content: center;
+    position:absolute;
+    right:2%;
+    bottom:2%;
+    z-index:1000;
+
+`;
+
+const BotCont = styled.div`
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center ;
 `;
 
 
-const DndLogo = styled.img`
-height: 60px;
-width: 60px;
+const BopBotIcon = styled.img`
+
 
 display: flex;
 justify-content: flex-end;
+
+
+@media ${device.mobile}{
+    height: 60px;
+    width: 60px;
+  }
+
+  @media ${device.tablet}{
+    height: auto;
+width: 50%;
+max-width: 150px;
+  }
+
+
 `;
 
 export default function BopBot({
@@ -68,53 +96,48 @@ export default function BopBot({
         }
     }
 
-
-    return (
-
-        <Dropzone onDropItem={(item) => {
-            //emit to socket the track that was dropped
-            //the track info should be stored inside item
-            // console.log('initial dndtrack')
-            // console.log(dndtrack)
-
-            // console.log('pls show this', dndtrack, 'track info', item)
-            //emit the item
-            //socket emit 'playing_song', `user is playing ${item.title}`
-            // const t_id = uuidv4();
-
-            setDndtrack((prev) => ({
-              ...prev,
-              [t_id]: { id: t_id }
-            }))
-
-            //  🪲🪲🪲🪲🪲 THIS NEEDS TO BE SET PROPERLY 🪲🪲🪲🪲🪲
-            // setDndtrack(previousState => {
-            //     return {
-            //         ...previousState,
-            //         song: item.song,
-            //         time: item.time,
-            //         artist: item.artist,
-            //         album: item.album
-            //     }
-            // });
+    const [img, setImg] = useState(true)
 
 
-            console.log('set dndtrack')
-            console.log(dndtrack)
-        }}>
+    if (img) {
+        return (
             <Cont>
 
                 <input type='text' onChange={(e) => setTxt(e.target.value)} />
                 <button onClick={EmitToIO}>Share a song!</button>
-                <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
-                {msgs.map((o, i) => <div key={i} style={{ backgroundColor: 'red', padding: 10 }}>
-                    {o}
-                </div>)}
+                <BopBot>
+
+                    <BotCont onClick={() => setImg(!img)} >
+                        <BopBotIcon src={'/bopBot_neutral.svg'} />
+                        <MyText
+                            text='Click me!' />
+                    </BotCont>
+                    <BotCont>
+
+                        {msgs.map((o, i) => <div key={i} style={{ backgroundColor: 'red', padding: 10 }}>
+                            {o}
+                        </div>)}
+                    </BotCont>
+                </BopBot>
 
             </Cont>
+        )
+    }
+
+    return (
 
 
-        </Dropzone>
+        <Cont>
+            <BotCont onClick={() => setImg(!img)}>
+                <BopBotIcon src={'/BopBotLogo.svg'} />
+                <MyText
+                    text='Click me!' />
+            </BotCont>
+
+
+        </Cont>
+
+
     )
 }
 
