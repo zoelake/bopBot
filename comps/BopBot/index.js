@@ -34,15 +34,6 @@ export default function BopBot() {
 
 
     useEffect(() => {
-        // const socket = io("ws://example.com/my-namespace", {
-        //   reconnectionDelayMax: 10000,
-        //   auth: {
-        //     token: "123"
-        //   },
-        //   query: {
-        //     "my-key": "my-value"
-        //   }
-        // });
         const socket = io("http://localhost:8888");
 
         socket.on("init_user", (users) => {
@@ -76,8 +67,8 @@ export default function BopBot() {
             //the track info should be stored inside item
             // console.log('initial dndtrack')
             // console.log(dndtrack)
-            console.log('item')
-            console.log(item)
+            console.log('WTF')
+            // console.log(item)
             // console.log('pls show this', dndtrack, 'track info', item)
             //emit the item
             //socket emit 'playing_song', `user is playing ${item.title}`
@@ -89,15 +80,15 @@ export default function BopBot() {
             // }))
 
             //  🪲🪲🪲🪲🪲 THIS NEEDS TO BE SET PROPERLY 🪲🪲🪲🪲🪲
-            setDndtrack(previousState => {
-                return {
-                    ...previousState,
-                    song: item.song,
-                    time: item.time,
-                    artist: item.artist,
-                    album: item.album
-                }
-            });
+            // setDndtrack(previousState => {
+            //     return {
+            //         ...previousState,
+            //         song: item.song,
+            //         time: item.time,
+            //         artist: item.artist,
+            //         album: item.album
+            //     }
+            // });
 
 
             console.log('set dndtrack')

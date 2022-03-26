@@ -37,8 +37,8 @@ const TrackCont = styled.div`
     @media ${device.desktop}{
         width: 40vw;
     }
-    ${({op})=>op && `opacity:${op};`};
-    ${({position, left, top})=> (position === 'fixed' || position ==='absolute') && `
+    ${({ op }) => op && `opacity:${op};`};
+    ${({ position, left, top }) => (position === 'fixed' || position === 'absolute') && `
         left: ${left}px;
         top: ${top}px;
         position: ${position};
@@ -114,15 +114,15 @@ export default function MyTrack({
     onTrackClick = () => { },
     onDotsClick = () => { },
     AddToLikedPlaylist = () => { },
-    children=null,
-    item={}
+    children = null,
+    item = {}
 }) {
     const [heart, setHeart] = useState(false);
     const { theme } = useTheme();
     const { parSize } = usePar();
     const [selected, setSelected] = useState(false)
 
-    function LikeTrack(){
+    function LikeTrack() {
         setSelected(!selected);
         AddToLikedPlaylist();
     }
@@ -133,31 +133,27 @@ export default function MyTrack({
         position: 'relative'
     })
 
-    // const [timeContent, setTimeContent] = useState(time)
-    // const [artistContent, setArtistContent] = useState(artist)
-    // const [songContent, setSongContent] = useState(song)
-    // const [albumContent, setAlbumContent] = useState(album)
 
-    // timeContent, artistContent, songContent, albumContent
-      
-	const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
-            // "type" is required. It is used by the "accept" specification of drop targets.
+    const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
+        // "type" is required. It is used by the "accept" specification of drop targets.
         type: 'tracks',
         item,
-            // The collect function utilizes a "monitor" instance (see the Overview for what this is)
-            // to pull important pieces of state from the DnD system.
-        end: (item,monitor) => {
-        if(!monitor.didDrop()){
-            setPos({
-            left: monitor.getClientOffset().x,
-            top: monitor.getClientOffset().y,
-            // position: 'fixed'
-            })
-        }
+        // The collect function utilizes a "monitor" instance (see the Overview for what this is)
+        // to pull important pieces of state from the DnD system.
+        end: (item, monitor) => {
+            console.log('item')
+            console.log(item)
+            if (!monitor.didDrop()) {
+                setPos({
+                    left: monitor.getClientOffset().x,
+                    top: monitor.getClientOffset().y,
+                    // position: 'fixed'
+                })
+            }
         },
         collect: (monitor) => ({
-        isDragging: monitor.isDragging(),
-        coords: monitor.getClientOffset(),
+            isDragging: monitor.isDragging(),
+            coords: monitor.getClientOffset(),
         })
     }))
 
@@ -170,24 +166,18 @@ export default function MyTrack({
         position: pos.position
     }
 
-    if(coords && isDragging) {
+    if (coords && isDragging) {
         sty.left = coords.x + 10
         sty.top = coords.y
         sty.position = 'fixed'
     }
 
-    return <TrackCont ref={dragPreview} 
-        op={isDragging ? 0.5 :1}
+    return <TrackCont ref={dragPreview}
+        op={isDragging ? 0.5 : 1}
         {...sty}
-        >
-            <TrackCont ref={drag}>
+    >
+        <TrackCont ref={drag}>
             {children}
-
-            {/* <Cont1>
-                <Text
-                    color={themes[theme].text}
-                >1</Text>
-            </Cont1> */}
 
             <Cont2 onClick={onTrackClick}>
                 <MyText
@@ -226,15 +216,15 @@ export default function MyTrack({
                 <Dots col={themes[theme].text} />
             </Cont6>
 
-            </TrackCont>
-
-
-
-
-
         </TrackCont>
-  
-    
+
+
+
+
+
+    </TrackCont>
+
+
 
     // <Text
     // color={themes[theme].focus}

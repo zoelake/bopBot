@@ -366,20 +366,16 @@ export default function Home() {
 
   }
 
-  const [dndtrack, setDndtrack] = useState([]);
+  // const [dndtrack, setDndtrack] = useState({
+  //   song: null,
+  //   time: null,
+  //   artist: null,
+  //   album: null
+  // });
 
-  // const HandleUpdateTrack = (id, trackdata) => {
-  //   console.log('this is' + trackdata.Title)
-  //   dndtrack[id] = {
-  //     ...dndtrack[id],
-  //     ...trackdata
-  //   }
+  const [dndtrack, setDndtrack] = useState(false);
 
-  //   setDndtrack({
-  //     ...dndtrack
-  //   })
-  //   console.log('test dnd', dndtrack)
-  // }
+
 
   const [mySoc, setMySoc] = useState(null);
 
@@ -389,16 +385,7 @@ export default function Home() {
 
   const [users, setUsers] = useState({});
 
-  useEffect(()=>{
-    // const socket = io("ws://example.com/my-namespace", {
-    //   reconnectionDelayMax: 10000,
-    //   auth: {
-    //     token: "123"
-    //   },
-    //   query: {
-    //     "my-key": "my-value"
-    //   }
-    // });
+  useEffect(() => {
     const socket = io("http://localhost:8888");
 
     socket.on("init_user", (users) => {
@@ -406,21 +393,23 @@ export default function Home() {
       // console.log(users);
       setUsers(users);
     })
-    
-    socket.on("joined", (id, txt) => {
-      setMsgs((prev) => [
-        ...prev,
-        `${id} is now playing ${txt}`
+
+    socket.on("joined", (id, item) => {
+      setMsgs(() => [
+        `${id} is now playing ${socTitle} by ${socArtist}`
       ]);
     })
+
 
     setMySoc(socket)
   }, [])
 
   const EmitToIO = async () => {
     //mySoc to emit
-    if(mySoc != null) {
-      mySoc.emit("user_ready", txt);
+    if (mySoc != null) {
+      mySoc.emit("user_ready", socTitle, socAlbum, socArtist, socTime);
+      console.log('im here')
+      setDndtrack(true)
     }
   }
 
@@ -433,6 +422,11 @@ export default function Home() {
     setTrackModel(!trackModel)
 
   }
+
+  const [socTitle, setSockTitle] = useState()
+  const [socTime, setSockTime] = useState()
+  const [socArtist, setSockArtist] = useState()
+  const [socAlbum, setSockAlbum] = useState()
 
   return (
     <>
@@ -563,12 +557,6 @@ export default function Home() {
             size={`${headerSize}px`}
           />
           <SliderCont>
-            {/* {sliderValues.map((o, i, ev) => <Slider
-              text={o.title}
-              number={o.value}
-              value={o.value}
-              onChange={this.o.onChange}
-            />)} */}
             <Slider text='Acounticness' number={acValue} value={acValue} onChange={(ev) => setAcValue(ev.target.value)} />
             <Slider text='Danceability' number={dncValue} value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
 
@@ -611,71 +599,66 @@ export default function Home() {
             <TrackScoll>
               {/* <MyTrack /> */}
               {load ? <div>Loading...</div> : <></>}
-                {tracks.map((o, i) => <MyTrack
-                  key={i}
-                  onTrackClick={() => router.push(o.Uri)}
-                  AddToLikedPlaylist={(obj) => PostToLiked(o.id, o, obj)}
-                  artist={o.Artist}
-                  song={o.Title}
-                  album={o.Album}
-                  time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                  onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
-                  item={o}
-                />)}
-            </TrackScoll>
-          
-            <Dropzone onDropItem={(item) => {
-                dndtrack[item.Title] = item;
-                setDndtrack({
-                  ...dndtrack
-                })
-              }}>
-              <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
-              {Object.values(dndtrack).map((o, i) => <MyTrack
-                type='boardtracks'
+              {tracks.map((o, i) => <MyTrack
                 key={i}
+                onTrackClick={() => router.push(o.Uri)}
+                AddToLikedPlaylist={(obj) => PostToLiked(o.id, o, obj)}
                 artist={o.Artist}
                 song={o.Title}
                 album={o.Album}
                 time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                trackpos={o.pos}
                 onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
                 item={o}
               />)}
+            </TrackScoll>
 
-              <input type='text' onChange={(e)=>setTxt(e.target.value)} />
-              <button onClick={EmitToIO}>Join and Alert</button>
-              {msgs.map((o, i) => <div key={i} style={{backgroundColor: 'red', padding: 10}}>
+            <Dropzone onDropItem={(item) => {
+              const { Title, duration_ms, Artist, Album } = item
+              console.log('Title, duration_ms, Artist, Album')
+              console.log(Title, duration_ms, Artist, Album)
+              // setDndtrack({
+              //   Title,
+              //   duration_ms,
+              //   Artist,
+              //   Album,
+              // }
+              // );
+              //i know this should be the above or some variation.. but it will not work and i have no time!!!:')
+              setDndtrack(true)
+              setSockTitle(Title)
+              setSockArtist(Artist)
+              setSockAlbum(Album)
+              setSockTime(duration_ms)
+              // EmitToIO(Title, duration_ms, Artist, Album)
+              EmitToIO()
+              console.log('setting dndtrack')
+              console.log(dndtrack)
+            }}>
+
+              {msgs.map((o, i) => <div key={i} style={{ backgroundColor: 'blue', padding: 10 }}>
                 {o}
               </div>)}
-              
+              <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
+              {dndtrack ? <MyTrack
+                type='boardtracks'
+                // key={i}
+                artist={socArtist}
+                song={socTitle}
+                album={socAlbum}
+                time={((socTime / 1000) / 60).toFixed(2)}
+                // trackpos={o.pos}
+                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
+              // item={o}
+              /> : <>...</>}
+
+
+              <button onClick={EmitToIO}>Join and Alert</button>
+
+
             </Dropzone>
           </DndProvider>
 
         </TracksCont>
-        
-
-        <TrackScoll>
-          <DndProvider backend={TouchBackend} options={{
-            enableTouchEvents: false,
-            enableMouseEvents: true
-          }}>
-          {/* <MyTrack /> */}
-          {load ? <div>Loading...</div> : <></>}
-          {tracks.map((o, i) => <MyTrack
-            key={i}
-
-            onTrackClick={() => router.push(o.Uri)}
-            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
-            OpenOptions={(obj) => handleTrackOptions(o)}
-            artist={o.Artist}
-            song={o.Title}
-            album={o.Album}
-            time={((o.duration_ms / 1000) / 60).toFixed(2)}
-          />)}
-        <BopBot />
-          </DndProvider>
-        </TrackScoll>
 
         {/* <EditPlaylist /> */}
       </Page>
