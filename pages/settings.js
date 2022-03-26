@@ -23,24 +23,26 @@ import { useRouter } from 'next/router'
 
 const Page = styled.div`
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: flex-start;
   margin:0;
   justify-content: space-between;
+  height: 100%;
+  padding: 5%;
 `;
 
 const Dashboard = styled.div`
     background-color: ${props => props.bg};
     height:95vh;
     width:100%;
-    padding:30px 10px 10px 60px;
-
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
     @media ${device.mobile}{
-
+      padding:30px 10px 10px 10px;
     }
-
     @media ${device.tablet}{
     }
-
     @media ${device.desktop}{
        
     }
@@ -48,8 +50,25 @@ const Dashboard = styled.div`
 
 const Cont = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 `;
+
+const RightCont = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom:50px ;
+`;
+
+const Button = styled.button`
+  border: none;
+  background-color: #fff;
+`;
+
+
+
 
 const HalfCont = styled.div`
   flex:${props => props.flex};
@@ -59,7 +78,6 @@ const HalfCont = styled.div`
   display: flex;
   flex-direction: column;
   align-content: space-between;
-
 `;
 
 const QuartCont = styled.div`
@@ -68,12 +86,12 @@ const QuartCont = styled.div`
   padding-top:${props => props.padding};
 `;
 
-const Divider = styled.div`
-  height:80vh;
-  width:2px;
-  background-color: ${props => props.col};
+// const Divider = styled.div`
+//   height:80vh;
+//   width:2px;
+//   background-color: ${props => props.col};
 
-`;
+// `;
 
 const InputCont = styled.div`
     width:80%;
@@ -93,11 +111,21 @@ const LoginInput = styled.input`
     background-color: ${props => props.bg};
     color:${props => props.txt};
     height:50px;
-    border:1.5px solid #8B64FA;
+    border:1.5px solid #525252;
     margin:5px;
     padding:0 10px;
-    width:90%;
+    width: 200px;
+    @media ${device.mobile}{
+      
+      }
+      @media ${device.tablet}{
+        
+      }
+      @media ${device.desktop}{
+      }
 `;
+
+
 
 const ButtonCont = styled.div`
     display: flex;
@@ -108,7 +136,9 @@ const ButtonCont = styled.div`
 
 
 
-export default function Settings() {
+export default function Settings({
+  height="100%"
+}) {
 
   const router = useRouter();
 
@@ -189,10 +219,6 @@ export default function Settings() {
   }
 
 
-
-
-
-
   function UpdateName() {
     const updateName = {
       name: localStorage.getItem('name'),
@@ -200,7 +226,7 @@ export default function Settings() {
     }
     console.log('current name: ' + localStorage.getItem('name'))
     console.log('updated name: ' + updatedName)
-    axios.post('http://localhost:3001/update-userName', updateName)
+    axios.post('https://bopbot-backend.herokuapp.com/update-userName', updateName)
       .then((res) => {
         if (res) {
           console.log('returned name: ' + res.data)
@@ -223,7 +249,7 @@ export default function Settings() {
     }
     console.log('current name: ' + localStorage.getItem('email'))
     console.log('updated name: ' + updatedEmail)
-    axios.post('http://localhost:3001/update-userEmail', updateEmail)
+    axios.post('https://bopbot-backend.herokuapp.com/update-userEmail', updateEmail)
       .then((res) => {
         if (res) {
           console.log('returned email: ' + res.data)
@@ -259,50 +285,30 @@ export default function Settings() {
       </Head>
       <NavBar />
       <Page>
+        <MyText
+          weight={500}
+          text={`Settings`}
+          size={`${titleSize}px`} />
         <Dashboard
           bg={themes[theme].contrast}>
-          <MyText
-            weight={500}
-            text={`Settings`}
-            size={`${titleSize}px`} />
           <Cont>
-            <HalfCont flex={1}>
-              <QuartCont height={2.5}>
-                <MyText
-                  text='Themes'
-                  size={`${headerSize}px`}
-                />
-              </QuartCont>
-              <QuartCont height={1}>
-                <MyText
-                  text='Font size'
-                  size={`${headerSize}px`}
-                />
-              </QuartCont>
-              <QuartCont height={1}>
-                <MyText
-                  text='Explicit content'
-                  size={`${headerSize}px`}
-                />
-              </QuartCont>
+            {/* <HalfCont flex={1}> */}
 
-              <QuartCont height={1}>
-                <MyText
-                  text='Update account details'
-                  size={`${headerSize}px`}
-                />
-              </QuartCont>
+            {/* </HalfCont> */}
 
-
-
-
-            </HalfCont>
-            <Divider
+            {/* <Divider
               col={themes[theme].text}
-            />
-            <HalfCont flex={2}>
-              <QuartCont padding={'24px'} height={2}>
+            /> */}
 
+
+            {/* <HalfCont flex={2}> */}
+
+
+            <MyText
+              text='Themes'
+              size={`${headerSize}px`}
+            />
+            <RightCont>
 
                 <ThemeToggle
                   radioClick={() => setTheme('dark')}
@@ -333,48 +339,64 @@ export default function Settings() {
                   theme2={themes.funky.mid}
                   inner={theme === 'funky' ? true : false}
                 />
-              </QuartCont>
-              <QuartCont height={1}>
+            </RightCont>
+
+                  <MyText
+                    text='Font size'
+                    size={`${headerSize}px`}
+                  />
+
+                <RightCont>
                 <MyText
                   size={`${parSize}px`}
                   text={'Text will now be ✨THIS✨ big'}
-                />
+                  />
                 <Toggle
                   increase={increaseFont}
                   decrease={decreaseFont}
-                />
+                  />
 
-              </QuartCont>
-              <QuartCont height={1}>
-                <FormControlLabel control={
-                  <Switch
-                    onChange={() => setExplicit(!explicit)}
-                  />} label={explicit ? 'Allowed' : 'Disabled'} />
-              </QuartCont>
-              <QuartCont>
+                </RightCont>
+
+
+                <MyText
+                  text='Update account details'
+                  size={`${headerSize}px`}
+                />
+              <RightCont>
+
                 <MyText
                   size={`${parSize}px`}
                   text={`Current name: ${name}`}
-                />
+                  />
                 <LoginInput placeholder='Enter new name...' onChange={(e) => HandleName(e.target.value)} />
-                <button onClick={UpdateName}>Update name</button>
+                <MyButton 
+                  onClick={UpdateEmail}
+                  width="200px"
+                  bg={themes[theme].sliderBg}
+                  text = 'Update Name'
+                  >Update email</MyButton>
                 <MyText
                   size={`${parSize}px`}
                   text={`Current email: ${email}`}
-                />
+                  />
                 <LoginInput placeholder='Enter new email...' onChange={(e) => HandleEmail(e.target.value)} />
-                <button onClick={UpdateEmail}>Update email</button>
+                <MyButton 
+                  onClick={UpdateEmail}
+                  width="200px"
+                  bg={themes[theme].sliderBg}
+                  text = 'Update Email'
+                  >Update email</MyButton>
+              </RightCont>
 
-
-              </QuartCont>
-
-
-            </HalfCont>
-          </Cont>
           <MyButton
             text='Logout'
             onClick={HandleLogout}
           />
+
+
+            {/* </HalfCont> */}
+          </Cont>
 
 
         </Dashboard>
