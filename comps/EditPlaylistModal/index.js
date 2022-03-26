@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { usePar, useTheme } from "../../utils/provider";
 import MyText from "../../comps/Text/index"
-
 import SbButton from "../SbButton";
 import MyButton from "../Button";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -19,7 +18,7 @@ const Page = styled.div`
     height: 100vh;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 100;
     position: absolute;
 `;
 
@@ -31,6 +30,7 @@ const Cont = styled.div`
     background-color: #282828;
     border-radius: 20.95px;
     z-index: 999999;
+    position: relative;
 
     
 `;

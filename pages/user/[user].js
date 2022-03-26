@@ -34,40 +34,39 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 
 const Page = styled.div`
 
+    display: flex;
+    height: 100vh;
+      width: 100vw;
 
   @media ${device.mobile}{
-      display: flex;
+
       flex-direction: column;
       align-items:center ;
-      height: 100vh;
-      width: 100vw;
+
     }
 
     @media ${device.tablet}{
       display: flex;
       flex-direction: row;
       align-items:center ;
-      height: 100vh;
-      width: 100vw;
+
     }
 
     @media ${device.desktop}{
         display:flex;
         flex-direction: row;
         justify-content: center;
-        width: 100vw;
-        height:100vh;
     
     }
   
 `;
 
 const Dashboard = styled.div`  
-
+       background-color: ${props => props.bg};
 
 
     @media ${device.mobile}{
-        background-color: ${props => props.bg};
+
         width: 100vw;
         height: 50vh;
         padding-left: 3rem;
@@ -78,7 +77,6 @@ const Dashboard = styled.div`
     }
 
     @media ${device.tablet}{
-        background-color: ${props => props.bg};
         width: 50vw;
         height:100vh;
         padding-left: 10px;
@@ -88,13 +86,10 @@ const Dashboard = styled.div`
     @media ${device.desktop}{
         display: flex;
         flex-direction: column ;
-        background-color: ${props => props.bg};
-        width:50vw;
+        width:48vw;
         height: 90vh;
         padding:30px 10px 10px 60px;
         justify-content: flex-start;
-      
-        z-index: 1;
 
         //min
     }
@@ -126,33 +121,36 @@ const rigthCont = styled.div`
 
 
 const SbCont = styled.div`
+        display: flex;
+        flex-wrap: wrap;   
        overflow-y: scroll ;
        justify-content: flex-start;
 
+       &::-webkit-scrollbar {
+        width: 10px;
+        border: 1px solid pink;
+        margin-top: 20px;
+    }
+
      @media ${device.mobile}{
-        display: flex;
-        flex-wrap: wrap;    
+ 
         height: 30vh;
         width: 90vw;
-        margin-top: 20px;
+
     }
 
     @media ${device.tablet}{
 
-        display: flex;
         flex-wrap: wrap;
         height: 50vh;
         width: 50vw;
 
-        margin-top: 20px;
     }
 
     @media ${device.desktop}{
-        display: flex;
-        flex-wrap: wrap;
+
         height: 80vh;
-        width: 50vw;
-        margin-top: 20px;
+        width: 45vw;
             }
 `;
 
@@ -175,6 +173,7 @@ const SpaceCont = styled.div`
 
 const TracksCont = styled.div`
     z-index: 1;
+    position: relative;
 
     @media ${device.mobile}{
         display:flex;
@@ -206,6 +205,7 @@ const TracksCont = styled.div`
 `;
 
 const RegCont = styled.div`
+z-index:1;
 
     @media ${device.mobile}{
         width: 100vw;
