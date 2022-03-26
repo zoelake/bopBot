@@ -36,7 +36,6 @@ import loadingAnim from '../public/lottie/bopbot_load.json'
 
 
 
-
 const Page = styled.div`
   display:flex;
   margin:0;
@@ -90,6 +89,15 @@ const Dashboard = styled.div`
       padding:30px 10px 10px 60px;
     }
 `;
+
+const DndLogo = styled.img`
+height: 60px;
+width: 60px;
+
+display: flex;
+justify-content: flex-end;
+`;
+
 const SbCont = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -130,11 +138,10 @@ const TrackScoll = styled.div`
   width: auto;
 `;
 const TracksCont = styled.div`
-  /* display: flex; */
-  /* flex-direction:row ; */
-  /* flex-wrap: wrap; */
-  height:95vh;
+  display: flex;
+  flex-direction:column ;
 
+  height:100%;
   justify-content: left;
   /* border:2px solid green; */
 
@@ -369,6 +376,9 @@ export default function Home() {
   }
 
 
+
+  
+
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
     //display model
@@ -378,6 +388,8 @@ export default function Home() {
     setTrackModel(!trackModel)
 
   }
+
+
 
   return (
     <>
@@ -507,13 +519,8 @@ export default function Home() {
             text='Music values'
             size={`${headerSize}px`}
           />
-          <SliderCont>
-            {/* {sliderValues.map((o, i, ev) => <Slider
-              text={o.title}
-              number={o.value}
-              value={o.value}
-              onChange={this.o.onChange}
-            />)} */}
+
+          <SliderCont>         
             <Slider text='Acounticness' number={acValue} value={acValue} onChange={(ev) => setAcValue(ev.target.value)} />
             <Slider text='Danceability' number={dncValue} value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
 
@@ -549,48 +556,35 @@ export default function Home() {
             size={`${headerSize}px`}
           />
 
-          {/* loaded tracks from api call */}
-          <TrackScoll>
-            {load ? <Lottie 
-            animationData={loadingAnim}
-            /> : <></>}
-            {tracks.map((o, i) => <MyTrack
-              key={i}
-              selected={o._id}
-              onTrackClick={() => router.push(o.Uri)}
-              AddToLikedPlaylist={(obj) => setAsLiked(o)}
-              DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-              OpenOptions={(obj) => handleTrackOptions(o)}
-              artist={o.Artist}
-              song={o.Title}
-              album={o.Album}
-              time={((o.duration_ms / 1000) / 60).toFixed(2)}
-            />)}
-          </TrackScoll>
-        </TracksCont>
-
-
-        {/* <TrackScoll>
           <DndProvider backend={TouchBackend} options={{
             enableTouchEvents: false,
             enableMouseEvents: true
           }}>
-          <MyTrack />
-          {load ? <div>Loading...</div> : <></>}
-          {tracks.map((o, i) => <MyTrack
-            key={i}
+            <TrackScoll>
+            {load ? <Lottie 
+            animationData={loadingAnim}
+            /> : <></>}
+              {/* <MyTrack /> */}
+              {tracks.map((o, i) => <MyTrack
+                key={i}
+                onTrackClick={() => router.push(o.Uri)}
+                AddToLikedPlaylist={(obj) => setAsLiked(o)}
+                artist={o.Artist}
+                song={o.Title}
+                album={o.Album}
+                time={((o.duration_ms / 1000) / 60).toFixed(2)}
+                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
+                item={o}
+              />)}
+            </TrackScoll>
 
-            onTrackClick={() => router.push(o.Uri)}
-            AddToLikedPlaylist={(obj) => AddTrackToLiked(o)}
-            OpenOptions={(obj) => handleTrackOptions(o)}
-            artist={o.Artist}
-            song={o.Title}
-            album={o.Album}
-            time={((o.duration_ms / 1000) / 60).toFixed(2)}
-          />)}
-        <BopBot />
+          <BopBot />
+
+          
+            
           </DndProvider>
-        </TrackScoll> */}
+
+        </TracksCont>
 
        {/* <EditPlaylist /> */}
       </Page>

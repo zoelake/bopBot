@@ -1,8 +1,5 @@
 import { useDrag, useDrop } from 'react-dnd'
 import styled from 'styled-components'
-import { TouchBackend } from 'react-dnd-touch-backend'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { DndProvider } from 'react-dnd'
 
 // const DropCont = styled.div`
 //   height: 70vh;
@@ -37,9 +34,8 @@ import { DndProvider } from 'react-dnd'
 // }
 
 const DropCont = styled.div`
-
-  height: 100%;
-  /* background: ${({ bg }) => bg || '#DDD'}; */
+  height: 70vh;
+  background: ${({bg}) => bg || '#DDD'};
   width: 100%;
 `;
 

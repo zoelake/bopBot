@@ -30,197 +30,63 @@ import { Container } from '../../comps/Container'
 import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 
-
-
 const Page = styled.div`
-
     display: flex;
-    height: 100vh;
-      width: 100vw;
-
-  @media ${device.mobile}{
-
-      flex-direction: column;
-      align-items:center ;
-
-    }
-
-    @media ${device.tablet}{
-      display: flex;
-      flex-direction: row;
-      align-items:center ;
-
-    }
-
-    @media ${device.desktop}{
-        display:flex;
-        flex-direction: row;
-        justify-content: center;
-    
-    }
-  
+    flex-direction: column;
+    margin:0;
+    justify-content:center ;
+    width: 100vw;
+    position:absolute;
+    height:95vh;
+    bottom:0;
 `;
 
-const Dashboard = styled.div`  
-       background-color: ${props => props.bg};
-
-
-    @media ${device.mobile}{
-
-        width: 100vw;
-        height: 50vh;
-        padding-left: 3rem;
-        padding-top: 1rem;
-        /* justify-content:center ; */
-        
-        /* flex-grow: 1; */
-    }
-
-    @media ${device.tablet}{
-        width: 50vw;
-        height:100vh;
-        padding-left: 10px;
-     
-    }
-
-    @media ${device.desktop}{
-        display: flex;
-        flex-direction: column ;
-        width:48vw;
-        height: 90vh;
-        padding:30px 10px 10px 60px;
-        justify-content: flex-start;
-
-        //min
-    }
+const Dashboard = styled.div`
+    background-color: ${props => props.bg};
+    height:45vh;
+    padding:30px 10px 10px 60px;
+    display:flex;
+    justify-content: center;
 `;
-
-const leftTop = styled.div`
-
-
-    @media ${device.mobile}{
-        width: 100vw;
-        height: 50vh;
-        /* background-color:#fad ; */
-        /* margin-left: 15px; */
-        /* flex-grow: 1; */
-    }
-
-    @media ${device.tablet}{
-
-    }
-
-    @media ${device.desktop}{
-       
-    }
-
-`;
-
-const rigthCont = styled.div`
-`;
-
 
 const SbCont = styled.div`
-        display: flex;
-        flex-wrap: wrap;   
-       overflow-y: scroll ;
-       justify-content: flex-start;
+display:flex ;
+align-items: center;
+padding-left:30px;
+white-space:nowrap;
+overflow-x:scroll;
+overflow-y:hidden;
+height:230px;
+padding-left:30px;
+position:relative;
+top:-20px;
+`;
 
-       &::-webkit-scrollbar {
-        width: 10px;
-        border: 1px solid pink;
-        margin-top: 20px;
-    }
-
-     @media ${device.mobile}{
- 
-        height: 30vh;
-        width: 90vw;
-
-    }
-
-    @media ${device.tablet}{
-
-        flex-wrap: wrap;
-        height: 50vh;
-        width: 50vw;
-
-    }
-
-    @media ${device.desktop}{
-
-        height: 80vh;
-        width: 45vw;
-            }
+const SliderCont = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    width:750px;
+    justify-content: space-evenly;
+    padding-left:30px;
 `;
 
 const SpaceCont = styled.div`
-        display: flex;
-        align-items:center ;
-
-        @media ${device.mobile}{
-            width: 100vw;
-            justify-content: space-between;
-
-        }
-
-        @media ${device.desktop}{
-            width: 40vw;
-            justify-content: space-between;
-
-        }
-        `;
-
-const TracksCont = styled.div`
-    z-index: 1;
-    position: relative;
-
-    @media ${device.mobile}{
-        display:flex;
-        flex-direction: column ;
-        align-items: center ;
-        width: 100vw;
-        height: 50vh;
-        /* justify-content:center ; */
-    }
-
-    @media ${device.tablet}{
-
-        width: 50vw;
-        height: 100vh;
-
-    }
-
-    @media ${device.desktop}{
-        display:flex ;
-        flex-direction: column ;
-        /* padding:30px 10px 10px 60px; */
-        justify-content:center ;
-        width: 50vw;
-        align-self: center;
-        height: 100vh;
-        
-       
-    }
+    display:flex;
+    width:90%;
+    padding-left: 5px;
+    justify-content: space-between;
 `;
 
-const RegCont = styled.div`
-z-index:1;
-
-    @media ${device.mobile}{
-        width: 100vw;
-
-    }
-
-    @media ${device.tablet}{
-    }
-
-    @media ${device.desktop}{
-       
-    }
+const TracksCont = styled.div`
+    height:40%;
+    align-self: center;
+    width: 80%;
     
 `;
 
+const RegCont = styled.div`
+    padding-left:30px;
+`;
 
 const Divider = styled.div`
     background-color: ${props => props.color};
@@ -242,8 +108,6 @@ const Divider = styled.div`
        
     }
 `;
-
-
 
 export default function User() {
 

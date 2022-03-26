@@ -2,18 +2,22 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 //import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import Dropzone from '../Dropzone';
-import MyTrack from '../TrackInfo';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import { io } from "socket.io-client";
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import MyTrack from '../TrackInfo';
 
 const Cont = styled.div`
-    display: flex;
-    flex-direction: column;
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
 `;
+
+
+
 const DndLogo = styled.img`
 height: 60px;
 width: 60px;
@@ -41,15 +45,6 @@ export default function BopBot({
 
 
     useEffect(() => {
-        // const socket = io("ws://example.com/my-namespace", {
-        //   reconnectionDelayMax: 10000,
-        //   auth: {
-        //     token: "123"
-        //   },
-        //   query: {
-        //     "my-key": "my-value"
-        //   }
-        // });
         const socket = io("http://localhost:8888");
 
         socket.on("init_user", (users) => {
@@ -61,7 +56,7 @@ export default function BopBot({
         socket.on("joined", (id, txt) => {
             setMsgs((prev) => [
                 ...prev,
-                `${id} is now playing ${txt}`
+                `Someone is listening to... ${txt}`
             ]);
         })
 
@@ -83,12 +78,6 @@ export default function BopBot({
             //the track info should be stored inside item
             // console.log('initial dndtrack')
             // console.log(dndtrack)
-            dndtrack[item.Title] = item;
-            setDndtrack({
-                ...dndtrack
-            })
-            console.log('item')
-            console.log(item)
             // console.log('pls show this', dndtrack, 'track info', item)
             //emit the item
             //socket emit 'playing_song', `user is playing ${item.title}`
@@ -100,15 +89,15 @@ export default function BopBot({
             }))
 
             //  🪲🪲🪲🪲🪲 THIS NEEDS TO BE SET PROPERLY 🪲🪲🪲🪲🪲
-            setDndtrack(previousState => {
-                return {
-                    ...previousState,
-                    song: item.song,
-                    time: item.time,
-                    artist: item.artist,
-                    album: item.album
-                }
-            });
+            // setDndtrack(previousState => {
+            //     return {
+            //         ...previousState,
+            //         song: item.song,
+            //         time: item.time,
+            //         artist: item.artist,
+            //         album: item.album
+            //     }
+            // });
 
 
             console.log('set dndtrack')
@@ -116,27 +105,15 @@ export default function BopBot({
         }}>
             <Cont>
 
-            <DndLogo src={'/BopBotLogo.svg'}>
+                <input type='text' onChange={(e) => setTxt(e.target.value)} />
+                <button onClick={EmitToIO}>Share a song!</button>
+                <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
+                {msgs.map((o, i) => <div key={i} style={{ backgroundColor: 'red', padding: 10 }}>
+                    {o}
+                </div>)}
 
-                </DndLogo>
-            {Object.values(dndtrack).map((o, i) => <MyTrack
-                type='boardtracks'
-                key={i}
-                artist={o.Artist}
-                song={o.Title}
-                album={o.Album}
-                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                trackpos={o.pos}
-                onUpdateTrack={(obj) => HandleUpdateTrack(o.id, obj)}
-                item={o}
-                />)}
+            </Cont>
 
-            <input type='text' onChange={(e) => setTxt(e.target.value)} />
-            <button onClick={EmitToIO}>Join and Alert</button>
-            {msgs.map((o, i) => <div key={i} style={{ backgroundColor: 'red', padding: 10 }}>
-                {o}
-            </div>)}
-                </Cont>
 
         </Dropzone>
     )
