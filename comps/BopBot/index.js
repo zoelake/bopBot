@@ -167,7 +167,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { io } from "socket.io-client";
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import MyTrack from '../TrackInfo';
 import MyText from '../Text';
 
 const Cont = styled.div`
@@ -278,7 +277,7 @@ export default function BopBot() {
                   ...dndtrack
                 })
               }}>
-              <DndLogo src={'/BopBotLogo.svg'}></DndLogo>
+{/*               <DndLogo src={'/BopBotLogo.svg'}></DndLogo> */}
               {Object.values(dndtrack).map((o, i) => <MyTrack
                 type='boardtracks'
                 key={i}
