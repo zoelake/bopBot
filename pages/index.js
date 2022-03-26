@@ -39,6 +39,7 @@ const Page = styled.div`
   width:100%;
   position: absolute;
   bottom:0;
+ 
   /* border:8px solid green; */
   @media ${device.mobile}{
     display: flex;
@@ -46,7 +47,7 @@ const Page = styled.div`
     justify-content: center;
     align-items: center;
     height:100%;
-    top:20%;
+    top:30%;
   }
   @media ${device.tablet}{
     flex-direction: row;
@@ -57,6 +58,7 @@ const Page = styled.div`
     flex-direction: row;
     justify-content: space-between;
     height:95vh;
+    top:10%;
   }
 `;
 const Dashboard = styled.div`
@@ -133,6 +135,7 @@ const Divider = styled.div`
     width:1px;
     height:90%;
 `;
+
 //please fix this styling lol
 const Model = styled.div`
   width: 300px;
@@ -208,7 +211,6 @@ export default function Home() {
       }).catch(e => {
         console.log(e)
       })
-
   }
 
   // //page functions
@@ -253,8 +255,6 @@ export default function Home() {
   }
 
   const [selectedPlaylist, setSelectedPlaylist] = useState([])
-
-
 
   function handleTrackOptions(trackdata) {
     console.log(trackdata)

@@ -71,6 +71,7 @@ const SbCont = styled.div`
   position: relative;
   top:-20px;
 `;
+
 const SliderCont = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -78,6 +79,7 @@ const SliderCont = styled.div`
   justify-content: space-evenly;
   padding-left: 30px;
 `;
+
 const SpaceCont = styled.div`
 display: flex;
 width: 90%;
@@ -85,6 +87,7 @@ padding-left: 5px;
 
 justify-content: space-between;
 `;
+
 const TracksCont = styled.div`
     height:40%;
     /* border:2px solid red; */
@@ -94,9 +97,11 @@ const TracksCont = styled.div`
     align-self: center;
     width:80%;
 `;
+
 const RegCont = styled.div`
   padding-left: 30px;
 `;
+
 const Divider = styled.div`
     background-color: ${props => props.color};
     width:90%;

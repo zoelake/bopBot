@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import Login from '../comps/LoginAccount';
+import BopBot from '../comps/BopBot';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -45,7 +46,7 @@ function MyApp({ Component, pageProps }) {
   return <MyThemeProvider>
     <GlobalStyle />
     <Component {...pageProps} />
-    
+    {/* <BopBot/> */}
   </MyThemeProvider>
 
 

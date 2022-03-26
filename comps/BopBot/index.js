@@ -16,7 +16,6 @@ width: 60px;
 
 display: flex;
 justify-content: flex-end;
-border:2px solid red;
 `;
 
 export default function BopBot({
@@ -126,7 +125,7 @@ export default function BopBot({
 
             <input type='text' onChange={(e) => setTxt(e.target.value)} />
             <button onClick={EmitToIO}>Join and Alert</button>
-            {msgs.map((o, i) => <div key={i} style={{ backgroundColor: 'red', padding: 10 }}>
+            {msgs.map((o, i) => <div key={i} style={{ color: "#fff", backgroundColor: 'none', padding: 10 }}>
                 {o}
             </div>)}
 
