@@ -2,22 +2,12 @@ import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { usePar, useTheme } from "../../utils/provider";
 import MyText from "../../comps/Text/index"
+
 import SbButton from "../SbButton";
 import MyButton from "../Button";
+import { Carousel } from 'react-responsive-carousel';
 
-const Page = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, .3);
-    /* overflow: auto; */
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    position: absolute;
-`;
+
 
 const Cont = styled.div`
     width:567px;
@@ -72,7 +62,6 @@ const ButtonCont = styled.div`
     margin-top: 30px;
     margin-right: 30px;
     border:2px solid green;
-
 `;
 
 
@@ -83,7 +72,6 @@ const AddPlaylist = ({
     handleChange = () => { },
 }) => {
     return (
-    <Page>
         <Cont>
             <TopCont>
                 <EPText>Create new Playlist</EPText>
@@ -91,7 +79,33 @@ const AddPlaylist = ({
             </TopCont>
 
             <MidCont>
-                <img width="207.69px" height="215.38px" src={coverSrc}></img>
+                <Carousel
+                    ar
+                    infiniteLoop={true}
+                    showIndicators={false}
+                    showStatus={false}
+                    swipeable={true}
+                    showThumbs={false}
+                    emulateTouch={true}
+                >
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_happy.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_happy.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_embarassed.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_embarassed.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_mad.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_mad.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_neutral.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_neutral.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_sleepy.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_sleepy.svg'} />
+                    </div>
+
+
+                </Carousel>
                 <ChangeImageText>Add image</ChangeImageText>
                 <BotInput onChange={handleChange} type="text" placeholder="enter title here"  ></BotInput>
             </MidCont>
@@ -107,7 +121,6 @@ const AddPlaylist = ({
 
 
         </Cont>
-        </Page>
     );
 }
 

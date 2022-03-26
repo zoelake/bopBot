@@ -2,8 +2,11 @@ import styled from "styled-components";
 import { themes } from "../../utils/variables";
 import { usePar, useTheme } from "../../utils/provider";
 import MyText from "../../comps/Text/index"
+
 import SbButton from "../SbButton";
 import MyButton from "../Button";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 
 
 const Page = styled.div`
@@ -27,6 +30,7 @@ const Cont = styled.div`
     height:520px;
     background-color: #282828;
     border-radius: 20.95px;
+    margin: 15px;
     z-index: 999999;
     position: relative;
 
@@ -46,7 +50,7 @@ const TopCont = styled.div`
     display: flex;
     flex-grow: 1;
     justify-content: space-around;
-    margin-top: 40px;
+    margin: 22px 10px 0px 10px;
     width:100%;
 `;
 
@@ -62,13 +66,13 @@ const Row = styled.div`
     
 `;
 
-// const MidCont = styled.div`
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     flex-direction: column;
-//     margin-top: 40px;
-// `;
+const MidCont = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 40px;
+`;
 
 const ChangeImageText = styled.text`
     color: white;
@@ -88,10 +92,12 @@ const BotInput = styled.input`
     
 `;
 
-const BottomCont = styled.div`
+const ButtonCont = styled.div`
     padding: 10px;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
+    align-self: flex-end;
+    margin-top: 40px;
     align-items:flex-end;
     display:flex;
 `;
@@ -99,7 +105,7 @@ const BottomCont = styled.div`
 
 const EditPlaylist = ({
     playlist = 'Playlist',
-    coverSrc = '/playlistPop.png',
+    coverSrc = '/botbot_happy.svg',
     onXClick = () => { },
     onSaveClick = () => { },
     onDeleteClick = () => { },
@@ -107,37 +113,62 @@ const EditPlaylist = ({
 }) => {
     return (
         <Page>
-            <Cont>
-                <HoldItems>
+         <Cont>
+            <TopCont>
+                <EPText>Edit {playlist}</EPText>
+                <img onClick={onXClick} width="40.33px" height="40.33px" src={"/purpleX.png"} />
+            </TopCont>
 
-                
-                <TopCont>
-                    <EPText>Edit {playlist}</EPText>
-                    <img onClick={onXClick} width="40.33px" height="40.33px" src={"/purpleX.png"} />
-                </TopCont>
+            <MidCont>
+                <Carousel
+                    ar
+                    infiniteLoop={true}
+                    showIndicators={false}
+                    showStatus={false}
+                    swipeable={true}
+                    showThumbs={false}
+                    emulateTouch={true}
+                >
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_happy.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_happy.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_embarassed.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_embarassed.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_mad.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_mad.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_neutral.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_neutral.svg'} />
+                    </div>
+                    <div onClick={() => localStorage.setItem('cover', '/bopbot_sleepy.svg')}>
+                        <img width="207.69px" height="215.38px" src={'/bopbot_sleepy.svg'} />
+                    </div>
 
-                <img width="207.69px" height="215.38px" src={coverSrc}></img>
-                    <ChangeImageText>Change image</ChangeImageText>
-                    
 
-                    <BottomCont>
-                        <BotInput onChange={handleChange} type="text" placeholder="edit title here"  ></BotInput>
-                        <Row>
+                </Carousel>
+                <BotInput onChange={handleChange} type="text" placeholder="edit title here"  ></BotInput>
+            </MidCont>
+            <ButtonCont>
 
-                        <MyButton
-                            onClick={onSaveClick}
-                            text="Save"
-                            width="50%"
-                            />
-                        <MyButton
-                            onClick={onDeleteClick}
-                            text="Delete"
-                            width="70%"
-                            />
-                            </Row>
-                    </BottomCont>
-                </HoldItems>
-            </Cont>
+                <MyButton
+                    onClick={onDeleteClick}
+                    text="Delete"
+                    width="20%"
+                // style={{ position: 'relative', left: '70%' }}
+                />
+                <MyButton
+                    onClick={onSaveClick}
+                    text="Save"
+                    width="20%"
+                // style={{ position: 'relative', left: '70%' }}
+                />
+            </ButtonCont>
+
+
+
+
+        </Cont>
         </Page>
     );
 }
