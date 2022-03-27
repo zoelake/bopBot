@@ -196,28 +196,28 @@ export default function Home() {
   //---current users playlists
   const [usersPlaylists, setUserPlaylists] = useState([]);
 
-  useEffect(() => {
-    getPlaylists()
-  }, [])
+  // useEffect(() => {
+  //   getPlaylists()
+  // }, [])
 
 
   // //API CALLS TO BACKEND
   function getPlaylists() {
 
     console.log('GETTING PLAYLISTS')
-    const user = {
-      user: localStorage.getItem('email')
-    }
-    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
-      .then((res) => {
-        if (res.status == 200) {
-          console.log('res.data.playlists')
-          console.log(res.data.playlists)
-          setUserPlaylists(res.data.playlists);
-        }
-      }).catch(e => {
-        console.log(e)
-      })
+    // const user = {
+    //   user: localStorage.getItem('email')
+    // }
+    // axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
+    //   .then((res) => {
+    //     if (res.status == 200) {
+    //       console.log('res.data.playlists')
+    //       console.log(res.data.playlists)
+    //       setUserPlaylists(res.data.playlists);
+    //     }
+    //   }).catch(e => {
+    //     console.log(e)
+    //   })
   }
 
   // //page functions
@@ -320,9 +320,9 @@ export default function Home() {
   }
 
 
-  useEffect(() => {
-    getPlaylists()
-  }, [])
+  // useEffect(() => {
+  //   getPlaylists()
+  // }, [])
 
   function getPlaylists() {
     console.log('GETTING PLAYLISTS')
@@ -526,8 +526,8 @@ export default function Home() {
 
           {/* loaded tracks from api call */}
           <TrackScoll>
-            {load ? <Lottie 
-            animationData={loadingAnim}
+            {load ? <Lottie
+              animationData={loadingAnim}
             /> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
@@ -550,7 +550,7 @@ export default function Home() {
             enableTouchEvents: false,
             enableMouseEvents: true
           }}>
-           
+
             {/* <BopBot /> */}
           </DndProvider>
         </TrackScoll>

@@ -79,16 +79,15 @@ export default function LoginAccount({
         axios.post('https://bopbot-backend.herokuapp.com/login', getUser)
             .then((res) => {
                 if (res) {
+
+                    console.log('res.data.name')
                     console.log(res.data.name)
                     localStorage.setItem('name', res.data.name)
                     localStorage.setItem('email', res.data.email)
                     localStorage.setItem('id', res.data._id)
-                    // localStorage.setItem('token', res.data.token)
                     setName(res.data.name)
                     setId(res.data._id)
                     setEmail(res.data.email)
-                    setAvatar(res.data.avatar)
-                    // setToken(res.data.token)
 
                     router.push('/')
 

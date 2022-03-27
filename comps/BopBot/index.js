@@ -111,8 +111,8 @@
 // //             {msgs.map((o, i) => <div key={i} style={{ color: "#fff", backgroundColor: 'none', padding: 10 }}>
 // //             </div>)}
 
-            
-                    
+
+
 // //             <Dropzone onDropItem={(item) => {
 // //                 dndtrack[item.Title] = item;
 // //                 setDndtrack({
@@ -137,7 +137,7 @@
 // //               {msgs.map((o, i) => <div key={i} style={{backgroundColor: 'red', padding: 10}}>
 // //                 {o}
 // //               </div>)}
-              
+
 // //             </Dropzone>
 
 // //             {/* <input type='text' onChange={(e) => setTxt(e.target.value)} /> */}
@@ -406,10 +406,6 @@
 // //     )
 // // }
 
-import { TouchBackend } from 'react-dnd-touch-backend'
-//import { HTML5Backend } from 'react-dnd-html5-backend'
-import { DndProvider } from 'react-dnd'
-import Dropzone from '../Dropzone';
 import { device } from '../../styles/mediaSizes'
 
 
@@ -453,9 +449,7 @@ max-width: 150px;
   }
 `;
 
-export default function BopBot({
-    dndtrack
-}) {
+export default function BopBot() {
     // const [dndtrack, setDndtrack] = useState({
     //     artist: "Zoe",
     //     song: "Mustang",
@@ -470,30 +464,30 @@ export default function BopBot({
 
 
 
-    useEffect(() => {
-        const socket = io("http://localhost:8888");
+    // useEffect(() => {
+    //     const socket = io("http://localhost:8888");
 
-        socket.on("init_user", (users) => {
-            // set the user into the object so you store the users
-            // console.log(users);
-            setUsers(users);
-        })
+    //     socket.on("init_user", (users) => {
+    //         // set the user into the object so you store the users
+    //         // console.log(users);
+    //         setUsers(users);
+    //     })
 
-        socket.on("joined", (id, txt) => {
-            setMsgs((prev) => [
-                ...prev,
-                `Someone is listening to... ${txt}`
-            ]);
-        })
+    //     socket.on("joined", (id, txt) => {
+    //         setMsgs((prev) => [
+    //             ...prev,
+    //             `Someone is listening to... ${txt}`
+    //         ]);
+    //     })
 
-        setMySoc(socket)
-    }, [])
+    //     setMySoc(socket)
+    // }, [])
 
     const EmitToIO = async () => {
         //mySoc to emit
-        if (mySoc != null) {
-            mySoc.emit("user_ready", txt);
-        }
+        // if (mySoc != null) {
+        //     mySoc.emit("user_ready", txt);
+        // }
     }
 
     const [img, setImg] = useState(true)
