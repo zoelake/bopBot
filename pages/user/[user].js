@@ -149,18 +149,9 @@ const SbCont = styled.div`
 const SpaceCont = styled.div`
         display: flex;
         align-items:center ;
+        width: 100%;
+        justify-content: space-between;
 
-        @media ${device.mobile}{
-            width: 100vw;
-            justify-content: space-between;
-
-        }
-
-        @media ${device.desktop}{
-            width: 40vw;
-            justify-content: space-between;
-
-        }
         `;
 
 const TracksCont = styled.div`
@@ -180,6 +171,7 @@ const TracksCont = styled.div`
 
         width: 50vw;
         height: 100vh;
+        margin-right:5%;
 
     }
 
@@ -250,8 +242,6 @@ export default function User() {
     const { id, setId } = useId();
     const { email, setEmail } = useEmail();
 
-    //for sort by age button
-    const [addedRecent, setAddedRecent] = useState(true)
 
     //for updating & loading playlists
     const [playlistImg, setPlaylistImg] = useState(null);
@@ -458,15 +448,13 @@ export default function User() {
                             size={`${headerSize}px`}
 
                         />
-                        <MyButton
+                        {selectedPlaylist !== 'likes' ? <MyButton
                             onClick={() => setEditPlaylistView(!editPlaylistView)}
-                            text={editPlaylistView ? 'close ' : 'edit'}
-                        />
+                            text='Edit'
+                        /> : <></>}
 
-                        <MyButton
-                            onClick={() => setAddedRecent(!addedRecent)}
-                            text={addedRecent ? 'See oldest ' : 'See newest'}
-                        />
+
+
 
                     </SpaceCont>
 

@@ -7,10 +7,7 @@ import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite
 import { color } from '@mui/system';
 
 const Cont = styled.div`
-       &::-webkit-scrollbar {
-        width: 10px;
-        border: 1px solid pink;
-    }
+    
 `;
 const styles = {
     height: '70vh',
