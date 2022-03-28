@@ -196,28 +196,28 @@ export default function Home() {
   //---current users playlists
   const [usersPlaylists, setUserPlaylists] = useState([]);
 
-  // useEffect(() => {
-  //   getPlaylists()
-  // }, [])
+  useEffect(() => {
+    getPlaylists()
+  }, [])
 
 
   // //API CALLS TO BACKEND
   function getPlaylists() {
 
     console.log('GETTING PLAYLISTS')
-    // const user = {
-    //   user: localStorage.getItem('email')
-    // }
-    // axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
-    //   .then((res) => {
-    //     if (res.status == 200) {
-    //       console.log('res.data.playlists')
-    //       console.log(res.data.playlists)
-    //       setUserPlaylists(res.data.playlists);
-    //     }
-    //   }).catch(e => {
-    //     console.log(e)
-    //   })
+    const user = {
+      user: localStorage.getItem('email')
+    }
+    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
+      .then((res) => {
+        if (res.status == 200) {
+          console.log('res.data.playlists')
+          console.log(res.data.playlists)
+          setUserPlaylists(res.data.playlists);
+        }
+      }).catch(e => {
+        console.log(e)
+      })
   }
 
   // //page functions
@@ -290,56 +290,45 @@ export default function Home() {
   }
 
   function setAsLiked(trackdata) {
-    SetTracksAsFavourite(trackdata)
-    AddTrackToLiked(trackdata)
-    console.log('THIS IS TRACK ID:')
+    console.log('liked')
     console.log(trackdata._id)
+    AddTrackToLiked(trackdata)
+    localStorage.setItem(`track #${trackdata._id}`, trackdata._id)
+
   }
 
   function setAsUnliked(trackdata) {
-    SetTracksAsUnfavourite(trackdata)
+    console.log('unliked')
+    console.log(trackdata._id)
+    localStorage.removeItem(`track #${trackdata._id}`)
     DeleteTrackFromLiked(trackdata)
-
-    const [newTracks, setNewTracks] = useState();
-    let loadedTracks = null;
-
-    function getTracks() {
-      console.log('connecting to database...')
-      // axios.get('https://bopbot-backend.herokuapp.com/tracks')
-      //   .then((res) => {
-      //     console.log('here are your tracks! ' + res)
-      //     // setNewTracks(res)
-      //     loadedTracks = res.data
-      //     console.log(loadedTracks);
-
-      //   }).catch(e => {
-      //     console.log(e)
-      //   })
-    }
 
   }
 
 
-  // useEffect(() => {
-  //   getPlaylists()
-  // }, [])
+
+
+
+  useEffect(() => {
+    getPlaylists()
+  }, [])
 
   function getPlaylists() {
     console.log('GETTING PLAYLISTS')
     const user = {
       user: localStorage.getItem('email')
     }
-    // axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
-    //   .then((res) => {
-    //     if (res.status == 200) {
-    //       console.log(res.data.playlists)
-    //       setUserPlaylists(res.data.playlists);
-    //       console.log('playlists')
-    //       console.log(usersPlaylists)
-    //     }
-    //   }).catch(e => {
-    //     console.log(e)
-    //   })
+    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
+      .then((res) => {
+        if (res.status == 200) {
+          console.log(res.data.playlists)
+          setUserPlaylists(res.data.playlists);
+          console.log('playlists')
+          console.log(usersPlaylists)
+        }
+      }).catch(e => {
+        console.log(e)
+      })
     setTrackModel(false)
 
   }
@@ -531,7 +520,7 @@ export default function Home() {
             /> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
-              selected={o.Canada}
+              selected={o._id}
               onTrackClick={() => router.push(o.Uri)}
               AddToLikedPlaylist={(obj) => setAsLiked(o)}
               DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}

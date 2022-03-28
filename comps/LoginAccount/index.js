@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { themes } from "../../utils/variables";
-import { useAvatar, useEmail, useId, useName, useTheme, useToken } from "../../utils/provider";
+import { useAvatar, useEmail, useId, useName, useTheme, useToken, useHeader, usePar, useTitle } from "../../utils/provider";
 import { useState } from 'react';
 import MyButton from '../Button';
 import { useRouter } from 'next/router'
 import axios from 'axios';
+import MyText from '../Text';
 
 const InputCont = styled.div`
     width:80%;
@@ -14,7 +15,7 @@ const InputCont = styled.div`
     justify-content: center;
     align-content: space-around;
     align-items: center;
-    padding:5px;
+    padding:10px;
     border-radius: 5px;
     background-color: #fff;
 `;
@@ -43,6 +44,11 @@ export default function LoginAccount({
 }) {
 
     const router = useRouter();
+
+    const { theme } = useTheme();
+    const { titleSize } = useTitle();
+    const { headerSize } = useHeader();
+    const { parSize } = usePar();
 
     //local storage info
     const [userEmail, setUserEmail] = useState(null);
@@ -105,15 +111,43 @@ export default function LoginAccount({
 
     return (
         <InputCont>
-            <h1>Login to your account</h1>
-            <p>Welcome back!</p>
-            <p>{inputError ? 'Credentials incorrect or not found. Please, try again.' : ''}</p>
+            <img src='/bopbot_neutral.svg' style={{ width: '100px' }} />
+            <MyText
+                lineHeight='0'
+                text='Login to your account'
+                size={`${titleSize}px`}
+                color={themes[theme].contrast}
+            />
+            <MyText
+                lineHeight='0'
+                text='Welcome back!'
+                size={`${headerSize}px`}
+                color={themes[theme].contrast}
+            />
+            {inputError ? <MyText
+                lineHeight='0'
+                text='Credentials incorrect or not found. Please, try again.'
+                size={`${parSize}px`}
+                color={themes[theme].contrast}
+            /> : <></>}
             <LoginInput border={border ? '#8B64FA' : 'red'} name='email' placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} onSelect={() => setBorder(true)} />
-            <LoginInput border={border ? '#8B64FA' : 'red'} name='password' placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} onSelect={() => setBorder(true)} />
+            <LoginInput type='password' border={border ? '#8B64FA' : 'red'} name='password' placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} onSelect={() => setBorder(true)} />
             <ButtonCont>
                 <MyButton onClick={Login} text='Login' />
-                <p>Don't have an account?</p>
-                <p style={{ textDecoration: 'underline' }} onClick={switchView}>Create Account</p>
+                <MyText
+                    lineHeight='0'
+                    text="Don't have an account?"
+                    size={`${parSize}px`}
+                    color={themes[theme].contrast}
+                />
+                <MyText
+                    lineHeight='0'
+                    text="Create Account"
+                    size={`${parSize}px`}
+                    color={themes[theme].contrast}
+                    style={{ textDecoration: 'underline' }}
+                    onClick={switchView}
+                />
             </ButtonCont>
         </InputCont>
     );

@@ -6,7 +6,7 @@ import MyTrack from '../../comps/TrackInfo'
 
 import Playlist from '../../comps/Playlist'
 import SbButton from '../../comps/SbButton'
-import { Carousel} from 'react-responsive-carousel';
+import { Carousel } from 'react-responsive-carousel';
 import Toggle from '../../comps/Toggle'
 import MyText from '../../comps/Text'
 import { themes } from '../../utils/variables'
@@ -16,7 +16,7 @@ import { device } from '../../styles/mediaSizes'
 import MySwitch from '../../comps/Switch'
 import Slider from '../../comps/Slider'
 import UserInfo from '../../comps/UserInfo'
-import { useEffect, useState, useRef, useCallback} from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { useDrag, useDrop } from 'react-dnd';
 
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -288,9 +288,6 @@ export default function User() {
         if (localStorage.getItem('email')) {
             setEmail(localStorage.getItem('email'))
         }
-        useEffect(() => {
-            getPlaylists()
-        }, [])
 
     }
 
@@ -321,6 +318,10 @@ export default function User() {
     }
 
     //API CALLS TO BACKEND
+    useEffect(() => {
+        getPlaylists()
+    }, [])
+
     function getPlaylists() {
 
         console.log('GETTING PLAYLISTS')
@@ -378,7 +379,8 @@ export default function User() {
         setSelectedPlaylistId(playlist._id)
         setSelectedPlaylistCover(playlist.img)
 
-        console.log(selectedPlaylist, selectedPlaylistId, selectedPlaylistCover)
+        getPlaylists()
+
     }
 
 
@@ -419,37 +421,6 @@ export default function User() {
 
 
 
-    function setAsLiked(trackdata) {
-        console.log('liked')
-        console.log(trackdata._id)
-        AddTrackToLiked(trackdata)
-        localStorage.setItem(`track #${trackdata._id}`, trackdata._id)
-        // SetTracksAsFavourite(trackdata)
-        // AddTrackToLiked(trackdata)
-    }
-
-    function setAsUnliked(trackdata) {
-        console.log('unliked')
-        console.log(trackdata._id)
-        localStorage.removeItem(`track #${trackdata._id}`)
-        // SetTracksAsUnfavourite(trackdata)
-        DeleteTrackFromLiked(trackdata)
-        // RemoveFromThisPlaylist(trackdata, selectedPlaylist)
-        // DeleteTrackFromLiked(trackdata)
-    }
-
-    // const ref = useRef(null);
-    // const [selected, setSelected] = useState(false)
-
-    // const moveCard = useCallback((dragIndex, hoverIndex) => {
-    //     setCards((prevCards) => update(prevCards, {
-    //         $splice: [
-    //             [dragIndex, 1],
-    //             [hoverIndex, 0, prevCards[dragIndex]],
-    //         ],
-    //     }));
-    // }, []);
-
     return (
         <>
             <Head>
@@ -484,22 +455,22 @@ export default function User() {
                     /> : <></>}
 
                     <leftTop>
-  
-                            <MyText
-                                weight={500}
-                                lineHeight='0'
-                                text={`Your playlists`}
-                                size={`${titleSize}px`}
-                            />
 
-                            <MyButton
-                                onClick={() => setAddPlaylistView(!addPlaylistView)}
-                                text='create playlist' 
-                                width= '200px'
-                                />
-                 
+                        <MyText
+                            weight={500}
+                            lineHeight='0'
+                            text={`Your playlists`}
+                            size={`${titleSize}px`}
+                        />
+
+                        <MyButton
+                            onClick={() => setAddPlaylistView(!addPlaylistView)}
+                            text='create playlist'
+                            width='200px'
+                        />
+
                     </leftTop>
-            
+
                     <SbCont>
                         <Playlist
                             text='likes'
@@ -527,24 +498,24 @@ export default function User() {
 
                 </Dashboard>
                 <TracksCont>
-             
-                        <SpaceCont>
-                            <MyText
-                                text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
-                                size={`${headerSize}px`}
-                                
-                            />
-                            <MyButton
-                                onClick={() => setEditPlaylistView(!editPlaylistView)}
-                                text={editPlaylistView ? 'close ' : 'edit'}
-                            />
 
-                            <MyButton
-                                onClick={() => setAddedRecent(!addedRecent)}
-                                text={addedRecent ? 'See oldest ' : 'See newest'}
-                            />
+                    <SpaceCont>
+                        <MyText
+                            text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
+                            size={`${headerSize}px`}
 
-                        </SpaceCont>
+                        />
+                        <MyButton
+                            onClick={() => setEditPlaylistView(!editPlaylistView)}
+                            text={editPlaylistView ? 'close ' : 'edit'}
+                        />
+
+                        <MyButton
+                            onClick={() => setAddedRecent(!addedRecent)}
+                            text={addedRecent ? 'See oldest ' : 'See newest'}
+                        />
+
+                    </SpaceCont>
 
                     <Divider
                         color={themes[theme].text} />
@@ -555,26 +526,26 @@ export default function User() {
                             enableTouchEvents: false,
                             enableMouseEvents: true
                         }}>
-                            {selectedPlaylist == 'likes' ? 
-                            <Container
-                            data={likedPlaylist}
-                            // moveCard={moveCard}
-                        
-                            /> : <></>}
+                            {selectedPlaylist == 'likes' ?
+                                <Container
+                                    data={likedPlaylist}
+                                // moveCard={moveCard}
+
+                                /> : <></>}
 
                             {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? <Container
                                 data={selectedTracks}
-                                // moveCard={moveCard}
-                              
+                            // moveCard={moveCard}
+
                             /> : <></>}
 
-                        
+
 
                         </DndProvider>
-                        
+
                     </RegCont>
-           
-         
+
+
                 </TracksCont>
 
 

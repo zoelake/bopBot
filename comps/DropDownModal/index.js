@@ -8,7 +8,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import styled from "styled-components";
 
 import { themes } from "../../utils/variables";
-import { useTheme, usePar,  } from "../../utils/provider";
+import { useTheme, usePar, } from "../../utils/provider";
 import { textAlign } from '@mui/system';
 
 
@@ -59,7 +59,7 @@ export default function DropDownEdit({
     const user = {
       user: localStorage.getItem('email')
     }
-    axios.post('http://localhost:3001/get-playlists', user)
+    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
       .then((res) => {
         if (res.status == 200) {
           console.log('res.data.playlists')
@@ -92,7 +92,7 @@ export default function DropDownEdit({
         aria-label="more" //aria is for accessbility // default on mui
         id="long-button"
         color={themes[theme].dark}
-        
+
         //need to figure out theming
         aria-controls={open ? 'long-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}

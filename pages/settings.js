@@ -141,7 +141,7 @@ const ButtonCont = styled.div`
 
 
 export default function Settings({
-  height="100%"
+  height = "100%"
 }) {
 
   const router = useRouter();
@@ -169,6 +169,8 @@ export default function Settings({
   }
   const [updatedName, setUpdatedName] = useState(null);
   const [updatedEmail, setUpdatedEmail] = useState(null);
+  const [updatedPassword, setUpdatedPassword] = useState(null);
+  const [oldPassword, setOldPassword] = useState(null);
 
   let title = titleSize;
   let header = headerSize;
@@ -221,6 +223,12 @@ export default function Settings({
     setUpdatedEmail(value)
     console.log(updatedEmail)
   }
+  function HandlePassword(value) {
+    setUpdatedPassword(value)
+  }
+  function HandleOldPassword(value) {
+    setOldPassword(value)
+  }
 
 
   function UpdateName() {
@@ -259,6 +267,28 @@ export default function Settings({
           console.log('returned email: ' + res.data)
           localStorage.setItem('email', res.data)
           setEmail(res.data)
+        } else {
+          console.log('something went wrong')
+        }
+      })
+      .catch(e => {
+        console.log(e)
+      })
+
+  }
+
+  function UpdatePassword() {
+    const updatePassword = {
+      email: localStorage.getItem('email'),
+      password: oldPassword,
+      new_password: updatedPassword
+    }
+    console.log('current name: ' + localStorage.getItem('email'))
+    console.log('updated name: ' + updatedEmail)
+    axios.post('https://bopbot-backend.herokuapp.com/update-userPassword', updatePassword)
+      .then((res) => {
+        if (res) {
+          console.log(res.data)
         } else {
           console.log('something went wrong')
         }
@@ -314,89 +344,104 @@ export default function Settings({
             />
             <RightCont>
 
-                <ThemeToggle
-                  radioClick={() => setTheme('dark')}
-                  mode='Dark Mode'
-                  theme1={themes.dark.accent}
-                  theme2={themes.dark.contrast}
-                  inner={theme === 'dark' ? true : false}
+              <ThemeToggle
+                radioClick={() => setTheme('dark')}
+                mode='Dark Mode'
+                theme1={themes.dark.accent}
+                theme2={themes.dark.contrast}
+                inner={theme === 'dark' ? true : false}
 
-                />
-                <ThemeToggle
-                  radioClick={() => setTheme('light')}
-                  mode='Light Mode'
-                  theme1={themes.light.accent}
-                  theme2={themes.light.contrast}
-                  inner={theme === 'light' ? true : false}
-                />
-                <ThemeToggle
-                  radioClick={() => setTheme('retro')}
-                  mode='Retro'
-                  theme1={themes.retro.contrast}
-                  theme2={themes.retro.accent}
-                  inner={theme === 'retro' ? true : false}
-                />
-                <ThemeToggle
-                  radioClick={() => setTheme('funky')}
-                  mode='Funk'
-                  theme1={themes.funky.contrast}
-                  theme2={themes.funky.mid}
-                  inner={theme === 'funky' ? true : false}
-                />
+              />
+              <ThemeToggle
+                radioClick={() => setTheme('light')}
+                mode='Light Mode'
+                theme1={themes.light.accent}
+                theme2={themes.light.contrast}
+                inner={theme === 'light' ? true : false}
+              />
+              <ThemeToggle
+                radioClick={() => setTheme('retro')}
+                mode='Retro'
+                theme1={themes.retro.contrast}
+                theme2={themes.retro.accent}
+                inner={theme === 'retro' ? true : false}
+              />
+              <ThemeToggle
+                radioClick={() => setTheme('funky')}
+                mode='Funk'
+                theme1={themes.funky.contrast}
+                theme2={themes.funky.mid}
+                inner={theme === 'funky' ? true : false}
+              />
             </RightCont>
 
-                  <MyText
-                    text='Font size'
-                    size={`${headerSize}px`}
-                  />
+            <MyText
+              text='Font size'
+              size={`${headerSize}px`}
+            />
 
-                <RightCont>
-                <MyText
-                  size={`${parSize}px`}
-                  text={'Text will now be ✨THIS✨ big'}
-                  />
-                <Toggle
-                  increase={increaseFont}
-                  decrease={decreaseFont}
-                  />
+            <RightCont>
+              <MyText
+                size={`${parSize}px`}
+                text={'Text will now be ✨THIS✨ big'}
+              />
+              <Toggle
+                increase={increaseFont}
+                decrease={decreaseFont}
+              />
 
-                </RightCont>
+            </RightCont>
 
 
-                <MyText
-                  text='Update account details'
-                  size={`${headerSize}px`}
-                />
-              <RightCont>
+            <MyText
+              text='Update account details'
+              size={`${headerSize}px`}
+            />
+            <RightCont>
 
-                <MyText
-                  size={`${parSize}px`}
-                  text={`Current name: ${name}`}
-                  />
-                <LoginInput placeholder='Enter new name...' onChange={(e) => HandleName(e.target.value)} />
-                <MyButton 
-                  onClick={UpdateEmail}
-                  width="200px"
-                  bg={themes[theme].sliderBg}
-                  text = 'Update Name'
-                  >Update email</MyButton>
-                <MyText
-                  size={`${parSize}px`}
-                  text={`Current email: ${email}`}
-                  />
-                <LoginInput placeholder='Enter new email...' onChange={(e) => HandleEmail(e.target.value)} />
-                <MyButton 
-                  onClick={UpdateEmail}
-                  width="200px"
-                  bg={themes[theme].sliderBg}
-                  text = 'Update Email'
-                  >Update email</MyButton>
-              </RightCont>
+              <MyText
+                size={`${parSize}px`}
+                text={`Current name: ${name}`}
+              />
+              <LoginInput placeholder='Enter new name...' onChange={(e) => HandleName(e.target.value)} />
+              <MyButton
+                onClick={UpdateName}
+                width="200px"
+                bg={themes[theme].sliderBg}
+                text='Update Name'
+              >Update email</MyButton>
+              <MyText
+                size={`${parSize}px`}
+                text={`Current email: ${email}`}
+              />
+              <LoginInput placeholder='Enter new email...' onChange={(e) => HandleEmail(e.target.value)} />
+              <MyButton
+                onClick={UpdateEmail}
+                width="200px"
+                bg={themes[theme].sliderBg}
+                text='Update Email'
+              >Update email</MyButton>
 
-          <MyButton
-            text='Logout'
-            onClick={HandleLogout}
-          />
+
+              <MyText
+                size={`${parSize}px`}
+                text={`Update password`}
+              />
+              <LoginInput type='password' placeholder='Enter new password...' onChange={(e) => HandlePassword(e.target.value)} />
+              <LoginInput type='password' placeholder='Enter old password...' onChange={(e) => HandleOldPassword(e.target.value)} />
+              <MyButton
+                onClick={UpdatePassword}
+                width="200px"
+                bg={themes[theme].sliderBg}
+                text='Update Password'
+              >Update password</MyButton>
+
+            </RightCont>
+
+            <MyButton
+              text='Logout'
+              onClick={HandleLogout}
+            />
 
 
             {/* </HalfCont> */}

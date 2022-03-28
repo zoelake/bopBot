@@ -4,15 +4,15 @@ import { useTheme } from "../../utils/provider";
 
 
 const Text = styled.p`
-    color: ${props=>props.color};
-    font-size: ${props=>props.fontSize};
-    line-height: ${props=>props.height};
+    color: ${props => props.color};
+    font-size: ${props => props.fontSize};
+    line-height: ${props => props.height};
     padding:0;
-    font-weight: ${props=>props.weight};
+    font-weight: ${props => props.weight};
     word-wrap: break-word;
 
     :hover {
-        color:${props=>props.hover};
+        color:${props => props.hover};
     }
 `;
 
@@ -23,18 +23,20 @@ export default function MyText({
     weight,
     lineHeight = 'auto',
     hover,
-    onClick = () => {},
-}){
+    style,
+    onClick = () => { },
+}) {
 
-    const {theme} = useTheme();
-   
+    const { theme } = useTheme();
+
 
     return <Text
-    onClick={onClick}
-   color={color || themes[theme].text}
-    fontSize={size}
-    height={lineHeight}
-    weight={weight}
-    hover={hover || ''}
+        style={style}
+        onClick={onClick}
+        color={color || themes[theme].text}
+        fontSize={size}
+        height={lineHeight}
+        weight={weight}
+        hover={hover || ''}
     >{text}</Text>
 }
