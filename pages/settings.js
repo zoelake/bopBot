@@ -319,13 +319,14 @@ export default function Settings({
       </Head>
       <NavBar />
       <Page>
-        <MyText
-          weight={500}
-          text={`Settings`}
-          size={`${titleSize}px`} />
+
         <Dashboard
           bg={themes[theme].contrast}>
           <Cont>
+            <MyText
+              weight={500}
+              text={`Settings`}
+              size={`${titleSize}px`} />
             <MyText
               text='Themes'
               size={`${headerSize}px`}

@@ -154,39 +154,34 @@ const SbCont = styled.div`
 const SpaceCont = styled.div`
         display: flex;
         align-items:center ;
-        margin-left: 10%;
-
-        `;
+        justify-content:space-between ;
+        width: 100%;
+ `;
 
 const TracksCont = styled.div`
     z-index: 1;
     position: relative;
+    padding:10px 20px;
+    width:100% ;
+    display:flex ;
+    flex-direction: column ;
+
 
     @media ${device.mobile}{
-        display:flex;
-        flex-direction: column ;
         align-items: center ;
-        width: 100vw;
         height: 50vh;
-        /* justify-content:center ; */
     }
 
     @media ${device.tablet}{
 
-        width: 40vw;
         height: 100vh;
         margin-right:5%;
 
     }
 
     @media ${device.desktop}{
-        display:flex ;
-        flex-direction: column ;
-        /* padding:30px 10px 10px 60px; */
         justify-content:center ;
-        width: 50vw;
         align-self: center;
-        height: 100vh;
         
        
     }
@@ -401,27 +396,27 @@ export default function User() {
                     /> : <></>}
 
                     <leftTop>
-  
-                            <MyText
-                                weight={500}
-                                lineHeight='0'
-                                text={`Your playlists`}
-                                size={`${titleSize}px`}
-                            />
 
-<MyText
-                                weight={100}
-                                lineHeight='0'
-                                text={`Drag your tracks into your preferred order!`}
-                                size={`${parSize}px`}
-                            />
+                        <MyText
+                            weight={500}
+                            lineHeight='0'
+                            text={`Your playlists`}
+                            size={`${titleSize}px`}
+                        />
 
-                            <MyButton
-                                onClick={() => setAddPlaylistView(!addPlaylistView)}
-                                text='create playlist' 
-                                width= '200px'
-                                />
-                 
+                        <MyText
+                            weight={100}
+                            lineHeight='36px'
+                            text={`Drag your tracks into your preferred order!`}
+                            size={`${parSize}px`}
+                        />
+
+                        <MyButton
+                            onClick={() => setAddPlaylistView(!addPlaylistView)}
+                            text='Create playlist'
+                            width='200px'
+                        />
+
                     </leftTop>
 
                     <SbCont>
@@ -450,26 +445,20 @@ export default function User() {
 
                 </Dashboard>
                 <TracksCont>
-             
-                        <SpaceCont>
-                            <MyText
-                                text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
-                                size={`${headerSize}px`}
-                                
-                            />
-                        
-                            
-                            <MyButton
-                                onClick={() => setAddedRecent(!addedRecent)}
-                                text={addedRecent ? 'See oldest ' : 'See newest'}
-                            />
 
-                            <MyButton
-                                onClick={() => setEditPlaylistView(!editPlaylistView)}
-                                text={editPlaylistView ? 'close ' : 'edit'}
-                            />              
+                    <SpaceCont>
+                        <MyText
+                            text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
+                            size={`${headerSize}px`}
 
-                        </SpaceCont>
+                        />
+
+                        <MyButton
+                            onClick={() => setEditPlaylistView(!editPlaylistView)}
+                            text={'Edit '}
+                        />
+
+                    </SpaceCont>
 
                     <Divider
                         color={themes[theme].text} />
