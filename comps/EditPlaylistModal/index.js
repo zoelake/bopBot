@@ -111,6 +111,8 @@ const EditPlaylist = ({
     onDeleteClick = () => { },
     handleChange = () => { },
 }) => {
+
+
     return (
         <Page>
          <Cont>
@@ -155,13 +157,12 @@ const EditPlaylist = ({
                     onClick={onDeleteClick}
                     text="Delete"
                     width="80px"
-                // style={{ position: 'relative', left: '70%' }}
+
                 />
                 <MyButton
                     onClick={onSaveClick}
                     text="Save"
                     width="80px"
-                // style={{ position: 'relative', left: '70%' }}
                 />
             </ButtonCont>
 

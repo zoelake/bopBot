@@ -32,11 +32,11 @@ const TrackCont = styled.div`
     }
 
     @media ${device.tablet}{
-        width: 40vw;
+        width: 100%;
     }
 
     @media ${device.desktop}{
-        width: 40vw;
+        width: 100%;
     }
 
 `;
@@ -98,7 +98,7 @@ const Dots = styled.div`
 
 
 export default function MyTrack({
-   
+
     time = '2:55',
     artist = 'Zoë James',
     song = 'In the House',
@@ -148,7 +148,7 @@ export default function MyTrack({
 
 
 
-    return <TrackCont 
+    return <TrackCont
     >
         <TrackCont >
             {/* {content} */}
@@ -188,9 +188,8 @@ export default function MyTrack({
                 >{album}</Text>
             </Cont4>
 
-          
 
-        <Cont5>
+ <Cont5>
             <MyRadio shape={'heart'} inner={heart} onClick={LikeTrack} />
         </Cont5>
         <Cont6

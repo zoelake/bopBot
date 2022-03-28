@@ -7,6 +7,7 @@ import SbButton from "../SbButton";
 import MyButton from "../Button";
 import { Carousel } from 'react-responsive-carousel';
 
+
 const Page = styled.div`
     display: flex;
     justify-content: center;

@@ -24,7 +24,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
-import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, SetTracksAsFavourite, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, SetTracksAsUnfavourite, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
 import DropDownEdit from '../../comps/DropDownModal'
 
 import { Container } from '../../comps/Container'
@@ -345,10 +345,11 @@ export default function User() {
 
     function onAddSaveClick() {
         setAddPlaylistView(!addPlaylistView)
-        CreateNewPlaylist(newPlaylistName)
+        CreateNewPlaylist(newPlaylistName, localStorage.getItem('cover'))
         getPlaylists();
 
     }
+
 
     function onEditSaveClick() {
         setEditPlaylistView(!editPlaylistView)
@@ -359,6 +360,7 @@ export default function User() {
         getPlaylists();
 
     }
+
 
 
 
@@ -380,7 +382,6 @@ export default function User() {
 
                     {/* if users clicks create playlist */}
                     {addPlaylistView ? <AddPlaylist
-
                         handleChange={(e) => setNewPlaylistName(e.target.value)}
                         onXClick={() => setAddPlaylistView(false)}
                         onSaveClick={onAddSaveClick}
@@ -468,6 +469,9 @@ export default function User() {
                         <DndProvider backend={TouchBackend} options={{
                             enableTouchEvents: false,
                             enableMouseEvents: true
+                        }}>  <DndProvider backend={TouchBackend} options={{
+                            enableTouchEvents: false,
+                            enableMouseEvents: true
                         }}>
                             {selectedPlaylist == 'likes' ?
                                 <Container
@@ -481,6 +485,9 @@ export default function User() {
                             // moveCard={moveCard}
 
                             /> : <></>}
+
+
+                        </DndProvider>
 
 
                         </DndProvider>
