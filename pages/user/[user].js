@@ -81,6 +81,7 @@ const Dashboard = styled.div`
         padding:30px 20px 10px 20px;
         flex-grow: 1;
         width: 50vw;
+        background-color: red;
        
     }
 `;
@@ -105,6 +106,7 @@ const Playlists = styled.div`
         height: 250px;
         
     }
+    background-color: red;
 
 `;
 
@@ -156,7 +158,7 @@ const Middle = styled.div`
         justify-content: center;
         height 10vh;
         padding: 20px;
-        margin: 20px 10px 10px 0px;
+        margin: 2   0px 10px 10px 0px;
         
     }
 
@@ -213,7 +215,6 @@ const RightCont = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
 
 
     @media ${device.mobile}{
@@ -221,7 +222,6 @@ const RightCont = styled.div`
         min-height: 50vh;
         max-height: 100vh;
         flex-direction: row;
-        align-items: center;
         padding: 15px;
         
     }
@@ -229,11 +229,13 @@ const RightCont = styled.div`
     @media ${device.tablet}{
         height: 100vh;
         width: 50vw;
+        flex-direction: column;
     }
 
     @media ${device.desktop}{
         height: 100vh;
         width: 50vw;
+        flex-direction: column;
     }
 
 `;

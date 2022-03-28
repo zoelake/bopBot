@@ -30,6 +30,7 @@ const Cont = styled.div`
     border-radius: 20.95px;
     z-index: 200;
     padding:20px;
+    position: absolute;
 `;
 
 const HoldItems = styled.div`
