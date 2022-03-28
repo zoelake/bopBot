@@ -53,7 +53,7 @@ export default function handler(req, res) {
                     }
 
 
-                    lists = lists.slice(0, 10);
+                    // lists = lists.slice(0, 10);
                     res.status(200).json(lists);
                 }
 

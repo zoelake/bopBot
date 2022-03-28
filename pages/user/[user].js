@@ -102,9 +102,6 @@ const leftTop = styled.div`
     @media ${device.mobile}{
         width: 100vw;
         height: 50vh;
-        /* background-color:#fad ; */
-        /* margin-left: 15px; */
-        /* flex-grow: 1; */
     }
 
     @media ${device.tablet}{
@@ -117,8 +114,7 @@ const leftTop = styled.div`
 
 `;
 
-const rigthCont = styled.div`
-`;
+
 
 
 const SbCont = styled.div`
@@ -127,11 +123,6 @@ const SbCont = styled.div`
        overflow-y: scroll ;
        justify-content: flex-start;
 
-       &::-webkit-scrollbar {
-        width: 10px;
-        border: 1px solid pink;
-        margin-top: 20px;
-    }
 
      @media ${device.mobile}{
  
@@ -341,26 +332,6 @@ export default function User() {
             })
     }
 
-    function getPlaylistById(id) {
-        console.log(`getting playlist by its id: ${id}`)
-        const user = {
-            playlist_id: id,
-            email: localStorage.getItem('email')
-        }
-        console.log('user')
-        console.log(user)
-        axios.post('https://bopbot-backend.herokuapp.com/get-a-playlist', user)
-            .then((res) => {
-                if (res.status == 200) {
-                    console.log('ur res: ')
-                    console.log(res.data)
-                    // return res.data;
-                }
-            }).catch((e) => {
-                console.log(e)
-            })
-    }
-
     //page functions
     function onDeleteClick() {
         setEditPlaylistView(false)
@@ -399,24 +370,6 @@ export default function User() {
         setSelectedPlaylist(updatePlaylistName)
         getPlaylists();
 
-    }
-
-    function handleTrackOptions(trackdata) {
-        console.log('opening model for options')
-        console.log(trackdata)
-        const playlist = localStorage.getItem('selectedPlaylist')
-        const request = localStorage.getItem('request')
-
-        if (request)
-            if (request == 'add') {
-                console.log(`adding ${trackdata.name} to ${playlist}`)
-                AddTrackToPlaylist(trackdata, playlist);
-            } else if (request == 'remove') {
-                console.log(`removing ${trackdata.name} from ${playlist}`)
-                RemoveTrackFromPlaylist(trackdata, playlist);
-            }
-
-        getPlaylists()
     }
 
 
@@ -474,7 +427,7 @@ export default function User() {
                     <SbCont>
                         <Playlist
                             text='likes'
-                            cover={'/heart.png'}
+                            cover={'/heartWhite.png'}
                             onClick={() => setSelectedPlaylist('likes')}
                             bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
                             color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}

@@ -326,18 +326,6 @@ export default function Settings({
         <Dashboard
           bg={themes[theme].contrast}>
           <Cont>
-            {/* <HalfCont flex={1}> */}
-
-            {/* </HalfCont> */}
-
-            {/* <Divider
-              col={themes[theme].text}
-            /> */}
-
-
-            {/* <HalfCont flex={2}> */}
-
-
             <MyText
               text='Themes'
               size={`${headerSize}px`}
@@ -443,8 +431,6 @@ export default function Settings({
               onClick={HandleLogout}
             />
 
-
-            {/* </HalfCont> */}
           </Cont>
 
 

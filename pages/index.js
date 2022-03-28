@@ -195,6 +195,8 @@ export default function Home() {
   const [selectedTrack, setSelectedTrack] = useState([])
   //---current users playlists
   const [usersPlaylists, setUserPlaylists] = useState([]);
+  const [selectedPlaylist, setSelectedPlaylist] = useState([])
+
 
   useEffect(() => {
     getPlaylists()
@@ -261,7 +263,6 @@ export default function Home() {
     }
   }
 
-  const [selectedPlaylist, setSelectedPlaylist] = useState([])
 
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
@@ -281,14 +282,6 @@ export default function Home() {
   }
 
 
-  function SetAndAddTrack(req) {
-    console.log('req')
-    console.log(req)
-    console.log('playlist name: ' + playlist)
-    setSelectedPlaylist(playlist)
-    AddTrackToPlaylist(selectedTrack, playlist)
-  }
-
   function setAsLiked(trackdata) {
     console.log('liked')
     console.log(trackdata._id)
@@ -302,34 +295,6 @@ export default function Home() {
     console.log(trackdata._id)
     localStorage.removeItem(`track #${trackdata._id}`)
     DeleteTrackFromLiked(trackdata)
-
-  }
-
-
-
-
-
-  useEffect(() => {
-    getPlaylists()
-  }, [])
-
-  function getPlaylists() {
-    console.log('GETTING PLAYLISTS')
-    const user = {
-      user: localStorage.getItem('email')
-    }
-    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
-      .then((res) => {
-        if (res.status == 200) {
-          console.log(res.data.playlists)
-          setUserPlaylists(res.data.playlists);
-          console.log('playlists')
-          console.log(usersPlaylists)
-        }
-      }).catch(e => {
-        console.log(e)
-      })
-    setTrackModel(false)
 
   }
 
@@ -473,12 +438,6 @@ export default function Home() {
             size={`${headerSize}px`}
           />
           <SliderCont>
-            {/* {sliderValues.map((o, i, ev) => <Slider
-              text={o.title}
-              number={o.value}
-              value={o.value}
-              onChange={this.o.onChange}
-            />)} */}
             <Slider text='Acounticness' number={acValue} value={acValue} onChange={(ev) => setAcValue(ev.target.value)} />
             <Slider text='Danceability' number={dncValue} value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
 
@@ -488,6 +447,7 @@ export default function Home() {
             <Slider text='Tempo' number={tpValue} max={240} step={80} value={tpValue} onChange={(ev) => setTpValue(ev.target.value)} />
 
           </SliderCont>
+
           <div style={{
             position: 'relative',
             right: device.mobile ? null : '47%',
@@ -532,20 +492,6 @@ export default function Home() {
             />)}
           </TrackScoll>
         </TracksCont>
-
-
-        <TrackScoll>
-          <DndProvider backend={TouchBackend} options={{
-            enableTouchEvents: false,
-            enableMouseEvents: true
-          }}>
-
-            {/* <BopBot /> */}
-          </DndProvider>
-        </TrackScoll>
-
-        {/* <EditPlaylist /> */}
-        {/* <TrackAddedPopup/> */}
       </Page>
     </>
   )

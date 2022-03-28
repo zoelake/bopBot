@@ -238,9 +238,6 @@ export const Card = ({
             </LikeIconCont>
 
             <Dotcont onClick={OpenOptions}>
-                {/* <Dots col={themes[theme].text} />
-                <Dots col={themes[theme].text} />
-                <Dots col={themes[theme].text} /> */}
                 <DropDownEdit/>
             </Dotcont>
             </BigCont>
