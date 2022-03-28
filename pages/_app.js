@@ -23,18 +23,19 @@ body{
 
 function MyApp({ Component, pageProps }) {
 
-  const router = useRouter();
-  const page = router.asPath;
-  const { name, setName } = useName();
-  const { id, setId } = useId();
 
-  if(typeof window !== 'undefined'){
+
+  if (typeof window !== 'undefined') {
+    const router = useRouter();
+    const page = router.asPath;
+    const { name, setName } = useName();
+    const { id, setId } = useId();
     useEffect(() => {
       if (localStorage.getItem('name')) {
         console.log('user loged in')
         setName(localStorage.getItem('name'))
         setId(localStorage.getItem('id'))
-  
+
       } else {
         router.push('/login')
       }

@@ -259,6 +259,29 @@ export default function User() {
 
     const { parSize } = usePar();
 
+    useEffect(() => {
+        getPlaylists()
+    }, [])
+
+    function getPlaylists() {
+
+        console.log('GETTING PLAYLISTS')
+        const user = {
+            user: localStorage.getItem('email')
+        }
+        axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
+            .then((res) => {
+                if (res.status == 200) {
+                    console.log('res.data.playlists')
+                    console.log(res.data.playlists)
+                    setUserPlaylists(res.data.playlists);
+                    setLikedPlaylist(res.data.liked)
+                }
+            }).catch(e => {
+                console.log(e)
+            })
+    }
+
     //load user & playlist data on load
     if (typeof window !== 'undefined') {
         if (localStorage.getItem('id')) {
@@ -297,28 +320,7 @@ export default function User() {
     }
 
     //API CALLS TO BACKEND
-    useEffect(() => {
-        getPlaylists()
-    }, [])
-
-    function getPlaylists() {
-
-        console.log('GETTING PLAYLISTS')
-        const user = {
-            user: localStorage.getItem('email')
-        }
-        axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
-            .then((res) => {
-                if (res.status == 200) {
-                    console.log('res.data.playlists')
-                    console.log(res.data.playlists)
-                    setUserPlaylists(res.data.playlists);
-                    setLikedPlaylist(res.data.liked)
-                }
-            }).catch(e => {
-                console.log(e)
-            })
-    }
+   
 
     //page functions
     function onDeleteClick() {
