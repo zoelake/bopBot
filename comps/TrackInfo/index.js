@@ -119,21 +119,32 @@ export default function MyTrack({
     const { parSize } = usePar();
     const { headerSize } = useHeader();
 
-
     function LikeTrack() {
         // setSelected(!selected);
         console.log('selected')
         console.log(selected)
+        setHeart(!heart)
 
-        if (selected !== 100) {
+        if (!heart) {
             console.log('adding track')
             AddToLikedPlaylist();
         }
-        if (selected == 100) {
+        else {
             console.log('deleting track')
             DeleteFromLikedPlaylist();
         }
     }
+
+    useEffect(() => {
+        console.log('selected?' + selected)
+        if (localStorage.getItem(`track #${selected}`) !== null) {
+            setHeart(true)
+        } else {
+            setHeart(false)
+        }
+
+    }, [heart])
+
 
 
 
@@ -180,7 +191,7 @@ export default function MyTrack({
           
 
         <Cont5>
-            <MyRadio shape={'heart'} inner={selected == 100 ? true : false} onClick={LikeTrack} />
+            <MyRadio shape={'heart'} inner={heart} onClick={LikeTrack} />
         </Cont5>
         <Cont6
             onClick={OpenOptions}>

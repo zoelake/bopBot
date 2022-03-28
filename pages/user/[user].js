@@ -6,7 +6,7 @@ import MyTrack from '../../comps/TrackInfo'
 
 import Playlist from '../../comps/Playlist'
 import SbButton from '../../comps/SbButton'
-import { Carousel} from 'react-responsive-carousel';
+import { Carousel } from 'react-responsive-carousel';
 import Toggle from '../../comps/Toggle'
 import MyText from '../../comps/Text'
 import { themes } from '../../utils/variables'
@@ -16,7 +16,7 @@ import { device } from '../../styles/mediaSizes'
 import MySwitch from '../../comps/Switch'
 import Slider from '../../comps/Slider'
 import UserInfo from '../../comps/UserInfo'
-import { useEffect, useState, useRef, useCallback} from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { useDrag, useDrop } from 'react-dnd';
 
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -102,9 +102,6 @@ const leftTop = styled.div`
     @media ${device.mobile}{
         width: 100vw;
         height: 50vh;
-        /* background-color:#fad ; */
-        /* margin-left: 15px; */
-        /* flex-grow: 1; */
     }
 
     @media ${device.tablet}{
@@ -117,8 +114,7 @@ const leftTop = styled.div`
 
 `;
 
-const rigthCont = styled.div`
-`;
+
 
 
 const SbCont = styled.div`
@@ -160,17 +156,6 @@ const SpaceCont = styled.div`
         align-items:center ;
         margin-left: 10%;
 
-        @media ${device.mobile}{
-            width: 100vw;
-            justify-content: space-between;
-
-        }
-
-        @media ${device.desktop}{
-            width: 40vw;
-            justify-content: space-between;
-
-        }
         `;
 
 const TracksCont = styled.div`
@@ -190,6 +175,7 @@ const TracksCont = styled.div`
 
         width: 40vw;
         height: 100vh;
+        margin-right:5%;
 
     }
 
@@ -259,8 +245,6 @@ export default function User() {
     const { id, setId } = useId();
     const { email, setEmail } = useEmail();
 
-    //for sort by age button
-    const [addedRecent, setAddedRecent] = useState(true)
 
     //for updating & loading playlists
     const [playlistImg, setPlaylistImg] = useState(null);
@@ -288,9 +272,6 @@ export default function User() {
         if (localStorage.getItem('email')) {
             setEmail(localStorage.getItem('email'))
         }
-        useEffect(() => {
-            getPlaylists()
-        }, [])
 
     }
 
@@ -321,6 +302,10 @@ export default function User() {
     }
 
     //API CALLS TO BACKEND
+    useEffect(() => {
+        getPlaylists()
+    }, [])
+
     function getPlaylists() {
 
         console.log('GETTING PLAYLISTS')
@@ -336,26 +321,6 @@ export default function User() {
                     setLikedPlaylist(res.data.liked)
                 }
             }).catch(e => {
-                console.log(e)
-            })
-    }
-
-    function getPlaylistById(id) {
-        console.log(`getting playlist by its id: ${id}`)
-        const user = {
-            playlist_id: id,
-            email: localStorage.getItem('email')
-        }
-        console.log('user')
-        console.log(user)
-        axios.post('https://bopbot-backend.herokuapp.com/get-a-playlist', user)
-            .then((res) => {
-                if (res.status == 200) {
-                    console.log('ur res: ')
-                    console.log(res.data)
-                    // return res.data;
-                }
-            }).catch((e) => {
                 console.log(e)
             })
     }
@@ -378,7 +343,8 @@ export default function User() {
         setSelectedPlaylistId(playlist._id)
         setSelectedPlaylistCover(playlist.img)
 
-        console.log(selectedPlaylist, selectedPlaylistId, selectedPlaylistCover)
+        getPlaylists()
+
     }
 
 
@@ -399,56 +365,7 @@ export default function User() {
 
     }
 
-    function handleTrackOptions(trackdata) {
-        console.log('opening model for options')
-        console.log(trackdata)
-        const playlist = localStorage.getItem('selectedPlaylist')
-        const request = localStorage.getItem('request')
 
-        if (request)
-            if (request == 'add') {
-                console.log(`adding ${trackdata.name} to ${playlist}`)
-                AddTrackToPlaylist(trackdata, playlist);
-            } else if (request == 'remove') {
-                console.log(`removing ${trackdata.name} from ${playlist}`)
-                RemoveTrackFromPlaylist(trackdata, playlist);
-            }
-
-        getPlaylists()
-    }
-
-
-
-    function setAsLiked(trackdata) {
-        console.log('liked')
-        console.log(trackdata._id)
-        AddTrackToLiked(trackdata)
-        localStorage.setItem(`track #${trackdata._id}`, trackdata._id)
-        // SetTracksAsFavourite(trackdata)
-        // AddTrackToLiked(trackdata)
-    }
-
-    function setAsUnliked(trackdata) {
-        console.log('unliked')
-        console.log(trackdata._id)
-        localStorage.removeItem(`track #${trackdata._id}`)
-        // SetTracksAsUnfavourite(trackdata)
-        DeleteTrackFromLiked(trackdata)
-        // RemoveFromThisPlaylist(trackdata, selectedPlaylist)
-        // DeleteTrackFromLiked(trackdata)
-    }
-
-    // const ref = useRef(null);
-    // const [selected, setSelected] = useState(false)
-
-    // const moveCard = useCallback((dragIndex, hoverIndex) => {
-    //     setCards((prevCards) => update(prevCards, {
-    //         $splice: [
-    //             [dragIndex, 1],
-    //             [hoverIndex, 0, prevCards[dragIndex]],
-    //         ],
-    //     }));
-    // }, []);
 
     return (
         <>
@@ -506,11 +423,11 @@ export default function User() {
                                 />
                  
                     </leftTop>
-            
+
                     <SbCont>
                         <Playlist
                             text='likes'
-                            cover={'/heart.png'}
+                            cover={'/heartWhite.png'}
                             onClick={() => setSelectedPlaylist('likes')}
                             bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
                             color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
@@ -563,25 +480,25 @@ export default function User() {
                             enableTouchEvents: false,
                             enableMouseEvents: true
                         }}>
-                            {selectedPlaylist == 'likes' ? 
-                            <Container
-                            data={likedPlaylist}
-                            // moveCard={moveCard}
-                        
-                            /> : <></>}
+                            {selectedPlaylist == 'likes' ?
+                                <Container
+                                    data={likedPlaylist}
+                                // moveCard={moveCard}
+
+                                /> : <></>}
 
                             {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? <Container
                                 data={selectedTracks}
-                                // moveCard={moveCard}
-                              
+                            // moveCard={moveCard}
+
                             /> : <></>}
 
 
                         </DndProvider>
-                        
+
                     </RegCont>
-           
-         
+
+
                 </TracksCont>
 
 
