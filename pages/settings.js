@@ -24,11 +24,11 @@ import { useRouter } from 'next/router'
 const Page = styled.div`
   display:flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   margin:0;
   justify-content: space-between;
   height: 100%;
-  padding: 5%;
+  padding: 2%;
 `;
 
 const Dashboard = styled.div`

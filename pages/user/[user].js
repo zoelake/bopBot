@@ -37,7 +37,7 @@ const Page = styled.div`
 
     display: flex;
     height: 100vh;
-      width: 100vw;
+    width: 100vw;
 
   @media ${device.mobile}{
 
@@ -128,8 +128,8 @@ const SbCont = styled.div`
        justify-content: flex-start;
 
        &::-webkit-scrollbar {
-        width: 10px;
-        border: 1px solid pink;
+        width: 1px;
+        border: 1px solid white;
         margin-top: 20px;
     }
 
@@ -158,6 +158,7 @@ const SbCont = styled.div`
 const SpaceCont = styled.div`
         display: flex;
         align-items:center ;
+        margin-left: 10%;
 
         @media ${device.mobile}{
             width: 100vw;
@@ -187,7 +188,7 @@ const TracksCont = styled.div`
 
     @media ${device.tablet}{
 
-        width: 50vw;
+        width: 40vw;
         height: 100vh;
 
     }
@@ -242,7 +243,6 @@ const Divider = styled.div`
        
     }
 `;
-
 
 
 
@@ -492,6 +492,13 @@ export default function User() {
                                 size={`${titleSize}px`}
                             />
 
+<MyText
+                                weight={100}
+                                lineHeight='0'
+                                text={`Drag your tracks into your preferred order!`}
+                                size={`${parSize}px`}
+                            />
+
                             <MyButton
                                 onClick={() => setAddPlaylistView(!addPlaylistView)}
                                 text='create playlist' 
@@ -508,7 +515,6 @@ export default function User() {
                             bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
                             color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
                         />
-
 
                         {usersPlaylists !== [] ? usersPlaylists.map((o, i) => <Playlist
                             key={i}
@@ -534,15 +540,17 @@ export default function User() {
                                 size={`${headerSize}px`}
                                 
                             />
-                            <MyButton
-                                onClick={() => setEditPlaylistView(!editPlaylistView)}
-                                text={editPlaylistView ? 'close ' : 'edit'}
-                            />
-
+                        
+                            
                             <MyButton
                                 onClick={() => setAddedRecent(!addedRecent)}
                                 text={addedRecent ? 'See oldest ' : 'See newest'}
                             />
+
+                            <MyButton
+                                onClick={() => setEditPlaylistView(!editPlaylistView)}
+                                text={editPlaylistView ? 'close ' : 'edit'}
+                            />              
 
                         </SpaceCont>
 
@@ -568,7 +576,6 @@ export default function User() {
                               
                             /> : <></>}
 
-                        
 
                         </DndProvider>
                         
