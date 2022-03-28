@@ -113,6 +113,8 @@ const EditPlaylist = ({
     onDeleteClick = () => { },
     handleChange = () => { },
 }) => {
+
+
     return (
         <Page>
             <Cont>
@@ -171,6 +173,7 @@ const EditPlaylist = ({
 
 
             </Cont>
+
         </Page>
     );
 }
