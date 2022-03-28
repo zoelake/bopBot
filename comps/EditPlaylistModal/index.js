@@ -9,25 +9,61 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from 'react-responsive-carousel';
 
 
+const Page = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .3);
+    /* overflow: auto; */
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    position: absolute;
+`;
+
 const Cont = styled.div`
-    width:567px;
-    height:557px;
+    display: flex;
+    flex-direction: column;
+    width:450px;
+    height:520px;
     background-color: #282828;
     border-radius: 20.95px;
-    justify-content: center;
     margin: 15px;
-    z-index: 200;
+    z-index: 999999;
+    position: relative;
+
+    
+`;
+
+const HoldItems = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
 `;
 
 const TopCont = styled.div`
-display: flex;
-justify-content: space-around;
-margin-top: 40px;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-around;
+    margin: 22px 10px 0px 10px;
+    width:100%;
 `;
 
 const EPText = styled.text`
     font-size: 36px;
     color:white;
+`;
+const Row = styled.div`
+    display:flex;
+    flex-direction: row;
+    width: 200px;
+    padding: 10px;
+    
 `;
 
 const MidCont = styled.div`
@@ -53,21 +89,23 @@ const BotInput = styled.input`
     height: 44.78px;
     background-color: #7C7C7C;
     border-radius:10px;
-    margin: 22px 10px 0px 10px;
+    
 `;
 
 const ButtonCont = styled.div`
-    display:flex;
+    padding: 10px;
+    flex-direction: column;
     justify-content: space-around;
-   align-self: flex-end;
-   margin-top: 40px;
-
+    align-self: flex-end;
+    margin-top: 40px;
+    align-items:flex-end;
+    display:flex;
 `;
 
 
 const EditPlaylist = ({
     playlist = 'Playlist',
-    coverSrc = '/bopbot_happy.svg',
+    coverSrc = '/botbot_happy.svg',
     onXClick = () => { },
     onSaveClick = () => { },
     onDeleteClick = () => { },
@@ -76,7 +114,8 @@ const EditPlaylist = ({
 
 
     return (
-        <Cont>
+        <Page>
+         <Cont>
             <TopCont>
                 <EPText>Edit {playlist}</EPText>
                 <img onClick={onXClick} width="40.33px" height="40.33px" src={"/purpleX.png"} />
@@ -117,14 +156,13 @@ const EditPlaylist = ({
                 <MyButton
                     onClick={onDeleteClick}
                     text="Delete"
-                    width="20%"
-                // style={{ position: 'relative', left: '70%' }}
+                    width="80px"
+
                 />
                 <MyButton
                     onClick={onSaveClick}
                     text="Save"
-                    width="20%"
-                // style={{ position: 'relative', left: '70%' }}
+                    width="80px"
                 />
             </ButtonCont>
 
@@ -132,6 +170,7 @@ const EditPlaylist = ({
 
 
         </Cont>
+        </Page>
     );
 }
 

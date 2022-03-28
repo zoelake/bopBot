@@ -3,6 +3,7 @@ import { themes } from "../../utils/variables";
 import { useEmail, useId, useName, useTheme } from "../../utils/provider";
 import { useState } from 'react';
 import MyButton from '../Button';
+import MyText from '../Text';
 import { useRouter } from 'next/router';
 
 import axios from 'axios';
@@ -107,16 +108,43 @@ export default function CreateNewAccount({
         <InputCont
             color={themes[theme].contrast}
         >
-            <h1>Create an Account</h1>
-            <p style={{ textAlign: 'center', width: '80%' }}>Create an account to get started!</p>
-            <p>{inputError ? 'Credentials incorrect or not found. Please, try again.' : ''}</p>
+            <MyText
+                lineHeight='0'
+                text='Create an Account'
+                size={`${titleSize}px`}
+                color={themes[theme].contrast}
+            />
+            <MyText
+                lineHeight='0'
+                text='Create an account to get started!'
+                size={`${headerSize}px`}
+                color={themes[theme].contrast}
+            />
+            {inputError ? <MyText
+                lineHeight='0'
+                text='Credentials incorrect or not found. Please, try again.'
+                size={`${parSize}px`}
+                color={themes[theme].contrast}
+            /> : <></>}
             <LoginInput border={'#8B64FA'} placeholder='Name...' onChange={(e) => HandleName(e.target.value)} />
             <LoginInput border={border ? '#8B64FA' : 'red'} placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} onSelect={() => setBorder(true)} />
-            <LoginInput border={'#8B64FA'} placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} />
+            <LoginInput type='password' border={'#8B64FA'} placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} />
             <ButtonCont>
                 <MyButton onClick={CreateAccount} text='Create Account' />
-                <p>Already have an account?</p>
-                <p style={{ textDecoration: 'underline' }} onClick={switchView}>Login</p>
+                <MyText
+                    lineHeight='0'
+                    text="Already have an account?"
+                    size={`${parSize}px`}
+                    color={themes[theme].contrast}
+                />
+                <MyText
+                    lineHeight='0'
+                    text="Login"
+                    size={`${parSize}px`}
+                    color={themes[theme].contrast}
+                    style={{ textDecoration: 'underline' }}
+                    onClick={switchView}
+                />
             </ButtonCont>
         </InputCont>
     );

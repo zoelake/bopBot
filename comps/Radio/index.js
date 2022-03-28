@@ -4,8 +4,8 @@ import { themes } from "../../utils/variables";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 
 const CircBorder = styled.div`
-    width:35px;
-    height:35px;
+    width:25px;
+    height:25px;
     border-radius:100%;
     border:2px solid ${props => props.border};
     display: flex;

@@ -7,7 +7,7 @@ import { useState } from "react";
 const Cont = styled.div`
     padding: 5px 8px;
     margin:5px;
-    height: 35px;
+    height: ${props => props.height};
     width:${props => props.width};
     border-radius:5px;
     display:flex;
@@ -37,6 +37,7 @@ export default function MyButton({
     onClick = () => { },
     shadow,
     width = 'auto',
+    height="35px",
     style,
     bg
 }) {
@@ -63,6 +64,7 @@ export default function MyButton({
         color={themes[theme].white}
         shadow={press ? 'inset 2px 2px 4px rgba(0,0,0,0.1)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
         width={width}
+        height={height}
     >
         <Text
             // color={themes[theme].focus}

@@ -1,20 +1,19 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { ItemTypes } from '../../ItemTypes';
 //idk what this does??????? 
 import React, { useState, useEffect } from "react";
 
 import { themes } from '../../utils/variables';
-import { usePar, useHeader, useTheme } from "../../utils/provider";
+import { usePar, useHeader, useTheme, theme } from "../../utils/provider";
 import styled from 'styled-components';
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
 import MyRadio from "../Radio";
-
 import MyText from '../Text';
+import DropDownEdit from '../DropDownModal';
 
 const Text = styled.p`
     color: ${props => props.color};
-    font-size: ${props => props.fontSize};
+    font-size: ${props => props.size};
     margin:0;
     padding:0;
 
@@ -25,76 +24,118 @@ const Text = styled.p`
 
 const CardCont = styled.div`
     display: flex;
-    align-items: center;
-    /* flex-direction: row; */
-    justify-content: space-evenly;
-    height:80px;
+    /* flex-direction: row;
+    justify-content: flex-start; */
+    width: 100%;
+    height: 85px;
+    /* height: 51, */
+    /* padding: 5px 5px; */
+    background-color: ${props=>props.bg};
+    /* color: #fff; */
+    cursor: move;
+
 
     
 `;
 
 
-const Cont2 = styled.div`
-    /* align-self: flex-start; */
-`;
-
 const Cont3 = styled.div`
-    width:300px;
+    width:100%;
+
 
 `;
 
 const Cont4 = styled.div`
+    display: flex;
+    width: 100%;
+
 `;
 
 const Dotcont = styled.div`
-    /* display: column; */
-    /* align-items:center ;
-    justify-content: center;
-    align-content:center; */
+
+`;
+
+const BigCont = styled.div`
+    display: flex ;
+    flex-direction: row ;
+    justify-content:flex-start ;
+    align-items:center ;
+    width:100%;
+`;
+
+const DurationCont = styled.div`
+    width: 50px;
+    margin-right:1rem ;
+
 
 
 `;
 
-
-const Dots = styled.div`
-    background-color: ${props => props.col};
-    width:5px;
-    height:5px;
-    border-radius: 100%;
-    margin-bottom: 2px;
+const LikeIconCont = styled.div`
+    /* width: 50px; */
+    margin: 2%;
 `;
 
 
-const style = {
-    // border: '1px dashed gray',
-    height: 51,
-    padding: '5px 5px',
-    backgroundColor: '#000',
-    // backgroundColor: themes[theme].heart,
-    color: '#fff',
-    cursor: 'move',
-};
+
+// const style = {
+//     // border: '1px dashed gray',
+//     // height: 51,
+//     // padding: '5px 5px',
+//     // backgroundColor: '#ccc',
+//     // color: '#fff',
+//     // cursor: 'move',
+// };
 
 export const Card = ({ 
-    id, 
-    title, 
-    index, 
-    artist, duration, albumname, moveCard,
-    //data
-
-   OpenOptions = () => { },
+    time, 
+    artist,
+    song, 
+    album, 
+    selected = false,
+    onTrackClick = () => {},
+    OpenOptions = () => { },
     AddToLikedPlaylist = () => { },
+    DeleteFromLikedPlaylist = () => { },
+    
+     moveCard,
+    //data
+    id,
+    index,
+
 }) => {
     const ref = useRef(null);
     const { theme } = useTheme();
     const { parSize } = usePar();
-    const [selected, setSelected] = useState(false)
+    const [heart, setHeart] = useState(false);
 
+
+ 
     function LikeTrack() {
-        setSelected(!selected);
-        AddToLikedPlaylist();
-        
+        // setSelected(!selected);
+        console.log('selected')
+        console.log(selected)
+        setHeart(!heart)
+
+        if (!heart) {
+            console.log('adding track')
+            AddToLikedPlaylist();
+        }
+        else {
+            console.log('deleting track')
+            DeleteFromLikedPlaylist();
+        }
     }
+
+    useEffect(() => {
+        console.log('selected?' + selected)
+        if (localStorage.getItem(`track #${selected}`) !== null) {
+            setHeart(true)
+        } else {
+            setHeart(false)
+        }
+
+    }, [heart])
 
     const [{ handlerId }, drop] = useDrop({
         accept: 'card',
@@ -153,56 +194,53 @@ export const Card = ({
     const opacity = isDragging ? 0 : 1;
     drag(drop(ref));
     return (<CardCont ref={ref} 
-            style={{ ...style, opacity }} 
+            bg={themes[theme].playbg}
+            style={{ opacity }} 
             op={isDragging ? 0.5 : 1}
-            data-handler-id={handlerId}>
-			<Cont2>
-            {id}
-            </Cont2>
-
-            <Cont3>
+            data-handler-id={handlerId}
+            >
+            <Cont3 onClick={onTrackClick}>
                 <MyText
-                    text={title}
+                    text={song}
                     size={`${parSize}px`}
                     lineHeight={0}
                     weight={400}
                     hover={themes[theme].heart} 
                     //is this working?
-                    >
-                    {title}
-                </MyText>
+                    />
 
                 <Text
-                    color={themes[theme].accent}>
+                    color={themes[theme].grey}>
                     {artist}
                 </Text>
             </Cont3>
+        <BigCont>
+            <DurationCont>
+                <Text
+                    color={themes[theme].text}
+     
+                    >
+                    {time}
+                </Text>
+            </DurationCont>
 
             <Cont4>
                 <Text
                     color={themes[theme].text}
+                    
                     >
-                    {duration}
+                    {album}
                 </Text>
             </Cont4>
 
-            <Cont4>
-                <Text
-                    color={themes[theme].text}
-                    >
-                    {albumname}
-                </Text>
-            </Cont4>
-
-            <Cont4>
-                <MyRadio shape={'heart'} inner={selected} onClick={LikeTrack} />
-            </Cont4>
+            <LikeIconCont>
+                <MyRadio shape={'heart'} inner={heart} onClick={LikeTrack} />
+            </LikeIconCont>
 
             <Dotcont onClick={OpenOptions}>
-                <Dots col={themes[theme].text} />
-                <Dots col={themes[theme].text} />
-                <Dots col={themes[theme].text} />
+                <DropDownEdit/>
             </Dotcont>
+            </BigCont>
 
 		</CardCont>);
 };

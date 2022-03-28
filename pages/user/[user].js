@@ -6,48 +6,192 @@ import MyTrack from '../../comps/TrackInfo'
 
 import Playlist from '../../comps/Playlist'
 import SbButton from '../../comps/SbButton'
+import { Carousel } from 'react-responsive-carousel';
 import Toggle from '../../comps/Toggle'
 import MyText from '../../comps/Text'
 import { themes } from '../../utils/variables'
-import { useTheme, useTitle, useHeader, useId, useEmail } from '../../utils/provider'
+import { useTheme, useTitle, useHeader, useId, useEmail, usePar } from '../../utils/provider'
 import styled from 'styled-components';
 import { device } from '../../styles/mediaSizes'
 import MySwitch from '../../comps/Switch'
 import Slider from '../../comps/Slider'
 import UserInfo from '../../comps/UserInfo'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
+import { useDrag, useDrop } from 'react-dnd';
+
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
 import DropDownEdit from '../../comps/DropDownModal'
+
+import { Container } from '../../comps/Container'
 import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 
 
 
-
 const Page = styled.div`
-  display:flex;
-  flex-direction: column;
-  margin:0;
-  justify-content: center;
-  width: 100vw;
-  position: absolute;
-  height:95vh;
-  bottom:0;
-`;
-const Dashboard = styled.div`
-    background-color: ${props => props.bg};
-    height:45vh;
-    padding:30px 10px 10px 60px;
+
     display: flex;
-    justify-content:center ;
-    /* border: 2px solid blue; */
+    height: 100vh;
+    width: 100vw;
+
+  @media ${device.mobile}{
+
+      flex-direction: column;
+      align-items:center ;
+
+    }
+
+    @media ${device.tablet}{
+      display: flex;
+      flex-direction: row;
+      align-items:center ;
+
+    }
+
+    @media ${device.desktop}{
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
     
+    }
+  
+`;
+
+const Dashboard = styled.div`  
+       background-color: ${props => props.bg};
+
 
     @media ${device.mobile}{
+
+        width: 100vw;
+        height: 50vh;
+        padding-left: 3rem;
+        padding-top: 1rem;
+        /* justify-content:center ; */
+        
+        /* flex-grow: 1; */
+    }
+
+    @media ${device.tablet}{
+        width: 50vw;
+        height:100vh;
+        padding-left: 10px;
+     
+    }
+
+    @media ${device.desktop}{
+        display: flex;
+        flex-direction: column ;
+        width:48vw;
+        height: 90vh;
+        padding:30px 10px 10px 60px;
+        justify-content: flex-start;
+
+        //min
+    }
+`;
+
+const leftTop = styled.div`
+
+
+    @media ${device.mobile}{
+        width: 100vw;
+        height: 50vh;
+    }
+
+    @media ${device.tablet}{
+
+    }
+
+    @media ${device.desktop}{
+       
+    }
+
+`;
+
+
+
+
+const SbCont = styled.div`
+        display: flex;
+        flex-wrap: wrap;   
+       overflow-y: scroll ;
+       justify-content: flex-start;
+
+       &::-webkit-scrollbar {
+        width: 1px;
+        border: 1px solid white;
+        margin-top: 20px;
+    }
+
+     @media ${device.mobile}{
+ 
+        height: 30vh;
+        width: 90vw;
+
+    }
+
+    @media ${device.tablet}{
+
+        flex-wrap: wrap;
+        height: 50vh;
+        width: 50vw;
+
+    }
+
+    @media ${device.desktop}{
+
+        height: 80vh;
+        width: 45vw;
+            }
+`;
+
+const SpaceCont = styled.div`
+        display: flex;
+        align-items:center ;
+        justify-content:space-between ;
+        width: 100%;
+ `;
+
+const TracksCont = styled.div`
+    z-index: 1;
+    position: relative;
+    padding:10px 20px;
+    width:100% ;
+    display:flex ;
+    flex-direction: column ;
+
+
+    @media ${device.mobile}{
+        align-items: center ;
+        height: 50vh;
+    }
+
+    @media ${device.tablet}{
+
+        height: 100vh;
+        margin-right:5%;
+
+    }
+
+    @media ${device.desktop}{
+        justify-content:center ;
+        align-self: center;
+        
+       
+    }
+`;
+
+const RegCont = styled.div`
+z-index:1;
+
+    @media ${device.mobile}{
+        width: 100vw;
 
     }
 
@@ -57,51 +201,30 @@ const Dashboard = styled.div`
     @media ${device.desktop}{
        
     }
+    
 `;
-const SbCont = styled.div`
-  display: flex;
-  /* justify-content: space-between; */
-  align-items: center;
-  padding-left: 30px;
-  white-space: nowrap;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  height:230px;
-  padding-left: 30px;
-  position: relative;
-  top:-20px;
-`;
-const SliderCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 750px;
-  justify-content: space-evenly;
-  padding-left: 30px;
-`;
-const SpaceCont = styled.div`
-display: flex;
-width: 90%;
-padding-left: 5px;
 
-justify-content: space-between;
-`;
-const TracksCont = styled.div`
-    height:40%;
-    /* border:2px solid red; */
-    /* position: absolute; */
-    /* bottom:0;
-    left:10px; */
-    align-self: center;
-    width:80%;
-`;
-const RegCont = styled.div`
-  padding-left: 30px;
-`;
 const Divider = styled.div`
     background-color: ${props => props.color};
-    width:90%;
+
     height:1px;
+
+    @media ${device.mobile}{
+        width: 80%;
+        justify-content: center;
+        height:1px;
+
+    }
+
+    @media ${device.tablet}{
+    }
+
+    @media ${device.desktop}{
+        width: 100%;
+       
+    }
 `;
+
 
 
 export default function User() {
@@ -117,8 +240,6 @@ export default function User() {
     const { id, setId } = useId();
     const { email, setEmail } = useEmail();
 
-    //for sort by age button
-    const [addedRecent, setAddedRecent] = useState(true)
 
     //for updating & loading playlists
     const [playlistImg, setPlaylistImg] = useState(null);
@@ -136,7 +257,7 @@ export default function User() {
     const [editPlaylistView, setEditPlaylistView] = useState(false)
     const [addPlaylistView, setAddPlaylistView] = useState(false)
 
-
+    const { parSize } = usePar();
 
     //load user & playlist data on load
     if (typeof window !== 'undefined') {
@@ -145,11 +266,7 @@ export default function User() {
         }
         if (localStorage.getItem('email')) {
             setEmail(localStorage.getItem('email'))
-
         }
-        useEffect(() => {
-            getPlaylists()
-        }, [])
 
     }
 
@@ -180,6 +297,10 @@ export default function User() {
     }
 
     //API CALLS TO BACKEND
+    useEffect(() => {
+        getPlaylists()
+    }, [])
+
     function getPlaylists() {
 
         console.log('GETTING PLAYLISTS')
@@ -197,30 +318,7 @@ export default function User() {
             }).catch(e => {
                 console.log(e)
             })
-
     }
-
-    function getPlaylistById(id) {
-        console.log(`getting playlist by its id: ${id}`)
-        const user = {
-            playlist_id: id,
-            email: localStorage.getItem('email')
-        }
-        console.log('user')
-        console.log(user)
-        axios.post('https://bopbot-backend.herokuapp.com/get-a-playlist', user)
-            .then((res) => {
-                if (res.status == 200) {
-                    console.log('ur res: ')
-                    console.log(res.data)
-                    // return res.data;
-                }
-            }).catch((e) => {
-                console.log(e)
-            })
-    }
-
-
 
     //page functions
     function onDeleteClick() {
@@ -240,7 +338,7 @@ export default function User() {
         setSelectedPlaylistId(playlist._id)
         setSelectedPlaylistCover(playlist.img)
 
-        console.log(selectedPlaylist, selectedPlaylistId, selectedPlaylistCover)
+        getPlaylists()
 
     }
 
@@ -263,44 +361,7 @@ export default function User() {
 
     }
 
-    function handleTrackOptions(trackdata) {
-        console.log('opening model for options')
-        console.log(trackdata)
-        const playlist = localStorage.getItem('selectedPlaylist')
-        const request = localStorage.getItem('request')
 
-        if (request)
-            if (request == 'add') {
-                console.log(`adding ${trackdata.name} to ${playlist}`)
-                AddTrackToPlaylist(trackdata, playlist);
-            } else if (request == 'remove') {
-                console.log(`removing ${trackdata.name} from ${playlist}`)
-                RemoveTrackFromPlaylist(trackdata, playlist);
-            }
-
-        getPlaylists()
-    }
-
-
-
-    function setAsLiked(trackdata) {
-        console.log('liked')
-        console.log(trackdata._id)
-        AddTrackToLiked(trackdata)
-        localStorage.setItem(`track #${trackdata._id}`, trackdata._id)
-        // SetTracksAsFavourite(trackdata)
-        // AddTrackToLiked(trackdata)
-    }
-
-    function setAsUnliked(trackdata) {
-        console.log('unliked')
-        console.log(trackdata._id)
-        localStorage.removeItem(`track #${trackdata._id}`)
-        // SetTracksAsUnfavourite(trackdata)
-        DeleteTrackFromLiked(trackdata)
-        // RemoveFromThisPlaylist(trackdata, selectedPlaylist)
-        // DeleteTrackFromLiked(trackdata)
-    }
 
 
     return (
@@ -335,27 +396,38 @@ export default function User() {
                         onDeleteClick={onDeleteClick}
                     /> : <></>}
 
+                    <leftTop>
 
-                    <MyText
-                        weight={500}
-                        lineHeight='0'
-                        text={`Your playlists`}
-                        size={`${titleSize}px`}
-                    />
+                        <MyText
+                            weight={500}
+                            lineHeight='0'
+                            text={`Your playlists`}
+                            size={`${titleSize}px`}
+                        />
 
-                    <MyButton
-                        onClick={() => setAddPlaylistView(!addPlaylistView)}
-                        text='create playlist' />
+                        <MyText
+                            weight={100}
+                            lineHeight='36px'
+                            text={`Drag your tracks into your preferred order!`}
+                            size={`${parSize}px`}
+                        />
+
+                        <MyButton
+                            onClick={() => setAddPlaylistView(!addPlaylistView)}
+                            text='Create playlist'
+                            width='200px'
+                        />
+
+                    </leftTop>
 
                     <SbCont>
                         <Playlist
                             text='likes'
-                            cover={'/heart.png'}
+                            cover={'/heartWhite.png'}
                             onClick={() => setSelectedPlaylist('likes')}
                             bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
                             color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
                         />
-
 
                         {usersPlaylists !== [] ? usersPlaylists.map((o, i) => <Playlist
                             key={i}
@@ -366,18 +438,12 @@ export default function User() {
                             color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
 
                         />)
-                            : <Playlist
-                                key={i}
-                                cover='/playlistLiked.png'
-                                onClick={() => setSelectedPlaylist('liked')}
-                                bg={selectedPlaylist === 'liked' || null ? themes[theme].accent : themes[theme].playBg}
-                                color={selectedPlaylist === 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
-                                text='Loading'
-                            />
+                            : <></>
                         }
 
 
                     </SbCont>
+
                 </Dashboard>
                 <TracksCont>
 
@@ -385,15 +451,12 @@ export default function User() {
                         <MyText
                             text={selectedPlaylist === null ? 'Select a Playlist' : selectedPlaylist}
                             size={`${headerSize}px`}
-                        />
-                        <MyButton
-                            onClick={() => setEditPlaylistView(!editPlaylistView)}
-                            text={editPlaylistView ? 'close ' : 'edit'}
+
                         />
 
                         <MyButton
-                            onClick={() => setAddedRecent(!addedRecent)}
-                            text={addedRecent ? 'See oldest ' : 'See newest'}
+                            onClick={() => setEditPlaylistView(!editPlaylistView)}
+                            text={'Edit '}
                         />
 
                     </SpaceCont>
@@ -406,39 +469,34 @@ export default function User() {
                         <DndProvider backend={TouchBackend} options={{
                             enableTouchEvents: false,
                             enableMouseEvents: true
+                        }}>  <DndProvider backend={TouchBackend} options={{
+                            enableTouchEvents: false,
+                            enableMouseEvents: true
                         }}>
-                            {selectedPlaylist == 'likes' ? likedPlaylist.map((o, i) => <MyTrack
-                                key={i}
-                                selected={o._id}
-                                onTrackClick={() => router.push(o.Uri)}
-                                AddToLikedPlaylist={(obj) => setAsLiked(o)}
-                                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-                                OpenOptions={(obj) => handleTrackOptions(o)}
-                                artist={o.Artist}
-                                song={o.Title}
-                                album={o.Album}
-                                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                            />) : <></>}
+                            {selectedPlaylist == 'likes' ?
+                                <Container
+                                    data={likedPlaylist}
+                                // moveCard={moveCard}
 
-                            {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? selectedTracks.map((o, i) => <MyTrack
-                                key={i}
-                                selected={o._id}
-                                onTrackClick={() => router.push(o.Uri)}
-                                AddToLikedPlaylist={(obj) => setAsLiked(o)}
-                                DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-                                OpenOptions={(obj) => handleTrackOptions(o)}
-                                artist={o.Artist}
-                                song={o.Title}
-                                album={o.Album}
-                                time={((o.duration_ms / 1000) / 60).toFixed(2)}
-                            />) : <></>}
+                                /> : <></>}
 
+                            {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? <Container
+                                data={selectedTracks}
+                            // moveCard={moveCard}
+
+                            /> : <></>}
 
 
                         </DndProvider>
+
+
+                        </DndProvider>
+
                     </RegCont>
 
+
                 </TracksCont>
+
 
             </Page>
         </>

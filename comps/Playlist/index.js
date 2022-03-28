@@ -1,18 +1,20 @@
 import styled from "styled-components";
 import { useHeader } from "../../utils/provider";
+import { useTheme, usePar } from "../../utils/provider";
 import MyText from "../Text";
 import { device } from "../../styles/mediaSizes";
 
 const Cont = styled.div`
     display:flex;
-    min-width: 155px;
-    height: 165px;
+    width: 125px;
+    height: 155px;
     justify-content: center;
     align-items: center;
     flex-direction:column;
     border-radius:10px;
     padding: 15px 0px 10px 0px;
-    margin:0 40px 0 0 ;
+    margin: 1em;
+    //min added
     justify-content: space-around;
     background-color:${props => props.bg};
     color: ${props => props.color};
@@ -45,6 +47,7 @@ export default function Playlist({
 }) {
 
     const { headerSize } = useHeader();
+    const { parSize } = usePar();
 
     return <Cont
         onClick={onClick}
@@ -53,7 +56,7 @@ export default function Playlist({
     >
         <Cover src={cover} />
         <MyText
-            size={`${headerSize}px`}
+            size={`${parSize}px`}
             text={text}
 
         />

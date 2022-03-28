@@ -28,6 +28,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { io } from "socket.io-client";
 import EditPlaylist from '../comps/EditPlaylistModal'
 import BopBot from '../comps/BopBot'
+import TrackAddedPopup from '../comps/TrackAddedPopup'
+
+import Lottie from "lottie-react"
+import loadingAnim from '../public/lottie/bopbot_load.json'
+//lottie
 
 
 
@@ -37,50 +42,43 @@ const Page = styled.div`
   display:flex;
   margin:0;
   width:100%;
-  position: absolute;
-
+  /* position: absolute; */
   bottom:0;
+ 
   /* border:8px solid green; */
-
   @media ${device.mobile}{
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height:100%;
-    top:20%;
+    top:30%;
   }
-
   @media ${device.tablet}{
     flex-direction: row;
     justify-content: space-between;
     height:95vh;
   }
-
   @media ${device.desktop}{
     flex-direction: row;
     justify-content: space-between;
     height:95vh;
+    top:10%;
   }
-
 `;
 const Dashboard = styled.div`
     height:95vh;
     width:60%;
-
     /* border:5px solid red; */
-
-
     @media ${device.mobile}{
       width:90%;
       padding:30px 0px 10px 0px;
       margin-bottom: 200px;
     }
-
     @media ${device.tablet}{
       width:55%;
       padding:30px 10px 10px 60px;
     }
-
     @media ${device.desktop}{
       width:55%;
       padding:30px 10px 10px 60px;
@@ -101,53 +99,42 @@ const SliderCont = styled.div`
   align-self: center;
   /* padding-left: 30px; */
   /* border:2px solid green; */
-
-
   @media ${device.mobile}{
     width: 100%;
-
     }
-
     @media ${device.tablet}{
       width: 60%;
       padding: 0 10%;
     }
-
     @media ${device.desktop}{
       width: 60%;
       padding: 0 10%;
-
     }
 `;
 const TrackScoll = styled.div`
   height:100%;
+  /* background-color: #fad; */
   overflow: scroll;
-  width: 20%;
+  width: auto;
 `;
 const TracksCont = styled.div`
   display: flex;
   flex-wrap: wrap;
-
   height:95vh;
+
   justify-content: left;
   /* border:2px solid green; */
-
-
   @media ${device.mobile}{
     width: 90%;
-
 }
-
 @media ${device.tablet}{
   width: 45%;
   padding: 30px 0 0 30px;
 }
-
 @media ${device.desktop}{
   width: 45%;
   padding: 30px 0 0 30px;
 }
-
 `;
 const Divider = styled.div`
     background-color: ${props => props.color};
@@ -155,6 +142,7 @@ const Divider = styled.div`
     width:1px;
     height:90%;
 `;
+
 //please fix this styling lol
 const Model = styled.div`
   width: 300px;
@@ -207,6 +195,8 @@ export default function Home() {
   const [selectedTrack, setSelectedTrack] = useState([])
   //---current users playlists
   const [usersPlaylists, setUserPlaylists] = useState([]);
+  const [selectedPlaylist, setSelectedPlaylist] = useState([])
+
 
   useEffect(() => {
     getPlaylists()
@@ -230,7 +220,6 @@ export default function Home() {
       }).catch(e => {
         console.log(e)
       })
-
   }
 
   // //page functions
@@ -274,9 +263,6 @@ export default function Home() {
     }
   }
 
-  const [selectedPlaylist, setSelectedPlaylist] = useState([])
-
-
 
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
@@ -296,14 +282,6 @@ export default function Home() {
   }
 
 
-  // function SetAndAddTrack(req) {
-  //   console.log('req')
-  //   console.log(req)
-  //   console.log('playlist name: ' + playlist)
-  //   setSelectedPlaylist(playlist)
-  //   AddTrackToPlaylist(selectedTrack, playlist)
-  // }
-
   function setAsLiked(trackdata) {
     console.log('liked')
     console.log(trackdata._id)
@@ -317,49 +295,6 @@ export default function Home() {
     console.log(trackdata._id)
     localStorage.removeItem(`track #${trackdata._id}`)
     DeleteTrackFromLiked(trackdata)
-
-  }
-
-
-  function getTracks() {
-    console.log('connecting to database...')
-    axios.get('https://bopbot-backend.herokuapp.com/tracks')
-      .then((res) => {
-        console.log('here are your tracks! ' + res)
-        // setNewTracks(res)
-        loadedTracks = res.data
-        console.log(loadedTracks);
-
-      }).catch(e => {
-        console.log(e)
-      })
-  }
-
-
-
-
-  useEffect(() => {
-    getPlaylists()
-  }, [])
-
-  function getPlaylists() {
-    console.log('GETTING PLAYLISTS')
-    const user = {
-      user: localStorage.getItem('email')
-    }
-    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
-      .then((res) => {
-        if (res.status == 200) {
-          console.log(res.data.playlists)
-          setUserPlaylists(res.data.playlists);
-          console.log('playlists')
-          console.log(usersPlaylists)
-        }
-      }).catch(e => {
-        console.log(e)
-      })
-    setTrackModel(false)
-
   }
 
 
@@ -502,12 +437,6 @@ export default function Home() {
             size={`${headerSize}px`}
           />
           <SliderCont>
-            {/* {sliderValues.map((o, i, ev) => <Slider
-              text={o.title}
-              number={o.value}
-              value={o.value}
-              onChange={this.o.onChange}
-            />)} */}
             <Slider text='Acounticness' number={acValue} value={acValue} onChange={(ev) => setAcValue(ev.target.value)} />
             <Slider text='Danceability' number={dncValue} value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
 
@@ -517,6 +446,7 @@ export default function Home() {
             <Slider text='Tempo' number={tpValue} max={240} step={80} value={tpValue} onChange={(ev) => setTpValue(ev.target.value)} />
 
           </SliderCont>
+
           <div style={{
             position: 'relative',
             right: device.mobile ? null : '47%',
@@ -531,7 +461,6 @@ export default function Home() {
               text='generate'
             />
           </div>
-
         </Dashboard>
 
         <Divider color={themes[theme].text} />
@@ -545,7 +474,9 @@ export default function Home() {
 
           {/* loaded tracks from api call */}
           <TrackScoll>
-            {load ? <div>Loading...</div> : <></>}
+            {load ? <Lottie
+              animationData={loadingAnim}
+            /> : <></>}
             {tracks.map((o, i) => <MyTrack
               key={i}
               selected={o._id}
@@ -560,32 +491,6 @@ export default function Home() {
             />)}
           </TrackScoll>
         </TracksCont>
-
-
-        <TrackScoll>
-          <DndProvider backend={TouchBackend} options={{
-            enableTouchEvents: false,
-            enableMouseEvents: true
-          }}>
-            {/* <MyTrack /> */}
-            {load ? <div>Loading...</div> : <></>}
-            {tracks.map((o, i) => <MyTrack
-              key={i}
-              selected={o._id}
-              onTrackClick={() => router.push(o.Uri)}
-              AddToLikedPlaylist={(obj) => setAsLiked(o)}
-              DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
-              OpenOptions={(obj) => handleTrackOptions(o)}
-              artist={o.Artist}
-              song={o.Title}
-              album={o.Album}
-              time={((o.duration_ms / 1000) / 60).toFixed(2)}
-            />)}
-            {/* <BopBot /> */}
-          </DndProvider>
-        </TrackScoll>
-
-        {/* <EditPlaylist /> */}
       </Page>
     </>
   )

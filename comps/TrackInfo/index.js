@@ -3,12 +3,11 @@ import { themes } from "../../utils/variables";
 import { usePar, useHeader, useTheme } from "../../utils/provider";
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, } from "react";
 import MyRadio from "../Radio";
 import MyText from "../Text";
 import { device } from "../../styles/mediaSizes";
 import DropDownEdit from "../DropDownModal";
-import { useDrag, useDrop } from 'react-dnd'
 
 const Text = styled.p`
     color: ${props => props.color};
@@ -148,6 +147,7 @@ export default function MyTrack({
 
 
 
+
     return <TrackCont
     >
         <TrackCont >
@@ -189,14 +189,13 @@ export default function MyTrack({
             </Cont4>
 
 
-
-            <Cont5>
-                <MyRadio shape={'heart'} inner={heart} onClick={LikeTrack} />
-            </Cont5>
-            <Cont6
-                onClick={OpenOptions}>
-                <DropDownEdit />
-            </Cont6>
+ <Cont5>
+            <MyRadio shape={'heart'} inner={heart} onClick={LikeTrack} />
+        </Cont5>
+        <Cont6
+            onClick={OpenOptions}>
+            <DropDownEdit />
+        </Cont6>
 
         </TrackCont>
 
