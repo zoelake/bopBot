@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { themes } from "../../utils/variables";
-import { useEmail, useId, useName, useTheme } from "../../utils/provider";
+import { useEmail, useId, useName, useTheme, useTitle, useHeader, usePar } from "../../utils/provider";
 import { useState } from 'react';
 import MyButton from '../Button';
 import MyText from '../Text';
@@ -46,6 +46,9 @@ export default function CreateNewAccount({
 
     const router = useRouter();
     const { theme } = useTheme();
+    const titleSize = useTitle();
+    const headerSize = useHeader();
+    const parSize = usePar();
 
     // local storage info
     const [usersName, setUsersName] = useState(null);
