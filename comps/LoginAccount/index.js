@@ -67,12 +67,12 @@ export default function LoginAccount({
 
     function HandleEmail(value) {
         setUserEmail(value)
-        console.log(userEmail)
+        // console.log(userEmail)
     }
 
     function HandlePassword(value) {
         setUserPassword(value)
-        console.log(userPassword)
+        // console.log(userPassword)
     }
 
 
@@ -86,8 +86,8 @@ export default function LoginAccount({
             .then((res) => {
                 if (res) {
 
-                    console.log('res.data.name')
-                    console.log(res.data.name)
+                    // console.log('res.data.name')
+                    // console.log(res.data.name)
                     localStorage.setItem('name', res.data.name)
                     localStorage.setItem('email', res.data.email)
                     localStorage.setItem('id', res.data._id)
@@ -100,7 +100,7 @@ export default function LoginAccount({
                 }
             })
             .catch(e => {
-                console.log(e)
+                // console.log(e)
                 setBorder(false)
                 setInputError(true)
             })

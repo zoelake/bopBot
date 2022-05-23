@@ -66,17 +66,17 @@ export default function CreateNewAccount({
 
     function HandleName(value) {
         setUsersName(value)
-        console.log(usersName)
+        // console.log(usersName)
     }
 
     function HandleEmail(value) {
         setUserEmail(value)
-        console.log(userEmail)
+        // console.log(userEmail)
     }
 
     function HandlePassword(value) {
         setUserPassword(value)
-        console.log(userPassword)
+        // console.log(userPassword)
     }
 
 
@@ -100,7 +100,7 @@ export default function CreateNewAccount({
                     router.push('/')
                 }
             }).catch(e => {
-                console.log(e)
+                // console.log(e)
                 setBorder(false)
                 setInputError(true)
             })
