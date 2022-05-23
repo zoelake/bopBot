@@ -23,25 +23,24 @@ body{
 
 function MyApp({ Component, pageProps }) {
 
-
+  const router = useRouter();
+  const { name, setName } = useName();
+  const { id, setId } = useId();
+  let page = null;
 
   if (typeof window !== 'undefined') {
-    const router = useRouter();
     const page = router.asPath;
-    const { name, setName } = useName();
-    const { id, setId } = useId();
-    useEffect(() => {
-      if (localStorage.getItem('name')) {
-        console.log('user loged in')
-        setName(localStorage.getItem('name'))
-        setId(localStorage.getItem('id'))
-
-      } else {
-        router.push('/login')
-      }
-    }, [page])
-
   }
+  useEffect(() => {
+    if (localStorage.getItem('name')) {
+      console.log('user loged in')
+      setName(localStorage.getItem('name'))
+      setId(localStorage.getItem('id'))
+
+    } else {
+      router.push('/login')
+    }
+  }, [page])
 
 
   return <MyThemeProvider>
