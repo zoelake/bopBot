@@ -91,6 +91,7 @@ export default function LoginAccount({
                     localStorage.setItem('name', res.data.name)
                     localStorage.setItem('email', res.data.email)
                     localStorage.setItem('id', res.data._id)
+
                     setName(res.data.name)
                     setId(res.data._id)
                     setEmail(res.data.email)

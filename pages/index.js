@@ -9,7 +9,7 @@ import SbButton from '../comps/SbButton'
 import Toggle from '../comps/Toggle'
 import MyText from '../comps/Text'
 import { themes } from '../utils/variables'
-import { useTheme, useTitle, useHeader, usePar, useSbSize, useName } from "../utils/provider";
+import { useTheme, useTitle, useHeader, usePar, useSbSize, useName, useId, useEmail } from "../utils/provider";
 import styled from 'styled-components';
 import { device } from '../styles/mediaSizes'
 import MySwitch from '../comps/Switch'
@@ -170,7 +170,9 @@ export default function Home() {
   const { sbSize } = useSbSize();
 
   //user info
-  const { name } = useName();
+  const { name, setName } = useName();
+  const { email, setEmail } = useEmail();
+
 
   //set soundboard values 
   const [genre, setGenre] = useState(null)
@@ -199,22 +201,28 @@ export default function Home() {
 
 
   useEffect(() => {
-    getPlaylists()
+    const storedName = localStorage.getItem('name');
+    if (storedName) {
+      setName(storedName);
+      getPlaylists()
+    } else {
+      router.push('/login')
+    }
   }, [])
 
 
   // //API CALLS TO BACKEND
   function getPlaylists() {
 
-    console.log('GETTING PLAYLISTS')
+    // console.log('GETTING PLAYLISTS')
     const user = {
       user: localStorage.getItem('email')
     }
     axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
       .then((res) => {
         if (res.status == 200) {
-          console.log('res.data.playlists')
-          console.log(res.data.playlists)
+          // console.log('res.data.playlists')
+          // console.log(res.data.playlists)
           setUserPlaylists(res.data.playlists);
         }
       }).catch(e => {
