@@ -144,7 +144,7 @@ export function UpdatePlaylist(name, newName, img) {
     }
     console.log('playlist')
     console.log(playlist)
-    axios.post('http://localhost:3001/update-playlist', playlist)
+    axios.post('https://bopbot-backend.herokuapp.com/update-playlist', playlist)
         .then((res) => {
 
             console.log(res.data + ' was updated!')
