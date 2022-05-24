@@ -111,6 +111,8 @@ export default function CreateNewAccount({
         <InputCont
             color={themes[theme].contrast}
         >
+            <img src='/bopbot_neutral.svg' style={{ width: '100px' }} />
+
             <MyText
                 lineHeight='0'
                 text='Create an Account'

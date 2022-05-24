@@ -106,7 +106,7 @@ const NavBar = ({
         setPage('settings')
     }
 
-    
+
 
     return <><Container
         visibility={visibility}
@@ -114,7 +114,7 @@ const NavBar = ({
     >
         <LinkCont>
             <Logo
-                src={'/bopBot_neutral.svg'}
+                src={'/bopbot_neutral.png'}
                 onClick={goHome}
             />
             {/* <NavLink
@@ -128,7 +128,7 @@ const NavBar = ({
         </LinkCont>
         <LinkCont>
 
-            
+
             <NavLink
                 size={`${headerSize}px`}
                 onClick={goLibrary}
