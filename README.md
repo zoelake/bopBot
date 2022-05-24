@@ -1,7 +1,7 @@
 # bopBot
 Welcome to bopBot! 
 
-A MERN Stack application for to enhance users music exploration experience. bopBot's goal is to enable users to find new songs based on genres and musical values, rather than their regualar streaming service's algorytm. The server side source code can be found here -> [bopBot Serverside](https://github.com/zoelake/bopBotServer)
+A MERN Stack application to enhance users' music exploration experience. bopBot's goal is to enable users to find new songs based on genres and musical values, rather than their regular streaming service's algorithm. The current dataset pulls from popular Spotify tracks from 2017-2020 worldwide. The server-side source code can be found here -> [bopBot Serverside](https://github.com/zoelake/bopBotServer)
 
 This project was an interdisciplinary project created for BCIT's Digital Design & Development program by a team of five.
 
@@ -13,7 +13,7 @@ This project was an interdisciplinary project created for BCIT's Digital Design 
 - **Arielle Castro** - UI/UX & Graphic Designer
 
 ## Figma
-[Checkout out the design process from brainstorm through final prototype!](https://www.figma.com/file/9hwNtFIx3FmFJ7HmIq15kM/BopBot?node-id=62%3A270)
+[Checkout the design process from brainstorm through final prototype!](https://www.figma.com/file/9hwNtFIx3FmFJ7HmIq15kM/BopBot?node-id=62%3A270)
 
 ## Features 
 - Create Account / Log In
