@@ -27,6 +27,25 @@ export function getPlaylists() {
 
 }
 
+export function filterTracks(genre, acValue, dncValue, enValue, instValue, ldValue, tpValue) {
+    const filters = {
+        Genre: genre,
+        acoustics: acValue,
+        danceability: dncValue,
+        energy: enValue,
+        instrumentalness: instValue,
+        loudness: ldValue,
+        tempo: tpValue
+    }
+
+    axios.post('http://localhost:3001/tracks-filter', filters).then((res) => {
+        if (res.status == 200) {
+            console.log('res1: ' + res.data)
+            // res.send();
+        }
+    }).catch(e => console.log(e));
+}
+
 export function RemoveTrackFromPlaylist(trackdata, playlist) {
     console.log(trackdata)
     console.log('playlist: ' + playlist)

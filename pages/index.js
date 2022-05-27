@@ -17,7 +17,7 @@ import Slider from '../comps/Slider'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
-import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, RemoveTrackFromPlaylist } from '../utils/backendFunctions';
+import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, RemoveTrackFromPlaylist, filterTracks } from '../utils/backendFunctions';
 
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -232,45 +232,57 @@ export default function Home() {
 
   // //page functions
   // //---run filter
+  // const inputFilter = async () => {
+  //   setLoad(true)
+  //   console.log('input generated!')
+  //   if (timer === null) {
+  //     timer = setTimeout(async () => {
+  //       const params = {};
+  //       if (genre !== null) {
+  //         params.genre = genre;
+  //         console.log('genre is ' + genre)
+  //       } if (acValue == 33 || acValue == 66 || acValue == 100) {
+  //         params.acousticness = acValue;
+  //         console.log('ac is: ' + acValue)
+  //       } if (dncValue == 33 || dncValue == 66 || dncValue == 100) {
+  //         params.danceability = dncValue;
+  //         console.log('dnc is: ' + dncValue)
+  //       } if (enValue == 33 || enValue == 66 || enValue == 100) {
+  //         params.energy = enValue;
+  //         console.log('en is: ' + enValue)
+  //       } if (instValue == 100) {
+  //         params.instrumentals = instValue;
+  //         console.log('inst is: ' + instValue)
+  //       } if (ldValue == 33 || ldValue == 66 || ldValue == 100) {
+  //         params.loudness = ldValue;
+  //         console.log('ld is: ' + ldValue)
+  //       } if (tpValue == 80 || tpValue == 160 || tpValue == 240) {
+  //         params.tempo = tpValue;
+  //         console.log('tp is: ' + tpValue)
+  //       }
+  //       const res = await axios.get('/api/tracks', {
+  //         params
+  //       })
+  //       console.log('passed!')
+  //       setTracks(res.data);
+  //       setLoad(false);
+  //       timer = null;
+  //     }, 2000);
+  //   }
+  // }
   const inputFilter = async () => {
     setLoad(true)
-    console.log('input generated!')
-    if (timer === null) {
-      timer = setTimeout(async () => {
-        const params = {};
-        if (genre !== null) {
-          params.genre = genre;
-          console.log('genre is ' + genre)
-        } if (acValue == 33 || acValue == 66 || acValue == 100) {
-          params.acousticness = acValue;
-          console.log('ac is: ' + acValue)
-        } if (dncValue == 33 || dncValue == 66 || dncValue == 100) {
-          params.danceability = dncValue;
-          console.log('dnc is: ' + dncValue)
-        } if (enValue == 33 || enValue == 66 || enValue == 100) {
-          params.energy = enValue;
-          console.log('en is: ' + enValue)
-        } if (instValue == 100) {
-          params.instrumentals = instValue;
-          console.log('inst is: ' + instValue)
-        } if (ldValue == 33 || ldValue == 66 || ldValue == 100) {
-          params.loudness = ldValue;
-          console.log('ld is: ' + ldValue)
-        } if (tpValue == 80 || tpValue == 160 || tpValue == 240) {
-          params.tempo = tpValue;
-          console.log('tp is: ' + tpValue)
-        }
-        const res = await axios.get('/api/tracks', {
-          params
-        })
-        console.log('passed!')
-        setTracks(res.data);
-        setLoad(false);
-        timer = null;
-      }, 2000);
-    }
-  }
+    try {
+      console.log('success')
+      filterTracks(genre, acValue, dncValue, enValue, instValue, ldValue, tpValue);
+      // console.log('res: ' + res)
 
+    } catch (err) {
+      console.log('failed')
+      console.log(err)
+    }
+    setLoad(false)
+  }
 
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
@@ -348,11 +360,11 @@ export default function Home() {
               textCol={genre == 'country' ? themes[theme].white : themes[theme].grey}
               text='Country' />
             <SbButton
-              onClick={() => setGenre('dance')}
-              shadow={genre == 'dance' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
+              onClick={() => setGenre('dance pop')}
+              shadow={genre == 'dance pop' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
               width={sbSize}
-              color={genre == 'dance' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'dance' ? themes[theme].white : themes[theme].grey}
+              color={genre == 'dance pop' ? themes[theme].sbSelect : themes[theme].altAccent}
+              textCol={genre == 'dance pop' ? themes[theme].white : themes[theme].grey}
               text='Dance' />
             <SbButton
               onClick={() => setGenre('hipHop')}
