@@ -230,59 +230,38 @@ export default function Home() {
       })
   }
 
-  // //page functions
-  // //---run filter
-  // const inputFilter = async () => {
-  //   setLoad(true)
-  //   console.log('input generated!')
-  //   if (timer === null) {
-  //     timer = setTimeout(async () => {
-  //       const params = {};
-  //       if (genre !== null) {
-  //         params.genre = genre;
-  //         console.log('genre is ' + genre)
-  //       } if (acValue == 33 || acValue == 66 || acValue == 100) {
-  //         params.acousticness = acValue;
-  //         console.log('ac is: ' + acValue)
-  //       } if (dncValue == 33 || dncValue == 66 || dncValue == 100) {
-  //         params.danceability = dncValue;
-  //         console.log('dnc is: ' + dncValue)
-  //       } if (enValue == 33 || enValue == 66 || enValue == 100) {
-  //         params.energy = enValue;
-  //         console.log('en is: ' + enValue)
-  //       } if (instValue == 100) {
-  //         params.instrumentals = instValue;
-  //         console.log('inst is: ' + instValue)
-  //       } if (ldValue == 33 || ldValue == 66 || ldValue == 100) {
-  //         params.loudness = ldValue;
-  //         console.log('ld is: ' + ldValue)
-  //       } if (tpValue == 80 || tpValue == 160 || tpValue == 240) {
-  //         params.tempo = tpValue;
-  //         console.log('tp is: ' + tpValue)
-  //       }
-  //       const res = await axios.get('/api/tracks', {
-  //         params
-  //       })
-  //       console.log('passed!')
-  //       setTracks(res.data);
-  //       setLoad(false);
-  //       timer = null;
-  //     }, 2000);
-  //   }
-  // }
-  const inputFilter = async () => {
+  function filterTracks() {
+    let ldVforNegative = null;
     setLoad(true)
-    try {
-      console.log('success')
-      filterTracks(genre, acValue, dncValue, enValue, instValue, ldValue, tpValue);
-      // console.log('res: ' + res)
-
-    } catch (err) {
-      console.log('failed')
-      console.log(err)
+    if (ldValue == 100 || ldValue == 99) {
+      ldVforNegative = -5
+    } else if (ldValue == 66) {
+      ldVforNegative = -10
+    } else {
+      ldVforNegative = -25
     }
-    setLoad(false)
+    const filters = {
+      Genre: genre,
+      acoustics: acValue / 100,
+      danceability: dncValue / 110,
+      energy: enValue / 100,
+      instrumentalness: instValue / 100,
+      loudness: ldVforNegative,
+      tempo: tpValue
+    }
+    console.log('passing...')
+
+    axios.post('https://bopbot-backend.herokuapp.com/tracks-filter', filters).then((res) => {
+      if (res.status == 200) {
+        console.log(res.data[1])
+        setTracks(res.data)
+        setLoad(false)
+      }
+    }).catch(e => {
+      console.log(e);
+    });
   }
+
 
   function handleTrackOptions(trackdata) {
     console.log(trackdata)
@@ -463,7 +442,7 @@ export default function Home() {
             <Slider text='Energy' number={enValue} value={enValue} onChange={(ev) => setEnValue(ev.target.value)} />
             <Slider text='Instrumentals' number={instValue} value={instValue} onChange={(ev) => setInstValue(ev.target.value)} />
             <Slider text='Loudness' number={ldValue} value={ldValue} onChange={(ev) => setLdValue(ev.target.value)} />
-            <Slider text='Tempo' number={tpValue} max={240} step={80} value={tpValue} onChange={(ev) => setTpValue(ev.target.value)} />
+            <Slider text='Tempo' number={tpValue} max={225} step={80} value={tpValue} onChange={(ev) => setTpValue(ev.target.value)} />
 
           </SliderCont>
 
@@ -477,7 +456,7 @@ export default function Home() {
           }}>
             <MyButton
               width={device.mobile ? '100%' : 'auto'}
-              onClick={inputFilter}
+              onClick={filterTracks}
               text='generate'
             />
           </div>
