@@ -88,7 +88,7 @@ export default function CreateNewAccount({
             password: userPassword
         }
 
-        axios.post('https://bopbot-backend.herokuapp.com/signup', newUser)
+        axios.post('https://botbot-server.cyclic.app/signup', newUser)
             .then((res) => {
                 if (res.status == 200) {
                     localStorage.setItem('name', res.data.name)

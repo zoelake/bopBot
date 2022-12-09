@@ -218,7 +218,7 @@ export default function Home() {
     const user = {
       user: localStorage.getItem('email')
     }
-    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
+    axios.post('https://botbot-server.cyclic.app/get-playlists', user)
       .then((res) => {
         if (res.status == 200) {
           // console.log('res.data.playlists')
@@ -251,7 +251,7 @@ export default function Home() {
     }
     console.log('passing...')
 
-    axios.post('https://bopbot-backend.herokuapp.com/tracks-filter', filters).then((res) => {
+    axios.post('https://botbot-server.cyclic.app/tracks-filter', filters).then((res) => {
       if (res.status == 200) {
         console.log(res.data[1])
         setTracks(res.data)
@@ -297,15 +297,15 @@ export default function Home() {
   }
 
 
-  function handleTrackOptions(trackdata) {
-    console.log(trackdata)
-    //display model
-    setSelectedTrack(trackdata)
-    console.log('modle is set to: ' + trackModel)
-    getPlaylists();
-    setTrackModel(!trackModel)
+  // function handleTrackOptions(trackdata) {
+  //   console.log(trackdata)
+  //   //display model
+  //   setSelectedTrack(trackdata)
+  //   console.log('modle is set to: ' + trackModel)
+  //   getPlaylists();
+  //   setTrackModel(!trackModel)
 
-  }
+  // }
 
   return (
     <>

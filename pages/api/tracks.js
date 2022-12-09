@@ -16,7 +16,7 @@ export default function handler(req, res) {
     let loadedTracks = null;
 
     console.log('connecting to database...')
-    axios.get('https://bopbot-backend.herokuapp.com/tracks')
+    axios.get('https://botbot-server.cyclic.app/tracks')
         .then((red) => {
             console.log('here are your tracks! ' + red)
             loadedTracks = red.data

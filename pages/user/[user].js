@@ -269,7 +269,7 @@ export default function User() {
         const user = {
             user: localStorage.getItem('email')
         }
-        axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
+        axios.post('https://botbot-server.cyclic.app/get-playlists', user)
             .then((res) => {
                 if (res.status == 200) {
                     console.log('res.data.playlists')
