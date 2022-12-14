@@ -12,7 +12,7 @@ export default function CreateNewAccount({
 }) {
 
     const router = useRouter();
-    const host = process.env.NEXT_PUBLIC_URL;
+    const host = process.env.SERVERSIDE;
     const { theme } = useTheme();
     const titleSize = useTitle();
     const headerSize = useHeader();

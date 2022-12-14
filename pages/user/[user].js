@@ -39,7 +39,7 @@ import { Page, Dashboard, SbCont, TracksCont, SpaceCont, Divider, RegCont } from
 export default function User() {
 
     const router = useRouter();
-    const host = process.env.NEXT_PUBLIC_URL;
+    const host = process.env.SERVERSIDE;
 
     //global styles
     const { theme } = useTheme();
