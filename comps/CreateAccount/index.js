@@ -45,6 +45,7 @@ export default function CreateNewAccount({
 }) {
 
     const router = useRouter();
+    const host = process.env.NEXT_PUBLIC_URL;
     const { theme } = useTheme();
     const titleSize = useTitle();
     const headerSize = useHeader();
@@ -87,9 +88,8 @@ export default function CreateNewAccount({
             email: userEmail,
             password: userPassword
         }
-
-        axios.post('https://botbot-server.cyclic.app/signup', newUser)
-            .then((res) => {
+        axios.post(`${host}/signup`, newUser)
+            .then(res => {
                 if (res.status == 200) {
                     localStorage.setItem('name', res.data.name)
                     localStorage.setItem('email', res.data.email)
@@ -100,7 +100,7 @@ export default function CreateNewAccount({
                     router.push('/')
                 }
             }).catch(e => {
-                // console.log(e)
+                alert(e)
                 setBorder(false)
                 setInputError(true)
             })

@@ -145,6 +145,7 @@ export default function Settings({
 }) {
 
   const router = useRouter();
+  const host = process.env.NEXT_PUBLIC_URL;
 
   //visual states
   const { theme, setTheme } = useTheme();
@@ -238,7 +239,7 @@ export default function Settings({
     }
     console.log('current name: ' + localStorage.getItem('name'))
     console.log('updated name: ' + updatedName)
-    axios.post('https://botbot-server.cyclic.app/update-userName', updateName)
+    axios.post(`${host}/update-userName`, updateName)
       .then((res) => {
         if (res) {
           console.log('returned name: ' + res.data)
@@ -261,7 +262,7 @@ export default function Settings({
     }
     console.log('current name: ' + localStorage.getItem('email'))
     console.log('updated name: ' + updatedEmail)
-    axios.post('https://botbot-server.cyclic.app/update-userEmail', updateEmail)
+    axios.post(`${host}/update-userEmail`, updateEmail)
       .then((res) => {
         if (res) {
           console.log('returned email: ' + res.data)
@@ -283,15 +284,12 @@ export default function Settings({
       password: oldPassword,
       new_password: updatedPassword
     }
-    console.log('current name: ' + localStorage.getItem('email'))
-    console.log('updated name: ' + updatedEmail)
-    axios.post('https://botbot-server.cyclic.app/update-userPassword', updatePassword)
-      .then((res) => {
-        if (res) {
-          console.log(res.data)
-        } else {
-          console.log('something went wrong')
-        }
+    // console.log('current name: ' + localStorage.getItem('email'))
+    // console.log('updated name: ' + updatedEmail)
+    axios.post(`${host}/update-userPassword`, updatePassword)
+      .then(res => {
+        if (res) console.log(res.data);
+        else console.log('something went wrong');
       })
       .catch(e => {
         console.log(e)

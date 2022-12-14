@@ -230,6 +230,7 @@ const Divider = styled.div`
 export default function User() {
 
     const router = useRouter();
+    const host = process.env.NEXT_PUBLIC_URL;
 
     //global styles
     const { theme } = useTheme();
@@ -264,16 +265,12 @@ export default function User() {
     }, [])
 
     function getPlaylists() {
-
-        console.log('GETTING PLAYLISTS')
         const user = {
             user: localStorage.getItem('email')
         }
-        axios.post('https://botbot-server.cyclic.app/get-playlists', user)
-            .then((res) => {
+        axios.post(`${host}/get-playlists`, user)
+            .then(res => {
                 if (res.status == 200) {
-                    console.log('res.data.playlists')
-                    console.log(res.data.playlists)
                     setUserPlaylists(res.data.playlists);
                     setLikedPlaylist(res.data.liked)
                 }
@@ -284,13 +281,8 @@ export default function User() {
 
     //load user & playlist data on load
     if (typeof window !== 'undefined') {
-        if (localStorage.getItem('id')) {
-            setId(localStorage.getItem('id'))
-        }
-        if (localStorage.getItem('email')) {
-            setEmail(localStorage.getItem('email'))
-        }
-
+        if (localStorage.getItem('id')) setId(localStorage.getItem('id'));
+        if (localStorage.getItem('email')) setEmail(localStorage.getItem('email'));
     }
 
     //protect users' page from unauthorized accounts
@@ -320,7 +312,7 @@ export default function User() {
     }
 
     //API CALLS TO BACKEND
-   
+
 
     //page functions
     function onDeleteClick() {
@@ -383,20 +375,20 @@ export default function User() {
                     {/* <UserInfo /> */}
 
                     {/* if users clicks create playlist */}
-                    {addPlaylistView ? <AddPlaylist
+                    {addPlaylistView && <AddPlaylist
                         handleChange={(e) => setNewPlaylistName(e.target.value)}
                         onXClick={() => setAddPlaylistView(false)}
                         onSaveClick={onAddSaveClick}
-                    /> : <></>}
+                    />}
 
                     {/* if users clicks edit playlist */}
-                    {editPlaylistView ? <EditPlaylist
+                    {editPlaylistView && <EditPlaylist
                         playlist={selectedPlaylist}
                         handleChange={(e) => setUpdatePlaylistName(e.target.value)}
                         onXClick={() => setEditPlaylistView(false)}
                         onSaveClick={onEditSaveClick}
                         onDeleteClick={onDeleteClick}
-                    /> : <></>}
+                    />}
 
                     <leftTop>
 
@@ -475,21 +467,21 @@ export default function User() {
                             enableTouchEvents: false,
                             enableMouseEvents: true
                         }}>
-                            {selectedPlaylist == 'likes' ?
-                                <Container
-                                    data={likedPlaylist}
+                                {selectedPlaylist == 'likes' ?
+                                    <Container
+                                        data={likedPlaylist}
+                                    // moveCard={moveCard}
+
+                                    /> : <></>}
+
+                                {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? <Container
+                                    data={selectedTracks}
                                 // moveCard={moveCard}
 
                                 /> : <></>}
 
-                            {selectedPlaylist !== 'nothing' && selectedPlaylist !== 'likes' ? <Container
-                                data={selectedTracks}
-                            // moveCard={moveCard}
 
-                            /> : <></>}
-
-
-                        </DndProvider>
+                            </DndProvider>
 
 
                         </DndProvider>

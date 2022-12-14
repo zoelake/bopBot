@@ -44,6 +44,7 @@ export default function LoginAccount({
 }) {
 
     const router = useRouter();
+    const host = process.env.NEXT_PUBLIC_URL;
 
     const { theme } = useTheme();
     const { titleSize } = useTitle();
@@ -82,12 +83,9 @@ export default function LoginAccount({
             email: userEmail,
             password: userPassword
         }
-        axios.post('https://botbot-server.cyclic.app/login', getUser)
-            .then((res) => {
+        axios.post(`${host}/login`, getUser)
+            .then(res => {
                 if (res) {
-
-                    // console.log('res.data.name')
-                    // console.log(res.data.name)
                     localStorage.setItem('name', res.data.name)
                     localStorage.setItem('email', res.data.email)
                     localStorage.setItem('id', res.data._id)
@@ -97,15 +95,13 @@ export default function LoginAccount({
                     setEmail(res.data.email)
 
                     router.push('/')
-
                 }
             })
             .catch(e => {
-                // console.log(e)
+                alert(e)
                 setBorder(false)
                 setInputError(true)
             })
-
     }
 
 
@@ -125,12 +121,12 @@ export default function LoginAccount({
                 size={`${headerSize}px`}
                 color={themes[theme].contrast}
             />
-            {inputError ? <MyText
+            {inputError && <MyText
                 lineHeight='0'
                 text='Credentials incorrect or not found. Please, try again.'
                 size={`${parSize}px`}
                 color={themes[theme].contrast}
-            /> : <></>}
+            />}
             <LoginInput border={border ? '#8B64FA' : 'red'} name='email' placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} onSelect={() => setBorder(true)} />
             <LoginInput type='password' border={border ? '#8B64FA' : 'red'} name='password' placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} onSelect={() => setBorder(true)} />
             <ButtonCont>
