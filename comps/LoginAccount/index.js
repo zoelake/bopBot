@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { themes } from "../../utils/variables";
 import { useAvatar, useEmail, useId, useName, useTheme, useToken, useHeader, usePar, useTitle } from "../../utils/provider";
 import { useState } from 'react';
@@ -6,37 +5,7 @@ import MyButton from '../Button';
 import { useRouter } from 'next/router'
 import axios from 'axios';
 import MyText from '../Text';
-
-const InputCont = styled.div`
-    width:80%;
-    max-width:500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: space-around;
-    align-items: center;
-    padding:10px;
-    border-radius: 5px;
-    background-color: #fff;
-`;
-
-const LoginInput = styled.input`
-    border-radius: 5px;
-    background-color: ${props => props.bg};
-    color:${props => props.txt};
-    height:50px;
-    border:1.5px solid ${props => props.border};
-    margin:5px;
-    padding:0 10px;
-    width:90%;
-`;
-
-const ButtonCont = styled.div`
-    display: flex;
-    flex-direction:column;
-    justify-content: space-around;
-    text-align:center;
-`;
+import { InputCont, ButtonCont, LoginInput } from '../CreateAccount/style'
 
 
 export default function LoginAccount({
@@ -65,18 +34,6 @@ export default function LoginAccount({
     //ui states 
     const [border, setBorder] = useState(true);
     const [inputError, setInputError] = useState(false);
-
-    function HandleEmail(value) {
-        setUserEmail(value)
-        // console.log(userEmail)
-    }
-
-    function HandlePassword(value) {
-        setUserPassword(value)
-        // console.log(userPassword)
-    }
-
-
 
     function Login() {
         const getUser = {
@@ -127,8 +84,8 @@ export default function LoginAccount({
                 size={`${parSize}px`}
                 color={themes[theme].contrast}
             />}
-            <LoginInput border={border ? '#8B64FA' : 'red'} name='email' placeholder='Email...' onChange={(e) => HandleEmail(e.target.value)} onSelect={() => setBorder(true)} />
-            <LoginInput type='password' border={border ? '#8B64FA' : 'red'} name='password' placeholder='Password...' onChange={(e) => HandlePassword(e.target.value)} onSelect={() => setBorder(true)} />
+            <LoginInput border={border ? '#8B64FA' : 'red'} name='email' placeholder='Email...' onChange={(e) => setUserEmail(e.target.value)} onSelect={() => setBorder(true)} />
+            <LoginInput type='password' border={border ? '#8B64FA' : 'red'} name='password' placeholder='Password...' onChange={(e) => setUserPassword(e.target.value)} onSelect={() => setBorder(true)} />
             <ButtonCont>
                 <MyButton onClick={Login} text='Login' />
                 <MyText

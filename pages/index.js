@@ -19,13 +19,8 @@ import axios from 'axios'
 import { useRouter } from "next/router";
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, RemoveTrackFromPlaylist, filterTracks } from '../utils/backendFunctions';
 
-import { TouchBackend } from 'react-dnd-touch-backend'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { DndProvider } from 'react-dnd'
-import Dropzone from '../comps/Dropzone'
 import { v4 as uuidv4 } from 'uuid';
 
-import { io } from "socket.io-client";
 import EditPlaylist from '../comps/EditPlaylistModal'
 import BopBot from '../comps/BopBot'
 import TrackAddedPopup from '../comps/TrackAddedPopup'
@@ -33,137 +28,14 @@ import TrackAddedPopup from '../comps/TrackAddedPopup'
 import Lottie from "lottie-react"
 import loadingAnim from '../public/lottie/bopbot_load.json'
 //lottie
+import { Page, Dashboard, SbCont, SliderCont, Divider, TracksCont, TrackScoll } from '../pageComps/Dashboard';
 
-
-
-
-
-const Page = styled.div`
-  display:flex;
-  margin:0;
-  width:100%;
-  /* position: absolute; */
-  bottom:0;
- 
-  /* border:8px solid green; */
-  @media ${device.mobile}{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height:100%;
-    top:30%;
-  }
-  @media ${device.tablet}{
-    flex-direction: row;
-    justify-content: space-between;
-    height:95vh;
-  }
-  @media ${device.desktop}{
-    flex-direction: row;
-    justify-content: space-between;
-    height:95vh;
-    top:10%;
-  }
-`;
-const Dashboard = styled.div`
-    height:95vh;
-    width:60%;
-    /* border:5px solid red; */
-    @media ${device.mobile}{
-      width:90%;
-      padding:30px 0px 10px 0px;
-      margin-bottom: 200px;
-    }
-    @media ${device.tablet}{
-      width:55%;
-      padding:30px 10px 10px 60px;
-    }
-    @media ${device.desktop}{
-      width:55%;
-      padding:30px 10px 10px 60px;
-    }
-`;
-const SbCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  height:auto;
-  justify-content: left;
-  /* padding-left: 30px; */
-`;
-const SliderCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-self: center;
-  /* padding-left: 30px; */
-  /* border:2px solid green; */
-  @media ${device.mobile}{
-    width: 100%;
-    }
-    @media ${device.tablet}{
-      width: 60%;
-      padding: 0 10%;
-    }
-    @media ${device.desktop}{
-      width: 60%;
-      padding: 0 10%;
-    }
-`;
-const TrackScoll = styled.div`
-  height:100%;
-  /* background-color: #fad; */
-  overflow: scroll;
-  width: auto;
-`;
-const TracksCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height:95vh;
-
-  justify-content: left;
-  /* border:2px solid green; */
-  @media ${device.mobile}{
-    width: 90%;
-}
-@media ${device.tablet}{
-  width: 45%;
-  padding: 30px 0 0 30px;
-}
-@media ${device.desktop}{
-  width: 45%;
-  padding: 30px 0 0 30px;
-}
-`;
-const Divider = styled.div`
-    background-color: ${props => props.color};
-    align-self: center;
-    width:1px;
-    height:90%;
-`;
-
-//please fix this styling lol
-const Model = styled.div`
-  width: 300px;
-  height:300px;
-  padding:5px;
-  position:absolute;
-  top:20%;
-  left:45%;
-  background-color: #fff;
-  color:black;
-  z-index:1000;
-`;
-
-var timer = null;
 
 export default function Home() {
 
   const router = useRouter();
   const host = process.env.NEXT_PUBLIC_URL;
   // const DEV = host.includes("localhost");
-  
   //global styles
   const { theme } = useTheme();
   const { titleSize } = useTitle();
@@ -210,33 +82,22 @@ export default function Home() {
 
   // //API CALLS TO BACKEND
   function getPlaylists() {
-
-    // console.log('GETTING PLAYLISTS')
     const user = {
       user: localStorage.getItem('email')
     }
     axios.post(`${host}/get-playlists`, user)
-      .then((res) => {
-        if (res.status == 200) {
-          // console.log('res.data.playlists')
-          // console.log(res.data.playlists)
-          setUserPlaylists(res.data.playlists);
-        }
-      }).catch(e => {
-        console.log(e)
-      })
+      .then((res) => res.status == 200 && setUserPlaylists(res.data.playlists))
+      .catch(e => console.log(e));
   }
 
   function filterTracks() {
     let ldVforNegative = null;
     setLoad(true)
-    if (ldValue == 100 || ldValue == 99) {
-      ldVforNegative = -5
-    } else if (ldValue == 66) {
-      ldVforNegative = -10
-    } else {
-      ldVforNegative = -25
-    }
+
+    if (ldValue == 100 || ldValue == 99) ldVforNegative = -5;
+    else if (ldValue == 66) ldVforNegative = -10;
+    else ldVforNegative = -25;
+
     const filters = {
       Genre: genre,
       acoustics: acValue / 100,
@@ -246,25 +107,19 @@ export default function Home() {
       loudness: ldVforNegative,
       tempo: tpValue
     }
-    // console.log('passing...')
 
-    axios.post(`${host}/tracks-filter`, filters).then(res => {
-      if (res.status === 200) {
-        // console.log(res.data[1])
-        setTracks(res.data)
-        setLoad(false)
-      }
-    }).catch(e => {
-      console.log(e);
-    });
+    axios.post(`${host}/tracks-filter`, filters)
+      .then(res => res.status == 200 && setTracks(res.data))
+      .catch(e => alert(e));
+    setLoad(false);
   }
 
 
   function handleTrackOptions(trackdata) {
     const playlist = localStorage.getItem('selectedPlaylist');
     const request = localStorage.getItem('request');
-    if (request === 'add') AddTrackToPlaylist(trackdata, playlist);
-    if (request === 'remove') RemoveTrackFromPlaylist(trackdata, playlist);
+    if (request == 'add') AddTrackToPlaylist(trackdata, playlist);
+    if (request == 'remove') RemoveTrackFromPlaylist(trackdata, playlist);
     getPlaylists();
   }
 
@@ -272,7 +127,6 @@ export default function Home() {
   function setAsLiked(trackdata) {
     AddTrackToLiked(trackdata)
     localStorage.setItem(`track #${trackdata._id}`, trackdata._id)
-
   }
 
   function setAsUnliked(trackdata) {
@@ -328,8 +182,6 @@ export default function Home() {
     }
   ];
 
-  // console.log(musical_values);
-
   return (
     <>
       <Head>
@@ -341,7 +193,6 @@ export default function Home() {
       <Page>
 
         <Dashboard>
-
           <MyText
             weight={500}
             lineHeight='0'
@@ -410,7 +261,6 @@ export default function Home() {
         <Divider color={themes[theme].text} />
 
         <TracksCont>
-
           <MyText
             text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
             size={`${headerSize}px`}
