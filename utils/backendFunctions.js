@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-const host = process.env.NEXT_PUBLIC_URL;
+const host = process.env.SERVERSIDE;
 // update to get this tracked
 
 

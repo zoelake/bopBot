@@ -25,7 +25,7 @@ export default function Settings({
 }) {
 
   const router = useRouter();
-  const host = process.env.NEXT_PUBLIC_URL;
+  const host = process.env.SERVERSIDE;
 
   //visual states
   const { theme, setTheme } = useTheme();
