@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+const host = process.env.NEXT_PUBLIC_URL;
 // update to get this tracked
 
 
@@ -7,16 +8,12 @@ import { useState } from "react";
 //PLAYLIST FUNCTIONS
 
 export function getPlaylists() {
-
-    console.log('GETTING PLAYLISTS')
     const user = {
         user: localStorage.getItem('email')
     }
-    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
-        .then((res) => {
+    axios.post(`${host}/get-playlists`, user)
+        .then(res => {
             if (res.status == 200) {
-                console.log('res.data.playlists')
-                console.log(res.data.playlists)
                 res.send();
                 // setUserPlaylists(res.data.playlists);
             }
@@ -58,32 +55,24 @@ export function getPlaylists() {
 // }
 
 export function RemoveTrackFromPlaylist(trackdata, playlist) {
-    console.log(trackdata)
-    console.log('playlist: ' + playlist)
     const info = {
         user: localStorage.getItem('email'),
         playlist_name: playlist,
         track: trackdata,
     }
-    console.log(info)
-    axios.post('https://bopbot-backend.herokuapp.com/tracks-remove-playlist', info).then((res) => {
-        console.log('returning:')
-        console.log(res)
-    }).catch(e => {
-        console.log(e)
-    })
+    axios.post(`${host}/tracks-remove-playlist`, info)
+        .then((res) => console.log(res))
+        .catch(e => console.log(e));
 }
 
 export function AddTrackToPlaylist(trackdata, playlist) {
-    console.log(trackdata)
-    console.log('playlist: ' + playlist)
     const info = {
         user: localStorage.getItem('email'),
         playlist_name: playlist,
         track: trackdata,
     }
     console.log(info)
-    axios.post('https://bopbot-backend.herokuapp.com/tracks-add-playlist', info).then((res) => {
+    axios.post(`${host}/tracks-add-playlist`, info).then(res => {
         console.log('returning:')
         console.log(res)
     }).catch(e => {
@@ -94,20 +83,13 @@ export function AddTrackToPlaylist(trackdata, playlist) {
 
 
 export function AddTrackToLiked(trackdata) {
-    console.log(trackdata)
     const info = {
         user: localStorage.getItem('email'),
         track: trackdata,
     }
-    console.log(info)
-    axios.post('https://bopbot-backend.herokuapp.com/tracks-add-liked', info).then((res) => {
-        console.log('added to likes')
-        console.log(res)
-        // res.send(res.status)
-
-    }).catch(e => {
-        console.log(e)
-    })
+    axios.post(`${host}/tracks-add-liked`, info)
+        .then((res) => console.log(res))
+        .catch(e => console.log(e))
 }
 
 
@@ -120,12 +102,9 @@ export function DeleteTrackFromLiked(trackdata) {
         track: trackdata,
     }
     console.log(info)
-    axios.post('https://bopbot-backend.herokuapp.com/tracks-delete-liked', info).then((res) => {
-        console.log('deleted from likes:')
-        console.log(res)
-    }).catch(e => {
-        console.log(e)
-    })
+    axios.post(`${host}/tracks-delete-liked`, info)
+        .then((res) => console.log(res))
+        .catch(e => console.log(e))
 }
 
 export function CreateNewPlaylist(name, img) {
@@ -134,54 +113,31 @@ export function CreateNewPlaylist(name, img) {
         playlist_img: img,
         user: localStorage.getItem('email')
     }
-    axios.post('https://bopbot-backend.herokuapp.com/create-playlist', newPlaylist)
-        .then((res) => {
-            if (res.status == 200) {
-                console.log(res.data + ' was added!')
-            }
-        }).catch(e => {
-            console.log(e)
-        })
-
+    axios.post(`${host}/create-playlist`, newPlaylist)
+        .then(res => res.status == 200 && console.log(res.data + ' was added!'))
+        .catch(e => console.log(e))
 }
 
 
 export function DeletePlaylist(name) {
-    console.log('deleting playlist')
     const playlist = {
         playlist_name: name,
         user: localStorage.getItem('email')
     }
-    axios.post('https://bopbot-backend.herokuapp.com/delete-playlist', playlist)
-        .then((res) => {
-
-            console.log(res.data + ' was delete!')
-
-        }).catch(e => {
-            console.log(e)
-        })
-
-
+    axios.post(`${host}/delete-playlist`, playlist)
+        .then(res => console.log(res.data + ' was delete!'))
+        .catch(e => console.log(e));
 }
 
 export function UpdatePlaylist(name, newName, img) {
-    console.log(`updating ${name} to ${newName}`)
     const playlist = {
         playlist_name: name,
         playlist_newName: newName,
         playlist_newImg: img,
         user: localStorage.getItem('email')
     }
-    console.log('playlist')
-    console.log(playlist)
-    axios.post('https://bopbot-backend.herokuapp.com/update-playlist', playlist)
-        .then((res) => {
-
-            console.log(res.data + ' was updated!')
-
-        }).catch(e => {
-            console.log(e)
-        })
-
+    axios.post(`${host}/update-playlist`, playlist)
+        .then(res => console.log(res.data + ' was updated!'))
+        .catch(e => console.log(e))
 }
 

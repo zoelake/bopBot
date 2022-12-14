@@ -32,7 +32,6 @@ function MySlider({
     text = "title",
     min = 0,
     max = 100,
-    value,
     onChange = ()=>{},
     step = 33,
     number = 0,
@@ -57,7 +56,7 @@ function MySlider({
             step={step}
             min={min}
             max={max}
-            value={value}
+            value={number}
             onChange={onChange}
         />
         

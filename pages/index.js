@@ -19,13 +19,8 @@ import axios from 'axios'
 import { useRouter } from "next/router";
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, RemoveTrackFromPlaylist, filterTracks } from '../utils/backendFunctions';
 
-import { TouchBackend } from 'react-dnd-touch-backend'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { DndProvider } from 'react-dnd'
-import Dropzone from '../comps/Dropzone'
 import { v4 as uuidv4 } from 'uuid';
 
-import { io } from "socket.io-client";
 import EditPlaylist from '../comps/EditPlaylistModal'
 import BopBot from '../comps/BopBot'
 import TrackAddedPopup from '../comps/TrackAddedPopup'
@@ -33,135 +28,14 @@ import TrackAddedPopup from '../comps/TrackAddedPopup'
 import Lottie from "lottie-react"
 import loadingAnim from '../public/lottie/bopbot_load.json'
 //lottie
+import { Page, Dashboard, SbCont, SliderCont, Divider, TracksCont, TrackScoll } from '../pageComps/Dashboard';
 
-
-
-
-
-const Page = styled.div`
-  display:flex;
-  margin:0;
-  width:100%;
-  /* position: absolute; */
-  bottom:0;
- 
-  /* border:8px solid green; */
-  @media ${device.mobile}{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height:100%;
-    top:30%;
-  }
-  @media ${device.tablet}{
-    flex-direction: row;
-    justify-content: space-between;
-    height:95vh;
-  }
-  @media ${device.desktop}{
-    flex-direction: row;
-    justify-content: space-between;
-    height:95vh;
-    top:10%;
-  }
-`;
-const Dashboard = styled.div`
-    height:95vh;
-    width:60%;
-    /* border:5px solid red; */
-    @media ${device.mobile}{
-      width:90%;
-      padding:30px 0px 10px 0px;
-      margin-bottom: 200px;
-    }
-    @media ${device.tablet}{
-      width:55%;
-      padding:30px 10px 10px 60px;
-    }
-    @media ${device.desktop}{
-      width:55%;
-      padding:30px 10px 10px 60px;
-    }
-`;
-const SbCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  height:auto;
-  justify-content: left;
-  /* padding-left: 30px; */
-`;
-const SliderCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-self: center;
-  /* padding-left: 30px; */
-  /* border:2px solid green; */
-  @media ${device.mobile}{
-    width: 100%;
-    }
-    @media ${device.tablet}{
-      width: 60%;
-      padding: 0 10%;
-    }
-    @media ${device.desktop}{
-      width: 60%;
-      padding: 0 10%;
-    }
-`;
-const TrackScoll = styled.div`
-  height:100%;
-  /* background-color: #fad; */
-  overflow: scroll;
-  width: auto;
-`;
-const TracksCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height:95vh;
-
-  justify-content: left;
-  /* border:2px solid green; */
-  @media ${device.mobile}{
-    width: 90%;
-}
-@media ${device.tablet}{
-  width: 45%;
-  padding: 30px 0 0 30px;
-}
-@media ${device.desktop}{
-  width: 45%;
-  padding: 30px 0 0 30px;
-}
-`;
-const Divider = styled.div`
-    background-color: ${props => props.color};
-    align-self: center;
-    width:1px;
-    height:90%;
-`;
-
-//please fix this styling lol
-const Model = styled.div`
-  width: 300px;
-  height:300px;
-  padding:5px;
-  position:absolute;
-  top:20%;
-  left:45%;
-  background-color: #fff;
-  color:black;
-  z-index:1000;
-`;
-
-var timer = null;
 
 export default function Home() {
 
   const router = useRouter();
-
+  const host = process.env.NEXT_PUBLIC_URL;
+  // const DEV = host.includes("localhost");
   //global styles
   const { theme } = useTheme();
   const { titleSize } = useTitle();
@@ -202,44 +76,28 @@ export default function Home() {
 
   useEffect(() => {
     const storedName = localStorage.getItem('name');
-    if (storedName) {
-      setName(storedName);
-      getPlaylists()
-    } else {
-      router.push('/login')
-    }
+    storedName ? setName(storedName) && getPlaylists() : router.push('/login');
   }, [])
 
 
   // //API CALLS TO BACKEND
   function getPlaylists() {
-
-    // console.log('GETTING PLAYLISTS')
     const user = {
       user: localStorage.getItem('email')
     }
-    axios.post('https://botbot-server.cyclic.app/get-playlists', user)
-      .then((res) => {
-        if (res.status == 200) {
-          // console.log('res.data.playlists')
-          // console.log(res.data.playlists)
-          setUserPlaylists(res.data.playlists);
-        }
-      }).catch(e => {
-        console.log(e)
-      })
+    axios.post(`${host}/get-playlists`, user)
+      .then((res) => res.status == 200 && setUserPlaylists(res.data.playlists))
+      .catch(e => console.log(e));
   }
 
   function filterTracks() {
     let ldVforNegative = null;
     setLoad(true)
-    if (ldValue == 100 || ldValue == 99) {
-      ldVforNegative = -5
-    } else if (ldValue == 66) {
-      ldVforNegative = -10
-    } else {
-      ldVforNegative = -25
-    }
+
+    if (ldValue == 100 || ldValue == 99) ldVforNegative = -5;
+    else if (ldValue == 66) ldVforNegative = -10;
+    else ldVforNegative = -25;
+
     const filters = {
       Genre: genre,
       acoustics: acValue / 100,
@@ -249,49 +107,29 @@ export default function Home() {
       loudness: ldVforNegative,
       tempo: tpValue
     }
-    console.log('passing...')
 
-    axios.post('https://botbot-server.cyclic.app/tracks-filter', filters).then((res) => {
-      if (res.status == 200) {
-        console.log(res.data[1])
-        setTracks(res.data)
-        setLoad(false)
-      }
-    }).catch(e => {
-      console.log(e);
-    });
+    axios.post(`${host}/tracks-filter`, filters)
+      .then(res => res.status == 200 && setTracks(res.data))
+      .catch(e => alert(e));
+    setLoad(false);
   }
 
 
   function handleTrackOptions(trackdata) {
-    console.log(trackdata)
-    const playlist = localStorage.getItem('selectedPlaylist')
-    const request = localStorage.getItem('request')
-
-    if (request)
-      if (request == 'add') {
-        console.log(`adding ${trackdata.name} to ${playlist}`)
-        AddTrackToPlaylist(trackdata, playlist);
-      } else if (request == 'remove') {
-        console.log(`removing ${trackdata.name} from ${playlist}`)
-        RemoveTrackFromPlaylist(trackdata, playlist);
-      }
-
-    getPlaylists()
+    const playlist = localStorage.getItem('selectedPlaylist');
+    const request = localStorage.getItem('request');
+    if (request == 'add') AddTrackToPlaylist(trackdata, playlist);
+    if (request == 'remove') RemoveTrackFromPlaylist(trackdata, playlist);
+    getPlaylists();
   }
 
 
   function setAsLiked(trackdata) {
-    console.log('liked')
-    console.log(trackdata._id)
     AddTrackToLiked(trackdata)
     localStorage.setItem(`track #${trackdata._id}`, trackdata._id)
-
   }
 
   function setAsUnliked(trackdata) {
-    console.log('unliked')
-    console.log(trackdata._id)
     localStorage.removeItem(`track #${trackdata._id}`)
     DeleteTrackFromLiked(trackdata)
   }
@@ -307,18 +145,54 @@ export default function Home() {
 
   // }
 
+  const genres = ["country", "dance pop", "hipHop", "house", "indie", "jazz", "kPop", "pop", "r&b", "rock"];
+  const musical_values = [
+    {
+      text: 'Acounticness',
+      number: acValue,
+      onChange: (ev) => setAcValue(ev.target.value)
+    },
+    {
+      text: 'Danceability',
+      number: dncValue,
+      onChange: (ev) => setDncValue(ev.target.value)
+    },
+    {
+      text: 'Energy',
+      number: enValue,
+      onChange: (ev) => setEnValue(ev.target.value)
+    },
+    {
+      text: 'Instrumentals',
+      number: instValue,
+      onChange: (ev) => setInstValue(ev.target.value)
+    },
+    {
+      text: 'Loudness',
+      number: ldValue,
+      onChange: (ev) => setLdValue(ev.target.value)
+    },
+    {
+      text: 'Tempo',
+      number: tpValue,
+      max: 225,
+      step: 80,
+      value: tpValue,
+      onChange: (ev) => setTpValue(ev.target.value)
+    }
+  ];
+
   return (
     <>
       <Head>
         <title>botBot</title>
-        <meta name="description" content="Generated by create next app" />
+        <meta name="description" content="BopBot is a MERN stack application that filters Spotify's database of songs by musical values, allowing users to discover new music and break out of their usual listening algorithm. Explore tracks by genre and other musical values with BopBot." />
         <link rel="icon" href="#" />
       </Head>
       <NavBar />
       <Page>
 
         <Dashboard>
-
           <MyText
             weight={500}
             lineHeight='0'
@@ -331,104 +205,21 @@ export default function Home() {
           />
 
           <SbCont>
-            <SbButton
-              onClick={() => setGenre('country')}
-              shadow={genre == 'country' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'country' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'country' ? themes[theme].white : themes[theme].grey}
-              text='Country' />
-            <SbButton
-              onClick={() => setGenre('dance pop')}
-              shadow={genre == 'dance pop' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'dance pop' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'dance pop' ? themes[theme].white : themes[theme].grey}
-              text='Dance' />
-            <SbButton
-              onClick={() => setGenre('hipHop')}
-              shadow={genre == 'hipHop' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'hipHop' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'hipHop' ? themes[theme].white : themes[theme].grey}
-              text='Hip Hop' />
-            <SbButton
-              onClick={() => setGenre('house')}
-              shadow={genre == 'house' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'house' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'house' ? themes[theme].white : themes[theme].grey}
-              text='House' />
-            <SbButton
-              onClick={() => setGenre('indie')}
-              shadow={genre == 'indie' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'indie' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'indie' ? themes[theme].white : themes[theme].grey}
-              text='Indie' />
-            <SbButton
-              onClick={() => setGenre('jazz')}
-              shadow={genre == 'jazz' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'jazz' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'jazz' ? themes[theme].white : themes[theme].grey}
-              text='Jazz' />
-            <SbButton
-              onClick={() => setGenre('kPop')}
-              shadow={genre == 'kPop' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'kPop' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'kPop' ? themes[theme].white : themes[theme].grey}
-              text='K-pop' />
-            <SbButton
-              onClick={() => setGenre('pop')}
-              shadow={genre == 'pop' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'pop' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'pop' ? themes[theme].white : themes[theme].grey}
-              text='Pop' />
-            <SbButton
-              onClick={() => setGenre('metal')}
-              shadow={genre == 'metal' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'metal' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'metal' ? themes[theme].white : themes[theme].grey}
-              text='Metal' />
-            <SbButton
-              onClick={() => setGenre('rb')}
-              shadow={genre == 'rb' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'rb' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'rb' ? themes[theme].white : themes[theme].grey}
-              text='R&amp;B' />
-            <SbButton
-              onClick={() => setGenre('rap')}
-              shadow={genre == 'rap' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'rap' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'rap' ? themes[theme].white : themes[theme].grey}
-              text='Rap' />
-            <SbButton
-              onClick={() => setGenre('raggae')}
-              shadow={genre == 'raggae' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'raggae' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'raggae' ? themes[theme].white : themes[theme].grey}
-              text='Raggae' />
-            <SbButton
-              onClick={() => setGenre('rock')}
-              shadow={genre == 'rock' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'rock' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'rock' ? themes[theme].white : themes[theme].grey}
-              text='Rock' />
-            <SbButton
-              onClick={() => setGenre('trap')}
-              shadow={genre == 'trap' ? 'inset 5px 5px 4px rgba(0,0,0,0.25)' : 'inset 5px 5px 2px rgba(255,255,255,0.25)'}
-              width={sbSize}
-              color={genre == 'trap' ? themes[theme].sbSelect : themes[theme].altAccent}
-              textCol={genre == 'trap' ? themes[theme].white : themes[theme].grey}
-              text='Trap' />
+            {genres.map((gr, i) => (
+              <SbButton
+                key={i}
+                onClick={() => setGenre(gr)}
+                shadow={
+                  gr == genre
+                    ? "inset 5px 5px 4px rgba(0,0,0,0.25)"
+                    : "inset 5px 5px 2px rgba(255,255,255,0.25)"
+                }
+                width={sbSize}
+                color={gr == genre ? themes[theme].sbSelect : themes[theme].altAccent}
+                textCol={gr == genre ? themes[theme].white : themes[theme].grey}
+                text={gr}
+              />
+            ))}
           </SbCont>
 
           <MyText
@@ -436,13 +227,18 @@ export default function Home() {
             size={`${headerSize}px`}
           />
           <SliderCont>
-            <Slider text='Acounticness' number={acValue} value={acValue} onChange={(ev) => setAcValue(ev.target.value)} />
-            <Slider text='Danceability' number={dncValue} value={dncValue} onChange={(ev) => setDncValue(ev.target.value)} />
-
-            <Slider text='Energy' number={enValue} value={enValue} onChange={(ev) => setEnValue(ev.target.value)} />
-            <Slider text='Instrumentals' number={instValue} value={instValue} onChange={(ev) => setInstValue(ev.target.value)} />
-            <Slider text='Loudness' number={ldValue} value={ldValue} onChange={(ev) => setLdValue(ev.target.value)} />
-            <Slider text='Tempo' number={tpValue} max={225} step={80} value={tpValue} onChange={(ev) => setTpValue(ev.target.value)} />
+            {
+              musical_values.map((v, index) => (
+                <Slider
+                  key={index}
+                  text={v.text}
+                  number={v.number}
+                  max={v.max || 100}
+                  step={v.step || 1}
+                  onChange={v.onChange}
+                />
+              ))
+            }
 
           </SliderCont>
 
@@ -465,7 +261,6 @@ export default function Home() {
         <Divider color={themes[theme].text} />
 
         <TracksCont>
-
           <MyText
             text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
             size={`${headerSize}px`}
@@ -473,9 +268,7 @@ export default function Home() {
 
           {/* loaded tracks from api call */}
           <TrackScoll>
-            {load ? <Lottie
-              animationData={loadingAnim}
-            /> : <></>}
+            {load && <Lottie animationData={loadingAnim} />}
             {tracks.map((o, i) => <MyTrack
               key={i}
               selected={o._id}
