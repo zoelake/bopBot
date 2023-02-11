@@ -12,7 +12,7 @@ export default function handler(req, res) {
 
     var lists = [];
     let loadedTracks = null;
-    const host = process.env.SERVERSIDE;
+    const host = process.env.NEXT_PUBLIC_URL;
 
     axios
         .get(`${host}/tracks`, {
