@@ -13,7 +13,7 @@ export default function LoginAccount({
 }) {
 
     const router = useRouter();
-    const host = process.env.SERVERSIDE;
+    const host = process.env.NEXT_PUBLIC_URL;
 
     const { theme } = useTheme();
     const { titleSize } = useTitle();

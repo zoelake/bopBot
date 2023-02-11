@@ -34,7 +34,7 @@ import { Page, Dashboard, SbCont, SliderCont, Divider, TracksCont, TrackScoll } 
 export default function Home() {
 
   const router = useRouter();
-  const host = process.env.SERVERSIDE;
+  const host = process.env.NEXT_PUBLIC_URL;
   // const DEV = host.includes("localhost");
   //global styles
   const { theme } = useTheme();
