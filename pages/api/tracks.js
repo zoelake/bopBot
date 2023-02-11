@@ -12,9 +12,10 @@ export default function handler(req, res) {
 
     var lists = [];
     let loadedTracks = null;
+    const host = process.env.SERVERSIDE;
 
     axios
-        .get('https://botbot-server.cyclic.app/tracks', {
+        .get(`${host}/tracks`, {
             timeout: 5000
         })
         .then(res => {
