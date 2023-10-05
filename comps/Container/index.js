@@ -18,7 +18,7 @@ const styles = {
 //dont change!!!!!
 
 
-export const Container = ({ data = null }) => {
+export const Container = ({ data = null, playlists =[]}) => {
     const router = useRouter();
 
     const [cards, setCards] = useState([]);
@@ -89,6 +89,7 @@ export const Container = ({ data = null }) => {
             AddToLikedPlaylist={(obj) => setAsLiked(o)}
             DeleteFromLikedPlaylist={(obj) => setAsUnliked(o)}
             moveCard={moveCard}
+            playlists={playlists}
 
         />)
     }, []);
