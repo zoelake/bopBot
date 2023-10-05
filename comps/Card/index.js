@@ -128,7 +128,6 @@ export const Card = ({
     }
 
     useEffect(() => {
-        console.log('selected?' + selected)
         if (localStorage.getItem(`track #${selected}`) !== null) {
             setHeart(true)
         } else {

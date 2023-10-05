@@ -17,12 +17,11 @@ import Slider from '../comps/Slider'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from "next/router";
-import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, RemoveTrackFromPlaylist, filterTracks } from '../utils/backendFunctions';
+import { AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, RemoveTrackFromPlaylist } from '../utils/backendFunctions';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import EditPlaylist from '../comps/EditPlaylistModal'
-import BopBot from '../comps/BopBot'
 import TrackAddedPopup from '../comps/TrackAddedPopup'
 
 import Lottie from "lottie-react"
@@ -90,7 +89,7 @@ export default function Home() {
       .catch(e => console.log(e));
   }
 
-  function filterTracks() {
+  const filterTracks = () => {
     let ldVforNegative = null;
     setLoad(true)
 
@@ -109,11 +108,21 @@ export default function Home() {
     }
 
     axios.post(`${host}/tracks-filter`, filters)
-      .then(res => res.status == 200 && setTracks(res.data))
-      .catch(e => alert(e));
-    setLoad(false);
+      .then((res) =>{
+         if(res.status == 200) {
+          setTracks(res.data)
+        }
+        setLoad(false)
+        })
+      .catch(e =>{
+         alert(e)
+         setLoad(false);
+        });
   }
 
+  useEffect(() => {
+    console.log('load',load)
+  }, [load]);
 
   function handleTrackOptions(trackdata) {
     const playlist = localStorage.getItem('selectedPlaylist');
@@ -262,7 +271,7 @@ export default function Home() {
 
         <TracksCont>
           <MyText
-            text={load ? 'Generated Tracks:' : 'Tracks not yet generated'}
+            text={tracks?.length < 1 && load ? "No tracks match those filters :(" : load ? 'Generated Tracks:' : 'Tracks not yet generated'}
             size={`${headerSize}px`}
           />
 
@@ -280,6 +289,7 @@ export default function Home() {
               song={o.Title}
               album={o.Album}
               time={((o.duration_ms / 1000) / 60).toFixed(2)}
+              playlists={usersPlaylists}
             />)}
           </TrackScoll>
         </TracksCont>
