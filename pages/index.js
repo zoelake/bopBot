@@ -120,10 +120,6 @@ export default function Home() {
         });
   }
 
-  useEffect(() => {
-    console.log('load',load)
-  }, [load]);
-
   function handleTrackOptions(trackdata) {
     const playlist = localStorage.getItem('selectedPlaylist');
     const request = localStorage.getItem('request');
