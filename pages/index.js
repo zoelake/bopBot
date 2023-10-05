@@ -22,7 +22,6 @@ import { AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, RemoveTrackF
 import { v4 as uuidv4 } from 'uuid';
 
 import EditPlaylist from '../comps/EditPlaylistModal'
-import BopBot from '../comps/BopBot'
 import TrackAddedPopup from '../comps/TrackAddedPopup'
 
 import Lottie from "lottie-react"
