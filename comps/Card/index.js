@@ -102,7 +102,7 @@ export const Card = ({
     //data
     id,
     index,
-
+    playlists,
 }) => {
     const ref = useRef(null);
     const { theme } = useTheme();
@@ -237,7 +237,7 @@ export const Card = ({
             </LikeIconCont>
 
             <Dotcont onClick={OpenOptions}>
-                <DropDownEdit/>
+                <DropDownEdit playlists={playlists}/>
             </Dotcont>
             </BigCont>
 

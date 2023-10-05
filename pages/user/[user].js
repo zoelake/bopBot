@@ -25,7 +25,6 @@ import { useRouter } from 'next/router'
 import EditPlaylist from '../../comps/EditPlaylistModal'
 import AddPlaylist from '../../comps/AddPlaylistModal'
 import { getPlaylists, AddTrackToPlaylist, AddTrackToLiked, DeleteTrackFromLiked, CreateNewPlaylist, DeletePlaylist, UpdatePlaylist, RemoveTrackFromPlaylist, RemoveFromThisPlaylist } from '../../utils/backendFunctions';
-import DropDownEdit from '../../comps/DropDownModal'
 
 import { Container } from '../../comps/Container'
 import { DndProvider } from 'react-dnd'
@@ -232,7 +231,7 @@ export default function User() {
                             color={selectedPlaylist == 'liked' || themes[theme].white ? themes[theme].text : themes[theme].accent}
                         />
 
-                        {usersPlaylists !== [] ? usersPlaylists.map((o, i) => <Playlist
+                        {usersPlaylists != [] ? usersPlaylists.map((o, i) => <Playlist
                             key={i}
                             text={o.name}
                             cover={o.img}
@@ -278,6 +277,7 @@ export default function User() {
                         }}>
                                 {selectedPlaylist == 'likes' ?
                                     <Container
+                                        playlists={usersPlaylists}
                                         data={likedPlaylist}
                                     // moveCard={moveCard}
 
