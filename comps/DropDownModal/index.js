@@ -26,6 +26,7 @@ const MyMoreVertIcon = styled(MoreVertIcon)`
 const ITEM_HEIGHT = 48;
 
 export default function DropDownEdit({
+  playlists
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -48,29 +49,6 @@ export default function DropDownEdit({
     'Add to playlist',
     'Download',
   ]
-
-  //API CALLS TO BACKEND
-  useEffect(() => {
-    getPlaylists()
-  }, [])
-  function getPlaylists() {
-
-    console.log('GETTING PLAYLISTS')
-    const user = {
-      user: localStorage.getItem('email')
-    }
-    axios.post('https://bopbot-backend.herokuapp.com/get-playlists', user)
-      .then((res) => {
-        if (res.status == 200) {
-          console.log('res.data.playlists')
-          console.log(res.data.playlists)
-          setUserPlaylists(res.data.playlists);
-        }
-      }).catch(e => {
-        console.log(e)
-      })
-
-  }
 
   function onSelect(playlist_name, e) {
     localStorage.setItem('selectedPlaylist', playlist_name)
@@ -129,7 +107,7 @@ export default function DropDownEdit({
         }}
       >
         <ListItemText>Add to:</ListItemText>
-        {userPlaylists !== [] ? userPlaylists.map((o, i) => (<div key={i} style={{
+        {playlists != [] ? playlists.map((o, i) => (<div key={i} style={{
           display: 'flex',
           flexDirection: 'row',
         }}>
@@ -150,7 +128,7 @@ export default function DropDownEdit({
             </MenuItem>
           ))}
         <ListItemText>Remove from:</ListItemText>
-        {userPlaylists !== [] ? userPlaylists.map((o, i) => (<div key={i} style={{
+        {playlists != [] ? playlists.map((o, i) => (<div key={i} style={{
           display: 'flex',
           flexDirection: 'row',
         }}>

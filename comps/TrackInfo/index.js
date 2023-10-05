@@ -112,7 +112,8 @@ export default function MyTrack({
     trackpos = null,
     children = null,
     content = null,
-    onUpdateTrack = () => { }
+    onUpdateTrack = () => { },
+    playlists = []
 }) {
     const [heart, setHeart] = useState(false);
     const { theme } = useTheme();
@@ -136,7 +137,6 @@ export default function MyTrack({
     }
 
     useEffect(() => {
-        console.log('selected?' + selected)
         if (localStorage.getItem(`track #${selected}`) !== null) {
             setHeart(true)
         } else {
@@ -194,7 +194,7 @@ export default function MyTrack({
         </Cont5>
         <Cont6
             onClick={OpenOptions}>
-            <DropDownEdit />
+            <DropDownEdit playlists={playlists}/>
         </Cont6>
 
         </TrackCont>
