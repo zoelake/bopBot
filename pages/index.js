@@ -65,7 +65,7 @@ export default function Home() {
   //---all tracks from api
   const [tracks, setTracks] = useState([]);
   //---is api loading
-  const [load, setLoad] = useState(null);
+  const [load, setLoad] = useState(false);
   //---currently selected track (onClick)
   const [selectedTrack, setSelectedTrack] = useState([])
   //---current users playlists
@@ -271,7 +271,7 @@ export default function Home() {
 
         <TracksCont>
           <MyText
-            text={tracks?.length < 1 && load ? "No tracks match those filters :(" : load ? 'Generated Tracks:' : 'Tracks not yet generated'}
+            text={"Tracks:"}
             size={`${headerSize}px`}
           />
 
